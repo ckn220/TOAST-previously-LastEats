@@ -1,0 +1,202 @@
+/*RESET*/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin:0; padding:0; border:0; outline:0; font-size:100%; vertical-align:baseline; background:transparent;} body {line-height: 1;}ol, ul{list-style:none;} blockquote, q{quotes:none;} blockquote:before, blockquote:after, q:before, q:after{content:'';content:none;} :focus{outline:0;} ins{text-decoration:none;} del{text-decoration:line-through;} table{border-collapse:collapse; border-spacing:0;}
+
+
+body {
+/*padding: 30px;*/
+margin: 40px auto 40px;*/
+}
+
+h2 {
+font-family:  'Cutive Mono', serif;
+font-size: 18px;
+font-style: normal;
+}
+
+h4 {
+font-family: 'Cutive Mono', serif;
+/*font-weight: bold;*/
+}
+
+#restaurant_address {
+font-family: 'Cutive Mono', serif;
+font-weight: bold;
+}
+
+h3 {
+font-family: 'Cutive Mono', serif;
+font-size: 22px;
+
+}
+
+
+
+.navbar {
+margin-bottom: 40px;
+}
+
+
+/*
+below centers the input font in the div
+*/
+#user_form li {
+  position: relative;
+  padding-top: 15px;
+}
+
+#map_canvas {
+height: 692px;
+margin-bottom: 42px;
+margin-top: 40px;
+}
+
+#panel {
+        position: absolute;
+        top: 225px;
+        left: 50%;
+        margin-left: -500px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+
+
+
+.traveler-form {
+  font-family: 'Cutive Mono', serif;
+  /*font-weight: bold;*/
+ /* margin: 80px auto 40px;*/
+  
+
+  
+  /*text-align: right;*/
+}
+
+.traveler-form #patron_info{
+
+ font-family: 'Cutive Mono', serif;
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 175%
+}
+
+
+.traveler-form #recent_sub {
+
+  font-family: 'Cutive Mono', serif;
+  font-weight: bold;
+  font-size: 30px;
+  margin: 60px 0 10px 0;
+
+}
+
+.traveler-form #photos img {
+  width: 80%;
+  height: 80%;
+  /*overflow: hidden;*/
+}
+
+
+.traveler-form-2 .locavore {
+
+  font-family: 'Cutive Mono', serif;
+  text-align: left;
+  font-size: 60px;
+  margin-left: 115px;
+}
+
+.traveler-form-2 .locavore a {
+
+  text-decoration:none;
+
+}
+
+.traveler-form .geocode {
+
+  margin: 80px auto 40px;
+
+}
+
+.traveler-form #geocode input[type=button] {
+
+color:red;
+
+}
+
+.traveler-form #add {
+
+font-family: 'Cutive Mono', serif;
+font-size: 32px;
+margin-bottom: 20px;
+font: grey;
+
+}
+
+
+
+
+#welcome {
+
+  /*margin: 80px auto 40px;*/
+  font-family: 'Cutive Mono', serif;
+  /*margin-left: 380px;*/
+  font-size: 40px;
+  margin-bottom: 18px;
+}
+
+#welcome a {
+  text-decoration: none;
+  color: black;
+}
+
+#welcome a:hover{
+  color: grey;
+}
+
+
+#welcome2 {
+
+  /*margin: 80px auto 40px;*/
+  font-family: 'Cutive Mono', serif;
+/*  margin-left: 380px;*/
+  font-size: 20px;
+  margin-bottom: 36px;
+}
+
+
+
+#geocode input {
+  color: grey;
+
+}
+
+/*.jumbotron #review_state {
+  line-height: 30px;
+  width: 900px;
+
+}*/
+
+
+#footer_message {
+  font-family: 'Cutive Mono', serif;
+
+}
+
+#add_restaurant {
+  font-family: 'Cutive Mono', serif;
+
+}
+
+.hide_me {
+  display: none;
+
+
+}
+
+
+
+/*#longitude {
+	display: hidden;
+}
+*/

@@ -1,0 +1,5 @@
+Flask==0.10
+Mongoengine==0.8.4
+Flask-mongoengine==0.7
+Unidecode==0.04.14
+boto==2.17.0

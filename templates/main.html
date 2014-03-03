@@ -1,0 +1,201 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+
+
+<!-- right column -->
+<div class="traveler-form">
+
+	<form method="POST" enctype="multipart/form-data" role="form">
+
+		<!-- {{form.errors}}	 -->	<!-- comment this out to get rid of brackets -->
+		{{form.csrf_token}}
+
+		<h2 id="add"><strong>Locals</strong>, add your favorite restaurants to the map.</h2>
+		<div id="restaurant_address">Restaurant Address</div>
+
+		<div id="geocode">
+      	<input id="address" class="controls" type="text" value="">
+      	<input type="button" value="Drop your pin" onclick="codeAddress()">
+    	</div>
+
+    	<div id="center_side">
+			<label for="restaurant_name">Restaurant Name</label>
+			<input type="text" id="restaurant_name" name="restaurant_name" class="form-control">
+			<!-- title means where you're from -->
+		</div>
+		
+		
+		<div id="right_side">
+			<!-- This connects to body text where you submit description of restaurant -->
+			<label for="idea">Description of Restaurant</label>
+			<textarea name="idea" id="idea" class="form-control"></textarea>
+		</div>
+
+
+		<div id="left_side">
+			<label for="creator">Your Name</label>
+			<input type="text" id="creator" name="creator" class="form-control" value="">
+		</div>
+
+		<div id="center_side">
+			<label for="title">Where You're From</label>
+			<input type="text" id="title" name="title" class="form-control">
+			<!-- title means where you're from -->
+		</div>
+
+		<div id="fb-root"></div>
+
+		<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
+
+		
+		<!-- <div class="rating">
+			<label for "star">Rating</label>
+		<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+		</div> -->
+
+		<div class="form-group">
+				{{ form.fileupload.label }}
+				{{ form.fileupload(class="btn btn-info") }}
+		</div>
+		
+		<div class="form-group">
+			<!-- <label for="latitude">Latitude</label> -->
+			<input type="hidden" id="latitude" name="latitude" class="form-control" value="">
+		</div>
+
+		<div class="form-group">
+		<!-- 	<label for="longitude">Longitude</label> -->
+			<input type="hidden" id="longitude" name="longitude" class="form-control" value="">
+		</div>
+
+</div>
+
+
+
+<!-- Photo Section Below
+ -->
+
+	
+
+<!-- END of photo section
+ -->
+
+
+
+	<!-- 	<label>Which 'burg should I see?</label>
+		<legend></legend><p class="help-block">Select your favorite 'burg</p></legend>
+		{# comment - loop through categories and create checkboxes #}
+		{% for c in categories|sort %}
+		<div class="checkbox">
+			<label>
+				<input type="checkbox" name="categories" value="{{c}}"> {{ c|title }}
+			</label>
+		</div>
+		{% endfor %} -->
+
+
+
+		<button type="submit" class="btn btn-primary">Add Restaurant</button>
+	</form>
+</div>
+
+<!-- </br> -->
+			<!-- Photo Section -->
+
+		   <!-- <div class="col-md-7"> -->
+                        <!-- <h2>Images</h2> -->
+<!--                        
+                        {% for img in images %}
+                                <a title="{{img.title}}" alt="Title:{{img.title}}. Description: {{img.description}}" href="https://s3.amazonaws.com/dwd_uploads/{{img.filename}}">
+                                <img src="https://s3.amazonaws.com/dwd_uploads/{{img.filename}}" width="480"></a>
+                       
+                                <h3>{{img.title}}</h3>
+                                <p>{{img.description}}
+                                        <br>
+                                        {{ img.postedby }} - {{ img.timestamp.strftime("%m/%d/%y")}}
+                                </p>
+                                <a href="/delete/{{img.id}}" class="btn btn-small btn-danger">delete</a>
+                                
+                        {% endfor %}
+                </div>
+
+
+ -->
+	<div class="traveler-form">
+		<legend><h3 id="recent_sub">Recent Submissions to Locavore</h3></legend>
+	</div>
+</br>
+</br>
+</br>
+
+		{% for idea in ideas %}
+			
+			<h3>Restaurant Title:  <a href="/ideas/{{ idea.slug }}"> {{ idea.restaurant_name }}</a></h3>
+			<!-- <h3>Restaurant Description: {{ idea.idea }}</h3>  -->
+			<h3>By {{ idea.creator }} from {{ idea.title }}</h3> 
+			<!-- <h4 id="hidden">
+				{{ idea.latitude }}
+				{{ idea.longitude }}
+			</h4> -->
+				
+			<h3>added: {{ idea.timestamp.strftime("%a %m/%d/%y %I:%M%p ") }}</h3>
+
+						
+			<p>
+			
+			<ul>
+				{% for cat in idea.categories %}
+				<li>
+					<a href="/category/{{ cat}}">
+						{{ cat|replace("_"," ")}}
+					</a>
+				</li>
+					
+				{% endfor %}
+			</ul>
+
+
+
+			<!-- <a class="label" href="/ideas/{{ idea.slug }}/edit">edit</a> -->
+			</p>
+			
+			<hr/>
+		{% endfor %}
+
+		 <footer id="footer_message">
+                <a href="/"><strong>Refresh Locavore</strong></a>
+      	</footer>
+	</div>
+
+
+
+
+
+
+{% endblock %}
+
+
+{% block styles %}{% endblock %}
+
+
+
+
+{% block scripts %}
+
+<!-- //need to loop though markers to show all of pins   -->
+
+<script>
+var loadMarkers = function() {
+	{% for idea in ideas %}
+	createMarker('{{ idea.latitude }}','{{ idea.longitude }}','{{idea.title}}', '{{idea.idea}}', '{{idea.restaurant_name}}', '{{idea.slug}}');
+	// I already had bodyText as a parameter and you are replacing it with what you want it to be 
+	// via idea.idea
+	
+	{% endfor %}
+};
+</script>
+
+{% endblock %}
