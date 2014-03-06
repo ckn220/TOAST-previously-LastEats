@@ -57,27 +57,14 @@ function initialize() {
       });
 
       map.setCenter(pos);
+      // createMarker();
     }, function() {
       handleNoGeolocation(true);
     });
   } else {
     // Browser doesn't support Geolocation
-    handleNoGeolocation(false);
+    handleNoGeolocation(false); 
   }
-}
-
-function handleNoGeolocation(errorFlag) {
-  if (errorFlag) {
-    var content = 'Error: The Geolocation service failed.';
-  } else {
-    var content = 'Error: Your browser doesn\'t support geolocation.';
-  }
-
-//End of new stuff
-
-
-
-
 
   //with Jonas, geocoder changes for autocomplete 
   var input = document.getElementById('address');
@@ -90,10 +77,27 @@ function handleNoGeolocation(errorFlag) {
 
   // load markers if available
     if (loadMarkers) {
+      console.log("HERE!!!");
       loadMarkers();
     }
+}
 
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed.';
+  } else {
+    var content = 'Error: Your browser doesn\'t support geolocation.';
   }
+}
+//End of new stuff
+
+
+
+
+
+
+
+  
 
   function codeAddress() {
     
