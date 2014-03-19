@@ -1,0 +1,56 @@
+
+
+
+<div class="traveler-form">
+		<legend><h3 id="recent_submissions">Recent Submissions to Last Eats</h3></legend>
+	</div>
+</br>
+</br>
+</br>
+
+		{% for idea in ideas %}
+			
+			<h3>Restaurant Title:  <a href="/ideas/{{ idea.slug }}"> {{ idea.restaurant_name }}</a></h3>
+			<!-- <h3>Restaurant Description: {{ idea.idea }}</h3>  -->
+			<h3>By {{ idea.creator }} from {{ idea.title }}</h3> 
+			<!-- <h4 id="hidden">
+				{{ idea.latitude }}
+				{{ idea.longitude }}
+			</h4> -->
+				
+			<h3>added: {{ idea.timestamp.strftime("%a %m/%d/%y %I:%M%p ") }}</h3>
+
+						
+			<p>
+			
+			<ul>
+				{% for cat in idea.categories %}
+				<li>
+					<a href="/category/{{ cat}}">
+						{{ cat|replace("_"," ")}}
+					</a>
+				</li>
+					
+				{% endfor %}
+			</ul>
+
+
+
+			<!-- <a class="label" href="/ideas/{{ idea.slug }}/edit">edit</a> -->
+			</p>
+			
+			<hr/>
+		{% endfor %}
+
+		 <footer id="footer_message">
+                <a href="/"><strong>Last Eats</strong></a>
+      	</footer>
+	</div>
+
+
+
+   <div class="container">
+
+   	    {% block body %}{% endblock %}
+
+        {% block scripts %}{% endblock %}

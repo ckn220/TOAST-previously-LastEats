@@ -1,7 +1,8 @@
-import os, datetime
+import os
+import datetime
 import re
 from flask import jsonify
-from flask import Flask, request, render_template, redirect, abort
+from flask import Flask, request, render_template, redirect, abort, session, flash
 from unidecode import unidecode
 
 from werkzeug import secure_filename
@@ -17,6 +18,26 @@ import boto
 
 # Python Image Library
 import StringIO
+
+#facebook/python 
+import facebook
+import unittest
+
+#instagram
+import time
+from instagram.client import InstagramAPI
+
+
+
+# os.environ['DEBUSSY'] = '1'
+# os.environ['FSDB'] = '1'
+
+
+
+# FACEBOOK_APP_ID = os.environ["238836302966820"]
+# FACEBOOK_SECRET = os.environ[["28d066bd5d8fd289625d8e2c984170ab"]
+
+
 
 app = Flask(__name__)   # create our flask app
 # app.config['CSRF_ENABLED'] = False
@@ -191,6 +212,44 @@ def allowed_file(filename):
 #END OF PHOTO
 
 
+
+
+
+
+#login page
+
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    # error = None
+    # if request.method == 'POST':
+    #     if valid_login(request.form['username'],
+    #                    request.form['password']):
+    #         return log_the_user_in(request.form['username'])
+    #     else:
+    #         error = 'Invalid username/password'
+    # # the code below is executed if the request method
+    # # was GET or the credentials were invalid
+    return render_template('login.html')
+
+
+@app.route('/recent_submissions', methods=['POST', 'GET'])
+def recent_submissions():
+    # error = None
+    # if request.method == 'POST':
+    #     if valid_login(request.form['username'],
+    #                    request.form['password']):
+    #         return log_the_user_in(request.form['username'])
+    #     else:
+    #         error = 'Invalid username/password'
+    # # the code below is executed if the request method
+    # # was GET or the credentials were invalid
+    return render_template('recent_submissions.html')
+
+
+
+
+
+
 # Display all ideas for a specific category
 @app.route("/category/<cat_name>")
 def by_category(cat_name):
@@ -334,7 +393,7 @@ def page_not_found(error):
 # via http://flask.pocoo.org/snippets/5/
 _punct_re = re.compile(r'[\t !"#$%&\'()*\-/<=>?@\[\\\]^_`{|},.]+')
 def slugify(text, delim=u'-'):
-	"""Generates an ASCII-only slug."""
+	# """Generates an ASCII-only slug."""
 	result = []
 	for word in _punct_re.split(text.lower()):
 		result.extend(unidecode(word).split())
@@ -342,11 +401,131 @@ def slugify(text, delim=u'-'):
 
 
 
+
+
+
+
+# Facebook Test for Python ---------------------------
+
+
+# class FacebookTestCase(unittest.TestCase):
+#     # """Sets up application ID and secret from environment."""
+#     def setUp(self):
+#         try:
+#             self.app_id = os.environ["238836302966820"]
+#             self.secret = os.environ["28d066bd5d8fd289625d8e2c984170ab"]
+#         except KeyError:
+#             raise Exception("FACEBOOK_APP_ID and FACEBOOK_SECRET "
+#                             "must be set as environmental variables.")
+
+
+# class TestGetAppAccessToken(FacebookTestCase):
+#     # """
+#     # Test if application access token is returned properly.
+
+#     # Note that this only tests if the returned token is a string, not
+#     # whether it is valid.
+
+#     # """
+#     def test_get_app_access_token(self):
+#         token = facebook.get_app_access_token(self.app_id, self.secret)
+#         assert(isinstance(token, str) or isinstance(token, unicode))
+
+
+# # End FB test ---------------------------
+
+
+
+
+
+
+
+# Instagram ---------------------------
+
+# configure API
+instaConfig = {
+	'client_id':os.environ.get('5bffa3e90cb04175bc57531e40a6acc2'),
+	'client_secret':os.environ.get('4e99ce79340a4fb49cccd9981766c07b'),
+	'redirect_uri' : os.environ.get('http://localhost:5000/')
+}
+api = InstagramAPI(**instaConfig)
+
+@app.route('/')
+def user_photos():
+
+	# if instagram info is in session variables, then display user photos
+	if 'instagram_access_token' in session and 'instagram_user' in session:
+		userAPI = InstagramAPI(access_token=session['instagram_access_token'])
+		recent_media, next = userAPI.user_recent_media(user_id=session['instagram_user'].get('id'),count=25)
+
+		templateData = {
+			'size' : request.args.get('size','thumb'),
+			'media' : recent_media
+		}
+
+		return render_template('display.html', **templateData)
+		
+
+	else:
+
+		return redirect('/connect')
+
+# Redirect users to Instagram for login
+@app.route('/connect')
+def main():
+
+	url = api.get_authorize_url(scope=["likes","comments"])
+	return redirect(url)
+
+# Instagram will redirect users back to this route after successfully logging in
+@app.route('/instagram_callback')
+def instagram_callback():
+
+	code = request.args.get('code')
+
+	if code:
+
+		access_token, user = api.exchange_code_for_access_token(code)
+		if not access_token:
+			return 'Could not get access token'
+
+		app.logger.debug('got an access token')
+		app.logger.debug(access_token)
+
+		# Sessions are used to keep this data 
+		session['instagram_access_token'] = access_token
+		session['instagram_user'] = user
+
+		return redirect('/') # redirect back to main page
+		
+	else:
+		return "Uhoh no code provided"
+
+
+#Redundant???
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
+
+# This is a jinja custom filter
+@app.template_filter('strftime')
+def _jinja2_filter_datetime(date, fmt=None):
+    pyDate = time.strptime(date,'%a %b %d %H:%M:%S +0000 %Y') # convert twitter date string into python date/time
+    return time.strftime('%Y-%m-%d %h:%M:%S', pyDate) # return the formatted date.
+    
+
+#End Instagram ---------------------------
+
+
+
 # --------- Server On ----------
 # start the webserver
 if __name__ == "__main__":
 	app.debug = True
-	
+
+	# unittest.main()	#FB Test
+
 	port = int(os.environ.get('PORT', 5000)) # locally PORT 5000, Heroku will assign its own port
 	app.run(host='0.0.0.0', port=port)
 

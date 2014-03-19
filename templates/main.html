@@ -13,48 +13,56 @@
 		<!-- {{form.errors}}	 -->	<!-- comment this out to get rid of brackets -->
 		{{form.csrf_token}}
 
-		<h2 id="add"><strong>Locals</strong>, add your favorite restaurants to the map.</h2>
-		<div id="restaurant_address">Restaurant Address</div>
+		<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+
+		<div>
+		<h2 id="add">If I only had time for one meal in <label for="title"></label>
+			<input type="text" id="title" name="title" class="form-control">
+			<!-- title means where you're from -->
+			</div>
+
+			
+		<div id="restaurant_address">I'd go to:</div>
 
 		<div id="geocode">
-      	<input id="address" class="controls" type="text" value="">
-      	<input type="button" value="Drop your pin" onclick="codeAddress()">
-    	</div>
 
-    	<div id="center_side">
+
+      	<input id="address" class="controls" type="text" value="Enter a Restuarant">
+    </br>
+      	<input type="button" value="Drop your pin" onclick="codeAddress()">
+
+    	</div>
+    </br>
+
+		<div class="jumbotron" id="map_canvas"></div> 
+
+   <!--  	<div id="center_side">
 			<label for="restaurant_name">Restaurant Name</label>
 			<input type="text" id="restaurant_name" name="restaurant_name" class="form-control">
-			<!-- title means where you're from -->
+			<!-- title means where you're from 
 		</div>
-		
+
+		-->
 		
 		<div id="right_side">
 			<!-- This connects to body text where you submit description of restaurant -->
-			<label for="idea">Description of Restaurant</label>
+			<label for="idea">Why</label>
 			<textarea name="idea" id="idea" class="form-control"></textarea>
 		</div>
 
-
+<!-- 
 		<div id="left_side">
 			<label for="creator">Your Name</label>
 			<input type="text" id="creator" name="creator" class="form-control" value="">
-		</div>
-
-		<div id="center_side">
-			<label for="title">Where You're From</label>
-			<input type="text" id="title" name="title" class="form-control">
-			<!-- title means where you're from -->
-		</div>
-
-		<div id="fb-root"></div>
-
-		<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
+		</div> -->
 
 		
-		<!-- <div class="rating">
-			<label for "star">Rating</label>
-		<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
-		</div> -->
+<!-- 
+		<div id="fb-root"></div>
+
+		<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div> -->
+
+		
 
 		<div class="form-group">
 				{{ form.fileupload.label }}
@@ -98,7 +106,7 @@
 
 
 
-		<button type="submit" class="btn btn-primary">Add Restaurant</button>
+		<button type="submit" class="btn btn-primary">Add My Last Eats</button>
 	</form>
 </div>
 
@@ -124,55 +132,12 @@
 
 
  -->
-	<div class="traveler-form">
-		<legend><h3 id="recent_sub">Recent Submissions to Locavore</h3></legend>
-	</div>
-</br>
-</br>
-</br>
+	
+            <h1>Instagram Example</h1>
+            <hr>
 
-		{% for idea in ideas %}
-			
-			<h3>Restaurant Title:  <a href="/ideas/{{ idea.slug }}"> {{ idea.restaurant_name }}</a></h3>
-			<!-- <h3>Restaurant Description: {{ idea.idea }}</h3>  -->
-			<h3>By {{ idea.creator }} from {{ idea.title }}</h3> 
-			<!-- <h4 id="hidden">
-				{{ idea.latitude }}
-				{{ idea.longitude }}
-			</h4> -->
-				
-			<h3>added: {{ idea.timestamp.strftime("%a %m/%d/%y %I:%M%p ") }}</h3>
-
-						
-			<p>
-			
-			<ul>
-				{% for cat in idea.categories %}
-				<li>
-					<a href="/category/{{ cat}}">
-						{{ cat|replace("_"," ")}}
-					</a>
-				</li>
-					
-				{% endfor %}
-			</ul>
-
-
-
-			<!-- <a class="label" href="/ideas/{{ idea.slug }}/edit">edit</a> -->
-			</p>
-			
-			<hr/>
-		{% endfor %}
-
-		 <footer id="footer_message">
-                <a href="/"><strong>Refresh Locavore</strong></a>
-      	</footer>
-	</div>
-
-
-
-
+          
+        </div> 
 
 
 {% endblock %}

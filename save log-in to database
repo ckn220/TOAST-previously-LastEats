@@ -1,0 +1,21 @@
+save log-in to database
+ask which one of his friends has also logged in 
+
+two scripts, when you sign in, this id just logged in, just logged out 
+another script will hadle mutual logged in 
+
+backend will save:
+
+just a list of all user tokens, that ever signed in using the app
+
+when a new user logs in, 
+
+create like 5 profiles on facebook and just try it out 
+
+compare if you are friends with someone, and if they've logged into the system or not
+
+what data do you want to collect, what is facebook, what is mine? I want to know what users are
+
+List of all users
+
+backend server and list of your own 

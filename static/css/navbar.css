@@ -2,6 +2,31 @@
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {margin:0; padding:0; border:0; outline:0; font-size:100%; vertical-align:baseline; background:transparent;} body {line-height: 1;}ol, ul{list-style:none;} blockquote, q{quotes:none;} blockquote:before, blockquote:after, q:before, q:after{content:'';content:none;} :focus{outline:0;} ins{text-decoration:none;} del{text-decoration:line-through;} table{border-collapse:collapse; border-spacing:0;}
 
 
+
+
+/*
+below centers the input font in the div
+*/
+#user_form li {
+  position: relative;
+  padding-top: 15px;
+}*/
+
+.jumbotron{
+margin-top-top: 200px;
+}
+
+#panel {
+        position: absolute;
+        top: 225px;
+        left: 50%;
+        margin-left: 500px;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+      }
+
 body {
 /*padding: 30px;*/
 margin: 40px auto 40px;*/
@@ -34,33 +59,6 @@ font-size: 22px;
 .navbar {
 margin-bottom: 40px;
 }
-
-
-/*
-below centers the input font in the div
-*/
-#user_form li {
-  position: relative;
-  padding-top: 15px;
-}
-
-#map_canvas {
-height: 692px;
-margin-bottom: 42px;
-margin-top: 40px;
-}
-
-#panel {
-        position: absolute;
-        top: 225px;
-        left: 50%;
-        margin-left: -500px;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-      }
-
 
 
 .traveler-form {
@@ -112,28 +110,42 @@ margin-top: 40px;
 
 }
 
-.traveler-form .geocode {
+.traveler-form #geocode #address {
 
-  margin: 80px auto 40px;
+  width: 100%;
 
 }
+
+
 
 .traveler-form #geocode input[type=button] {
 
 color:red;
+margin-top: 20px;
+width: 100%;
 
 }
 
 .traveler-form #add {
 
 font-family: 'Cutive Mono', serif;
-font-size: 32px;
+font-size: 20px;
 margin-bottom: 20px;
-font: grey;
+font: black;
+font-weight: bold;
 
 }
 
+.traveler-form #map_canvas {
+  top-padding: 200px;
 
+
+}
+
+.traveler-form .gm-style {
+
+    height: 600px;
+}
 
 
 #welcome {
@@ -159,7 +171,7 @@ font: grey;
 
   /*margin: 80px auto 40px;*/
   font-family: 'Cutive Mono', serif;
-/*  margin-left: 380px;*/
+ /*margin-left: 380px;*/
   font-size: 20px;
   margin-bottom: 36px;
 }
@@ -185,6 +197,7 @@ font: grey;
 
 #add_restaurant {
   font-family: 'Cutive Mono', serif;
+  font-weight: bold;
 
 }
 
@@ -197,6 +210,6 @@ font: grey;
 
 
 /*#longitude {
-	display: hidden;
+  display: hidden;
 }
 */
