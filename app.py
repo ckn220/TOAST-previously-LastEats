@@ -20,8 +20,8 @@ import boto
 import StringIO
 
 #facebook/python 
-import facebook
-import unittest
+# import facebook
+# import unittest
 
 #instagram
 import time
