@@ -161,6 +161,15 @@
           if (rsp.authResponse) {
             FB.api('/me', function(me){
               console.log(me)
+
+                var html = "";
+                html += '<input type="hidden" name="userid" class="form-control" value='+me.id+'>';
+                html += '<input type="hidden" name="user_name" class="form-control" value='+me.first_name+'>';
+                html += '<input type="hidden" name="user_last_name" class="form-control" value='+me.last_name+'>';
+                
+          
+                $("#fb_friends").append(html);
+
               document.getElementById('fb-username').innerHTML = me.name;
               document.getElementById('fb-login-button').style.display = 'none';
               document.getElementById('fb-loggedin').style.display = 'block';

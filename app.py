@@ -48,7 +48,7 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 megabyte file upload
 
 # --------- Database Connection ---------
 # MongoDB connection to MongoLab's database
-app.config['MONGODB_SETTINGS'] = {'HOST':os.environ.get('MONGOLAB_URI'),'DB': 'itptravels-7'}
+app.config['MONGODB_SETTINGS'] = {'HOST':os.environ.get('MONGOLAB_URI'),'DB': 'idea'}
 app.logger.debug("Connecting to MongoLabs")
 db = MongoEngine(app) # connect MongoEngine with Flask App
 
@@ -70,8 +70,10 @@ def index():
 	photo_upload_form = models.photo_upload_form(request.form)
 	
 	# if form was submitted and it is valid...
-	if request.method == "POST" and photo_upload_form.validate():
-		
+	if request.method == "POST":
+
+		# if not saving to database, check photo module ---- and photo_upload_form.validate()
+
 		uploaded_file = request.files['fileupload']
 		# app.logger.info(file)
 		# app.logger.info(file.mimetype)
@@ -220,6 +222,23 @@ def allowed_file(filename):
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+
+	if request.method == "POST":
+
+
+		user = models.User()
+		user.userid = request.form.get('userid','')
+		user.user_name = request.form.get('user_name','')
+		user.user_last_name = request.form.get('user_last_name','')
+		# user.date_joined = request.form.get('date_joined','')
+		# user.last_visited = request.form.get('last_visited','')
+		user.friends = request.form.get('friends','')
+
+		user.save()	#save it
+
+	
+
+
     # error = None
     # if request.method == 'POST':
     #     if valid_login(request.form['username'],
@@ -229,24 +248,60 @@ def login():
     #         error = 'Invalid username/password'
     # # the code below is executed if the request method
     # # was GET or the credentials were invalid
-    return render_template('login.html')
+    	return render_template('login.html')
 
 
 
-@app.route('/display_fb_friends', methods=['POST'])
-def display_fb_friends():
-    # error = None
-    # if request.method == 'POST':
-    #     if valid_login(request.form['username'],
-    #                    request.form['password']):
-    #         return log_the_user_in(request.form['username'])
-    #     else:
-    #         error = 'Invalid username/password'
-    # # the code below is executed if the request method
-    # # was GET or the credentials were invalid
-    return render_template('display_fb_friends.html')
+# @app.route('/display_fb_friends', methods=['POST','GET'])
+# def display_fb_friends():
 
-    
+
+# 	user_form = models.user_form(request.form)
+
+# 	# if form was submitted and it is valid...
+# 	if request.method == "POST" and user_form.validate():
+
+
+# 		user = models.User()
+# 		user.userid = request.form.get('userid','')
+# 		user.user_name = request.form.get('user_name','')
+# 		user.user_last_name = request.form.get('user_last_name','')
+# 		# user.date_joined = request.form.get('date_joined','')
+# 		# user.last_visited = request.form.get('last_visited','')
+# 		# user.friends = request.form.get('friends','')
+
+# 		print(user)
+# 		user.save()	#save it
+
+		
+
+# 	else:
+
+# 		user = models.User()
+# 		user.userid = request.form.get('userid','')
+# 		user.user_name = request.form.get('user_name','')
+# 		user.user_last_name = request.form.get('user_last_name','')
+# 		# user.date_joined = request.form.get('date_joined','')
+# 		# user.last_visited = request.form.get('last_visited','')
+# 		# user.friends = request.form.get('friends','')
+
+# 		print(user)
+# 		user.save()	#save it
+
+
+# 		return redirect('/display_fb_friends')	
+
+
+
+		# # render the template
+		# templateData = {
+		# 	'users' : models.User.objects(),
+		# 	'form' : user_form
+		# }
+		
+		# # app.logger.debug(templateData)
+
+		# return render_template('display_fb_friends.html', **templateData)
 
 
 

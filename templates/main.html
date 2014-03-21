@@ -8,7 +8,7 @@
 <!-- right column -->
 <div class="traveler-form">
 
-	<form method="POST" enctype="multipart/form-data" role="form" action="/display_fb_friends">
+	<form method="POST" action"/" enctype="multipart/form-data" role="form">	<!-- action="/display_fb_friends" -->
 
 		<!-- {{form.errors}}	 -->	<!-- comment this out to get rid of brackets -->
 		{{form.csrf_token}}
@@ -21,9 +21,7 @@
 			<!-- title means where you're from -->
 			</div>
 
-			
 		<div id="restaurant_address">I'd go to:</div>
-
 		<div id="geocode">
 
 
@@ -34,8 +32,8 @@
     	</div>
     </br>
 
+    	 
     	 <!-- Hide map? -->
-
 		<div class="jumbotron" id="map_canvas"></div> 
 
 
@@ -44,7 +42,6 @@
 			<input type="text" id="restaurant_name" name="restaurant_name" class="form-control">
 			<!-- title means where you're from 
 		</div>
-
 		-->
 		
 		<div id="right_side">
@@ -53,19 +50,6 @@
 			<textarea name="idea" id="idea" class="form-control"></textarea>
 		</div>
 
-<!-- 
-		<div id="left_side">
-			<label for="creator">Your Name</label>
-			<input type="text" id="creator" name="creator" class="form-control" value="">
-		</div> -->
-
-		
-<!-- 
-		<div id="fb-root"></div>
-
-		<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div> -->
-
-		
 
 		<div class="form-group">
 				{{ form.fileupload.label }}
@@ -82,25 +66,10 @@
 			<input type="hidden" id="longitude" name="longitude" class="form-control" value="">
 		</div>
 
-</div>
-
-
-
-<!-- Photo Section Below
- -->
-
-	
-
-<!-- END of photo section
- -->
-
-
-
-
 		<button type="submit" class="btn btn-primary">Add My Last Eats</button>
 		
 	</form>
-</div>
+
 
 <!-- </br> -->
 			<!-- Photo Section -->

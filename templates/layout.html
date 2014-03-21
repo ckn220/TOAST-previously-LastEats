@@ -25,14 +25,13 @@
         
 
     </head>
-  <body>
 
+  <body>
 
 
 <!--
   Below we include the Login Button social plugin. This button uses the JavaScript SDK to
   present a graphical Login button that triggers the FB.login() function when clicked. -->
-
 
    <!--  <div id="map-canvas"></div> -->
     <div class="container">
@@ -51,15 +50,8 @@
      <!--  //Template - Map Connection -->
      
 
-
-
         <br>
       <div class="jumbotron">
-
-  
-
-
-
 
 
 <script>
@@ -131,12 +123,6 @@ function handleNoGeolocation(errorFlag) {
 }
 //End of new stuff
 
-
-
-
-
-
-
   
 
   function codeAddress() {
@@ -190,18 +176,6 @@ function handleNoGeolocation(errorFlag) {
           infoWindow.open(map);
             
         }    
-
-
-          //Shilpan's suggestion
-
-        //   $.post("xyz", function(data){
-        //     //{lat: 343, lon: 324, title: "svd"}
-        //     content = "<p>" + data.title + "</p>";
-      
-        //   });
-           
-        // }    
-
 
 
         function createMarker(lat,lng,titleText, bodyText, restaurant_name, restaurant_href) {
@@ -261,16 +235,13 @@ function handleNoGeolocation(errorFlag) {
 
 
 </script>
-
-
-
-        
-     
     
      
         {% block body %}{% endblock %}
 
         {% block scripts %}{% endblock %}
+
+
       </div>
     </div>
     </body>

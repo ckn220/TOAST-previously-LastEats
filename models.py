@@ -4,10 +4,11 @@
 # import logging
 
 #new for photo upload
+from mongoengine import *
+from flask.ext.mongoengine import *
 from flask.ext.mongoengine.wtf import model_form
 from wtforms.fields import * # for our custom signup form
 from flask.ext.mongoengine.wtf.orm import validators
-from flask.ext.mongoengine import *
 from datetime import datetime
 
 
@@ -32,7 +33,7 @@ class Idea(Document):
 	longitude = mongoengine.StringField(max_length=120, required=True)
 
 	# Category is a list of Strings
-	categories = mongoengine.ListField( mongoengine.StringField(max_length=30))
+	# categories = mongoengine.ListField( mongoengine.StringField(max_length=30))
 
 	# Comments is a list of Document type 'Comments' defined above
 	comments = mongoengine.ListField( mongoengine.EmbeddedDocumentField(Comment) )
@@ -45,6 +46,8 @@ class Idea(Document):
 
 photo_form = model_form(Idea)
 
+
+
 #new for photo upload
 class photo_upload_form(photo_form):
 
@@ -52,10 +55,10 @@ class photo_upload_form(photo_form):
 
 
 
-class Friend(Document):
+# class Friend(Document):
 
-	userid = mongoengine.IntField()
-	user_name = mongoengine.StringField()
+# 	userid = mongoengine.IntField()
+# 	user_name = mongoengine.StringField()
 
 
 # class User(Document):
@@ -64,10 +67,11 @@ class Friend(Document):
 # 	user_name = mongoengine.StringField()
 # 	user_last_name = mongoengine.StringField()
 # 	date_joined = mongoengine.DateTimeField(default=datetime.now())
-# 	last_visit = mongoengine.DateTimeField(default=datetime.now())
+# 	last_visited = mongoengine.DateTimeField(default=datetime.now())
 
-# 	friends = mongoengine.ListField( mongoengine.EmbeddedDocumentField(Friend) )
+# 	# friends = mongoengine.ListField( mongoengine.EmbeddedDocumentField(Friend) )
 
+# user_form = model_form(User)
 
 
 
