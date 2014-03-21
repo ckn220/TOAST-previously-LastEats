@@ -132,12 +132,12 @@ def index():
 				idea.save()	#save it
 
 
-			return redirect('/ideas/%s' % idea.slug)
+			return redirect('/ideas/%s' % idea.slug)	#if you make recent_submissions = DATA
 
 		else:
 			# return "uhoh there was an error " + uploaded_file.filename
 			idea.save()
-			return redirect('/ideas/%s' % idea.slug)
+			return redirect('/ideas/%s' % idea.slug) 	#if you make recent_submissions = DATA
 
 
 	else:
@@ -153,7 +153,7 @@ def index():
 		}
 
 		# app.logger.debug(templateData)
-		return render_template("main.html", **templateData)
+		return render_template("main.html", **templateData)		#if you make recent_submissions = DATA 
 
 
 		        #OLD REGULAR FORM ROUTE INFO
@@ -230,6 +230,19 @@ def login():
     # # the code below is executed if the request method
     # # was GET or the credentials were invalid
     return render_template('login.html')
+
+    
+
+
+
+    #after they login, they go somewhere thats where
+    #you get friends, save in databse 
+    #this needs to happen in the backend not the frontend?
+    #backend cloud service?
+
+
+
+
 
 
 @app.route('/recent_submissions', methods=['POST', 'GET'])

@@ -19,6 +19,8 @@ class Comment(mongoengine.EmbeddedDocument):
 	
 class Idea(Document):
 
+	#joining the idea with the user when yo
+	userid = mongoengine.IntField()
 	#added mongoengine prefix to all fields for photo
 	creator = mongoengine.StringField(max_length=120, required=True, verbose_name="First name")
 	title = mongoengine.StringField(max_length=120, required=True)
@@ -49,6 +51,24 @@ class photo_upload_form(photo_form):
     fileupload = FileField('Upload an image file', validators=[])
 
 
+class User(Document):
+
+	userid = mongoengine.IntField()
+
+	#after they login, loop through all of their friends and check the database 
+	#however you query mongo to see if user id is there 
+	# graph = facebook.GraphAPI(oauth_access_token)
+	# profile = graph.get_object("me")
+	# friends = graph.get_connections("me", "friends")
+
+
+	user_name = mongoengine.StringField()
+	user_last_name = mongoengine.StringField()
+	date_joined = mongoengine.DateTimeField(default=datetime.now())
+	last_visit = mongoengine.DateTimeField(default=datetime.now())
+
+
+
 
 
 
@@ -59,3 +79,7 @@ class photo_upload_form(photo_form):
     #email = StringField(required=True)
     #first_name = StringField(max_length=50)
     #last_name = StringField(max_length=50)
+
+
+
+    

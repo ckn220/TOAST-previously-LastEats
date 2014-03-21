@@ -16,8 +16,8 @@
 		<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
 
 		<div>
-		<h2 id="add">If I only had time for one meal in <label for="title"></label>
-			<input type="text" id="title" name="title" class="form-control">
+		<div id="add">If I only had time for one meal in: <label for="title"></label>
+			<input type="text" id="title" name="title" class="form-control" value="Enter a City">
 			<!-- title means where you're from -->
 			</div>
 
@@ -27,14 +27,17 @@
 		<div id="geocode">
 
 
-      	<input id="address" class="controls" type="text" value="Enter a Restuarant">
+      	<input id="address" class="controls" type="text" value="">
     </br>
       	<input type="button" value="Drop your pin" onclick="codeAddress()">
 
     	</div>
     </br>
 
+    	 <!-- Hide map? -->
+    	 
 		<div class="jumbotron" id="map_canvas"></div> 
+
 
    <!--  	<div id="center_side">
 			<label for="restaurant_name">Restaurant Name</label>
@@ -46,7 +49,7 @@
 		
 		<div id="right_side">
 			<!-- This connects to body text where you submit description of restaurant -->
-			<label for="idea">Why</label>
+			<label for="idea">What makes it special?</label>
 			<textarea name="idea" id="idea" class="form-control"></textarea>
 		</div>
 
@@ -107,6 +110,7 @@
 
 
 		<button type="submit" class="btn btn-primary">Add My Last Eats</button>
+		
 	</form>
 </div>
 
@@ -133,11 +137,11 @@
 
  -->
 	
-            <h1>Instagram Example</h1>
+<!--             <h1>Instagram Example</h1>
             <hr>
 
           
-        </div> 
+        </div>   end Instagram Example-->
 
 
 {% endblock %}

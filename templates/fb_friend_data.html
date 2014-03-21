@@ -1,0 +1,72 @@
+<!-- // Jquery access fb friend data example 
+ -->
+
+ <!DOCTYPE HTML>
+ <html>
+ <head>
+
+ <style type="text/css">
+ #results {
+ 	margin: 0 auto;
+ 	width: 980px;
+ }
+ </style>
+
+ <script src="http://code.jquery.com/jquery-latest.js"></script>
+ <script type="text/javascript">
+$(document).ready(function(){
+	var u = "https://graph.facebook.com/oauth/access_token?client_id=238836302966820&client_secret=28d066bd5d8fd289625d8e2c984170ab&grant_type=client_credentials";
+	var ul = "https://graph.facebook.com/search?q='Austin%20TX'&locale=en_US&limit=50&";
+	$.get(u, function(auth_token){
+
+		// To generate access token
+		// document.write(auth_token);
+
+		//Here is the access token to get Raw JSON output
+		//https://graph.facebook.com/search?q=%27my%20new%20puppy%27&locale=en_US&limit=50&access_token=238836302966820|wIDxBBDoFHapZS2veujT9GT0zkc
+
+		$.ajax({
+			dataType: "jsonp",
+			url: ul+auth_token,
+			success: function(res){
+				if (res.data.length){
+					$.each(res.data, function(i, item) {
+						var html = "<div>";
+						html += "<p>Facebook User: " + item.from.name + "</p>";
+						html += "<p>Status: " + item.message + "</p>";
+						html += "</div>";
+						$("#results").append(html);
+
+					});
+
+				}
+
+			}
+		});
+	});
+});
+
+
+ </script>
+</head>
+<body>
+<div id="results"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
