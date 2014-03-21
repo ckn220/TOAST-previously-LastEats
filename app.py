@@ -43,7 +43,7 @@ app = Flask(__name__)   # create our flask app
 # app.config['CSRF_ENABLED'] = False
 
 app.secret_key = os.environ.get('SECRET_KEY') # put SECRET_KEY variable inside .env file with a random string of alphanumeric characters
-app.config['CSRF_ENABLED'] = False
+#app.config['CSRF_ENABLED'] = False
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 megabyte file upload
 
 # --------- Database Connection ---------
