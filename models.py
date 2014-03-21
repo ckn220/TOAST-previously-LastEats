@@ -51,23 +51,22 @@ class photo_upload_form(photo_form):
     fileupload = FileField('Upload an image file', validators=[])
 
 
-class User(Document):
+
+class Friend(Document):
 
 	userid = mongoengine.IntField()
-
-	#after they login, loop through all of their friends and check the database 
-	#however you query mongo to see if user id is there 
-	# graph = facebook.GraphAPI(oauth_access_token)
-	# profile = graph.get_object("me")
-	# friends = graph.get_connections("me", "friends")
-
-
 	user_name = mongoengine.StringField()
-	user_last_name = mongoengine.StringField()
-	date_joined = mongoengine.DateTimeField(default=datetime.now())
-	last_visit = mongoengine.DateTimeField(default=datetime.now())
 
 
+# class User(Document):
+
+# 	userid = mongoengine.IntField()
+# 	user_name = mongoengine.StringField()
+# 	user_last_name = mongoengine.StringField()
+# 	date_joined = mongoengine.DateTimeField(default=datetime.now())
+# 	last_visit = mongoengine.DateTimeField(default=datetime.now())
+
+# 	friends = mongoengine.ListField( mongoengine.EmbeddedDocumentField(Friend) )
 
 
 

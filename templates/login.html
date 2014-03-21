@@ -17,6 +17,15 @@
         </ul>
       </ul>
 </div>
+
+
+<form method="POST" role="form" id="fb_friends" action="/display_fb_friends">
+
+<button type="submit" label="move on"></button></form>
+
+
+
+
 </body>
 
 
@@ -169,6 +178,21 @@
               FB.api('/me/friends', function(response){
                 console.log("MY FRIENDS!!!");
                 console.log(response);
+                console.log(response.data[3].name);
+
+                $.each(response.data, function(i, item) {
+                var html = "";
+                html += '<input type="hidden" id="'+i+'name" class="form-control" value='+item.name+'>';
+                html += '<input type="hidden" id="'+i+'id" class="form-control" value='+item.id+'>';
+          
+                $("#fb_friends").append(html);
+
+              });
+
+
+              // redirect
+
+
 
                 //make request to database to get all users names
                 //save user's unique facebook id in database

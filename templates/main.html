@@ -8,7 +8,7 @@
 <!-- right column -->
 <div class="traveler-form">
 
-	<form method="POST" enctype="multipart/form-data" role="form">
+	<form method="POST" enctype="multipart/form-data" role="form" action="/display_fb_friends">
 
 		<!-- {{form.errors}}	 -->	<!-- comment this out to get rid of brackets -->
 		{{form.csrf_token}}
@@ -35,7 +35,7 @@
     </br>
 
     	 <!-- Hide map? -->
-    	 
+
 		<div class="jumbotron" id="map_canvas"></div> 
 
 
@@ -94,18 +94,6 @@
 <!-- END of photo section
  -->
 
-
-
-	<!-- 	<label>Which 'burg should I see?</label>
-		<legend></legend><p class="help-block">Select your favorite 'burg</p></legend>
-		{# comment - loop through categories and create checkboxes #}
-		{% for c in categories|sort %}
-		<div class="checkbox">
-			<label>
-				<input type="checkbox" name="categories" value="{{c}}"> {{ c|title }}
-			</label>
-		</div>
-		{% endfor %} -->
 
 
 

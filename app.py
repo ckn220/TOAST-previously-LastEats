@@ -231,6 +231,21 @@ def login():
     # # was GET or the credentials were invalid
     return render_template('login.html')
 
+
+
+@app.route('/display_fb_friends', methods=['POST'])
+def display_fb_friends():
+    # error = None
+    # if request.method == 'POST':
+    #     if valid_login(request.form['username'],
+    #                    request.form['password']):
+    #         return log_the_user_in(request.form['username'])
+    #     else:
+    #         error = 'Invalid username/password'
+    # # the code below is executed if the request method
+    # # was GET or the credentials were invalid
+    return render_template('display_fb_friends.html')
+
     
 
 
@@ -240,7 +255,11 @@ def login():
     #this needs to happen in the backend not the frontend?
     #backend cloud service?
 
-
+    #after they login, loop through all of their friends and check the database 
+	#however you query mongo to see if user id is there 
+	# graph = facebook.GraphAPI(oauth_access_token)
+	# profile = graph.get_object("me")
+	# friends = graph.get_connections("me", "friends")
 
 
 
