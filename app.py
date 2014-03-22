@@ -253,44 +253,55 @@ def login():
 
 
 
-# @app.route('/display_fb_friends', methods=['POST','GET'])
-# def display_fb_friends():
+@app.route('/display_fb_friends', methods=['POST','GET'])
+def display_fb_friends():
 
 
-# 	user_form = models.user_form(request.form)
+	# user_form = models.user_form(request.form)
 
-# 	# if form was submitted and it is valid...
-# 	if request.method == "POST" and user_form.validate():
+	# if form was submitted and it is valid...
+	if request.method == "POST":
+
+									
 
 
-# 		user = models.User()
-# 		user.userid = request.form.get('userid','')
-# 		user.user_name = request.form.get('user_name','')
-# 		user.user_last_name = request.form.get('user_last_name','')
-# 		# user.date_joined = request.form.get('date_joined','')
-# 		# user.last_visited = request.form.get('last_visited','')
-# 		# user.friends = request.form.get('friends','')
+		user = models.User()
+		user.userid = request.form.get('userid','')
+		user.user_name = request.form.get('user_name','')
+		user.user_last_name = request.form.get('user_last_name','')
+		# user.date_joined = request.form.get('date_joined','')
+		# user.last_visited = request.form.get('last_visited','')
+		# user.friends = request.form.get('friends','')
 
-# 		print(user)
-# 		user.save()	#save it
-
+		#now need to save a user's friends list
+		#workking versionnn
+		user_totalFriends = request.form.get('user_totalFriends','')
 		
 
-# 	else:
 
-# 		user = models.User()
-# 		user.userid = request.form.get('userid','')
-# 		user.user_name = request.form.get('user_name','')
-# 		user.user_last_name = request.form.get('user_last_name','')
-# 		# user.date_joined = request.form.get('date_joined','')
-# 		# user.last_visited = request.form.get('last_visited','')
-# 		# user.friends = request.form.get('friends','')
+		user.friends.friend_id = request.form.get('0id','')
+		user.friends.friend_name = request.form.get('0name','')
+		# print(user)
+		user.save()	#save it
 
-# 		print(user)
-# 		user.save()	#save it
+		return redirect('/')
+		
+
+	else:
+
+		# user = models.User()
+		# user.userid = request.form.get('userid','')
+		# user.user_name = request.form.get('user_name','')
+		# user.user_last_name = request.form.get('user_last_name','')
+		# # user.date_joined = request.form.get('date_joined','')
+		# # user.last_visited = request.form.get('last_visited','')
+		# # user.friends = request.form.get('friends','')
+
+		# print(user)
+		# user.save()	#save it
 
 
-# 		return redirect('/display_fb_friends')	
+		return redirect('/')	
 
 
 

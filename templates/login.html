@@ -185,14 +185,21 @@
 
                 //Get my friends
               FB.api('/me/friends', function(response){
+
+                var totalFriends = response.data.length;
+                var html = "";
+                html += '<input type="hidden" name="user_totalFriends" class="form-control" value='+totalFriends+'>';
+                $("#fb_friends").append(html);
+
+
                 console.log("MY FRIENDS!!!");
                 console.log(response);
                 console.log(response.data[3].name);
 
                 $.each(response.data, function(i, item) {
                 var html = "";
-                html += '<input type="hidden" id="'+i+'name" class="form-control" value='+item.name+'>';
-                html += '<input type="hidden" id="'+i+'id" class="form-control" value='+item.id+'>';
+                html += '<input type="hidden" name="'+i+'name" class="form-control" value='+item.name+'>';
+                html += '<input type="hidden" name="'+i+'id" class="form-control" value='+item.id+'>';
           
                 $("#fb_friends").append(html);
 

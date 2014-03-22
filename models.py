@@ -55,23 +55,26 @@ class photo_upload_form(photo_form):
 
 
 
-# class Friend(Document):
+class Friend(mongoengine.EmbeddedDocument):
+#you have to push things into the array. Google how
+#with mongoengine's EmbeddedDocument
 
-# 	userid = mongoengine.IntField()
-# 	user_name = mongoengine.StringField()
+
+ 	friend_id = mongoengine.IntField()
+ 	friend_name = mongoengine.StringField()
 
 
-# class User(Document):
+class User(Document):
 
-# 	userid = mongoengine.IntField()
-# 	user_name = mongoengine.StringField()
-# 	user_last_name = mongoengine.StringField()
-# 	date_joined = mongoengine.DateTimeField(default=datetime.now())
-# 	last_visited = mongoengine.DateTimeField(default=datetime.now())
+	userid = mongoengine.IntField()
+	user_name = mongoengine.StringField()
+	user_last_name = mongoengine.StringField()
+	date_joined = mongoengine.DateTimeField(default=datetime.now())
+	last_visited = mongoengine.DateTimeField(default=datetime.now())
 
-# 	# friends = mongoengine.ListField( mongoengine.EmbeddedDocumentField(Friend) )
+	friends = mongoengine.ListField( mongoengine.EmbeddedDocumentField(Friend) )
 
-# user_form = model_form(User)
+user_form = model_form(User)
 
 
 
