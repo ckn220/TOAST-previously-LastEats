@@ -6,19 +6,20 @@
 {% block body %}
 
 
-
+<!-- 
 <div id="fb-root">
       <ul>
         </fb:login-button></li>
-      <!--   <li class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false"></li> -->
+        <li class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false"></li>
 
-      <!-- <li><a href="/logout" onclick="FB.logout();">Logout</a></li> -->
+      <li><a href="/logout" onclick="FB.logout();">Logout</a></li>
 
         <li><fb:login-button show-faces="true" width="200" max-rows="1">
        
 </div>
+ -->
 </body>
-
+ 
 
 
 
@@ -33,9 +34,11 @@
 </br>
 
 		{% for idea in ideas %}
+
+
 			
 			<h3>Restaurant Title:  <a href="/ideas/{{ idea.slug }}"> {{ idea.restaurant_name }}</a></h3>
-			<!-- <h3>Restaurant Description: {{ idea.idea }}</h3>  -->
+			<!-- <h3>Restaurant Description: {{ idea.idea }}</h3> 
 			<h3>By {{ idea.creator }} from {{ idea.title }}</h3> 
 			<!-- <h4 id="hidden">
 				{{ idea.latitude }}
@@ -77,6 +80,6 @@
 
 {% endblock %} 
 
- {% block scripts %} {% endblock %} 
-
+ {% block scripts %} <!-- {% endblock %} 
+ -->
 

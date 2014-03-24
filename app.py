@@ -282,7 +282,8 @@ def display_fb_friends():
 		user.friends.friend_id = request.form.get('0id','')
 		user.friends.friend_name = request.form.get('0name','')
 		# print(user)
-		user.save()	#save it
+		user.save()	
+		#save it
 
 		return redirect('/')
 		

@@ -1,0 +1,104 @@
+This is the documentation I used to build my current log-in/permissions check for FB:
+
+
+
+<!--   
+  <body>
+    <div id="fb-root"></div>
+    <script>
+      var permissions = null; // stores the permissions the user had granted the app
+      var deauth = null;
+      var removePublishActions = null;
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '214109771989025', // App ID
+          channelUrl : '//'+window.location.hostname+'/channel', // Channel File
+          status     : true, // check login status
+          cookie     : true, // enable cookies to allow the server to access the session
+          xfbml      : true  // parse XFBML
+        });
+
+  		// autologin & permissions check
+    		FB.Event.subscribe('auth.statusChange', function(rsp) {
+    			console.log(rsp)
+    			if (rsp.authResponse) {
+    				FB.api('/me', function(me){
+    					console.log(me)
+    					document.getElementById('fb-username').innerHTML = me.name;
+    					document.getElementById('fb-login-button').style.display = 'none';
+    					document.getElementById('fb-loggedin').style.display = 'block';
+    				});
+            // get the permissions the user's already granted, we'll need them later
+    				FB.api('/me/permissions', function(response){
+              if (response) {
+      					console.log(response.data[0]);
+                permissions = response.data[0]; 
+              }
+    				})
+    			} else {
+    				document.getElementById('fb-login-button').style.display = 'block';
+    				document.getElementById('fb-loggedin').style.display = 'none';
+
+    			}
+    		})
+
+    		// Cook Action
+    		document.getElementById('cook-button').addEventListener('click', function(e){
+          if (!permissions || 
+              (permissions && !permissions.publish_actions)){
+            // user had not granted publish_actions, has not auth'd this app, or is not logged in to Facebook
+            console.log('user needs to grant publish_actions permission, login, or auth this app')
+            FB.login(function(rsp){
+      				FB.api('/me/permissions', function(response){
+      					console.log(response.data[0]);
+                permissions = response.data[0];
+      				})
+              // Could re-attempt to publish here, but won't for simplicity
+            },{scope:'publish_actions'})
+      
+          } else {
+            // all good, let try and publish an action using the og:url tag as the object URL
+      			FB.api('/me/simonsfoodapp:cook', 'POST', {
+      				"recipe": document.getElementById('og-url').getAttribute('content')
+      			}, function(rsp){
+              console.log(rsp)
+      				if (rsp.id) {
+      				  alert('action published with ID: ' + rsp.id)
+      				}
+      			})
+          }
+    		})
+        
+        // removes the authentication between the user and the app
+        deauth = function(){
+          FB.api('/me/permissions', 'DELETE', function(rsp){
+            if (rsp) {
+              console.log(rsp)
+              window.location.reload()
+            }
+          })
+        }
+        
+        // removes the publish_actions for the user
+        removePublishActions = function(){
+          FB.api('/me/permissions/publish_actions', 'DELETE', function(rsp){
+            if (rsp) {
+              console.log(rsp)
+              window.location.reload()
+            }
+          })
+        }
+        
+        
+      }; // end fbAsyncInit
+
+      // Load the SDK Asynchronously
+      (function(d){
+         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement('script'); js.id = id; js.async = true;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         ref.parentNode.insertBefore(js, ref);
+       }(document));
+       
+    </script> -->
