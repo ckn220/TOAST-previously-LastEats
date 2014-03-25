@@ -58,7 +58,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 # DO I NEED? NO LONGER RELEVANT
 # hardcoded categories for the checkboxes on the form
-categories = ['St. Petersburg','Johannesburg','Salzburg','Pittsburgh','Spitzberg','Vicksburg','Harrisburg','Hamburg','Brandenburg']
+#categories = ['St. Petersburg','Johannesburg','Salzburg','Pittsburgh','Spitzberg','Vicksburg','Harrisburg','Hamburg','Brandenburg']
 
 
 # --------- Routes ----------
@@ -94,7 +94,7 @@ def index():
 		idea.restaurant_name = request.form.get('restaurant_name','')
 		idea.latitude = request.form.get('latitude','')
 		idea.longitude = request.form.get('longitude','')
-		idea.categories = request.form.getlist('categories') # getlist will pull multiple items 'categories' into a list
+		#idea.categories = request.form.getlist('categories') # getlist will pull multiple items 'categories' into a list
 					
 		# idea.save() # save it
 			
@@ -152,7 +152,7 @@ def index():
 			# 'images' : images,
 			'ideas' : models.Idea.objects(),
 			'form' : photo_upload_form,
-			'categories' : categories,
+			#'categories' : categories,
 		}
 
 		# app.logger.debug(templateData)
@@ -272,11 +272,45 @@ def display_fb_friends():
 		# user.date_joined = request.form.get('date_joined','')
 		# user.last_visited = request.form.get('last_visited','')
 		# user.friends = request.form.get('friends','')
+		# user.friends[]
+
+		user.user_friends = []		
+		userfriends = request.form.get('user_friends', '')
+		
+		for u in userfriends:
+			friend = u
+			user.user_friends.append(friend)
+			
+
+		user.user_friends = request.form.get('user_friends', '');
 
 		#now need to save a user's friends list
 		#workking versionnn
-		user_totalFriends = request.form.get('user_totalFriends','')
+		# user_totalFriends = request.form.get('user_totalFriends','')
 		
+		#Do I need to loop through friends list to plug into array???
+		#you have to push things into the array. Google how
+		#with mongoengine's EmbeddedDocument
+
+
+	# friends = models.User.objects()
+	# if friends:
+ 
+	# 	#list to hold ideas
+	# 	array_of_friends = []
+ 
+	# 	#prep data for json
+	# 	for i in friends:
+			
+	# 		tmpFriends = {
+	# 			'friends' : i.friends,
+	# 		}
+ 
+	# 		# insert idea dictionary into public_ideas list
+	# 	array_of_friends.append( tmpFreinds )
+
+			#end of for loop for friends array
+
 
 
 		user.friends.friend_id = request.form.get('0id','')
@@ -332,6 +366,11 @@ def display_fb_friends():
 
 
 
+
+
+
+
+
 @app.route('/recent_submissions', methods=['POST', 'GET'])
 def recent_submissions():
     # error = None
@@ -349,31 +388,32 @@ def recent_submissions():
 
 
 
-
 # Display all ideas for a specific category
-@app.route("/category/<cat_name>")
-def by_category(cat_name):
+# @app.route("/category/<cat_name>")
+# def by_category(cat_name):
 
-	# try and get ideas where cat_name is inside the categories list
-	try:
-		ideas = models.Idea.objects(categories=cat_name)
+# 	# try and get ideas where cat_name is inside the categories list
+# 	try:
+# 		ideas = models.Idea.objects(categories=cat_name)
 
-	# not found, abort w/ 404 page
-	except:
-		abort(404)
+# 	# not found, abort w/ 404 page
+# 	except:
+# 		abort(404)
 
-	# prepare data for template
-	templateData = {
-		'current_category' : {
-			'slug' : cat_name,
-			'name' : cat_name.replace('_',' ')
-		},
-		'ideas' : ideas,
-		'categories' : categories
-	}
+# 	# prepare data for template
+# 	templateData = {
+# 		'current_category' : {
+# 			'slug' : cat_name,
+# 			'name' : cat_name.replace('_',' ')
+# 		},
+# 		'ideas' : ideas,
+# 		'categories' : categories
+# 	}
 
-	# render and return template
-	return render_template('category_listing.html', **templateData)
+# 	# render and return template
+# 	return render_template('category_listing.html', **templateData)
+
+
 
 
 @app.route("/ideas/<idea_slug>")
@@ -392,6 +432,8 @@ def idea_display(idea_slug):
 
 	# render and return the template
 	return render_template('idea_entry.html', **templateData)
+
+
 
 @app.route("/ideas/<idea_id>/comment", methods=['POST'])
 def idea_comment(idea_id):

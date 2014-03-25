@@ -58,11 +58,12 @@
               console.log(me)
 
                 var html = "";
-                html += '<input type="hidden" name="userid" class="form-control" value='+me.id+'>';
-                html += '<input type="hidden" name="user_name" class="form-control" value='+me.first_name+'>';
-                html += '<input type="hidden" name="user_last_name" class="form-control" value='+me.last_name+'>';
+                html += '<input type="text" name="userid" class="form-control" value='+me.id+'>';
+                html += '<input type="text" name="user_name" class="form-control" value='+me.first_name+'>';
+                html += '<input type="text" name="user_last_name" class="form-control" value='+me.last_name+'>';
                 
-          
+
+                       
                 $("#fb_friends").append(html);
 
               document.getElementById('fb-username').innerHTML = me.name;
@@ -81,9 +82,24 @@
                 //Get my friends
               FB.api('/me/friends', function(response){
 
-                var totalFriends = response.data.length;
+                var totalFriends = response.data;
+                var friendsIDinfo = [];
+                var friendsIDinfoString = '';
+
+                for(var i = 0; i< totalFriends.length; i++){
+                  console.log("inside loop of all friends");
+                  
+                    friendsIDinfo.push(totalFriends[i].id);
+
+                }
+                friendsIDinfoString = friendsIDinfo.toString();
+                console.log("totalFriends length = " + totalFriends.length);
+                console.log("friendsIDinfoString array: " + friendsIDinfoString);
+
                 var html = "";
-                html += '<input type="hidden" name="user_totalFriends" class="form-control" value='+totalFriends+'>';
+                // html += '<input type="hidden" name="user_totalFriends" class="form-control" value='+totalFriends+'>';
+                html += '<input type="text" name="user_totalFriends" class="form-control" value='+totalFriends+'>';
+                html += '<input type="text" name="user_friends" class="form-control" value='+friendsIDinfo+'>';
                 $("#fb_friends").append(html);
 
 
@@ -93,12 +109,18 @@
 
                 $.each(response.data, function(i, item) {
                 var html = "";
-                html += '<input type="hidden" name="'+i+'name" class="form-control" value='+item.name+'>';
-                html += '<input type="hidden" name="'+i+'id" class="form-control" value='+item.id+'>';
+                html += '<input type="text" name="'+i+'name" class="form-control" value='+item.name+'>';
+                html += '<input type="text" name="'+i+'id" class="form-control" value='+item.id+'>';
           
                 $("#fb_friends").append(html);
 
               });
+
+
+              //now push the id info into the friends array in the db
+
+              
+
 
 
               // redirect

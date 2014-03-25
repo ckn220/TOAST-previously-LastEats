@@ -12,7 +12,7 @@
 		<!-- think about idea.user.creator , i.e. storing a reference to another object in an object-->
 
 		<h4><strong>By</strong> {{ idea.creator }} <strong>from</strong> {{ idea.title }}</h4>
-		<h3><strong>Restaurant Title:</strong> {{ idea.restaurant_name }}</h3>
+		<!-- <h3><strong>Restaurant Title:</strong> {{ idea.restaurant_name }}</h3> -->
 		<h4 id="review_state"><strong>Restaurant Description:</strong> <!-- <a href="/ideas/{{ idea.slug }}">  -->{{ idea.idea }}</h4>
 		</br>
 	    <div id="photos">
@@ -131,7 +131,7 @@ var loadMarkers = function() {
         });
 
         allMarkers.push(marker);
-        //     console.log("also here");  
+            console.log("also here");  
 
             google.maps.event.addListener(marker, 'click', function(event) {
               var latLng = event.latLng;
@@ -139,8 +139,8 @@ var loadMarkers = function() {
               openInfoWindow(restaurant_name, latLng, map);
             });  
 
-        //     return marker; 
-        //     console.log("even here")          
+            return marker; 
+            console.log("even here")          
         //   };
 
         //   google.maps.event.addDomListener(window, 'load', initialize);
@@ -150,4 +150,4 @@ var loadMarkers = function() {
 
 </script>
 
-{% endblock %}
+<!-- {% endblock %} -->

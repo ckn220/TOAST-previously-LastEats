@@ -66,12 +66,20 @@ class Friend(mongoengine.EmbeddedDocument):
 
 class User(Document):
 
-	userid = mongoengine.IntField()
+	userid = mongoengine.StringField()
 	user_name = mongoengine.StringField()
 	user_last_name = mongoengine.StringField()
+
+	#This works with storing the data as a string, but we want it in json in array
+	user_friends = mongoengine.StringField()
+	
+	#need to play with this for structuring the data into an array - the formating, it doesn't like ListField
+	# user_friends = mongoengine.ListField( mongoengine.StringField() )
+
 	date_joined = mongoengine.DateTimeField(default=datetime.now())
 	last_visited = mongoengine.DateTimeField(default=datetime.now())
 
+	#empty array structure 
 	friends = mongoengine.ListField( mongoengine.EmbeddedDocumentField(Friend) )
 
 user_form = model_form(User)
