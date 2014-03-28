@@ -20,10 +20,10 @@ $(document).ready(function(){
 	$.get(u, function(auth_token){
 
 		// To generate access token
-		// document.write(auth_token);
+		document.write(auth_token);
 
 		//Here is the access token to get Raw JSON output
-		//https://graph.facebook.com/search?q=%27my%20new%20puppy%27&locale=en_US&limit=50&access_token=238836302966820|wIDxBBDoFHapZS2veujT9GT0zkc
+		// https://graph.facebook.com/search?q=%27my%20new%20puppy%27&locale=en_US&limit=50&access_token=238836302966820|wIDxBBDoFHapZS2veujT9GT0zkc
 
 		$.ajax({
 			dataType: "jsonp",

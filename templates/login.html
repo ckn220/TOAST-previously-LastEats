@@ -21,13 +21,16 @@
 
 
 <form method="POST" role="form" id="fb_friends" action="/display_fb_friends">
-
 <button type="submit" label="move on"></button></form>
 
-</body>
+
 
 <script>
   
+var LE = {};
+var global = {};
+  //create object that represents database (mongodb)
+
 
     (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -90,6 +93,17 @@
                   console.log("inside loop of all friends");
                   
                     friendsIDinfo.push(totalFriends[i].id);
+                    //query to mongodb here
+
+                    //create object that represents database 
+
+                    //db.collection.findOne()
+
+                    //the db terminology will differnt to your own database
+
+                    //db.inventory.find ( {  user_id: totalFriends[i] } )
+
+                    //mongo returns json object and look at json object's userid 
 
                 }
                 friendsIDinfoString = friendsIDinfo.toString();
@@ -109,6 +123,8 @@
 
                 $.each(response.data, function(i, item) {
                 var html = "";
+
+                //this is for the loop iterators in python
                 html += '<input type="text" name="'+i+'name" class="form-control" value='+item.name+'>';
                 html += '<input type="text" name="'+i+'id" class="form-control" value='+item.id+'>';
           
@@ -118,10 +134,6 @@
 
 
               //now push the id info into the friends array in the db
-
-              
-
-
 
               // redirect
 
@@ -192,6 +204,45 @@
             }
           })
         }
+
+        // This enables me to have acces to a global variable (fetches all of user's friends and saves to global v)
+          getFriends = function(){
+            console.log('!!!!!!!');
+            var deferred = $.Deferred();
+
+            FB.api('/me/friends', function(response){
+              console.log('????????')
+              deferred.resolve(response.data);
+            });
+
+            return deferred.promise();
+          }
+
+          getFriendsOnLastEat = function(allFriends){
+            var deferred = when.defer();
+            var lastEaters = [];
+                FB.api({
+                  method: 'fql.query',
+                  query: 'SELECT uid FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1'
+                  },
+                function(data) {
+                    //for of getinfoRequest
+
+                    //give a list of id's and get info
+                }
+            );
+
+            return deferred.promise;
+          }
+
+          getFriends().done(function(friends){
+            console.log('........', friends);
+
+
+          })
+         
+
+          // return deferred.promise();
         
         
       }; // end fbAsyncInit
@@ -206,7 +257,13 @@
        }(document));
        
 
+     
+
+
+
+
    </script>
+     </body>
 <!-- 
 {% endblock %} -->
 

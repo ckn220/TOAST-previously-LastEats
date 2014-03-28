@@ -15,6 +15,7 @@
 		<!-- <h3><strong>Restaurant Title:</strong> {{ idea.restaurant_name }}</h3> -->
 		<h4 id="review_state"><strong>Restaurant Description:</strong> <!-- <a href="/ideas/{{ idea.slug }}">  -->{{ idea.idea }}</h4>
 		</br>
+		<div class="jumbotron" id="map_canvas"></div>
 	    <div id="photos">
 	    	<img src="https://s3.amazonaws.com/restaurant_photos_locavore/{{idea.filename}}">
 	    </div>
@@ -30,6 +31,7 @@
 				{% endfor %}
 				</ul>
 		</p>
+
 
 		<p>added: {{ idea.timestamp.strftime("%a %m/%d/%y %I:%M%p ") }}</p>
 		
@@ -139,7 +141,7 @@ var loadMarkers = function() {
               openInfoWindow(restaurant_name, latLng, map);
             });  
 
-            return marker; 
+            //return marker; 
             console.log("even here")          
         //   };
 
@@ -150,4 +152,4 @@ var loadMarkers = function() {
 
 </script>
 
-<!-- {% endblock %} -->
+{% endblock %}

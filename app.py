@@ -40,7 +40,7 @@ from instagram.client import InstagramAPI
 
 
 app = Flask(__name__)   # create our flask app
-# app.config['CSRF_ENABLED'] = False
+app.config['CSRF_ENABLED'] = False
 
 app.secret_key = os.environ.get('SECRET_KEY') # put SECRET_KEY variable inside .env file with a random string of alphanumeric characters
 app.config['CSRF_ENABLED'] = False
@@ -253,8 +253,55 @@ def login():
 
 
 
+
+
+
+
+
+
+# @app.route('/get_user', methods=['GET'])
+# def get_user():
+	
+# 	make sure this works first
+# 	userId = request.get('userId');
+
+# 	models.User.findOne()
+
+# 	IS THIS FRIIEND THAT WE FOUND ON FACEBOOK A USER?
+# 	IF UNIQUE ID = UNIQUE ID, SAVE TO DB
+# 	THE ENDPOINT SHOULD TAKE THE WHOLE LIST OF USERS 
+# 	RETURN IDS THAT ARE 
+
+# 	posts.find_one({"author": "Mike"})
+
+
+
+
+#Here is the psuedo code that needs to be translated into python
+
+# var allUsers = request.get('users')
+
+# var lastEaters = [];
+
+# for(user in users){
+# 	mongodb.findOne({ fbId: user.faId }, function(user){
+# 		if(!err)
+# 			lastEaters.push(user)
+# 	});
+# }
+# 	 response.send(lastEaters)
+
+
+
+
+
+
+
+
+
 @app.route('/display_fb_friends', methods=['POST','GET'])
 def display_fb_friends():
+
 
 
 	# user_form = models.user_form(request.form)
@@ -280,7 +327,7 @@ def display_fb_friends():
 		for u in userfriends:
 			friend = u
 			user.user_friends.append(friend)
-			
+
 
 		user.user_friends = request.form.get('user_friends', '');
 
@@ -586,13 +633,13 @@ def slugify(text, delim=u'-'):
 
 # configure API
 instaConfig = {
-	'client_id':os.environ.get('5bffa3e90cb04175bc57531e40a6acc2'),
-	'client_secret':os.environ.get('4e99ce79340a4fb49cccd9981766c07b'),
-	'redirect_uri' : os.environ.get('http://localhost:5000/')
+	'client_id':os.environ.get('CLIENT_ID'),
+	'client_secret':os.environ.get('CLIENT_SECRET'),
+	'redirect_uri' : os.environ.get('http://localhost:5000/instagram_callback')
 }
 api = InstagramAPI(**instaConfig)
 
-@app.route('/')
+@app.route('/instagram_display')
 def user_photos():
 
 	# if instagram info is in session variables, then display user photos
@@ -605,7 +652,7 @@ def user_photos():
 			'media' : recent_media
 		}
 
-		return render_template('display.html', **templateData)
+		return render_template('instagram_display.html', **templateData)
 		
 
 	else:
@@ -638,13 +685,13 @@ def instagram_callback():
 		session['instagram_access_token'] = access_token
 		session['instagram_user'] = user
 
-		return redirect('/') # redirect back to main page
+		return redirect('/instagram_display') # redirect back to main page
 		
 	else:
 		return "Uhoh no code provided"
 
 
-#Redundant???
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
