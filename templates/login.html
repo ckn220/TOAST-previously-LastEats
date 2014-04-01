@@ -1,271 +1,68 @@
 <!-- 
 {% extends "layout.html" %}  
 <body>
-{% block body %}
- -->
+{% block body %} -->
+
 
 <body>
 
-<div id="fb-root">
-      <ul>
-        </fb:login-button></li>
-      <!--   <li class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="false" data-auto-logout-link="false"></li> -->
-
-      <!-- <li><a href="/logout" onclick="FB.logout();">Logout</a></li> -->
-
-        <li><fb:login-button show-faces="true" width="200" max-rows="1">
-        <!-- <li><img src="http://graph.facebook.com/<?= $12202109 ?>/picture?type=large"></li> -->
-        </ul>
-      </ul>
-</div>
-
-
-<form method="POST" role="form" id="fb_friends" action="/display_fb_friends">
-<button type="submit" label="move on"></button></form>
-
-
-
-<script>
-  
-var LE = {};
-var global = {};
-  //create object that represents database (mongodb)
-
-
-    (function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=238836302966820";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
- 
-      var permissions = null; // stores the permissions the user had granted the app
-      var deauth = null;
-      var removePublishActions = null;
+  <div id="fb-root"></div>
+    <script>
       window.fbAsyncInit = function() {
         FB.init({
-          appId      : '238836302966820', // App ID
-          channelUrl : '//'+window.location.hostname+'/channel', // Channel File
-          status     : true, // check login status
-          cookie     : true, // enable cookies to allow the server to access the session
-          xfbml      : true  // parse XFBML
+          appId      : 238836302966820,
+          status     : true,
+          xfbml      : true
         });
 
-      // autologin & permissions check
-        FB.Event.subscribe('auth.statusChange', function(rsp) {
-          console.log(rsp)
-          if (rsp.authResponse) {
-            FB.api('/me', function(me){
-              console.log(me)
-
-                var html = "";
-                html += '<input type="text" name="userid" class="form-control" value='+me.id+'>';
-                html += '<input type="text" name="user_name" class="form-control" value='+me.first_name+'>';
-                html += '<input type="text" name="user_last_name" class="form-control" value='+me.last_name+'>';
-                
-
-                       
-                $("#fb_friends").append(html);
-
-              document.getElementById('fb-username').innerHTML = me.name;
-              document.getElementById('fb-login-button').style.display = 'none';
-              document.getElementById('fb-loggedin').style.display = 'block';
-            });
-            // get the permissions the user's already granted, we'll need them later
-            FB.api('/me/permissions', function(response){
-              if (response) {
-                console.log(response.data[0]);
-                permissions = response.data[0]; 
-
-
-              var myPlace = ["place"];
-
-                //Get my friends
-              FB.api('/me/friends', function(response){
-
-                var totalFriends = response.data;
-                var friendsIDinfo = [];
-                var friendsIDinfoString = '';
-
-                for(var i = 0; i< totalFriends.length; i++){
-                  console.log("inside loop of all friends");
-                  
-                    friendsIDinfo.push(totalFriends[i].id);
-                    //query to mongodb here
-
-                    //create object that represents database 
-
-                    //db.collection.findOne()
-
-                    //the db terminology will differnt to your own database
-
-                    //db.inventory.find ( {  user_id: totalFriends[i] } )
-
-                    //mongo returns json object and look at json object's userid 
-
-                }
-                friendsIDinfoString = friendsIDinfo.toString();
-                console.log("totalFriends length = " + totalFriends.length);
-                console.log("friendsIDinfoString array: " + friendsIDinfoString);
-
-                var html = "";
-                // html += '<input type="hidden" name="user_totalFriends" class="form-control" value='+totalFriends+'>';
-                html += '<input type="text" name="user_totalFriends" class="form-control" value='+totalFriends+'>';
-                html += '<input type="text" name="user_friends" class="form-control" value='+friendsIDinfo+'>';
-                $("#fb_friends").append(html);
-
-
-                console.log("MY FRIENDS!!!");
-                console.log(response);
-                console.log(response.data[3].name);
-
-                $.each(response.data, function(i, item) {
-                var html = "";
-
-                //this is for the loop iterators in python
-                html += '<input type="text" name="'+i+'name" class="form-control" value='+item.name+'>';
-                html += '<input type="text" name="'+i+'id" class="form-control" value='+item.id+'>';
-          
-                $("#fb_friends").append(html);
-
-              });
-
-
-              //now push the id info into the friends array in the db
-
-              // redirect
-
-
-
-                //make request to database to get all users names
-                //save user's unique facebook id in database
-                //then its a comparison game (looks like these people from your friends list are last eats 
-                //memebrs as well)
-                
-              })
-
-
-
-
-              }
-            })
-          } else {
-            document.getElementById('fb-login-button').style.display = 'block';
-            document.getElementById('fb-loggedin').style.display = 'none';
-
-          }
-        })
-
-        // // Cook Action
-        // document.getElementById('cook-button').addEventListener('click', function(e){
-        //   if (!permissions || 
-        //       (permissions && !permissions.publish_actions)){
-        //     // user had not granted publish_actions, has not auth'd this app, or is not logged in to Facebook
-        //     console.log('user needs to grant publish_actions permission, login, or auth this app')
-        //     FB.login(function(rsp){
-        //       FB.api('/me/permissions', function(response){
-        //         console.log(response.data[0]);
-        //         permissions = response.data[0];
-        //       })
-        //       // Could re-attempt to publish here, but won't for simplicity
-        //     },{scope:'publish_actions'})
-      
-        //   } else {
-        //     // all good, let try and publish an action using the og:url tag as the object URL
-        //     FB.api('/me/simonsfoodapp:cook', 'POST', {
-        //       "recipe": document.getElementById('og-url').getAttribute('content')
-        //     }, function(rsp){
-        //       console.log(rsp)
-        //       if (rsp.id) {
-        //         alert('action published with ID: ' + rsp.id)
-        //       }
-        //     })
-        //   }
-        // })
-        
-        // removes the authentication between the user and the app
-        deauth = function(){
-          FB.api('/me/permissions', 'DELETE', function(rsp){
-            if (rsp) {
-              console.log(rsp)
-              window.location.reload()
+        FB.Event.subscribe('auth.authResponseChange', function(response) {
+            if (response.status === 'connected') {
+              facebookIsLoaded();
+            } else {
+              FB.login();
             }
-          })
-        }
-        
-        // removes the publish_actions for the user
-        removePublishActions = function(){
-          FB.api('/me/permissions/publish_actions', 'DELETE', function(rsp){
-            if (rsp) {
-              console.log(rsp)
-              window.location.reload()
-            }
-          })
-        }
-
-        // This enables me to have acces to a global variable (fetches all of user's friends and saves to global v)
-          getFriends = function(){
-            console.log('!!!!!!!');
-            var deferred = $.Deferred();
-
-            FB.api('/me/friends', function(response){
-              console.log('????????')
-              deferred.resolve(response.data);
-            });
-
-            return deferred.promise();
-          }
-
-          getFriendsOnLastEat = function(allFriends){
-            var deferred = when.defer();
-            var lastEaters = [];
-                FB.api({
-                  method: 'fql.query',
-                  query: 'SELECT uid FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me()) AND is_app_user = 1'
-                  },
-                function(data) {
-                    //for of getinfoRequest
-
-                    //give a list of id's and get info
-                }
-            );
-
-            return deferred.promise;
-          }
-
-          getFriends().done(function(friends){
-            console.log('........', friends);
+          });
+      };
 
 
-          })
-         
+        //here is where i should add the log in button info 
 
-          // return deferred.promise();
-        
-        
-      }; // end fbAsyncInit
 
-      // Load the SDK Asynchronously
-      (function(d){
-         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
          if (d.getElementById(id)) {return;}
-         js = d.createElement('script'); js.id = id; js.async = true;
+         js = d.createElement(s); js.id = id;
          js.src = "//connect.facebook.net/en_US/all.js";
-         ref.parentNode.insertBefore(js, ref);
-       }(document));
-       
-
-     
+         fjs.parentNode.insertBefore(js, fjs);        
+       }(document, 'script', 'facebook-jssdk'));
 
 
+      function facebookIsLoaded(){
+          //here is callback from within done
+          // LE.facebook.getFriends().done(
+          //   function(friends) {
+          //     console.log(friends);
+          // });
+
+          // LE.facebook.getFriendsOnLastEats().done(
+          //   function(friends){
+            
+          // });
+          
+          //Dont use LE facebook until here
+          LE.facebook.init().done(function(){
+            LE.facebook.getFriendsOnLastEats().done(function(friends){
+              console.log(friends);
+            });
+          });
+      }
+    </script>
+
+</body>
 
 
-   </script>
-     </body>
-<!-- 
-{% endblock %} -->
 
+
+<!-- {% endblock %} -->
 
 
