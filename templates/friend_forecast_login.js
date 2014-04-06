@@ -189,3 +189,35 @@ $(document).ready(function() {
 
 
 });
+
+
+
+
+
+
+
+
+
+// function getUserFriends() {  
+//     FB.api('/me/friends?fields=name,picture', function(response) {  
+//         console.log('Got friends: ', response);  
+  
+//         if (!response.error) {  
+//             $('#categorieslist').empty();  
+//             var markup = '';  
+  
+//             var friends = response.data;  
+  
+//             for (var i = 0; i < friends.length && i < 25; i++) {  
+//                 var friend = friends[i];  
+  
+//                 markup += '  
+// <li><img src="%27%20+%20friend.picture%20+%20%27"> ' + friend.name + '</li>  
+// ';  
+//             }  
+//             $("#categorieslist").html(markup);  
+//             $("#categorieslist").listview("refresh");  
+//             //document.getElementById('user-friends').innerHTML = markup;  
+//         }  
+//     });  
+// }  

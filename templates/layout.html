@@ -149,7 +149,12 @@ function handleNoGeolocation(errorFlag) {
 
 
           //WHY ISNT THIS GIVING ME THE FULL OBJECT? NOT JUST THE LAT/LNG
-          console.log("results = " + results[0].geometry.location);
+          console.log("RESULTS = " + results[0].geometry.location);
+
+          //this is the place where I query foursquare
+          //take results of the lat/lng for auto populate form, 
+          //then I need to send them/make request to foursqaure api for 
+          //foursquare_v2_id, then use the number to query the instagram api and populate it
         
 
           // lat,lng,titleText, bodyText
