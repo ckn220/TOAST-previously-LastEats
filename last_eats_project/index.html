@@ -19,14 +19,8 @@
 <body>
 
       
-        <div id="fb-root">
-              <ul>
-              <li><fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button></li>
-              </ul>
-            </ul>
-        </div>
-
-          <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="true"></div>
+        <div id="fb-root"></div>
+        <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="true"></div>
       
       
 
@@ -34,7 +28,7 @@
 
        <div data-role="page" class="jqm-demos" data-quicklinks="false">
           <div data-role="header" class="jqm-header">
-                  <h2><a href="/" title="Last Eats home"><img src="assets/img/last-eats-logo.png" alt="jQuery Mobile"></a></h2>
+                  <h2><a href="/" title="Last Eats home"><img src="assets/img/last_eats_naked.png" alt="jQuery Mobile"></a></h2>
             <!-- <p><span class="jqm-version"></span> Demos</p> -->
                   <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
                   <a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
@@ -47,18 +41,23 @@
                 </br>
                 </br>
 
-                <div class="user_photo"><img src="assets/img/last_eats_naked.png"  height="175" width="225"></div>
+                <div class="user_photo"><img src="assets/img/latest_logo_april.png"  height="175" width="175"></div>
                 </br>
+                
                 <div>
-                <h1>Discover the restaurants that mean the most to your friends.</h1></div>
+                  <h2 class="user_choice">Discover the restaurants that mean the most to your friends</h2>
+                </div>
+               
                 </br>
                 </br>
 
                 <form>
-                <input type="button" value="Connect with Facebook">
-                <input type="submit" value="Browse Last Eats">
+                     <a href="../last_eats_project/newsfeed.html" data-role="button">Connect with Facebook</a>
+
+               <!--  <input type="submit" value="Browse Last Eats"> -->
                 </form>
 
+                          
 
          
        
@@ -67,11 +66,11 @@
 
             <div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="a">
                 <ul class="jqm-list ui-alt-icon ui-nodisc-icon">
-                    <li data-filtertext="demos homepage" data-icon="home"><a href="../forms/index.html">My Last Eats</a></li>
-                    <li data-filtertext="introduction overview getting started"><a href="../forms/form_test.html" data-ajax="false">Add Last Eats</a></li>
+                    <li data-filtertext="demos homepage" data-icon="home"><a href="../last_eats_project/index.html">My Last Eats</a></li>
+                    <li data-filtertext="introduction overview getting started"><a href="../last_eats_project/form_autocomplete.html" data-ajax="false">Add Last Eats</a></li>
                     <li data-filtertext="buttons button markup buttonmarkup method anchor link button element"><a href="../button-markup/" data-ajax="false">View Friends</a></li>
-                    <li data-filtertext="form button widget input button submit reset"><a href="../button/" data-ajax="false">Newsfeed</a></li>
-                    <li data-filtertext="pages page widget ajax navigation"><a href="../forms/pages.html" data-ajax="false">Request Last Eats</a></li>
+                    <li data-filtertext="form button widget input button submit reset"><a href="../last_eats_project/newsfeed.html" data-ajax="false">Newsfeed</a></li>
+                    <li data-filtertext="pages page widget ajax navigation"><a href="../last_eats_project/" data-ajax="false">Request Last Eats</a></li>
 
                     <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
                 <h3>Filters</h3>
