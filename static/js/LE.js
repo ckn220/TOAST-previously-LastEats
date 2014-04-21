@@ -1,3 +1,5 @@
+//fb api work for login
+
 var LE = {
 	facebook : {
 		friends: [],

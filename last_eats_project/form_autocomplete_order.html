@@ -186,95 +186,50 @@ function handleNoGeolocation(errorFlag) {
 
           google.maps.event.addDomListener(window, 'load', initialize);
 
+
+          setTimeout(function () {
+            //$('.foo').addClass('bar');
+            $('.foo').css({
+                'height': 'auto'
+            });
+        }, 1000);
+
           </script>
 
  <!--    //end of google maps -->
 
 <!--     //form Begins Below -->
 
-	<div data-role="page" class="jqm-demos" data-quicklinks="false">
+    <div data-role="page" class="jqm-demos" data-quicklinks="false">
+          <div data-role="header" class="jqm-header">
+                  <h2><a href="../last_eats_project/newsfeed.html" title="Last Eats home"><img src="assets/img/LE.png" alt="jQuery Mobile"></a></h2>
+            <!-- <p><span class="jqm-version"></span> Demos</p> -->
+                  <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                  <a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
+              </div><!-- /header -->
 
-		<div data-role="header" class="jqm-header">
-	 <h2><a href="../last_eats_project/newsfeed.html" title="Last Eats home"><img src="assets/img/LE.png" alt="jQuery Mobile"></a></h2>
-		<!-- <p><span class="jqm-version"></span> Demos</p> -->
-			<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
-			<a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
-			</div><!-- /header -->
-
-    <div role="main" class="ui-content jqm-content">
+              <div role="main" class="ui-content jqm-content" data-ajax-warning="false">
 
 <!-- 
         <p>Text inputs and textareas are coded with standard HTML elements, then enhanced by jQuery Mobile to make them more attractive and useable on a mobile device. Learn more about <a href="../textinput/">text inputs and textareas</a>.</p> -->
 
-    </br>
-        <div class="user_photo"><img src="assets/img/new_user.png" height="125" width="125"></div>
-    </br>
-          <div class="traveling_to"><p>I'm traveling to:</p></div>
         
-        <div class="user_restaurant">
-             <strong><p>Austin, TX</p></strong>
-        </div><!-- /demo-html -->
-
-
-
-        <div class="request_show">
-          <h2>If I only have time for one meal, where should I go?</h2>
-        </div><!-- /demo-html -->
-    </br>
-
-   
-    <div class="user_restaurant">
-             <strong><p>Last Eats Recommendations:</p></strong>
-      </div><!-- /demo-html -->
-
-        
-     <div class="user_choice_why_answered">
-          <img src="assets/img/Circle-Profile-Pic.jpg" height="75" width="75"> 
-          <ul>
-            <li><strong>The Salt Lick BBQ</strong></li>
-            <li>Words can't describe how..</li>
-          </ul>
-          <h4 class="friend_answer_name">Jane Hedreen</h4>
-        
-    </div><!-- /demo-html -->
-
-      <div class="user_choice_why_answered">
-          <img src="assets/img/man_circle6.png" height="75" width="75"> 
-          <ul>
-            <li><strong>Iron Works BBQ</strong></li>
-            <li>It's my favorite BBQ in Texas!</li>
-          </ul>
-           <h4 class="friend_answer_name">Todd Summervile</h4>
-          
-    </div><!-- /demo-html -->
-
-       <div class="user_choice_why_answered">
-          <img src="assets/img/man_circle4.png" height="75" width="75"> 
-          <ul>
-            <li><strong>Jerk Chicken and Waffles</strong></li>
-            <li>This little cart serves the best...</li>
-          </ul>
-          <h4 class="friend_answer_name">David Spain</h4>
-          
-    </div><!-- /demo-html -->
-    </br>
-    <div class="request">
-      <h1>Been to Austin?</h1>
+    <div class="full_frame_text_box" data-role="fieldcontain">
+      <label for="textarea"></label>
+      <textarea cols="40" rows="8" name="textarea" class="foo"  placeholder="Tell us about the food!"></textarea>
     </div>
 
-     <!--   <label for="textinput-4" class="ui-hidden-accessible">Text Input:</label>
-          <input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value=""> -->
+
+     <div class="form_next"><a href="../last_eats_project/my_last_eats.html" data-role="button" style="background: #grey; color: black;">Submit Last Eats</a></div>
+
   
-
-        <div class="form_next"><a href="../last_eats_project/form_autocomplete.html" data-role="button" style="background: #grey; color: black;">Share your Last Eats knowledge</a></div>
-
+ 
 
     <div id="map_canvas"></div> 
 
-    </div>
+
     
 
-   
 
             <div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="a">
                 <ul class="jqm-list ui-alt-icon ui-nodisc-icon">
@@ -312,10 +267,11 @@ function handleNoGeolocation(errorFlag) {
     <p>Copyright 2014 The jQuery Foundation</p>
   </div><!
 
-  <!-- TODO: This should become an external panel so we can add input to markup (unique ID) -->
+  <-->
+
     <div data-role="panel" class="jqm-search-panel" data-position="right" data-display="overlay" data-theme="a">
         <div class="jqm-search">
-          <ul class="jqm-list" data-filter-placeholder="Search Last Eats" data-filter-reveal="true">
+          <ul class="jqm-list" data-filter-placeholder="Search Last Eats..." data-filter-reveal="true">
               <li data-filtertext="demos homepage" data-icon="home"><a href=".././">Home</a></li>
               <li data-filtertext="introduction overview getting started"><a href="../intro/" data-ajax="false">Introduction</a></li>
               <li data-filtertext="buttons button markup buttonmarkup method anchor link button element"><a href="../button-markup/" data-ajax="false">Buttons</a></li>
@@ -345,10 +301,16 @@ function handleNoGeolocation(errorFlag) {
           </ul>
         </div>
     </div><!-- /panel -->
-</div><!-- /page -->
+
 
 
 </div>
+
+
+     <div class="jqm-content" data-ajax-warning="false"></div>
+
+
+<!-- </div> -->
 
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<title>Last Eats</title>
 		<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css">
 		<link rel="stylesheet" href="assets/css/jqm-demos.css">
@@ -34,41 +34,77 @@
 
               <div role="main" class="ui-content jqm-content" data-ajax-warning="false">
 
-                  </br> 
-                    <div class="user_photo"><img src="assets/img/new_user.png" height="125" width="125"></div>
+              </br>
+                    <div class="user_photo"><img src="assets/img/man_circle1.png" height="125" width="125"></div>
+
+                <div class="user_choice"><p><strong>Doug Wersen</strong></p></div>
+
+                <div class="user_choice">
+                     <p>If I only had time for one meal in <strong>San Diego</strong>, i'd go to:</p>
+                </div>
 
                 <div class="user_restaurant">
-                     <strong><p>Welcome!</p></strong>
+                     <strong><p>Volunteer Park Cafe</p></strong>
                 </div><!-- /demo-html -->
-
-
+            
                  <div class="user_choice_why">
-                    <img src="assets/img/man_circle1.png" height="85" width="85">
-                    <a href="../last_eats_project/example_friend_profile.html"><h2>Doug just made <strong>Volunteer Park Cafe</strong> his Last Eats in San Diego</h2></a>
+                    <h3>"This is the fish sandwich place in San Diego. I can't live without this spot. The ownership hasn't changed in 50 years. Unbelivable view of the water and constantly great service. This place feels like home."</h3>
                 </div><!-- /demo-html -->
-                
-               <a href="../last_eats_project/example_friend_profile.html" data-role="button"><div class="restaurant_photo"><img src="assets/img/restaurant1.jpg"></div></a>
 
 
-              
-                 <div class="user_choice_why">
-                    <img src="assets/img/Circle-Profile-Pic.jpg" height="85" width="85">
-                    <h2>Jane just made <strong>Noshino</strong> her Last Eats in Seattle</h2>
+                <div class="user_restaurant">
+                     <h4>Order</h4>
                 </div><!-- /demo-html -->
-                
-                
-                
-                <div class="restaurant_photo"><img src="assets/img/mashiko.png"></div>
+                <div class="user_choice_why">
+                  <h3>"I order their seared tuna sandwich often. Outstanding sushi, too."</h3>
+                </div><!-- /demo-html -->
+    
+            </br>
+                <div class="restaurant_photo"><img src="assets/img/restaurant1.jpg"></div>
+         
+         
+
+      <!--   Instagram Slide Show -->
+            <div class="myslider"></div>
+                </br>
+
+               <!-- Google maps jquery example -->
+            </br>
+            </br>
+
+            <div class="getting_there"><p><strong>Getting There</strong></p></div>
+            
+              <div class="container_16">
+                <article class="grid_16"></article>
+                  <div class="item rounded dark">
+                    <div id="map_canvas" class="map rounded"></div>
+              </div>
+
+            <div class="user_choice_why">
+              <ul>
+                  <li>1800 Mission St, San Diego, CA</li>
+                  <li>Open: Monday - Friday, 10am - 7pm</li>
+                  <li>(555) - 555-1987</li>
+              </ul>
+            </div>
+            </br>
+
+             <div class="guest_book">
+                  <label for="textarea">Guest Book:</label>
+                  <textarea name="textarea" id="textarea" placeholder="Been here? Tell Doug about your experience"></textarea>
+             </div><!-- /demo-html -->
+
+              <!--END Google maps jquery example -->
+          	
+          	</div><!-- /content -->
+
+
+            <!--   <div id="footer_button" data-role="footer" data-position="fixed" class="ui-bar">
+                <a href="../last_eats_project/form_autocomplete.html" data-role="button" >Add Last Eats</a>
+              </div>
+ -->
 
                
-                
-                  <div class="user_choice_why">
-                    <img src="assets/img/man_circle2.png" height="85" width="85">
-                    <h2>Steve just made <strong>Parm</strong> his Last Eats in NYC</h2>
-                </div><!-- /demo-html -->
-              
-                <div class="restaurant_photo"><img src="assets/img/restaurant2.jpg"></div>
-
 
 
 
@@ -101,6 +137,7 @@
                 </ul>
             </li>
             </div>
+
 
 
 	<!-- <div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
@@ -143,10 +180,30 @@
     </div><!-- /panel -->
 </div><!-- /page -->
 
-              <div id="footer_button" data-role="footer" data-position="fixed" class="ui-bar">
-                <a href="../last_eats_project/form_autocomplete.html" data-role="button" >Add Last Eats</a>
-              </div>
+  <script>
+    
+        //instagram
 
+    $('.myslider').instaSlider({
+      clientID: '5bffa3e90cb04175bc57531e40a6acc2',
+      access_token: '398367094.5bffa3e.c9a3d69758654ccba3fee28c0e098086'
+    });
+
+            //google maps
+
+            $(function() { 
+        demo.add(function() {
+          $('#map_canvas').gmap({'center': '32.715329,-117.157255', 'zoom': 9, 'disableDefaultUI':true, 'callback': function() {
+            var self = this;
+            self.addMarker({'position': this.get('map').getCenter() }).click(function() {
+              self.openInfoWindow({ 'content': 'Volunteer Park Cafe' }, this);
+            }); 
+          }});
+        }).load();
+      });
+      
+
+  </script>
   <div class="jqm-content" data-ajax-warning="false"></div>
 
 </body>

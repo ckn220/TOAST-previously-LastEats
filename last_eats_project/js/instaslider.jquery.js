@@ -33,7 +33,7 @@
         defaults = {
             clientID: null,
             access_token: null,
-            search: 'sushi',
+            search: 'omakase',
             prevClass: 'prev',
             nextClass: 'next',
             limit: 20,

@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,21 +16,24 @@
     <script src="js/jquery.ui.map.js"></script>
     <script src="js/jquery-1.7.1/jquery.min.js"></script>
     <script src="js/jquery.mobile-1.4.2.min.js"></script>
+    <script src="//www.parsecdn.com/js/parse-1.2.18.min.js"></script>
    
   </head>
 <body>
 
-      
+            
+   <!-- FB LOGIN 
+
         <div id="fb-root"></div>
         <div class="fb-login-button" data-max-rows="1" data-size="large" data-show-faces="true" data-auto-logout-link="true"></div>
       
       
-
+ -->
         
 
        <div data-role="page" class="jqm-demos" data-quicklinks="false">
           <div data-role="header" class="jqm-header">
-                  <h2><a href="/" title="Last Eats home"><img src="assets/img/last_eats_naked.png" alt="jQuery Mobile"></a></h2>
+                  <h2><a href="../last_eats_project/newsfeed.html" title="Last Eats home"><img src="assets/img/LE.png" alt="jQuery Mobile"></a></h2>
             <!-- <p><span class="jqm-version"></span> Demos</p> -->
                   <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
                   <a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
@@ -41,43 +46,69 @@
                 </br>
                 </br>
 
-                <div class="user_photo"><img src="assets/img/latest_logo_april.png"  height="175" width="175"></div>
+                <div class="user_photo"><img src="assets/img/THE_VERY_LATEST_LOGO.png"  height="125" width="125"></div>
                 </br>
                 
                 <div>
-                  <h2 class="user_choice">Discover the restaurants that mean the most to your friends</h2>
+                  <h1 class="front_user_choice">One restaurant</h1>
+                  <h1 class="front_user_choice">One city</h1>
+                  <h1 class="front_user_choice">One choice</h1>
                 </div>
-               
-                </br>
+
+                <div id="front_user_choice_small">Discover the food people love most, one meal at a time.</div>
+
+             <!--    <div id="front_user_choice_small">For the restaurants that shape our lives (matter most).</div> -->
+           
                 </br>
 
-                <form>
+                <!-- <form class="login">
                      <a href="../last_eats_project/newsfeed.html" data-role="button">Connect with Facebook</a>
+                </form> -->
 
                <!--  <input type="submit" value="Browse Last Eats"> -->
-                </form>
+                
+             <!--    <a class="my-login-btn" data-role="button" href="../last_eats_project/newsfeed.html">Connect with Facebook</a>
 
-                          
+                <div data-role="page">
+                  <div data-role="content">
+                    <a href="../last_eats_project/newsfeed.html" data-role="button" class="my-btn">
+                      Connect With Facebook
+                    </a>
+                  </div>
+                </div>
 
-         
-       
+ -->
+            <a href="../last_eats_project/newsfeed.html" data-role="button" id="login" style="background: #479FFF; color: white;">Connect With Facebook</a>
 
+            <a href="../last_eats_project/newsfeed.html" data-role="button" style="background: #grey; color: black;">Browse Last Eats</a>
 
 
             <div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="a">
                 <ul class="jqm-list ui-alt-icon ui-nodisc-icon">
-                    <li data-filtertext="demos homepage" data-icon="home"><a href="../last_eats_project/index.html">My Last Eats</a></li>
+                    <li data-filtertext="demos homepage" data-icon="home"><a href="../last_eats_project/my_last_eats.html">My Last Eats</a></li>
                     <li data-filtertext="introduction overview getting started"><a href="../last_eats_project/form_autocomplete.html" data-ajax="false">Add Last Eats</a></li>
-                    <li data-filtertext="buttons button markup buttonmarkup method anchor link button element"><a href="../button-markup/" data-ajax="false">View Friends</a></li>
+                    <li data-filtertext="buttons button markup buttonmarkup method anchor link button element"><a href="../last_eats_project/my_friends.html" data-ajax="false">View Friends</a></li>
                     <li data-filtertext="form button widget input button submit reset"><a href="../last_eats_project/newsfeed.html" data-ajax="false">Newsfeed</a></li>
-                    <li data-filtertext="pages page widget ajax navigation"><a href="../last_eats_project/" data-ajax="false">Request Last Eats</a></li>
+                    <!-- <li data-filtertext="pages page widget ajax navigation"><a href="../last_eats_project/request_le.html" data-ajax="false">Request Last Eats</a></li>
+ -->
 
-                    <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+              <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+                
+                <h3>Request Last Eats</h3>
+                <ul>
+                    <li data-filtertext="grids columns blocks content formatting rwd responsive css framework"><a href="../last_eats_project/request_le.html" data-ajax="false">Request</a></li>
+                    <li data-filtertext="buttons in grids css framework"><a href="../last_eats_project/answered_request.html" data-ajax="false">Answered</a></li>
+                </ul>
+                </li>
+
+                  
+              <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+                
                 <h3>Filters</h3>
                 <ul>
-                    <li data-filtertext="grids columns blocks content formatting rwd responsive css framework"><a href="../grids/" data-ajax="false">Filter by Price</a></li>
-                    <li data-filtertext="buttons in grids css framework"><a href="../grids-buttons/" data-ajax="false">Filter by City</a></li>
-                    <li data-filtertext="custom responsive grids rwd css framework"><a href="../grids-custom-responsive/" data-ajax="false">Filter by Food</a></li>
+                    <li data-filtertext="grids columns blocks content formatting rwd responsive css framework"><a href="" data-ajax="false">Filter by Price</a></li>
+                    <li data-filtertext="buttons in grids css framework"><a href="" data-ajax="false">Filter by City</a></li>
+                    <li data-filtertext="custom responsive grids rwd css framework"><a href="" data-ajax="false">Filter by Food</a></li>
                 </ul>
             </li>
             </div>
@@ -131,7 +162,7 @@
 
 <div class="jqm-content" data-ajax-warning="false"></div>
 
-</body>
+<!-- </body> -->
 
 
 
@@ -210,7 +241,7 @@
 
 
 </body>
-
+</html>
 
 
 
