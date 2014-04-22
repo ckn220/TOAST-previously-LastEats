@@ -24,15 +24,11 @@ import StringIO
 # import unittest
 
 #instagram
-import time
-from instagram.client import InstagramAPI
-
-
+# import time
+# from instagram.client import InstagramAPI
 
 # os.environ['DEBUSSY'] = '1'
 # os.environ['FSDB'] = '1'
-
-
 
 # FACEBOOK_APP_ID = os.environ["238836302966820"]
 # FACEBOOK_SECRET = os.environ[["28d066bd5d8fd289625d8e2c984170ab"]
@@ -55,10 +51,6 @@ db = MongoEngine(app) # connect MongoEngine with Flask App
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
-
-# DO I NEED? NO LONGER RELEVANT
-# hardcoded categories for the checkboxes on the form
-#categories = ['St. Petersburg','Johannesburg','Salzburg','Pittsburgh','Spitzberg','Vicksburg','Harrisburg','Hamburg','Brandenburg']
 
 
 # --------- Routes ----------
@@ -629,66 +621,66 @@ def slugify(text, delim=u'-'):
 
 
 
-# Instagram ---------------------------
+# Instagram - CURRENTLY NOT WORKING ---------------------------
 
-# configure API
-instaConfig = {
-	'client_id':os.environ.get('CLIENT_ID'),
-	'client_secret':os.environ.get('CLIENT_SECRET'),
-	'redirect_uri' : os.environ.get('http://localhost:5000/instagram_callback')
-}
-api = InstagramAPI(**instaConfig)
+# # configure API
+# instaConfig = {
+# 	'client_id':os.environ.get('CLIENT_ID'),
+# 	'client_secret':os.environ.get('CLIENT_SECRET'),
+# 	'redirect_uri' : os.environ.get('http://localhost:5000/instagram_callback')
+# }
+# api = InstagramAPI(**instaConfig)
 
-@app.route('/instagram_display')
-def user_photos():
+# @app.route('/instagram_display')
+# def user_photos():
 
-	# if instagram info is in session variables, then display user photos
-	if 'instagram_access_token' in session and 'instagram_user' in session:
-		userAPI = InstagramAPI(access_token=session['instagram_access_token'])
-		recent_media, next = userAPI.user_recent_media(user_id=session['instagram_user'].get('id'),count=25)
+# 	# if instagram info is in session variables, then display user photos
+# 	if 'instagram_access_token' in session and 'instagram_user' in session:
+# 		userAPI = InstagramAPI(access_token=session['instagram_access_token'])
+# 		recent_media, next = userAPI.user_recent_media(user_id=session['instagram_user'].get('id'),count=25)
 
-		templateData = {
-			'size' : request.args.get('size','thumb'),
-			'media' : recent_media
-		}
+# 		templateData = {
+# 			'size' : request.args.get('size','thumb'),
+# 			'media' : recent_media
+# 		}
 
-		return render_template('instagram_display.html', **templateData)
+# 		return render_template('instagram_display.html', **templateData)
 		
 
-	else:
+# 	else:
 
-		return redirect('/connect')
+# 		return redirect('/connect')
 
-# Redirect users to Instagram for login
-@app.route('/connect')
-def main():
+# # Redirect users to Instagram for login
+# @app.route('/connect')
+# def main():
 
-	url = api.get_authorize_url(scope=["likes","comments"])
-	return redirect(url)
+# 	url = api.get_authorize_url(scope=["likes","comments"])
+# 	return redirect(url)
 
-# Instagram will redirect users back to this route after successfully logging in
-@app.route('/instagram_callback')
-def instagram_callback():
+# # Instagram will redirect users back to this route after successfully logging in
+# @app.route('/instagram_callback')
+# def instagram_callback():
 
-	code = request.args.get('code')
+# 	code = request.args.get('code')
 
-	if code:
+# 	if code:
 
-		access_token, user = api.exchange_code_for_access_token(code)
-		if not access_token:
-			return 'Could not get access token'
+# 		access_token, user = api.exchange_code_for_access_token(code)
+# 		if not access_token:
+# 			return 'Could not get access token'
 
-		app.logger.debug('got an access token')
-		app.logger.debug(access_token)
+# 		app.logger.debug('got an access token')
+# 		app.logger.debug(access_token)
 
-		# Sessions are used to keep this data 
-		session['instagram_access_token'] = access_token
-		session['instagram_user'] = user
+# 		# Sessions are used to keep this data 
+# 		session['instagram_access_token'] = access_token
+# 		session['instagram_user'] = user
 
-		return redirect('/instagram_display') # redirect back to main page
+# 		return redirect('/instagram_display') # redirect back to main page
 		
-	else:
-		return "Uhoh no code provided"
+# 	else:
+# 		return "Uhoh no code provided"
 
 
 

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Last Eats</title>
+		<link rel="stylesheet" href="../css/themes/default/jquery.mobile-1.4.2.min.css">
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css">
+    <link rel="stylesheet" href="assets/css/jqm-demos.css">
+    <script src="js/jquery.js"></script>
+    <script src="js/instaslider.jquery.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/demo.js"></script>
+    <script src="js/jquery.ui.map.js"></script>
+    <script src="js/jquery.ui.widget.min.js"></script>
+    <script src="js/jquery.marcopolo.min.js"></script>
+    <script src="js/jquery-1.7.1/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.4.2.min.js"></script>
+    <script src="//www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+   
+  </head>
+
+	<body>
+
+  <script>
+
+
+//////BELOW will give me foursquare data
+
+$("#formlocation").marcoPolo({
+// url: "https://api.foursquare.com/v2/venues/suggestcompletion",
+      url: "https://api.foursquare.com/v2/venues/search",
+
+      formatData: function (data) {
+      console.log("formLocation data:");
+      console.log(data);
+//return data.response.minivenues;
+if (data.response.venues.length > 0) {
+      return data.response.venues;
+    } else {
+    return null;
+}
+},
+formatItem: function (data, $item) {
+console.log("ITEM:");
+console.log(data);
+var imgTag;
+if(data.categories.length) {
+catName = "(" + data.categories[0].name+ ")";
+locImage = "<img class='locimage' width='24' height='24' src='" + data.categories[0].icon.prefix + "32" + data.categories[0].icon.name + "'>";
+} else {
+catName = "";
+locImage = "<img class='locimage' width='24' height='24' src='/images/backup_32.png'>";
+}
+return "<div class='locdrops'>" + locImage + "<div class='loctext'>" + getLocationString(data) + "</div></div>";
+},
+minChars: 3,
+onSelect: function (data, $item) {
+console.log("**! Selected item:");
+console.log(data);
+
+setTimeout(function() {
+$("#formlocation").blur();
+setFormFields();
+}, 10);
+
+loadFromFoursquareExisting(data.id, data.categories, data.location, data.name);
+},
+      onFocus: function() {
+      console.log("location.onFocus()");
+      $("#formlocation").val("");
+      },
+      onBlur: function() {
+      console.log("location.onBlur()");
+      latestField = 1;
+      if ($("#formlocation").val() === "") {
+      setLocationField();
+      }
+      },
+      param: 'query',
+      required: false
+             });
+
+       //setLocationData();
+
+
+
+////CONVERT foursquare to instagram image id array below
+
+
+var loadFromFoursquareExisting = function(id, categories, loc, name) {
+console.log("loadFromFoursquareExisting() " + id);
+if (id) {
+console.log("---- det fanns");
+location = {
+       categories: categories,
+       id: id,
+       location: loc,
+       name: name,
+       images: []
+};
+} else {
+console.log("---- det fanns inte");
+}
+
+isPushing = true;
+Path.history.pushState({}, "Worldcam - Search Instagram by location" + location.id, "/id/" + location.id);
+isPushing = false;
+
+startLoad();
+endLoadOne();
+convertLocation();
+
+//endLoadOne();
+//convertLocation();
+}
+
+
+
+///////LOAD recent instagram images
+
+var loadImages = function(startid) {
+console.log("loadImages()");
+var searchURL = "https://api.instagram.com/v1/locations/" + location.instaid + "/media/recent/";
+console.log(searchURL + "?client_id=5bffa3e90cb04175bc57531e40a6acc2");
+
+var loadData = {client_id: "5bffa3e90cb04175bc57531e40a6acc2"};
+
+if (location.pagination) {
+console.log("JA, skickar in en next: " + location.pagination.next_max_id);
+loadData.max_id = location.pagination.next_max_id;
+}
+
+$.ajax({
+url: searchURL,
+type: "GET",
+dataType: "jsonp",
+cache: false,
+data: loadData,
+success: function(data) {
+console.log("loadImages success");
+console.log(data);
+console.log("och pagination: " + data.pagination);
+location.pagination = data.pagination;
+showImages(data.data);
+},
+error: function(jqXHR, textStatus, errorThrown) {
+showError("ERROR loadImages: " + textStatus);
+}
+});
+};
+
+
+
+// marco polo example
+
+$('#location').marcoPolo({
+  // The max number of results is sent as extra data with the request. The
+  // search value is automatically included as 'q', but can be changed through
+  // the 'param' option as seen below.
+  data: {
+    intent: 'global',
+    limit: 20,
+    v: '20130826'
+  },
+  // Since the Foursquare API embeds the array of result objects in
+  // 'response.venues', we return that array for Marco Polo to loop through.
+  formatData: function (data) {
+    return data.response.venues;
+  },
+  // Use each location's name as the display text.
+  formatItem: function (data, $item) {
+    return data.name;
+  },
+  // Try entering a single character. While the Foursquare API does not enforce
+  // this requirement, it cuts back on the number of HTTP requests.
+  minChars: 3,
+  // When a location is selected from the results list, that location is then
+  // set as the search value.
+  onSelect: function (data, $item) {
+    this.val(data.name);
+  },
+  // The Foursquare API requires that the location name be sent as the 'query'
+  // query string parameter. This overwrites the default of 'q'.
+  param: 'query',
+  // Do a search and don't select a result from the list. Instead, blur the
+  // input by tabbing out or clicking somewhere else on the page. Since this
+  // option is set to 'true', the search value will be cleared out.
+  required: true
+});
+
+  
+      $(function () {
+        $('#location').marcoPolo({
+          data: {
+            client_id: '5bffa3e90cb04175bc57531e40a6acc2',
+            client_secret: '4e99ce79340a4fb49cccd9981766c07b',
+            intent: 'global',
+            limit: 20,
+            v: '20130826'
+          },
+          formatData: function (data) {
+            return data.response.venues;
+          },
+          formatItem: function (data, $item) {
+            return data.name;
+          },
+          minChars: 3,
+          onSelect: function (data, $item) {
+            this.val(data.name);
+          },
+          param: 'query',
+          required: true
+        });
+      });
+    
+
+
+
+
+
+  </script>
+
+
+
+
+
+   <!--  header -->
+
+    <div data-role="page" class="jqm-demos" data-quicklinks="false">
+          <div data-role="header" class="jqm-header">
+                  <h2><a href="../last_eats_project/newsfeed.html" title="Last Eats home"><img src="assets/img/LE.png" alt="jQuery Mobile"></a></h2>
+            <!-- <p><span class="jqm-version"></span> Demos</p> -->
+                  <a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+                  <a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
+              </div><!-- /header -->
+
+              <div role="main" class="ui-content jqm-content" data-ajax-warning="false">
+
+<!-- 
+        <p>Text inputs and textareas are coded with standard HTML elements, then enhanced by jQuery Mobile to make them more attractive and useable on a mobile device. Learn more about <a href="../textinput/">text inputs and textareas</a>.</p> -->
+
+   </br>
+        <div class="user_photo"><img src="assets/img/new_user.png" height="125" width="125"></div>
+
+        
+
+      <form action="https://api.foursquare.com/v2/venues/search?callback=?" method="get">
+        <input type="text" name="location" id="location" class="mp_input" aria-autocomplete="list" aria-owns="mp_location_list" autocomplete="off" role="combobox" aria-required="true"><ol class="mp_list" aria-atomic="true" aria-busy="false" aria-live="polite" id="mp_location_list" role="listbox" style="display: none;"></ol>
+      </form>
+
+
+
+<!-- 
+    <label for="textarea-4" class="ui-hidden-accessible">Textarea:</label>
+    <textarea cols="40" rows="8" name="textarea-4" id="textarea-4" placeholder="What makes it so great?"></textarea>
+
+    </br>
+
+    <label for="textarea-4" class="ui-hidden-accessible">Textarea:</label>
+    <textarea cols="40" rows="8" name="textarea-4" id="textarea-4" placeholder="What would you order?"></textarea>
+
+    </br> -->
+
+
+
+    </br>
+
+     <div class="form_next"><a href="../last_eats_project/form_autocomplete_bigger_solo.html" data-role="button" style="background: #grey; color: black;">Test</a></div>
+
+ <!--    <label for="submit-8" class="ui-hidden-accessible">Send:</label>
+    <button type="submit" id="submit-8" class="ui-shadow ui-btn ui-corner-all ui-mini">Submit</button>
+ -->
+
+    
+
+
+            <div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="a">
+                <ul class="jqm-list ui-alt-icon ui-nodisc-icon">
+                    <li data-filtertext="demos homepage" data-icon="home"><a href="../last_eats_project/my_last_eats.html">My Last Eats</a></li>
+                    <li data-filtertext="introduction overview getting started"><a href="../last_eats_project/form_autocomplete.html" data-ajax="false">Add Last Eats</a></li>
+                    <li data-filtertext="buttons button markup buttonmarkup method anchor link button element"><a href="../last_eats_project/my_friends.html" data-ajax="false">View Friends</a></li>
+                    <li data-filtertext="form button widget input button submit reset"><a href="../last_eats_project/newsfeed.html" data-ajax="false">Newsfeed</a></li>
+                    <!-- <li data-filtertext="pages page widget ajax navigation"><a href="../last_eats_project/request_le.html" data-ajax="false">Request Last Eats</a></li>
+ -->
+
+              <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+                
+                <h3>Request Last Eats</h3>
+                <ul>
+                    <li data-filtertext="grids columns blocks content formatting rwd responsive css framework"><a href="../last_eats_project/request_le.html" data-ajax="false">Request</a></li>
+                    <li data-filtertext="buttons in grids css framework"><a href="../last_eats_project/answered_request.html" data-ajax="false">Answered</a></li>
+                </ul>
+                </li>
+
+                  
+              <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+                
+                <h3>Filters</h3>
+                <ul>
+                    <li data-filtertext="grids columns blocks content formatting rwd responsive css framework"><a href="../grids/" data-ajax="false">Filter by Price</a></li>
+                    <li data-filtertext="buttons in grids css framework"><a href="../grids-buttons/" data-ajax="false">Filter by City</a></li>
+                    <li data-filtertext="custom responsive grids rwd css framework"><a href="../grids-custom-responsive/" data-ajax="false">Filter by Food</a></li>
+                </ul>
+            </li>
+            </div>
+
+
+  <!-- <div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
+    <p>jQuery Mobile Demos version <span class="jqm-version"></span></p>
+    <p>Copyright 2014 The jQuery Foundation</p>
+  </div><!
+
+  <-->
+
+    <div data-role="panel" class="jqm-search-panel" data-position="right" data-display="overlay" data-theme="a">
+        <div class="jqm-search">
+          <ul class="jqm-list" data-filter-placeholder="Search Last Eats..." data-filter-reveal="true">
+              <li data-filtertext="demos homepage" data-icon="home"><a href=".././">Home</a></li>
+              <li data-filtertext="introduction overview getting started"><a href="../intro/" data-ajax="false">Introduction</a></li>
+              <li data-filtertext="buttons button markup buttonmarkup method anchor link button element"><a href="../button-markup/" data-ajax="false">Buttons</a></li>
+              <li data-filtertext="form button widget input button submit reset"><a href="../button/" data-ajax="false">Button widget</a></li>
+              <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+              <h3>Checkboxradio widget</h3>
+          <ul>
+                <li data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a href="../checkboxradio-checkbox/" data-ajax="false">Checkboxes</a></li>
+                <li data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a href="../checkboxradio-radio/" data-ajax="false">Radio buttons</a></li>
+          </ul>
+            </li>
+            <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+              <h3>Collapsible (set) widget</h3>
+              <ul>
+                    <li data-filtertext="collapsibles content formatting"><a href="../collapsible/" data-ajax="false">Collapsible</a></li>
+                    <li data-filtertext="dynamic collapsible set accordion append expand"><a href="../collapsible-dynamic/" data-ajax="false">Dynamic collapsibles</a></li>
+                    <li data-filtertext="accordions collapsible set widget content formatting grouped collapsibles"><a href="../collapsibleset/" data-ajax="false">Collapsible set</a></li>
+              </ul>
+            </li>
+            <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+              <h3>Controlgroup widget</h3>
+              <ul>
+                    <li data-filtertext="controlgroups selectmenu checkboxradio input grouped buttons horizontal vertical"><a href="../controlgroup/" data-ajax="false">Controlgroup</a></li>
+                    <li data-filtertext="dynamic controlgroup dynamically add buttons"><a href="../controlgroup-dynamic/" data-ajax="false">Dynamic controlgroups</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+    </div><!-- /panel -->
+
+
+
+</div>
+
+
+     <div class="jqm-content" data-ajax-warning="false"></div>
+
+
+<!-- </div> -->
+
+</body>
+</html>

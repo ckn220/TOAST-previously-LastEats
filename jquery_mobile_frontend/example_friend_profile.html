@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Last Eats</title>
+		<link rel="stylesheet" href="css/jquery.mobile-1.4.2.min.css">
+		<link rel="stylesheet" href="assets/css/jqm-demos.css">
+<!-- 		<link rel="shortcut icon" href="../favicon.ico"> -->
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+		<script src="js/jquery.js"></script>
+    <script src="js/instaslider.jquery.js"></script>
+		<script src="js/index.js"></script>
+    <script src="js/demo.js"></script>
+    <script src="js/jquery.ui.map.js"></script>
+    <script src="js/jquery-1.7.1/jquery.min.js"></script>
+
+		<script src="js/jquery.mobile-1.4.2.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
+	</head>
+	
+
+
+  <body>
+	     <div data-role="page" class="jqm-demos" data-quicklinks="false">
+          <div data-role="header" class="jqm-header">
+            			<h2><a href="../jquery_mobile_frontend/newsfeed.html" title="Last Eats home"><img src="assets/img/LE.png" alt="jQuery Mobile"></a></h2>
+        		<!-- <p><span class="jqm-version"></span> Demos</p> -->
+            			<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
+            			<a href="#" class="jqm-search-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-search ui-nodisc-icon ui-alt-icon ui-btn-right">Search</a>
+        			</div><!-- /header -->
+
+              <div role="main" class="ui-content jqm-content" data-ajax-warning="false">
+
+              </br>
+                    <div class="user_photo"><img src="assets/img/man_circle1.png" height="125" width="125"></div>
+
+                <div class="user_choice"><p><strong>Doug Wersen</strong></p></div>
+
+                <div class="user_choice">
+                     <p>If I only had time for one meal in <strong>San Diego</strong>, i'd go to:</p>
+                </div>
+
+                <div class="user_restaurant">
+                     <strong><p>Volunteer Park Cafe</p></strong>
+                </div><!-- /demo-html -->
+            
+                 <div class="user_choice_why">
+                    <h3>"This is the fish sandwich place in San Diego. I can't live without this spot. The ownership hasn't changed in 50 years. Unbelivable view of the water and constantly great service. This place feels like home."</h3>
+                </div><!-- /demo-html -->
+
+
+                <div class="user_restaurant">
+                     <h4>Order</h4>
+                </div><!-- /demo-html -->
+                <div class="user_choice_why">
+                  <h3>"I order their seared tuna sandwich often. Outstanding sushi, too."</h3>
+                </div><!-- /demo-html -->
+    
+            </br>
+                <div class="restaurant_photo"><img src="assets/img/restaurant1.jpg"></div>
+         
+         
+
+      <!--   Instagram Slide Show -->
+            <div class="myslider"></div>
+                </br>
+
+               <!-- Google maps jquery example -->
+            </br>
+            </br>
+
+            <div class="getting_there"><p><strong>Getting There</strong></p></div>
+            
+              <div class="container_16"></div>
+                <article class="grid_16"></article>
+                  <div class="item rounded dark">
+                    <div id="map_canvas" class="map rounded"></div>
+              </div>
+
+            <div class="user_choice_why">
+              <ul>
+                  <li>1800 Mission St, San Diego, CA</li>
+                  <li>Open: Monday - Friday, 10am - 7pm</li>
+                  <li>(555) - 555-1987</li>
+              </ul>
+            </div>
+            </br>
+
+             <div class="guest_book">
+                  <label for="textarea">Guest Book:</label>
+                  <textarea name="textarea" id="textarea" placeholder="Been here? Tell Doug about your experience"></textarea>
+             </div><!-- /demo-html -->
+
+              <div class="Guest_book_next"><a href="../jquery_mobile_frontend/doug_last_eats.html" data-role="button" style="background: #grey; color: black;">Add Your Comments</a></div>
+
+              <!--END Google maps jquery example -->
+          	
+          <!-- /content -->
+
+
+            <!--   <div id="footer_button" data-role="footer" data-position="fixed" class="ui-bar">
+                <a href="../jquery_mobile_frontend/form_autocomplete.html" data-role="button" >Add Last Eats</a>
+              </div>
+ -->
+
+               
+
+
+
+            <div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="a">
+                <ul class="jqm-list ui-alt-icon ui-nodisc-icon">
+                    <li data-filtertext="demos homepage" data-icon="home"><a href="../jquery_mobile_frontend/my_last_eats.html">My Last Eats</a></li>
+                    <li data-filtertext="introduction overview getting started"><a href="../jquery_mobile_frontend/form_autocomplete.html" data-ajax="false">Add Last Eats</a></li>
+                    <li data-filtertext="buttons button markup buttonmarkup method anchor link button element"><a href="../jquery_mobile_frontend/my_friends.html" data-ajax="false">View Friends</a></li>
+                    <li data-filtertext="form button widget input button submit reset"><a href="../jquery_mobile_frontend/newsfeed.html" data-ajax="false">Newsfeed</a></li>
+                    <!-- <li data-filtertext="pages page widget ajax navigation"><a href="../jquery_mobile_frontend/request_le.html" data-ajax="false">Request Last Eats</a></li>
+ -->
+
+              <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+                
+                <h3>Request Last Eats</h3>
+                <ul>
+                    <li data-filtertext="grids columns blocks content formatting rwd responsive css framework"><a href="../jquery_mobile_frontend/request_le.html" data-ajax="false">Request</a></li>
+                    <li data-filtertext="buttons in grids css framework"><a href="../jquery_mobile_frontend/answered_request.html" data-ajax="false">Answered</a></li>
+                </ul>
+                </li>
+
+                  
+              <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+                
+                <h3>Filters</h3>
+                <ul>
+                    <li data-filtertext="grids columns blocks content formatting rwd responsive css framework"><a href="" data-ajax="false">Filter by Price</a></li>
+                    <li data-filtertext="buttons in grids css framework"><a href="" data-ajax="false">Filter by City</a></li>
+                    <li data-filtertext="custom responsive grids rwd css framework"><a href="" data-ajax="false">Filter by Food</a></li>
+                </ul>
+            </li>
+            </div>
+
+
+
+	<!-- <div data-role="footer" data-position="fixed" data-tap-toggle="false" class="jqm-footer">
+		<p>jQuery Mobile Demos version <span class="jqm-version"></span></p>
+		<p>Copyright 2014 The jQuery Foundation</p>
+	</div><!
+
+	<!-- TODO: This should become an external panel so we can add input to markup (unique ID) -->
+    <div data-role="panel" class="jqm-search-panel" data-position="right" data-display="overlay" data-theme="a">
+        <div class="jqm-search">
+          <ul class="jqm-list" data-filter-placeholder="Search Last Eats" data-filter-reveal="true">
+              <li data-filtertext="demos homepage" data-icon="home"><a href=".././">Home</a></li>
+              <li data-filtertext="introduction overview getting started"><a href="../intro/" data-ajax="false">Introduction</a></li>
+              <li data-filtertext="buttons button markup buttonmarkup method anchor link button element"><a href="../button-markup/" data-ajax="false">Buttons</a></li>
+              <li data-filtertext="form button widget input button submit reset"><a href="../button/" data-ajax="false">Button widget</a></li>
+              <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+            	<h3>Checkboxradio widget</h3>
+          <ul>
+            		<li data-filtertext="form checkboxradio widget checkbox input checkboxes controlgroups"><a href="../checkboxradio-checkbox/" data-ajax="false">Checkboxes</a></li>
+            		<li data-filtertext="form checkboxradio widget radio input radio buttons controlgroups"><a href="../checkboxradio-radio/" data-ajax="false">Radio buttons</a></li>
+          </ul>
+            </li>
+            <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+            	<h3>Collapsible (set) widget</h3>
+            	<ul>
+                		<li data-filtertext="collapsibles content formatting"><a href="../collapsible/" data-ajax="false">Collapsible</a></li>
+                		<li data-filtertext="dynamic collapsible set accordion append expand"><a href="../collapsible-dynamic/" data-ajax="false">Dynamic collapsibles</a></li>
+                		<li data-filtertext="accordions collapsible set widget content formatting grouped collapsibles"><a href="../collapsibleset/" data-ajax="false">Collapsible set</a></li>
+            	</ul>
+            </li>
+            <li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+            	<h3>Controlgroup widget</h3>
+            	<ul>
+                		<li data-filtertext="controlgroups selectmenu checkboxradio input grouped buttons horizontal vertical"><a href="../controlgroup/" data-ajax="false">Controlgroup</a></li>
+                		<li data-filtertext="dynamic controlgroup dynamically add buttons"><a href="../controlgroup-dynamic/" data-ajax="false">Dynamic controlgroups</a></li>
+            	</ul>
+            </li>
+          </ul>
+        </div>
+    </div><!-- /panel -->
+</div><!-- /page -->
+
+  <script>
+    
+        //instagram
+
+    $('.myslider').instaSlider({
+      clientID: '5bffa3e90cb04175bc57531e40a6acc2',
+      access_token: '398367094.5bffa3e.c9a3d69758654ccba3fee28c0e098086'
+    });
+
+            //google maps
+
+            $(function() { 
+        demo.add(function() {
+          $('#map_canvas').gmap({'center': '32.715329,-117.157255', 'zoom': 9, 'disableDefaultUI':true, 'callback': function() {
+            var self = this;
+            self.addMarker({'position': this.get('map').getCenter() }).click(function() {
+              self.openInfoWindow({ 'content': 'Volunteer Park Cafe' }, this);
+            }); 
+          }});
+        }).load();
+      });
+      
+
+  </script>
+  <div class="jqm-content" data-ajax-warning="false"></div>
+
+</body>
+</html>
