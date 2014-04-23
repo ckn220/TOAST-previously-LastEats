@@ -16,6 +16,7 @@
     <script src="js/jquery.ui.map.js"></script>
     <script src="js/jquery-1.7.1/jquery.min.js"></script>
     <script src="js/jquery.mobile-1.4.2.min.js"></script>
+ 
   </head>
 
 
@@ -219,6 +220,8 @@ function handleNoGeolocation(errorFlag) {
         <div id="geocode">
             <input id="address" class="controls" type="text" placeholder="Enter a Restaurant" value="">
         </div> 
+
+            <!-- This is the button used for (dropping a pin on map, via google maps api), and seems necessary for including for autocomplete field to work -->
             <input type="hidden" value="Drop your pin" onclick="codeAddress()">
 
               <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
