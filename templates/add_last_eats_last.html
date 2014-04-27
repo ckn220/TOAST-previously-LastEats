@@ -1,0 +1,33 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<script src="static/js/mapquest.js"></script>
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
+		
+		<div class="full_frame_text_box" data-role="fieldcontain">
+			<label for="textarea"></label>
+			<textarea cols="40" rows="8" name="textarea" class="foo"  placeholder="Tell us about the food!"></textarea>
+		</div>
+		
+		<div class="form_next"><a href="/profile" data-role="button" style="background: #grey; color: black;">Submit Last Eats</a></div>
+		
+		<div id="map_canvas"></div> 
+		
+		{% include "sidebars.html" %}
+	
+	</div>
+
+</div>
+
+<div class="jqm-content" data-ajax-warning="false"></div>
+
+{% endblock %}
+

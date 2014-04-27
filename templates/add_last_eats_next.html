@@ -1,0 +1,42 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<script src="static/js/mapquest.js"></script>
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
+		
+		<div class="full_frame_text_box" data-role="fieldcontain">
+		<label for="textarea"></label>
+		<textarea cols="40" rows="8" name="textarea" class="foo"  placeholder="What makes it so special to you?"></textarea>
+		</div>
+		
+		<div class="form_next"><a href="/add_last_eats_last" data-role="button" style="background: #grey; color: black;">And What Would You Order?</a></div>
+		
+		<!--    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+		<input type="radio" name="radio-choice-h-8" id="radio-choice-h-8a" value="on" checked="checked">
+		<label for="radio-choice-h-8a">$</label>
+		<input type="radio" name="radio-choice-h-8" id="radio-choice-h-8b" value="off">
+		<label for="radio-choice-h-8b">$$</label>
+		<input type="radio" name="radio-choice-h-8" id="radio-choice-h-8c" value="other">
+		<label for="radio-choice-h-8c">$$$</label>
+		<input type="radio" name="radio-choice-h-8" id="radio-choice-h-8d" value="other">
+		<label for="radio-choice-h-8d">$$$$</label>
+		</fieldset> -->
+		
+		<div id="map_canvas"></div>
+		{% include "sidebars.html" %}
+	</div><!-- /panel -->
+</div>
+
+<div class="jqm-content" data-ajax-warning="false"></div>
+
+{% endblock %}
+
+

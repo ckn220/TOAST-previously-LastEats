@@ -1,0 +1,104 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
+		</br>
+		
+		<div class="user_photo"><img src="static/assets/img/man_circle1.png" height="125" width="125"></div>
+		<div class="user_choice"><p><strong>Doug Wersen</strong></p></div>
+		
+		<div class="user_choice">
+			<p>If I only had time for one meal in <strong>San Diego</strong>, i'd go to:</p>
+		</div>
+		
+		<div class="user_restaurant">
+			<strong><p>Volunteer Park Cafe</p></strong>
+		</div><!-- /demo-html -->
+		
+		<div class="user_choice_why">
+		<h3>"This is the fish sandwich place in San Diego. I can't live without this spot. The ownership hasn't changed in 50 years. Unbelivable view of the water and constantly great service. This place feels like home."</h3>
+		</div><!-- /demo-html -->
+		
+		<div class="user_restaurant">
+			<h4>Order</h4>
+		</div><!-- /demo-html -->
+		<div class="user_choice_why">
+			<h3>"I order their seared tuna sandwich often. Outstanding sushi, too."</h3>
+		</div><!-- /demo-html -->
+		
+		</br>
+		<div class="restaurant_photo"><img src="static/assets/img/restaurant1.jpg"></div>
+		
+		<!--   Instagram Slide Show -->
+		<div class="myslider"></div>
+		</br>
+		</br>
+		</br>
+		
+		<div class="getting_there"><p><strong>Getting There</strong></p></div>
+		
+		<div class="container_16"></div>
+		<article class="grid_16"></article>
+		<div class="item rounded dark">
+			<div id="map_canvas" class="map rounded"></div>
+		</div>
+		
+		<div class="user_choice_why">
+			<ul>
+				<li>1800 Mission St, San Diego, CA</li>
+				<li>Open: Monday - Friday, 10am - 7pm</li>
+				<li>(555) - 555-1987</li>
+			</ul>
+		</div>
+		</br>
+		
+		<div class="guest_book">
+			<label for="textarea">Guest Book:</label>
+			<textarea name="textarea" id="textarea" placeholder="Been here? Tell Doug about your experience"></textarea>
+		</div><!-- /demo-html -->
+		
+		<div class="Guest_book_next"><a href="/douglast" data-role="button" style="background: #grey; color: black;">Add Your Comments</a></div>
+		
+		{% include "sidebars.html" %}
+
+	</div>
+</div><!-- /page -->
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+//instagram
+
+$('.myslider').instaSlider({
+clientID: '5bffa3e90cb04175bc57531e40a6acc2',
+access_token: '398367094.5bffa3e.c9a3d69758654ccba3fee28c0e098086'
+});
+
+//google maps
+
+$(function() { 
+demo.add(function() {
+$('#map_canvas').gmap({'center': '32.715329,-117.157255', 'zoom': 9, 'disableDefaultUI':true, 'callback': function() {
+var self = this;
+self.addMarker({'position': this.get('map').getCenter() }).click(function() {
+self.openInfoWindow({ 'content': 'Volunteer Park Cafe' }, this);
+}); 
+}});
+}).load();
+});
+      
+
+</script>
+<div class="jqm-content" data-ajax-warning="false"></div>
+
+{% endblock %}

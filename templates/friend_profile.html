@@ -1,0 +1,42 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
+	
+		</br>
+		<div class="user_photo"><img src="static/assets/img/man_circle1.png" height="125" width="125"></div>
+		
+		<div class="user_restaurant">
+			<strong><p>Doug's Last Eats</p></strong>
+		</div><!-- /demo-html -->
+		
+		<a href="/last_eat_entry" data-role="button">
+			<strong>Volunteer Park Cafe in San Diego, CA</strong>
+			<div class="my_last_eats"></div>
+		</a>
+		<!-- /demo-html -->
+		
+		<a href="/last_eat_entry" data-role="button">
+			<div class="restaurant_photo"><img src="static/assets/img/restaurant1.jpg"></div>
+		</a>
+		
+		 
+		<div id="footer_button" data-role="footer" data-position="fixed" class="ui-bar">
+			<a href="/add_last_eats" data-role="button" >Add Last Eats</a>
+		</div>
+	
+		{% include "sidebars.html" %}
+		
+	</div>
+</div>
+
+<div class="jqm-content" data-ajax-warning="false"></div>
+
+{% endblock %}

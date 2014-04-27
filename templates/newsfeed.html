@@ -1,0 +1,54 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
+		
+		</br>
+		
+		<div class="user_photo"><img src="static/assets/img/new_user.png" height="125" width="125"></div>
+		
+		<div class="user_restaurant">
+			<strong><p>Welcome!</p></strong>
+		</div><!-- /demo-html -->
+		
+		
+		<div class="user_choice_why">
+			<img src="static/assets/img/man_circle1.png" height="85" width="85">
+			<a href="/last_eat_entry"><h2>Doug just made <strong>Volunteer Park Cafe</strong> his Last Eats in San Diego</h2></a>
+		</div><!-- /demo-html -->
+		    
+		<a href="/last_eat_entry" data-role="button"><div class="restaurant_photo"><img src="static/assets/img/restaurant1.jpg"></div></a>
+		  
+		<div class="user_choice_why">
+			<img src="static/assets/img/Circle-Profile-Pic.jpg" height="85" width="85">
+			<h2>Jane just made <strong>Noshino</strong> her Last Eats in Seattle</h2>
+		</div><!-- /demo-html -->
+		friendprofile
+		<div class="restaurant_photo"><img src="static/assets/img/mashiko.png"></div>
+		   
+		<div class="user_choice_why">
+			<img src="static/assets/img/man_circle2.png" height="85" width="85">
+			<h2>Steve just made <strong>Parm</strong> his Last Eats in NYC</h2>
+		</div><!-- /demo-html -->
+		  
+		<div class="restaurant_photo"><img src="static/assets/img/restaurant2.jpg"></div>
+		
+		{% include "sidebars.html" %}
+	</div>
+
+	<div id="footer_button" data-role="footer" data-position="fixed" class="ui-bar">
+		<a href="/add_last_eats" data-role="button" >Add Last Eats</a>
+	</div>
+	
+	<div class="jqm-content" data-ajax-warning="false"></div>
+	
+</div><!-- /page -->
+{% endblock %}
+

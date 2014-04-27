@@ -1,0 +1,136 @@
+{% extends "layout.html" %}
+
+{% block body %}
+ 
+<!-- <div class="row"> --> 
+
+<!-- displaying results -->
+<div class="traveler-form">
+	
+	<!-- think about idea.user.creator , i.e. storing a reference to another object in an object-->
+	
+	<h4><strong>By</strong> {{ idea.creator }} <strong>from</strong> {{ idea.title }}</h4>
+	<!-- <h3><strong>Restaurant Title:</strong> {{ idea.restaurant_name }}</h3> -->
+	<h4 id="review_state"><strong>Restaurant Description:</strong> <!-- <a href="/ideas/{{ idea.slug }}">  -->{{ idea.idea }}</h4>
+	</br>
+	<div class="jumbotron" id="map_canvas"></div>
+	<div id="photos">
+		<img src="https://s3.amazonaws.com/restaurant_photos_locavore/{{idea.filename}}">
+	</div>
+	
+	<!-- <p>{{ idea.latitude }}</p>
+	<p>{{ idea.longitude }}</p> -->
+	<p> 
+		<ul>
+		{% for c in idea.categories %}
+			<li>{{ c|replace("_"," ") }}</li>
+		{% endfor %}
+		</ul>
+	</p>
+	
+	<p>added: {{ idea.timestamp.strftime("%a %m/%d/%y %I:%M%p ") }}</p>
+	
+	<footer>
+		<a href="/"><strong>Back to Last Eats</strong></a>
+	</footer>
+
+</div>
+
+<div class ="hide_me">
+	<span id="idea-title">{{ idea.title }}</span>
+	<span id="idea-idea">{{ idea.idea }}</span>
+	<span id="idea-longitude">{{ idea.longitude }}</span>
+	<span id="idea-latitude">{{ idea.latitude }}</span>
+	<span id="idea-restaurant_name">{{ idea.restaurant_name }}</span>
+</div>	
+
+
+			<!-- DISPLAY COMMENTS -->
+			<!-- <div class="col-md-5">
+				{% for comment in idea.comments %}
+				<div class="comment">
+					<span class="commenter">{{ comment.name }} said,</span><br>
+					<p>{{ comment.comment }}</p>
+					<p><small>{{ comment.timestamp.strftime("%a %m/%d %I:%M%p ") }}</small></p>
+				</div>
+				
+				{% endfor %}
+			</div> -->
+
+			<!-- ADD COMMENT -->
+			<!-- <div class="col-md-5">
+				<form method="POST" action="/ideas/{{ idea.id }}/comment">
+					<label for="name">First Name</label>
+					<input type="text" id="name" name="name">
+					<br>
+					<label for="comment">Comment</label>
+					<textarea cols="50" rows="6" id="comment" name="comment"></textarea>
+					
+					<label>
+					<button type="submit" class="btn btn-success">Comment</button>
+					</label>
+				</form>
+			</div>
+		</div>
+		
+
+	</div>
+ -->
+
+<!-- </div> -->
+
+{% endblock %}
+
+<!-- 
+{% block styles %}{% endblock %} -->
+
+
+{% block scripts %}
+
+<!-- Almost certainly coming from javascript issue below for not displaying single marker with tag. -->
+
+<script>
+	var loadMarkers = function() {
+		
+		// map text box populate
+		// jQuery("#address").val('{{ idea.title }}');
+		
+		var title = $('#idea-title').text();
+		var idea = $('#idea-idea').text();
+		var longitude = $('#idea-longitude').text();
+		var latitude = $('#idea-latitude').text();
+		var restaurant_name = $('#idea-restaurant_name').text();
+		
+		console.log('title', title);
+		
+		// put marker
+		createMarker(latitude,longitude,title,idea, restaurant_name);
+		
+		var latLng = new google.maps.LatLng(latitude,longitude);
+		console.log(latLng) 
+		
+		var marker = new google.maps.Marker({
+			position: latLng,
+			map: map, 
+			restaurant_name: restaurant_name
+		});
+		
+		allMarkers.push(marker);
+		console.log("also here");  
+		
+		google.maps.event.addListener(marker, 'click', function(event) {
+			var latLng = event.latLng;
+			restaurant_name = restaurant_name || '';  //if body text is true run it, otherwise display string
+			openInfoWindow(restaurant_name, latLng, map);
+		});
+		
+		//return marker;
+		console.log("even here");
+		
+		//   google.maps.event.addDomListener(window, 'load', initialize);
+		
+	};
+
+</script>
+
+{% endblock %}

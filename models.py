@@ -12,14 +12,13 @@ from flask.ext.mongoengine.wtf.orm import validators
 from datetime import datetime
 
 
-
 class Comment(mongoengine.EmbeddedDocument):
 	name = StringField()
 	comment = StringField()
 	timestamp = DateTimeField(default=datetime.now())
 	
-class Idea(Document):
 
+class Idea(Document):
 	#joining the idea with the user when yo
 	userid = mongoengine.IntField()
 	#added mongoengine prefix to all fields for photo
@@ -43,9 +42,7 @@ class Idea(Document):
 	# Timestamp will record the date and time idea was created.
 	timestamp = mongoengine.DateTimeField(default=datetime.now())
 
-
 photo_form = model_form(Idea)
-
 
 
 #new for photo upload
@@ -54,11 +51,9 @@ class photo_upload_form(photo_form):
     fileupload = FileField('Upload an image file', validators=[])
 
 
-
 class Friend(mongoengine.EmbeddedDocument):
-#you have to push things into the array. Google how
-#with mongoengine's EmbeddedDocument
-
+	#you have to push things into the array. Google how
+	#with mongoengine's EmbeddedDocument
 
  	friend_id = mongoengine.IntField()
  	friend_name = mongoengine.StringField()
@@ -84,8 +79,6 @@ class User(Document):
 
 user_form = model_form(User)
 
-
-
 #All classes info goes here
 #Creating a new user, from example goes in the app.py
 
@@ -93,7 +86,6 @@ user_form = model_form(User)
     #email = StringField(required=True)
     #first_name = StringField(max_length=50)
     #last_name = StringField(max_length=50)
-
 
 
     

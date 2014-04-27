@@ -1,0 +1,31 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
+		
+		<div class="my_friends_header">
+			<strong><h2>My Friends</h2></strong>
+		</div><!-- /demo-html -->
+		
+		<a href="/friend_profile" title="Friend Profile"><div class="my_friends">
+			<img src="static/assets/img/man_circle1.png" height="50" width="50">
+			<h2>Doug Wersen, Salisbury, MD</h2>
+		</div></a>
+		
+		{% include "sidebars.html" %}
+		
+	</div>
+</div>
+
+<div class="jqm-content" data-ajax-warning="false"></div>
+
+{% endblock %}
+
+

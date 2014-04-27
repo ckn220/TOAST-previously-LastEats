@@ -1,0 +1,48 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
+		</br></br>
+		<div class="user_photo"><img src="static/assets/img/CURRENT_LOGO.png"  height="125" width="125"></div>
+		</br>
+		
+		<div>
+			<h1 class="front_user_choice">One Restaurant</h1>
+			<h1 class="front_user_choice">One City</h1>
+			<h1 class="front_user_choice">One Choice</h1>
+		</div>
+		
+		<div id="front_user_choice_small">Discover the food people love most, one meal at a time.</div>
+		</br>
+		<div id="fb-root"></div>
+		{% include "facebook.html" %}
+		
+		<a data-role="button" id="login" style="background: #479FFF; color: white;" onclick="FB.login()">Connect With Facebook</a>
+		<a href="/newsfeed" data-role="button" style="background: #grey; color: black;">Browse Last Eats</a>
+		
+		
+		{% include "sidebars.html" %}
+
+		
+	</div><!-- /page -->
+	
+	<div class="jqm-content" data-ajax-warning="false"></div>
+</div><!-- /panel -->
+
+{% endblock %}
+
+
+{% block scripts %}
+
+
+
+{% endblock %}
+
+

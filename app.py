@@ -1,82 +1,63 @@
 import os
 import datetime
 import re
+
 from flask import jsonify
 from flask import Flask, request, render_template, redirect, abort, session, flash
-from unidecode import unidecode
 
+from unidecode import unidecode
 from werkzeug import secure_filename
 
-# mongoengine database module
 from flask.ext.mongoengine import MongoEngine
-
-# import data models
 import models
-
-# Amazon AWS library
-import boto
-
-# Python Image Library
 import StringIO
-
-#facebook/python 
-# import facebook
-# import unittest
 
 #instagram
 # import time
 # from instagram.client import InstagramAPI
+import facebook
 
-# os.environ['DEBUSSY'] = '1'
-# os.environ['FSDB'] = '1'
+## Environment Variables
+MONGOLAB_URI = os.environ['MONGOLAB_URI']
+FACEBOOK_APP_ID = os.environ['FACEBOOK_APP_ID']
+FACEBOOK_SECRET = os.environ['FACEBOOK_SECRET']
+CLIENT_ID = os.environ['CLIENT_ID']
+CLIENT_SECRET = os.environ['CLIENT_SECRET']
+SECRET_KEY = os.environ['SECRET_KEY']
 
-# FACEBOOK_APP_ID = os.environ["238836302966820"]
-# FACEBOOK_SECRET = os.environ[["28d066bd5d8fd289625d8e2c984170ab"]
-
-
+PORT = 5000
+#Instagram
+access_token=os.environ['access_token']
+## End Env
 
 app = Flask(__name__)   # create our flask app
-app.config['CSRF_ENABLED'] = False
-
-app.secret_key = os.environ.get('SECRET_KEY') # put SECRET_KEY variable inside .env file with a random string of alphanumeric characters
+app.secret_key = SECRET_KEY 
+# put SECRET_KEY variable inside .env file with a random string of alphanumeric characters
+app.config['DEBUG'] = True
 app.config['CSRF_ENABLED'] = False
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 megabyte file upload
 app.config['WTF_CSRF_SECRET_KEY'] = 'dflksdlkfsdlfjgldkf'
 
 # --------- Database Connection ---------
 # MongoDB connection to MongoLab's database
-app.config['MONGODB_SETTINGS'] = {'HOST':os.environ.get('MONGOLAB_URI'),'DB': 'idea'}
+app.config['MONGODB_SETTINGS'] = {'HOST':MONGOLAB_URI,'DB': 'idea'}
+#mongodb://heroku_app22713794:l2039641ibvqd3k1tgki41ltef@ds033629.mongolab.com:33629/heroku_app22713794
 app.logger.debug("Connecting to MongoLabs")
 db = MongoEngine(app) # connect MongoEngine with Flask App
-
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-
-
 
 # --------- Routes ----------
 # this is our main page
 @app.route("/", methods=['GET','POST'])
 def index():
-
+	
 	#PHOTO upload route section
 	# get Idea form from models.py
-	photo_upload_form = models.photo_upload_form(request.form)
+	photo_form = models.photo_form(request.form)
 	
 	# if form was submitted and it is valid...
 	if request.method == "POST":
 
-		# if not saving to database, check photo module ---- and photo_upload_form.validate()
-
-		uploaded_file = request.files['fileupload']
-		# app.logger.info(file)
-		# app.logger.info(file.mimetype)
-		# app.logger.info(dir(file))
-		
-		# Uploading is fun
-		# 1 - Generate a file name with the datetime prefixing filename
-		# 2 - Connect to s3
-		# 3 - Get the s3 bucket, put the file
-		# 4 - After saving to s3, save data to database
 		# get form data - create new idea
 		idea = models.Idea()
 		idea.creator = request.form.get('creator','anonymous')
@@ -87,130 +68,78 @@ def index():
 		idea.latitude = request.form.get('latitude','')
 		idea.longitude = request.form.get('longitude','')
 		#idea.categories = request.form.getlist('categories') # getlist will pull multiple items 'categories' into a list
-					
-		# idea.save() # save it
-			
-			# redirect to the new idea page
-		# return redirect('/ideas/%s' % idea.slug)
-
-		if uploaded_file and allowed_file(uploaded_file.filename):
-			# return "upload file"
-			# create filename, prefixed with datetime
-			now = datetime.datetime.now()
-			filename = now.strftime('%Y%m%d%H%M%s') + "-" + secure_filename(uploaded_file.filename)
-			# thumb_filename = now.strftime('%Y%m%d%H%M%s') + "-" + secure_filename(uploaded_file.filename)
-
-			# connect to s3
-			s3conn = boto.connect_s3(os.environ.get('AWS_ACCESS_KEY_ID'),os.environ.get('AWS_SECRET_ACCESS_KEY'))
-
-			# open s3 bucket, create new Key/file
-			# set the mimetype, content and access control
-			b = s3conn.get_bucket(os.environ.get('AWS_BUCKET')) # bucket name defined in .env
-			
-			k = b.new_key(b) # create a new Key (like a file)
-			k.key = filename # set filename
-			k.set_metadata("Content-Type", uploaded_file.mimetype) # identify MIME type
-			k.set_contents_from_string(uploaded_file.stream.read()) # file contents to be added
-			k.set_acl('public-read') # make publicly readable
-
-			# if content was actually saved to S3 - save info to Database
-			if k and k.size > 0:
-				
-				# submitted_image = models.Image()
-				# submitted_image.title = request.form.get('title')
-				# submitted_image.description = request.form.get('description')
-				# submitted_image.postedby = request.form.get('postedby')
-				# submitted_image.filename = filename # same filename of s3 bucket file
-				# submitted_image.save()
-				
-				idea.filename = filename
-				idea.save()	#save it
-
-
-			return redirect('/ideas/%s' % idea.slug)	#if you make recent_submissions = DATA
-
-		else:
-			# return "uhoh there was an error " + uploaded_file.filename
-			idea.save()
-			return redirect('/ideas/%s' % idea.slug) 	#if you make recent_submissions = DATA
-
-
+		
+		idea.save()
+		return redirect('/ideas/%s' % idea.slug) 	#if you make recent_submissions = DATA
+	
 	else:
 		# get existing images
 		images = models.Idea.objects.order_by('-timestamp')
 		
 		# render the template
 		templateData = {
-			# 'images' : images,
 			'ideas' : models.Idea.objects(),
-			'form' : photo_upload_form,
-			#'categories' : categories,
+			'form' : photo_form,
+			'fbookId' : FACEBOOK_APP_ID,
 		}
 
 		# app.logger.debug(templateData)
-		return render_template("main.html", **templateData)		#if you make recent_submissions = DATA 
+		return render_template("index.html", **templateData)		#if you make recent_submissions = DATA 
 
 
-		        #OLD REGULAR FORM ROUTE INFO
+@app.route("/newsfeed", methods=['GET','POST'])
+def newsfeed():
+	if checkCookies(request) != None:
+		return checkCookies(request)
+	
+	graph = facebook.GraphAPI(request.cookies['fbook_auth'])
+	
+	templateData = {}
+	return render_template("newsFeed.html", **templateData)
 
-				# else:
+@app.route("/last_eat_entry", methods=['GET','POST'])
+def last_eat_entry():
+	templateData = {}
+	return render_template("last_eat_entry.html", **templateData)
 
-				# 	# for form management, checkboxes are weird (in wtforms)
-				# 	# prepare checklist items for form
-				# 	# you'll need to take the form checkboxes submitted
-				# 	# and idea_form.categories list needs to be populated.
-				# 	if request.method=="POST" and request.form.getlist('categories'):
-				# 		for c in request.form.getlist('categories'):
-				# 			idea_form.categories.append_entry(c)
+@app.route("/profile", methods=['GET','POST'])
+def profile():
+	templateData = {}
+	return render_template("profile.html", **templateData)
 
+@app.route("/my_friends", methods=['GET','POST'])
+def my_friends():
+	templateData = {}
+	return render_template("my_friends.html", **templateData)
 
-					
-					
-
-
-#MORE PHOTO 
-@app.route('/delete/<imageid>')
-def delete_image(imageid):
-        
-        image = models.Image.objects.get(id=imageid)
-        if image:
-
-                # delete from s3
-        
-                # connect to s3
-                s3conn = boto.connect_s3(os.environ.get('AWS_ACCESS_KEY_ID'),os.environ.get('AWS_SECRET_ACCESS_KEY'))
-
-                # open s3 bucket, create new Key/file
-                # set the mimetype, content and access control
-                bucket = s3conn.get_bucket(os.environ.get('AWS_BUCKET')) # bucket name defined in .env
-                k = bucket.new_key(bucket)
-                k.key = image.filename
-                bucket.delete_key(k)
-
-                # delete from Mongo        
-                image.delete()
-
-                return redirect('/')
-
-        else:
-                return "Unable to find requested image in database."
+@app.route("/friend_profile", methods=['GET','POST'])
+def friend_profile():
+	templateData = {}
+	return render_template("friend_profile.html", **templateData)
 
 
+@app.route("/add_last_eats", methods=['GET','POST'])
+def add_last_eats():
+	templateData = {}
+	return render_template("add_last_eats.html", **templateData)
 
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('404.html'), 404
+@app.route("/add_last_eats_next", methods=['GET','POST'])
+def add_last_eats_next():
+	templateData = {}
+	return render_template("add_last_eats_next.html", **templateData)
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.lower().rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-#END OF PHOTO
-
-
-
+@app.route("/add_last_eats_last", methods=['GET','POST'])
+def add_last_eats_last():
+	templateData = {}
+	return render_template("add_last_eats_last.html", **templateData)
 
 
-
+def checkCookies(request):
+	if 'fbook_auth' in request.cookies:
+		return None
+	else:
+		return redirect('/')
+	
 #login page
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -229,27 +158,7 @@ def login():
 
 		user.save()	#save it
 
-	
-
-
-    # error = None
-    # if request.method == 'POST':
-    #     if valid_login(request.form['username'],
-    #                    request.form['password']):
-    #         return log_the_user_in(request.form['username'])
-    #     else:
-    #         error = 'Invalid username/password'
-    # # the code below is executed if the request method
-    # # was GET or the credentials were invalid
     	return render_template('login.html')
-
-
-
-
-
-
-
-
 
 # @app.route('/get_user', methods=['GET'])
 # def get_user():
@@ -267,8 +176,6 @@ def login():
 # 	posts.find_one({"author": "Mike"})
 
 
-
-
 #Here is the psuedo code that needs to be translated into python
 
 # var allUsers = request.get('users')
@@ -284,25 +191,13 @@ def login():
 # 	 response.send(lastEaters)
 
 
-
-
-
-
-
-
-
 @app.route('/display_fb_friends', methods=['POST','GET'])
 def display_fb_friends():
-
-
 
 	# user_form = models.user_form(request.form)
 
 	# if form was submitted and it is valid...
 	if request.method == "POST":
-
-									
-
 
 		user = models.User()
 		user.userid = request.form.get('userid','')
@@ -320,7 +215,6 @@ def display_fb_friends():
 			friend = u
 			user.user_friends.append(friend)
 
-
 		user.user_friends = request.form.get('user_friends', '');
 
 		#now need to save a user's friends list
@@ -330,7 +224,6 @@ def display_fb_friends():
 		#Do I need to loop through friends list to plug into array???
 		#you have to push things into the array. Google how
 		#with mongoengine's EmbeddedDocument
-
 
 	# friends = models.User.objects()
 	# if friends:
@@ -350,8 +243,6 @@ def display_fb_friends():
 
 			#end of for loop for friends array
 
-
-
 		user.friends.friend_id = request.form.get('0id','')
 		user.friends.friend_name = request.form.get('0name','')
 		# print(user)
@@ -360,7 +251,6 @@ def display_fb_friends():
 
 		return redirect('/')
 		
-
 	else:
 
 		# user = models.User()
@@ -374,10 +264,7 @@ def display_fb_friends():
 		# print(user)
 		# user.save()	#save it
 
-
 		return redirect('/')	
-
-
 
 		# # render the template
 		# templateData = {
@@ -389,8 +276,6 @@ def display_fb_friends():
 
 		# return render_template('display_fb_friends.html', **templateData)
 
-
-
     #after they login, they go somewhere thats where
     #you get friends, save in databse 
     #this needs to happen in the backend not the frontend?
@@ -401,13 +286,6 @@ def display_fb_friends():
 	# graph = facebook.GraphAPI(oauth_access_token)
 	# profile = graph.get_object("me")
 	# friends = graph.get_connections("me", "friends")
-
-
-
-
-
-
-
 
 
 @app.route('/recent_submissions', methods=['POST', 'GET'])
@@ -422,9 +300,6 @@ def recent_submissions():
     # # the code below is executed if the request method
     # # was GET or the credentials were invalid
     return render_template('recent_submissions.html')
-
-
-
 
 
 # Display all ideas for a specific category
@@ -453,8 +328,6 @@ def recent_submissions():
 # 	return render_template('category_listing.html', **templateData)
 
 
-
-
 @app.route("/ideas/<idea_slug>")
 def idea_display(idea_slug):
 
@@ -473,7 +346,6 @@ def idea_display(idea_slug):
 	return render_template('idea_entry.html', **templateData)
 
 
-
 @app.route("/ideas/<idea_id>/comment", methods=['POST'])
 def idea_comment(idea_id):
 
@@ -484,14 +356,12 @@ def idea_comment(idea_id):
 		# no name or comment, return to page
 		return redirect(request.referrer)
 
-
 	#get the idea by id
 	try:
 		idea = models.Idea.objects.get(id=idea_id)
 	except:
 		# error, return to where you came from
 		return redirect(request.referrer)
-
 
 	# create comment
 	comment = models.Comment()
@@ -507,7 +377,6 @@ def idea_comment(idea_id):
 	return redirect('/ideas/%s' % idea.slug)
 
 
-
 @app.route('/data/destination')
 def data_destination():
  
@@ -515,7 +384,6 @@ def data_destination():
 	destination = models.Idea.objects().order_by('+timestamp').limit(10)
  
 	if destination:
- 
 		# list to hold ideas
 		public_destination = []
  
@@ -562,13 +430,7 @@ def data_destination():
 			'msg' : 'unable to retrieve destination'
 		}
 		return jsonify(error)
-
-
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('404.html'), 404
-
+	
 
 # slugify the title 
 # via http://flask.pocoo.org/snippets/5/
@@ -580,14 +442,7 @@ def slugify(text, delim=u'-'):
 		result.extend(unidecode(word).split())
 	return unicode(delim.join(result))
 
-
-
-
-
-
-
 # Facebook Test for Python ---------------------------
-
 
 # class FacebookTestCase(unittest.TestCase):
 #     # """Sets up application ID and secret from environment."""
@@ -612,13 +467,7 @@ def slugify(text, delim=u'-'):
 #         token = facebook.get_app_access_token(self.app_id, self.secret)
 #         assert(isinstance(token, str) or isinstance(token, unicode))
 
-
 # # End FB test ---------------------------
-
-
-
-
-
 
 
 # Instagram - CURRENTLY NOT WORKING ---------------------------
@@ -646,7 +495,6 @@ def slugify(text, delim=u'-'):
 
 # 		return render_template('instagram_display.html', **templateData)
 		
-
 # 	else:
 
 # 		return redirect('/connect')
@@ -683,7 +531,6 @@ def slugify(text, delim=u'-'):
 # 		return "Uhoh no code provided"
 
 
-
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
@@ -698,18 +545,11 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 #End Instagram ---------------------------
 
-
-
 # --------- Server On ----------
 # start the webserver
 if __name__ == "__main__":
-	app.debug = True
-
 	# unittest.main()	#FB Test
-
-	port = int(os.environ.get('PORT', 5000)) # locally PORT 5000, Heroku will assign its own port
-	app.run(host='0.0.0.0', port=port)
-
-
+	port = int(PORT) # locally PORT 5000, Heroku will assign its own port
+	app.run(host='0.0.0.0', port=port, debug = True, use_reloader = False)
 
 	

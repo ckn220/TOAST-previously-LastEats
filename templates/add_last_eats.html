@@ -1,0 +1,64 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+<script src="static/js/mapquest.js"></script>
+
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
+	
+		</br>
+		<div class="user_photo"><img src="static/assets/img/new_user.png" height="125" width="125"></div>
+		
+		<div class="user_restaurant">
+			<strong><p>Add Your Last Eats</p></strong>
+		</div><!-- /demo-html -->
+		
+		<p>If I only had time for one meal in:</p>
+		<label for="textinput-4" class="ui-hidden-accessible">Text Input:</label>
+		<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="">
+		</br>
+		<p>I'd go to:</p>
+		<div id="geocode">
+			<input id="address" class="controls" type="text" placeholder="Enter a Restaurant" value="">
+		</div> 
+		
+		<!-- This is the button used for (dropping a pin on map, via google maps api), and seems necessary for including for autocomplete field to work -->
+		<input type="hidden" value="Drop your pin" onclick="codeAddress()">
+		
+		<fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+			<input type="radio" name="radio-choice-h-8" id="radio-choice-h-8a" value="on" checked="checked">
+			<label for="radio-choice-h-8a">$</label>
+			<input type="radio" name="radio-choice-h-8" id="radio-choice-h-8b" value="off">
+			<label for="radio-choice-h-8b">$$</label>
+			<input type="radio" name="radio-choice-h-8" id="radio-choice-h-8c" value="other">
+			<label for="radio-choice-h-8c">$$$</label>
+			<input type="radio" name="radio-choice-h-8" id="radio-choice-h-8d" value="other">
+			<label for="radio-choice-h-8d">$$$$</label>
+		</fieldset>
+		
+		</br>
+		
+		<div class="form_next"><a href="/add_last_eats_next" data-role="button" style="background: #grey; color: black;">Tell us more!</a></div>
+		
+		<!--    <label for="submit-8" class="ui-hidden-accessible">Send:</label>
+		<button type="submit" id="submit-8" class="ui-shadow ui-btn ui-corner-all ui-mini">Submit</button>
+		 -->
+		
+		<div id="map_canvas"></div> 
+		
+		{% include "sidebars.html" %}
+	
+	</div>
+</div>
+
+<div class="jqm-content" data-ajax-warning="false"></div>
+
+{% endblock %}
+
+
