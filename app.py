@@ -31,6 +31,8 @@ SECRET_KEY = os.environ['SECRET_KEY']
 PORT = 5000
 #Instagram
 INSTAGRAM_TOKEN = os.environ['access_token']
+FOURSQUARE_CLIENT_ID = 'PVTLQK3ZVWOHDSH2TSKPMRS41R5LN2E4XVRC5T2VTSRRO3WC'
+FOURSQUARE_CLIENT_SECRET = '2KSXRK2JY2VA0XV2F5JGYTYB2JYPUHMRYFG1ZSKITDUWDJ2X'
 ## End Env
 
 app = Flask(__name__)   # create our flask app
@@ -179,7 +181,7 @@ def friend_profile():
 def add_last_eats():
 	if request.method == "POST":
 		city = request.form.get('city').split(',')[0]
-		checkCity = models.Idea.objects(userid = request.cookies['userid'], title = city).first()
+		checkCity = models.Idea.objects(userid = request.cookies['userid'], title = city, complete = 1).first()
 		if not checkCity:
 			lat = request.form.get('addressLat')
 			lng = request.form.get('addressLng')
@@ -237,20 +239,23 @@ def add_last_eats_last():
 
 
 def get_instagram_photo(idea, lat, lng):
-	url = 'https://api.instagram.com/v1/locations/search?lat='+lat+'&lng='+lng+'&distance=100&access_token=' + INSTAGRAM_TOKEN
+	url = 'https://api.foursquare.com/v2/venues/search?ll='+lat+','+lng+'&query='+idea.restaurant_name+'&client_id='+FOURSQUARE_CLIENT_ID+'&client_secret='+FOURSQUARE_CLIENT_SECRET+'&v=20120609'
 	response = requests.request("GET",url)
 	data = json.loads(response.text)
+	
 	instagram_ids = []
 	i = 0
-	while i < len(data['data']):
-		found = False
-		if idea.restaurant_name in data['data'][i]['name']:
-			instagram_ids.append(data['data'][i]['id'])
-		elif str(data['data'][i]['latitude']) == str(lat) or str(data['data'][i]['longitude']) == str(lng):
-			instagram_ids.append(data['data'][i]['id'])
+	while i < len(data['response']['venues']):
+		url = 'https://api.instagram.com/v1/locations/search?foursquare_v2_id='+data['response']['venues'][i]['id']+'&access_token=' + INSTAGRAM_TOKEN
+		response = requests.request("GET",url)
+		data2 = json.loads(response.text)
+		if len(data2['data']) > 0:
+			for item in data2['data']:
+				instagram_ids.append(item['id'])
 		i += 1
 	
 	if len(instagram_ids) > 0:
+		print 'INSTAGRAM IDS FOR ' +idea.restaurant_name + ' ' + str(instagram_ids)
 		for row in instagram_ids:
 			url = 'https://api.instagram.com/v1/locations/'+ row +'/media/recent?access_token=' + INSTAGRAM_TOKEN
 			response = requests.request("GET",url)
@@ -258,6 +263,9 @@ def get_instagram_photo(idea, lat, lng):
 			if len(data['data']) > 0:
 				idea.instagram_id = row
 				idea.filename = data['data'][0]['images']['standard_resolution']['url']
+				idea.filenames = []
+				for row in data['data']:
+					idea.filenames.append(row['images']['standard_resolution']['url'])
 				break
 	
 	return idea
