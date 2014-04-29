@@ -11,7 +11,7 @@
 	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
 	
 		</br>
-		<div class="user_photo"><img src="static/assets/img/new_user.png" height="125" width="125"></div>
+		<div class="user_photo"><img src="{{ user.picture }}" height="125" width="125"></div>
 		
 		<div class="user_restaurant">
 			<strong><p>Add Your Last Eats</p></strong>
@@ -59,8 +59,6 @@
 	</div>
 </div>
 
-<div class="jqm-content" data-ajax-warning="false"></div>
-
 {% endblock %}
 
 {% block scripts %}
@@ -74,6 +72,10 @@ function moveOn(){
 	var addressLat = $('#addressLat').val();
 	var addressLng = $('#addressLng').val();
 	var cost = $('input[name=cost]:checked').val();
+	var warned = false;
+	if ($('.error_message').css('display') != 'none'){
+		warned = true;}
+		
 	$.ajax({
 		url: 'add_last_eats',
 		type: "post",
@@ -81,10 +83,11 @@ function moveOn(){
 				'addressName': addressName,
 				'addressLat': addressLat,
 				'addressLng': addressLng,
-				'cost': cost},
+				'cost': cost,
+				'warned': warned},
 		success: function(value) {
 			console.log(value);
-			if('error' in value){
+			if('error' in value && $('.error_message').css('display') == 'none'){
 				$('.error_message').html(value.error);
 				$('.error_message').show();
 			}

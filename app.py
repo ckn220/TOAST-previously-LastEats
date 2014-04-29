@@ -124,7 +124,7 @@ def addUser(graph, me):
 		friendUser.save()
 	
 
-@app.route("/last_eat_entry", methods=['GET','POST'])
+@app.route("/last_eat_entry", methods=['GET'])
 def last_eat_entry():
 	if checkCookies(request, "/last_eat_entry") != None:
 		return checkCookies(request, "/last_eat_entry")
@@ -138,7 +138,11 @@ def last_eat_entry():
 	user = models.User.objects(userid = idea.userid).first()
 	templateData = {'idea' : idea,
 				'user': user}
-	return render_template("last_eat_entry.html", **templateData)
+	
+	rend = render_template("last_eat_entry.html", **templateData)
+	print rend
+	
+	return rend
 
 @app.route("/profile", methods=['GET','POST'])
 def profile():
@@ -182,7 +186,10 @@ def add_last_eats():
 	if request.method == "POST":
 		city = request.form.get('city').split(',')[0]
 		checkCity = models.Idea.objects(userid = request.cookies['userid'], title = city, complete = 1).first()
-		if not checkCity:
+		warned = request.form.get('warned')
+		
+		if not checkCity or warned == 'true':
+			checkCity.delete()
 			lat = request.form.get('addressLat')
 			lng = request.form.get('addressLng')
 			idea = models.Idea(title = city, restaurant_name = request.form.get('addressName'),
@@ -197,10 +204,11 @@ def add_last_eats():
 			d = {'id' : str(idea.id)}
 			return jsonify(**d)
 		else:
-			d = {'error' : 'You already have an entry for this city'}
+			d = {'error' : 'You already have an entry for this city.<br>If you continue it will overwrite your old entry!'}
 			return jsonify(**d)
 	else:
-		templateData = {}
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		templateData = {'user': user}
 		return render_template("add_last_eats.html", **templateData)
 
 @app.route("/add_last_eats_next", methods=['GET','POST'])

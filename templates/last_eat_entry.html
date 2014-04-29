@@ -1,8 +1,5 @@
 {% extends "skeleton.html" %}
 
-{% block style %}
-{% endblock %} 
-
 {% block body %}
 
 <div data-role="page" class="jqm-demos" data-quicklinks="false">
@@ -34,12 +31,9 @@
 		</div><!-- /demo-html -->
 		
 		</br>
+		
 		<div class="restaurant_photo"><img src="{{ idea.filename }}"></div>
 		
-		<!--   Instagram Slide Show -->
-		<div class="myslider"></div>
-		</br>
-		</br>
 		</br>
 		
 		<div class="getting_there"><p><strong>Getting There</strong></p></div>
@@ -51,6 +45,7 @@
 			<div class='map_data lng' style='display:none;'>{{ idea.longitude }}</div>
 			
 			<div id="map_canvas" class="map rounded"></div>
+			<script src="static/js/mapquest.js"></script>
 		</div>
 		
 		<div class="user_choice_why" style='display:none;'>
@@ -78,26 +73,3 @@
 
 {% endblock %}
 
-
-{% block scripts %}
-
-<script src="static/js/mapquest.js"></script>
-
-<script type="text/javascript">
-</script>
-
-<script>
-
-//instagram
-
-//$('.myslider').instaSlider({
-//clientID: '5bffa3e90cb04175bc57531e40a6acc2',
-//access_token: '398367094.5bffa3e.c9a3d69758654ccba3fee28c0e098086'
-//});
-
-//google maps
-
-</script>
-<div class="jqm-content" data-ajax-warning="false"></div>
-
-{% endblock %}

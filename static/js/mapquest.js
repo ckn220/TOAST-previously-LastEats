@@ -146,11 +146,3 @@ function createMarker(lat,lng,titleText, bodyText, restaurant_name, restaurant_h
 
 google.maps.event.addDomListener(window, 'load', initialize);
 
-setTimeout(function () {
-	//$('.foo').addClass('bar');
-	$('.foo').css({
-		'height': 'auto'
-	});
-}, 1000);
-
-

@@ -19,7 +19,7 @@
 		</div><!-- /demo-html -->
 		
 		{% for item in ideas -%}
-		<a href="/last_eat_entry?id={{ item.id }}">
+		<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
 			<div class="user_choice_why">
 				<img src="{{ friends[item.userid].picture }}" height="85" width="85">
 				<h2>{{ friends[item.userid].user_name }} just made <strong>{{ item.restaurant_name }}</strong> his Last Eats in {{ item.title }}</h2>
@@ -28,7 +28,6 @@
 		</a>
 		{%- endfor %}
 		
-		{% include "add_button.html" %}
 		
 		{% include "sidebars.html" %}
 	</div>
@@ -36,8 +35,6 @@
 	<div id="footer_button" data-role="footer" data-position="fixed" class="ui-bar">
 		<a href="/add_last_eats" data-role="button" >Add Last Eats</a>
 	</div>
-	
-	<div class="jqm-content" data-ajax-warning="false"></div>
 	
 </div><!-- /page -->
 {% endblock %}
