@@ -19,6 +19,7 @@
 		
 		<p>If I only had time for one meal in:</p>
 		<label for="textinput-4" class="ui-hidden-accessible">Text Input:</label>
+		<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
 		<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="">
 		</br>
 		<p>I'd go to:</p>
@@ -83,7 +84,13 @@ function moveOn(){
 				'cost': cost},
 		success: function(value) {
 			console.log(value);
-			window.location = "/add_last_eats_next?id="+value.id;
+			if('error' in value){
+				$('.error_message').html(value.error);
+				$('.error_message').show();
+			}
+			else{
+				window.location = "/add_last_eats_next?id="+value.id;
+			}
 		}
 	});
 }
