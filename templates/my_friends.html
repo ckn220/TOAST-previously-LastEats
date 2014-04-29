@@ -14,10 +14,12 @@
 			<strong><h2>My Friends</h2></strong>
 		</div><!-- /demo-html -->
 		
-		<a href="/friend_profile" title="Friend Profile"><div class="my_friends">
-			<img src="static/assets/img/man_circle1.png" height="50" width="50">
-			<h2>Doug Wersen, Salisbury, MD</h2>
+		{% for item in friends -%}
+		<a href="/friend_profile?friendid={{ item.userid }}" title="Friend Profile"><div class="my_friends">
+			<img src="{{ item.picture }}" height="50" width="50">
+			<h2>{{ item.user_name }} {{ item.user_last_name }}</h2>
 		</div></a>
+		{%- endfor %}
 		
 		{% include "sidebars.html" %}
 		

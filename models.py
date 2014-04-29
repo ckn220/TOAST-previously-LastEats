@@ -19,28 +19,24 @@ class Comment(mongoengine.EmbeddedDocument):
 	
 
 class Idea(Document):
-	#joining the idea with the user when yo
-	userid = mongoengine.IntField()
-	#added mongoengine prefix to all fields for photo
-	creator = mongoengine.StringField(max_length=120, required=True, verbose_name="First name")
-	title = mongoengine.StringField(max_length=120, required=True)
-	# restaurant_description = mongoengine.StringField(max_length=120, required=True)
-	slug = mongoengine.StringField()
-	idea = mongoengine.StringField(required=True, verbose_name="What is your idea?")
-	restaurant_name = mongoengine.StringField(max_length=120, required=True)
+	userid = mongoengine.StringField()
+	complete = mongoengine.IntField(required=True, default=0)
+	
+	title = mongoengine.StringField(required=True)
+	restaurant_name = mongoengine.StringField(required=True)
 	latitude = mongoengine.StringField(max_length=120, required=True)
 	longitude = mongoengine.StringField(max_length=120, required=True)
-
-	# Category is a list of Strings
-	# categories = mongoengine.ListField( mongoengine.StringField(max_length=30))
-
-	# Comments is a list of Document type 'Comments' defined above
-	comments = mongoengine.ListField( mongoengine.EmbeddedDocumentField(Comment) )
-
+	cost = mongoengine.IntField(required=True)
+	
+	idea = mongoengine.StringField(verbose_name="What makes it great?")
+	order = mongoengine.StringField(verbose_name="What would you order?")
+	
+	slug = mongoengine.StringField()
+	instagram_id = mongoengine.StringField()
 	filename = mongoengine.StringField()
-
+	
 	# Timestamp will record the date and time idea was created.
-	timestamp = mongoengine.DateTimeField(default=datetime.now())
+	timestamp = mongoengine.DateTimeField(default = datetime.now(), required=True)
 
 photo_form = model_form(Idea)
 
@@ -64,9 +60,11 @@ class User(Document):
 	userid = mongoengine.StringField()
 	user_name = mongoengine.StringField()
 	user_last_name = mongoengine.StringField()
-
+	
+	picture = mongoengine.StringField()
+	
 	#This works with storing the data as a string, but we want it in json in array
-	user_friends = mongoengine.StringField()
+	#user_friends = mongoengine.ListField()
 	
 	#need to play with this for structuring the data into an array - the formating, it doesn't like ListField
 	# user_friends = mongoengine.ListField( mongoengine.StringField() )
@@ -75,9 +73,9 @@ class User(Document):
 	last_visited = mongoengine.DateTimeField(default=datetime.now())
 
 	#empty array structure 
-	friends = mongoengine.ListField( mongoengine.EmbeddedDocumentField(Friend) )
+	friends = mongoengine.ListField()
 
-user_form = model_form(User)
+#user_form = model_form(User)
 
 #All classes info goes here
 #Creating a new user, from example goes in the app.py

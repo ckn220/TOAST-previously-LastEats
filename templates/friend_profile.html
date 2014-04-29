@@ -11,27 +11,21 @@
 	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
 	
 		</br>
-		<div class="user_photo"><img src="static/assets/img/man_circle1.png" height="125" width="125"></div>
+		<div class="user_photo"><img src="{{ friend.picture }}" height="125" width="125"></div>
 		
 		<div class="user_restaurant">
-			<strong><p>Doug's Last Eats</p></strong>
+			<strong><p>{{ friend.user_name }}'s Last Eats</p></strong>
 		</div><!-- /demo-html -->
 		
-		<a href="/last_eat_entry" data-role="button">
-			<strong>Volunteer Park Cafe in San Diego, CA</strong>
+		{% for item in ideas -%}
+		<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
+			<strong>{{ item.restaurant_name }} in {{ item.title }}</strong>
 			<div class="my_last_eats"></div>
+			
+			<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
 		</a>
-		<!-- /demo-html -->
+		{%- endfor %}
 		
-		<a href="/last_eat_entry" data-role="button">
-			<div class="restaurant_photo"><img src="static/assets/img/restaurant1.jpg"></div>
-		</a>
-		
-		 
-		<div id="footer_button" data-role="footer" data-position="fixed" class="ui-bar">
-			<a href="/add_last_eats" data-role="button" >Add Last Eats</a>
-		</div>
-	
 		{% include "sidebars.html" %}
 		
 	</div>

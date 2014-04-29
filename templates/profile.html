@@ -11,48 +11,20 @@
 	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
 		
 		</br>
-		<div class="user_photo"><img src="static/assets/img/new_user.png" height="125" width="125"></div>
+		<div class="user_photo"><img src="{{ user.picture }}" height="125" width="125"></div>
 		
 		<div class="user_restaurant">
 			<strong><p>Your Last Eats</p></strong>
 		</div><!-- /demo-html -->
 		
-		<a href="../jquery_mobile_frontend/example_user.html" data-role="button">
-			<strong>Mashkio in Seattle, WA</strong>
+		{% for item in ideas -%}
+		<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
+			<strong>{{ item.restaurant_name }} in {{ item.title }}</strong>
 			<div class="my_last_eats"></div>
+			
+			<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
 		</a>
-		
-		<a href="../jquery_mobile_frontend/example_user.html" data-role="button">
-			<div class="restaurant_photo"><img src="static/assets/img/mashiko.png"></div>
-		</a>
-		
-		<div class="my_last_eats">
-			<h2>The Spot in San Francsico, CA</h2>
-		</div><!-- /demo-html -->
-		
-		<div class="restaurant_photo"><img src="static/assets/img/my_last_eats1.png"></div>
-		
-		<div class="my_last_eats">
-			<h2>Another Room in Barcelona, Spain</h2>
-		</div><!-- /demo-html -->
-		
-		<div class="restaurant_photo"><img src="static/assets/img/my_last_eats3.png"></div>
-		
-		<div class="my_last_eats">
-			<h2>Vios in Athens, Greece</h2>
-		</div><!-- /demo-html -->
-		
-		<div class="restaurant_photo"><img src="static/assets/img/my_last_eats4.png"></div>
-		
-		<div class="my_last_eats">
-			<h2>The Great West Village Diner </br> in Saratoga Springs, New York</h2>
-		</div><!-- /demo-html -->
-		
-		<div class="restaurant_photo"><img src="static/assets/img/my_last_eats2.png"></div>
-		 
-		<div id="footer_button" data-role="footer" data-position="fixed" class="ui-bar">
-			<a href="/add_last_eats" data-role="button" >Add Last Eats</a>
-		</div>
+		{%- endfor %}
 		
 		{% include "sidebars.html" %}
 	

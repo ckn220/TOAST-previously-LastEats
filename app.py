@@ -12,6 +12,9 @@ from flask.ext.mongoengine import MongoEngine
 import models
 import StringIO
 
+import requests
+import json
+
 #instagram
 # import time
 # from instagram.client import InstagramAPI
@@ -27,7 +30,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 PORT = 5000
 #Instagram
-access_token=os.environ['access_token']
+INSTAGRAM_TOKEN = os.environ['access_token']
 ## End Env
 
 app = Flask(__name__)   # create our flask app
@@ -48,6 +51,8 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 # --------- Routes ----------
 # this is our main page
+from flask import make_response
+
 @app.route("/", methods=['GET','POST'])
 def index():
 	
@@ -77,65 +82,202 @@ def index():
 		images = models.Idea.objects.order_by('-timestamp')
 		
 		# render the template
-		templateData = {
-			'ideas' : models.Idea.objects(),
-			'form' : photo_form,
-			'fbookId' : FACEBOOK_APP_ID,
-		}
-
+		templateData = {'fbookId' : FACEBOOK_APP_ID}
 		# app.logger.debug(templateData)
 		return render_template("index.html", **templateData)		#if you make recent_submissions = DATA 
 
 
 @app.route("/newsfeed", methods=['GET','POST'])
 def newsfeed():
-	if checkCookies(request) != None:
-		return checkCookies(request)
+	if checkCookies(request, '/newsfeed') != None:
+		return checkCookies(request, '/newsfeed')
 	
-	graph = facebook.GraphAPI(request.cookies['fbook_auth'])
+	x = models.User.objects(userid = request.cookies['userid']).count()
+	if x == 0:
+		addUser(graph, me)
 	
-	templateData = {}
+	user = models.User.objects(userid = request.cookies['userid']).first()
+	ideas = models.Idea.objects(userid__in = user.friends).order_by('-timestamp')
+	friends = {}
+	for row in models.User.objects(userid__in = user.friends):
+		friends[row.userid] = row
+	
+	templateData = {'ideas': ideas,
+				'friends': friends}
 	return render_template("newsFeed.html", **templateData)
+
+def addUser(graph, me):
+	f = graph.get_connections(me['id'], connection_name = 'friends?fields=installed')
+	friends = []
+	for id in f['data']:
+		if 'installed' in id:
+			friends.append(id['id'])
+	friends.append('12202109')
+	
+	picture = graph.get_profile(me['id'])['data']['url']
+	user = models.User(userid = me['id'], user_name = me['first_name'], user_last_name = me['last_name'], date_joined = datetime.datetime.now(), 
+					last_visited = datetime.datetime.now(), friends = friends, picture = picture)
+	user.save()
+	
+	#Update each other user already in the database
+	for friendUser in models.User.objects(userid__in = friends):
+		friendUser.friends.append(user.userid)
+		friendUser.save()
+	
 
 @app.route("/last_eat_entry", methods=['GET','POST'])
 def last_eat_entry():
-	templateData = {}
+	if checkCookies(request, "/last_eat_entry") != None:
+		return checkCookies(request, "/last_eat_entry")
+	elif 'id' not in request.args:
+		return redirect('/newsfeed')
+	
+	id = request.args['id']
+	idea = models.Idea.objects(id = id).first()
+	#idea.filename = get_instagram_photo(idea.instagram_id)
+	
+	user = models.User.objects(userid = idea.userid).first()
+	templateData = {'idea' : idea,
+				'user': user}
 	return render_template("last_eat_entry.html", **templateData)
 
 @app.route("/profile", methods=['GET','POST'])
 def profile():
-	templateData = {}
+	if checkCookies(request, "/profile") != None:
+		return checkCookies(request, "/profile")
+	
+	user = models.User.objects(userid = request.cookies['userid']).first()
+	ideas = models.Idea.objects(userid = user.userid).order_by('-timestamp')
+	
+	templateData = {'user': user,
+					'ideas': ideas}
 	return render_template("profile.html", **templateData)
 
 @app.route("/my_friends", methods=['GET','POST'])
 def my_friends():
-	templateData = {}
+	if checkCookies(request, '/my_friends') != None:
+		return checkCookies(request, '/my_friends')
+	
+	user = models.User.objects(userid = request.cookies['userid']).first()
+	friends = models.User.objects(userid__in = user.friends)
+	
+	templateData = {'friends': friends}
 	return render_template("my_friends.html", **templateData)
 
 @app.route("/friend_profile", methods=['GET','POST'])
 def friend_profile():
-	templateData = {}
+	if checkCookies(request, '/friend_profile') != None:
+		return checkCookies(request, '/friend_profile')
+	
+	id = request.args['friendid']
+	friend = models.User.objects(userid = id).first()
+	ideas = models.Idea.objects(userid = friend.userid).order_by('-timestamp')
+	
+	templateData = {'friend': friend,
+				'ideas': ideas}
 	return render_template("friend_profile.html", **templateData)
 
 
 @app.route("/add_last_eats", methods=['GET','POST'])
 def add_last_eats():
-	templateData = {}
-	return render_template("add_last_eats.html", **templateData)
+	if request.method == "POST":
+		city = request.form.get('city').split(',')[0]
+		lat = request.form.get('addressLat')
+		lng = request.form.get('addressLng')
+		idea = models.Idea(title = city, restaurant_name = request.form.get('addressName'),
+						latitude = lat, longitude = lng, cost = request.form.get('cost'), userid = request.cookies['userid'])
+		
+		url = 'https://api.instagram.com/v1/locations/search?lat='+lat+'&lng='+lng+'&distance=100&access_token=' + INSTAGRAM_TOKEN
+		response = requests.request("GET",url)
+		data = json.loads(response.text)
+		instagram_ids = []
+		i = 0
+		while i < len(data['data']):
+			found = False
+			if idea.restaurant_name in data['data'][i]['name']:
+				instagram_ids.append(data['data'][i]['id'])
+			elif str(data['data'][i]['latitude']) == str(lat) or str(data['data'][i]['longitude']) == str(lng):
+				instagram_ids.append(data['data'][i]['id'])
+			i += 1
+		
+		if len(instagram_ids) > 0:
+			for row in instagram_ids:
+				url = 'https://api.instagram.com/v1/locations/'+ row +'/media/recent?access_token=' + INSTAGRAM_TOKEN
+				response = requests.request("GET",url)
+				data = json.loads(response.text)
+				if len(data['data']) > 0:
+					idea.instagram_id = row
+					idea.filename = data['data'][0]['images']['standard_resolution']['url']
+					break
+		
+		idea.save()
+		if not idea.instagram_id:
+			print 'NO INSTAGRAM PHOTOS FOUND FOR IDEA ' + str(idea.id)
+		
+		d = {'id' : str(idea.id)}
+		return jsonify(**d)
+	else:
+		templateData = {}
+		return render_template("add_last_eats.html", **templateData)
 
 @app.route("/add_last_eats_next", methods=['GET','POST'])
 def add_last_eats_next():
-	templateData = {}
-	return render_template("add_last_eats_next.html", **templateData)
+	if request.method == "POST":
+		r = request
+		id = request.form.get('id')
+		idea = models.Idea.objects(id = id).first()
+		idea.idea = request.form.get('idea')
+		idea.save()
+		
+		d = {'id' : str(idea.id)}
+		return jsonify(**d)
+	
+	else:
+		id = request.args['id']
+		templateData = {'id':id}
+		return render_template("add_last_eats_next.html", **templateData)
 
 @app.route("/add_last_eats_last", methods=['GET','POST'])
 def add_last_eats_last():
-	templateData = {}
-	return render_template("add_last_eats_last.html", **templateData)
+	if request.method == "POST":
+		id = request.form.get('id')
+		idea = models.Idea.objects(id = id).first()
+		idea.order = request.form.get('order')
+		idea.complete = 1
+		idea.save()
+		
+		d = {}
+		return jsonify(**d)
+	
+	else:
+		id = request.args['id']
+		templateData = {'id':id}
+		return render_template("add_last_eats_last.html", **templateData)
 
 
-def checkCookies(request):
+def get_instagram_photo(id):
+	url = 'https://api.instagram.com/v1/locations/'+id+'/media/recent?access_token=' + INSTAGRAM_TOKEN
+	response = requests.request("GET",url)
+	data = json.loads(response)
+	
+	return data
+	
+def checkCookies(request, path):
 	if 'fbook_auth' in request.cookies:
+		if 'userid' in request.cookies:
+			return None
+		else:
+			graph = facebook.GraphAPI(request.cookies['fbook_auth'])
+			try:
+				me = graph.get_object('me')
+				resp = make_response(redirect(path))
+				resp.set_cookie('userid', me['id'])
+				return resp
+			except Exception as e:
+				resp = make_response(redirect('/'))
+				resp.set_cookie('fbook_auth', '', expires=0)
+				return resp
+			
 		return None
 	else:
 		return redirect('/')

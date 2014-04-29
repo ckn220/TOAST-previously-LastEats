@@ -32,6 +32,10 @@
 	border-color: none;
 }
 
+.user_photo img {
+	border-radius: 65px;
+}
+
 #login a[data-role="button"].ui-btn{
 	background: #479FFF;
 	text-shadow: none;

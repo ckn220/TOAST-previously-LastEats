@@ -14,10 +14,11 @@
 		
 		<div class="full_frame_text_box" data-role="fieldcontain">
 			<label for="textarea"></label>
-			<textarea cols="40" rows="8" name="textarea" class="foo"  placeholder="Tell us about the food!"></textarea>
+			<textarea cols="40" rows="8" name="textarea" id='order' class="foo"  placeholder="Tell us about the food!"></textarea>
+			<input type="hidden" id="id" name="id" value="{{ id }}"/>
 		</div>
 		
-		<div class="form_next"><a href="/profile" data-role="button" style="background: #grey; color: black;">Submit Last Eats</a></div>
+		<div class="form_next"><a onclick='moveOn()' data-role="button" style="background: #grey; color: black;">Submit Last Eats</a></div>
 		
 		<div id="map_canvas"></div> 
 		
@@ -31,3 +32,27 @@
 
 {% endblock %}
 
+{% block scripts %}
+
+<script>
+
+function moveOn(){
+	
+	var order = $('#order').val();
+	var id = $('#id').val();
+	
+	$.ajax({
+		url: 'add_last_eats_last',
+		type: "post",
+		data: {'order': order, 'id': id},
+		success: function(value) {
+			window.location = "/profile";
+		}
+	});
+}
+
+</script>
+
+<script src="static/js/mapquest.js"></script>
+
+{% endblock %}

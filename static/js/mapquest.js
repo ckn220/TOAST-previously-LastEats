@@ -9,50 +9,37 @@ var infoWindow;
 
 function initialize() {
 	geocoder = new google.maps.Geocoder();
-	var latlng = new google.maps.LatLng(-5.397, 25.644);
-	var mapOptions = {
-		zoom: 2,
-		center: latlng,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
+	
+	if ($('.map_data.lat').length > 0){
+		var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
+		codeLatLng();
 	}
-	map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 	
-	// //New stuff
-	// // Try HTML5 geolocation
-	//   if(navigator.geolocation) {
-	//     navigator.geolocation.getCurrentPosition(function(position) {
-	//       var pos = new google.maps.LatLng(position.coords.latitude,
-	//                                        position.coords.longitude);
-	
-	//       var infowindow = new google.maps.InfoWindow({
-	//         map: map,
-	//         position: pos,
-	//         content: 'Location found using HTML5.'
-	//       });
-	
-	//       map.setCenter(pos);
-	//       // createMarker();
-	//     }, function() {
-	//       handleNoGeolocation(true);
-	//     });
-	//   } else {
-	//     // Browser doesn't support Geolocation
-	//     handleNoGeolocation(false); 
-	//   }
-	
-	//with Jonas, geocoder changes for autocomplete 
 	var input = document.getElementById('address');
 	if(input){
 		var autocomplete = new google.maps.places.Autocomplete(input);
-		autocomplete.bindTo('bounds', map);
+		google.maps.event.addListener(autocomplete, 'place_changed', function () {
+	        var place = autocomplete.getPlace();
+	        document.getElementById('addressName').value = place.name;
+	        document.getElementById('addressLat').value = place.geometry.location.lat();
+	        document.getElementById('addressLng').value = place.geometry.location.lng();
+	    });
+		//autocomplete.bindTo('bounds', map);
 	}
 	
+	var input2 = document.getElementById('textinput-4');
+	if (input2){
+		var options = {
+		  types: ['(cities)']
+		};
+		var autocomplete2 = new google.maps.places.Autocomplete(input2, options);
+	}
 	
 	// load markers if available
-	if (loadMarkers) {
-		console.log("HERE!!!");
-		loadMarkers();
-	}
+	//if (loadMarkers) {
+	//	console.log("HERE!!!");
+	//	loadMarkers();
+	//}
 }
 
 function handleNoGeolocation(errorFlag) {
@@ -92,6 +79,24 @@ function codeAddress() {
 			alert('Geocode was not successful for the following reason: ' + status);
 		}
 	});
+}
+
+function codeLatLng() {
+    var lat = parseFloat($('.map_data.lat').html());
+	var lng = parseFloat($('.map_data.lng').html());
+    var latlng = new google.maps.LatLng(lat, lng);
+    geocoder.geocode({'latLng': latlng}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[1]) {
+        	$('#map_canvas').gmap('get','map').setZoom(13);
+        	$('#map_canvas').gmap('get','map').setCenter(latlng);
+        	$('#map_canvas').gmap('addMarker', { 'position': latlng } ).click(function() {
+                $('#map_canvas').gmap('openInfoWindow', {'content': results[0].formatted_address}, this);
+            });
+      } else {
+        alert("Geocoder failed due to: " + status);
+      }
+    }});
 }
 
 function createInfoWindow(content, latLng){

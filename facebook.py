@@ -78,14 +78,14 @@ class GraphAPI(object):
     def __init__(self, access_token=None, timeout=None):
         self.access_token = access_token
         self.timeout = timeout
-
+    
     def get_object(self, id, **args):
         # """Fetchs the given object from the graph."""
         return self.request(id, args)
 
     def get_objects(self, ids, **args):
         # """Fetchs all of the given object from the graph.
-
+        
         # We return a map from ID to object. If any of the IDs are
         # invalid, we raise an exception.
         # """
@@ -175,7 +175,13 @@ class GraphAPI(object):
                      post_args=kwargs,
                      files={"file": image},
                      method="POST")
-
+        
+    def get_profile(self, user_id):
+        
+        path = str(user_id) + '/picture?type=large&redirect=false'
+        
+        return self.request(path)
+        
     def request(
             self, path, args=None, post_args=None, files=None, method=None):
         # """Fetches the given path in the Graph API.
@@ -392,3 +398,4 @@ def get_access_token_from_code(code, redirect_uri, app_id, app_secret):
 
 def get_app_access_token(app_id, app_secret):
     return GraphAPI().get_app_access_token(app_id, app_secret)
+

@@ -5,8 +5,6 @@
 
 {% block body %}
 
-<script src="static/js/mapquest.js"></script>
-
 <div data-role="page" class="jqm-demos" data-quicklinks="false">
 	{% include "header.html" %}
 	
@@ -14,10 +12,11 @@
 		
 		<div class="full_frame_text_box" data-role="fieldcontain">
 		<label for="textarea"></label>
-		<textarea cols="40" rows="8" name="textarea" class="foo"  placeholder="What makes it so special to you?"></textarea>
+		<textarea cols="40" rows="8" name="textarea" id='idea' class="foo" placeholder="What makes it so special to you?"></textarea>
+		<input type="hidden" id="id" name="id" value="{{ id }}"/>
 		</div>
 		
-		<div class="form_next"><a href="/add_last_eats_last" data-role="button" style="background: #grey; color: black;">And What Would You Order?</a></div>
+		<div class="form_next"><a onclick='moveOn()' data-role="button" style="background: #grey; color: black;">And What Would You Order?</a></div>
 		
 		<!--    <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
 		<input type="radio" name="radio-choice-h-8" id="radio-choice-h-8a" value="on" checked="checked">
@@ -36,6 +35,32 @@
 </div>
 
 <div class="jqm-content" data-ajax-warning="false"></div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+function moveOn(){
+	
+	var idea = $('#idea').val();
+	var id = $('#id').val();
+	
+	$.ajax({
+		url: 'add_last_eats_next',
+		type: "post",
+		data: {'idea': idea, 'id': id},
+		success: function(value) {
+			console.log(value);
+			window.location = "/add_last_eats_last?id="+value.id;
+		}
+	});
+}
+
+</script>
+
+<script src="static/js/mapquest.js"></script>
 
 {% endblock %}
 
