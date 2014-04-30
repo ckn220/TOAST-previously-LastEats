@@ -57,7 +57,6 @@ from flask import make_response
 
 @app.route("/", methods=['GET','POST'])
 def index():
-	
 	#PHOTO upload route section
 	# get Idea form from models.py
 	photo_form = models.photo_form(request.form)
@@ -122,7 +121,6 @@ def addUser(request):
 	for id in f['data']:
 		if 'installed' in id:
 			friends.append(id['id'])
-	friends.append('12202109')
 	
 	picture = graph.get_profile(me['id'])['data']['url']
 	user = models.User(userid = me['id'], user_name = me['first_name'], user_last_name = me['last_name'], date_joined = datetime.datetime.now(), 
@@ -151,10 +149,7 @@ def last_eat_entry():
 	templateData = {'idea' : idea,
 				'user': user}
 	
-	rend = render_template("last_eat_entry.html", **templateData)
-	print rend
-	
-	return rend
+	return render_template("last_eat_entry.html", **templateData)
 
 @app.route("/profile", methods=['GET','POST'])
 def profile():

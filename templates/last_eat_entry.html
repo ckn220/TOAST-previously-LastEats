@@ -4,14 +4,6 @@
 
 <div data-role="page" class="jqm-demos" data-quicklinks="false">
 	{% include "header.html" %}
-	
-	<script>
-		$(document).ready(function() {
-			if (window.location.href.indexOf("reload=true") > -1){
-				window.location = window.location.href + '&reload=true';
-			}
-		});
-	</script>
 		
 	<div role="main" class="ui-content jqm-content" data-ajax-warning="false">
 		</br>
@@ -55,7 +47,6 @@
 			<div class='map_data lng' style='display:none;'>{{ idea.longitude }}</div>
 			
 			<div id="map_canvas" class="map rounded"></div>
-			<script src="static/js/mapquest.js"></script>
 		</div>
 		
 		<div class="user_choice_why" style='display:none;'>
@@ -83,5 +74,8 @@
 
 {% endblock %}
 
+{% block scripts %}
+	<script src="static/js/mapquest.js"></script>
+{% endblock %}
 
 
