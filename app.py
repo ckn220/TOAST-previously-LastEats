@@ -196,7 +196,8 @@ def add_last_eats():
 		warned = request.form.get('warned')
 		
 		if not checkCity or warned == 'true':
-			checkCity.delete()
+			if checkCity:
+				checkCity.delete()
 			lat = request.form.get('addressLat')
 			lng = request.form.get('addressLng')
 			idea = models.Idea(title = city, restaurant_name = request.form.get('addressName'),
