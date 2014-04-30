@@ -85,6 +85,13 @@ def index():
 		# app.logger.debug(templateData)
 		return render_template("index.html", **templateData)		#if you make recent_submissions = DATA 
 
+@app.route("/logout", methods=['GET','POST'])
+def logout():
+	resp = make_response(redirect('/'))
+	resp.set_cookie('fbook_auth', '', expires=0)
+	resp.set_cookie('fbook_auth', '', expires=0)
+	
+	return resp
 
 @app.route("/newsfeed", methods=['GET','POST'])
 def newsfeed():
