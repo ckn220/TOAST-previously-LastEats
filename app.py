@@ -95,12 +95,13 @@ def logout():
 
 @app.route("/newsfeed", methods=['GET','POST'])
 def newsfeed():
-	if checkCookies(request, '/newsfeed') != None:
-		return checkCookies(request, '/newsfeed')
+	cookie_check = checkCookies(request, '/newsfeed')
+	if cookie_check != None:
+		return cookie_check
 	
 	x = models.User.objects(userid = request.cookies['userid']).count()
 	if x == 0:
-		addUser(graph, me)
+		addUser(request)
 	
 	user = models.User.objects(userid = request.cookies['userid']).first()
 	ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
@@ -108,11 +109,14 @@ def newsfeed():
 	for row in models.User.objects(userid__in = user.friends):
 		friends[row.userid] = row
 	
-	templateData = {'ideas': ideas,
+	templateData = {'user': user,
+				'ideas': ideas,
 				'friends': friends}
 	return render_template("newsFeed.html", **templateData)
 
-def addUser(graph, me):
+def addUser(request):
+	graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
+	me = graph.get_object('me')
 	f = graph.get_connections(me['id'], connection_name = 'friends?fields=installed')
 	friends = []
 	for id in f['data']:
@@ -133,8 +137,9 @@ def addUser(graph, me):
 
 @app.route("/last_eat_entry", methods=['GET'])
 def last_eat_entry():
-	if checkCookies(request, "/last_eat_entry") != None:
-		return checkCookies(request, "/last_eat_entry")
+	cookie_check = checkCookies(request, "/last_eat_entry")
+	if cookie_check != None:
+		return cookie_check
 	elif 'id' not in request.args:
 		return redirect('/newsfeed')
 	
@@ -153,8 +158,9 @@ def last_eat_entry():
 
 @app.route("/profile", methods=['GET','POST'])
 def profile():
-	if checkCookies(request, "/profile") != None:
-		return checkCookies(request, "/profile")
+	cookie_check = checkCookies(request, "/profile")
+	if cookie_check != None:
+		return cookie_check
 	
 	user = models.User.objects(userid = request.cookies['userid']).first()
 	ideas = models.Idea.objects(userid = user.userid, complete = 1).order_by('-timestamp')
@@ -165,8 +171,9 @@ def profile():
 
 @app.route("/my_friends", methods=['GET','POST'])
 def my_friends():
-	if checkCookies(request, '/my_friends') != None:
-		return checkCookies(request, '/my_friends')
+	cookie_check = checkCookies(request, '/my_friends')
+	if cookie_check != None:
+		return cookie_check
 	
 	user = models.User.objects(userid = request.cookies['userid']).first()
 	friends = models.User.objects(userid__in = user.friends)
@@ -176,8 +183,9 @@ def my_friends():
 
 @app.route("/friend_profile", methods=['GET','POST'])
 def friend_profile():
-	if checkCookies(request, '/friend_profile') != None:
-		return checkCookies(request, '/friend_profile')
+	cookie_check = checkCookies(request, '/friend_profile')
+	if cookie_check != None:
+		return cookie_check
 	
 	id = request.args['friendid']
 	friend = models.User.objects(userid = id).first()
@@ -190,6 +198,10 @@ def friend_profile():
 
 @app.route("/add_last_eats", methods=['GET','POST'])
 def add_last_eats():
+	cookie_check = checkCookies(request, '/add_last_eats')
+	if cookie_check != None:
+		return cookie_check
+	
 	if request.method == "POST":
 		city = request.form.get('city').split(',')[0]
 		checkCity = models.Idea.objects(userid = request.cookies['userid'], title = city, complete = 1).first()
@@ -221,6 +233,10 @@ def add_last_eats():
 
 @app.route("/add_last_eats_next", methods=['GET','POST'])
 def add_last_eats_next():
+	cookie_check = checkCookies(request, '/add_last_eats_next')
+	if cookie_check != None:
+		return cookie_check
+	
 	if request.method == "POST":
 		r = request
 		id = request.form.get('id')
@@ -238,6 +254,10 @@ def add_last_eats_next():
 
 @app.route("/add_last_eats_last", methods=['GET','POST'])
 def add_last_eats_last():
+	cookie_check = checkCookies(request, '/add_last_eats_last')
+	if cookie_check != None:
+		return cookie_check
+	
 	if request.method == "POST":
 		id = request.form.get('id')
 		idea = models.Idea.objects(id = id).first()
@@ -264,7 +284,8 @@ def get_instagram_photo(idea, lat, lng):
 	while i < len(data['response']['venues']):
 		url = 'https://api.instagram.com/v1/locations/search?foursquare_v2_id='+data['response']['venues'][i]['id']+'&access_token=' + INSTAGRAM_TOKEN
 		response = requests.request("GET",url)
-		data2 = json.loads(response.text)
+		text = response.text
+		data2 = json.loads(text)
 		if len(data2['data']) > 0:
 			for item in data2['data']:
 				instagram_ids.append(item['id'])
@@ -288,20 +309,20 @@ def get_instagram_photo(idea, lat, lng):
 	
 def checkCookies(request, path):
 	if 'fbook_auth' in request.cookies:
-		if 'userid' in request.cookies:
-			return None
-		else:
-			graph = facebook.GraphAPI(request.cookies['fbook_auth'])
-			try:
-				me = graph.get_object('me')
-				resp = make_response(redirect(path))
-				resp.set_cookie('userid', me['id'])
-				return resp
-			except Exception as e:
-				resp = make_response(redirect('/'))
-				resp.set_cookie('fbook_auth', '', expires=0)
-				return resp
-			
+		graph = facebook.GraphAPI(request.cookies['fbook_auth'])
+		try:
+			me = graph.get_object('me')
+			resp = make_response(redirect(path))
+			resp.set_cookie('fbook_auth_old', request.cookies['fbook_auth'])
+			resp.set_cookie('fbook_auth', '', expires=0)
+			resp.set_cookie('userid', me['id'])
+			return resp
+		except Exception as e:
+			resp = make_response(redirect('/'))
+			resp.set_cookie('fbook_auth', '', expires=0)
+			return resp
+		
+	if 'userid' in request.cookies:
 		return None
 	else:
 		return redirect('/')
