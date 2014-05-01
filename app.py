@@ -59,7 +59,7 @@ from flask import make_response
 def index():
 	#PHOTO upload route section
 	# get Idea form from models.py
-	photo_form = models.photo_form(request.form)
+	#photo_form = models.photo_form(request.form)
 	
 	# if form was submitted and it is valid...
 	if request.method == "POST":

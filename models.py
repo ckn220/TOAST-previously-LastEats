@@ -37,18 +37,17 @@ class Idea(Document):
 	slug = mongoengine.StringField()
 	instagram_id = mongoengine.StringField()
 	filename = mongoengine.StringField()
+	filenames = mongoengine.ListField()
 	
 	# Timestamp will record the date and time idea was created.
 	timestamp = mongoengine.DateTimeField(default = datetime.now(), required=True)
 
-photo_form = model_form(Idea)
+#photo_form = model_form(Idea)
 
 
 #new for photo upload
-class photo_upload_form(photo_form):
-
-    fileupload = FileField('Upload an image file', validators=[])
-
+#class photo_upload_form(photo_form):
+#    fileupload = FileField('Upload an image file', validators=[])
 
 class Friend(mongoengine.EmbeddedDocument):
 	#you have to push things into the array. Google how

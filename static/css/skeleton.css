@@ -8,6 +8,26 @@
 	margin: 0px auto;
 }
 
+.transition {
+	-webkit-transition: all .2s linear;
+	-moz-transition: all .2s linear;
+	transition: all .2s linear;
+}
+
+.photo_slider {
+	position: relative;
+	overflow: hidden;
+}
+.photo_slider img {
+	position: absolute;
+	left: 100%;
+	display: none;
+	z-index: 10;
+}
+.photo_slider img.active {
+	z-index: 11;
+}
+
 .ui-content {
 	padding:0;
 }
