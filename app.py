@@ -133,23 +133,42 @@ def addUser(request):
 		friendUser.save()
 	
 
-@app.route("/last_eat_entry", methods=['GET'])
+@app.route("/last_eat_entry", methods=['GET','POST'])
 def last_eat_entry():
 	cookie_check = checkCookies(request, "/last_eat_entry")
 	if cookie_check != None:
 		return cookie_check
-	elif 'id' not in request.args:
-		return redirect('/newsfeed')
-	
-	id = request.args['id']
-	idea = models.Idea.objects(id = id).first()
-	#idea.filename = get_instagram_photo(idea.instagram_id)
-	
-	user = models.User.objects(userid = idea.userid).first()
-	templateData = {'idea' : idea,
-				'user': user}
-	
-	return render_template("last_eat_entry.html", **templateData)
+		
+	if request.method == "POST":
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		id = request.form.get('id')
+		comment = request.form.get('comment')
+		c = models.Comment(userid = user.userid, ideaid = id, comment_string = comment)
+		c.save()
+		
+		templateData = {'comment': c, 'user': user}
+		return render_template("comment.html", **templateData)
+		
+	else:
+		if 'id' not in request.args:
+			return redirect('/newsfeed')
+		id = request.args['id']
+		idea = models.Idea.objects(id = id).first()
+		comments = models.Comment.objects(ideaid = str(idea.id))
+		friends = {}
+		for row in comments:
+			f = models.User.objects(userid = row.userid).first()
+			friends[f.userid] = f
+			
+		user = models.User.objects(userid = idea.userid).first()
+		templateData = {'current_user': request.cookies['userid'],
+					'idea' : idea,
+					'user': user,
+					'friends': friends,
+					'comments': comments}
+		
+		return render_template("last_eat_entry.html", **templateData)
+
 
 @app.route("/profile", methods=['GET','POST'])
 def profile():

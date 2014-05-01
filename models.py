@@ -12,10 +12,13 @@ from flask.ext.mongoengine.wtf.orm import validators
 from datetime import datetime
 
 
-class Comment(mongoengine.EmbeddedDocument):
-	name = StringField()
-	comment = StringField()
-	timestamp = DateTimeField(default=datetime.now())
+class Comment(Document):
+	
+	userid = mongoengine.StringField()
+	ideaid = mongoengine.StringField()
+	comment_string = mongoengine.StringField(max_length=140)
+	
+	timestamp = mongoengine.DateTimeField(default=datetime.now())
 	
 
 class Idea(Document):

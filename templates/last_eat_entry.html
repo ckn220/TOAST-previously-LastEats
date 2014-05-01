@@ -60,10 +60,26 @@
 		
 		<div class="guest_book">
 			<label for="textarea">Guest Book:</label>
-			<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ user.user_name }} about your experience"></textarea>
+			{% if current_user != idea.userid and current_user not in friends %}
+				<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ user.user_name }} about your experience"></textarea>
+			{% endif %}
 		</div><!-- /demo-html -->
 		
-		<div class="Guest_book_next"><a href="/douglast" data-role="button" style="background: #grey; color: black;">Add Your Comments</a></div>
+		{% if current_user != idea.userid and current_user not in friends %}
+		<div class="Guest_book_next"><a onclick='add_comment()' data-role="button" style="background: #grey; color: black;">Add Your Comments</a></div>
+		{% endif %}
+		
+		<div class='comments'>
+		{% for comment in comments -%}
+			<div class="user_choice_why_answered">
+				<img src="{{ friends[comment.userid].picture }}" height="75" width="75"> 
+				<ul>
+					<li><strong>{{ friends[comment.userid].user_name }} {{ friends[comment.userid].user_last_name }}</strong></li>
+					<li>{{ comment.comment_string }}</li>
+				</ul>
+			</div>
+		{%- endfor %}
+		</div>
 		
 		{% include "add_button.html" %}
 		
@@ -76,6 +92,26 @@
 
 {% block scripts %}
 	<script src="static/js/mapquest.js"></script>
+	
+	<script>
+	function add_comment(){
+		var comment = $('#textarea').val();
+		var id = '{{ idea.id }}';
+		
+		$.ajax({
+			url: 'last_eat_entry',
+			type: "post",
+			data: {'comment': comment,
+					'id': id},
+			success: function(value) {
+				console.log(value);
+				$('.comments').append(value);
+				$('#textarea').hide();
+				$('.Guest_book_next').hide();
+			}
+		});
+	}
+	</script>
 {% endblock %}
 
 
