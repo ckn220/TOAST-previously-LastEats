@@ -319,7 +319,8 @@
 	color: #fff;
 }
 
-@media (min-width: 60em) {
+/*
+@media (min-width: 6000em) {
 	.jqm-demos .jqm-header h2 {
 		padding: 1em 0 .7em;
 		margin: 0 1em 0 3%;
@@ -418,7 +419,7 @@
 	.jqm-search-panel {
 		width: 26em;
 		right: -26em;
-		z-index: 1003; /* Puts the panel on top of the dismiss modal which is not adjusted to custom width */
+		z-index: 1003;
 	}
 	.jqm-search-panel.ui-panel-animate.ui-panel-position-right {
 		-webkit-transform: translate3d(26em,0,0);
@@ -430,6 +431,8 @@
 		right: 17em;
 	}
 }
+*/
+
 @media (min-width: 35em) {
 	.jqm-block-content {
 		min-height: 18em;

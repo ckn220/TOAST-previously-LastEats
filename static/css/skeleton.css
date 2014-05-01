@@ -3,6 +3,11 @@
 	font-size: 55px;
 }
 
+.main-content {
+	max-width: 600px;
+	margin: 0px auto;
+}
+
 .ui-content {
 	padding:0;
 }
