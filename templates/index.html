@@ -25,9 +25,11 @@
 		<div id="fb-root"></div>
 		{% include "facebook.html" %}
 		
-		<a data-role="button" id="login" style="background: #479FFF; color: white;" onclick="FB.login()">Connect With Facebook</a>
-		<a href="/browse" data-role="button" style="background: #grey; color: black;">Browse Last Eats</a>
+		<div style='text-align:center;'><img id="login" onclick="FB.login()" src='static/img/fbook.jpg' /></div>
 		
+		<div style='text-align:center;'>
+			<a href="/browse" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats</a>
+		</div>
 		
 		{% include "sidebars.html" %}
 		

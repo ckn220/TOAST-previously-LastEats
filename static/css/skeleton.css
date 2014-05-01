@@ -28,6 +28,15 @@
 	z-index: 11;
 }
 
+#login {
+	display: inline-block;
+	height: 50px;
+	margin: 0px auto;
+}
+#login:hover {
+	cursor: pointer;
+}
+
 .ui-content {
 	padding:0;
 }

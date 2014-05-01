@@ -11,9 +11,11 @@
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		
 		<div class="full_frame_text_box" data-role="fieldcontain">
-		<label for="textarea"></label>
-		<textarea cols="40" rows="8" name="textarea" id='idea' class="foo" placeholder="What makes it so special to you?"></textarea>
-		<input type="hidden" id="id" name="id" value="{{ id }}"/>
+			<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px 30px;background:#faa;'></div>
+			<label for="textarea"></label>
+			<textarea onKeyDown="limitText(this);" onKeyUp="limitText(this);" cols="40" 
+				rows="8" name="textarea" id='idea' class="foo" placeholder="What makes it so special to you?"></textarea>
+			<input type="hidden" id="id" name="id" value="{{ id }}"/>
 		</div>
 		
 		<div class="form_next"><a onclick='moveOn()' data-role="button" style="background: #grey; color: black;">And What Would You Order?</a></div>
@@ -45,15 +47,27 @@ function moveOn(){
 	var idea = $('#idea').val();
 	var id = $('#id').val();
 	
-	$.ajax({
-		url: 'add_last_eats_next',
-		type: "post",
-		data: {'idea': idea, 'id': id},
-		success: function(value) {
-			console.log(value);
-			window.location = "/add_last_eats_last?id="+value.id;
-		}
-	});
+	if (idea.length == 0){
+		$('.error_message').html('Please enter your description');
+		$('.error_message').show();
+	}
+	else {
+		$.ajax({
+			url: 'add_last_eats_next',
+			type: "post",
+			data: {'idea': idea, 'id': id},
+			success: function(value) {
+				console.log(value);
+				window.location = "/add_last_eats_last?id="+value.id;
+			}
+		});
+	}
+}
+
+function limitText(limitField) {
+	if (limitField.value.length > 140) {
+		limitField.value = limitField.value.substring(0, 140);
+	}
 }
 
 </script>

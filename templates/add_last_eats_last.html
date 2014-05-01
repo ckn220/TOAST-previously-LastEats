@@ -13,8 +13,10 @@
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		
 		<div class="full_frame_text_box" data-role="fieldcontain">
+			<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px 30px;background:#faa;'></div>
 			<label for="textarea"></label>
-			<textarea cols="40" rows="8" name="textarea" id='order' class="foo"  placeholder="Tell us about the food!"></textarea>
+			<textarea onKeyDown="limitText(this);" onKeyUp="limitText(this);"
+				cols="40" rows="8" name="textarea" id='order' class="foo"  placeholder="Tell us about the food!"></textarea>
 			<input type="hidden" id="id" name="id" value="{{ id }}"/>
 		</div>
 		
@@ -39,14 +41,26 @@ function moveOn(){
 	var order = $('#order').val();
 	var id = $('#id').val();
 	
-	$.ajax({
-		url: 'add_last_eats_last',
-		type: "post",
-		data: {'order': order, 'id': id},
-		success: function(value) {
-			window.location = "/profile";
-		}
-	});
+	if (order.length == 0){
+		$('.error_message').html('Please enter your description');
+		$('.error_message').show();
+	}
+	else {
+		$.ajax({
+			url: 'add_last_eats_last',
+			type: "post",
+			data: {'order': order, 'id': id},
+			success: function(value) {
+				window.location = "/profile";
+			}
+		});
+	}
+}
+
+function limitText(limitField) {
+	if (limitField.value.length > 140) {
+		limitField.value = limitField.value.substring(0, 140);
+	}
 }
 
 </script>
