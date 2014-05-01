@@ -1,0 +1,14 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<script>
+	$.cookie("fbook_auth", null, { expires: 0, path: '/' });
+	$.cookie("userid", null, { expires: 0, path: '/' });
+	window.location = '/';
+</script>
+
+{% endblock %} 

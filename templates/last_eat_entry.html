@@ -58,32 +58,36 @@
 		</div>
 		</br>
 		
-		<div class="guest_book">
-			<label for="textarea">Guest Book:</label>
+		{% if current_user != None %}
+			<div class="guest_book">
+				<label for="textarea">Guest Book:</label>
+				{% if current_user != idea.userid and current_user not in friends %}
+					<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ user.user_name }} about your experience"></textarea>
+				{% endif %}
+			</div><!-- /demo-html -->
+			
 			{% if current_user != idea.userid and current_user not in friends %}
-				<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ user.user_name }} about your experience"></textarea>
+			<div class="Guest_book_next"><a onclick='add_comment()' data-role="button" style="background: #grey; color: black;">Add Your Comments</a></div>
 			{% endif %}
-		</div><!-- /demo-html -->
+			
+			<div class='comments'>
+			{% for comment in comments -%}
+				<div class="user_choice_why_answered">
+					<img src="{{ friends[comment.userid].picture }}" height="75" width="75"> 
+					<ul>
+						<li><strong>{{ friends[comment.userid].user_name }} {{ friends[comment.userid].user_last_name }}</strong></li>
+						<li>{{ comment.comment_string }}</li>
+					</ul>
+				</div>
+			{%- endfor %}
+			</div>
 		
-		{% if current_user != idea.userid and current_user not in friends %}
-		<div class="Guest_book_next"><a onclick='add_comment()' data-role="button" style="background: #grey; color: black;">Add Your Comments</a></div>
+			{% include "add_button.html" %}
+			{% include "sidebars.html" %}
+		
 		{% endif %}
 		
-		<div class='comments'>
-		{% for comment in comments -%}
-			<div class="user_choice_why_answered">
-				<img src="{{ friends[comment.userid].picture }}" height="75" width="75"> 
-				<ul>
-					<li><strong>{{ friends[comment.userid].user_name }} {{ friends[comment.userid].user_last_name }}</strong></li>
-					<li>{{ comment.comment_string }}</li>
-				</ul>
-			</div>
-		{%- endfor %}
-		</div>
 		
-		{% include "add_button.html" %}
-		
-		{% include "sidebars.html" %}
 
 	</div>
 </div><!-- /page -->

@@ -86,11 +86,8 @@ def index():
 
 @app.route("/logout", methods=['GET','POST'])
 def logout():
-	resp = make_response(redirect('/'))
-	resp.set_cookie('fbook_auth', '', expires=0)
-	resp.set_cookie('fbook_auth', '', expires=0)
-	
-	return resp
+	templateData = {}
+	return render_template("logout.html", **templateData)
 
 @app.route("/newsfeed", methods=['GET','POST'])
 def newsfeed():
@@ -113,6 +110,22 @@ def newsfeed():
 				'friends': friends}
 	return render_template("newsFeed.html", **templateData)
 
+@app.route("/browse", methods=['GET'])
+def browse():
+	ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:15]
+	friendList = []
+	for row in ideas:
+		friendList.append(row.userid)
+	
+	friends = {}
+	for row in models.User.objects(userid__in = friendList):
+		friends[row.userid] = row
+		
+	templateData = {'ideas': ideas,
+				'friends': friends}
+	return render_template("browse.html", **templateData)
+	
+	
 def addUser(request):
 	graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
 	me = graph.get_object('me')
@@ -135,11 +148,12 @@ def addUser(request):
 
 @app.route("/last_eat_entry", methods=['GET','POST'])
 def last_eat_entry():
-	cookie_check = checkCookies(request, "/last_eat_entry")
-	if cookie_check != None:
-		return cookie_check
 		
 	if request.method == "POST":
+		cookie_check = checkCookies(request, "/last_eat_entry")
+		if cookie_check != None:
+			return cookie_check
+		
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		id = request.form.get('id')
 		comment = request.form.get('comment')
@@ -151,17 +165,26 @@ def last_eat_entry():
 		
 	else:
 		if 'id' not in request.args:
-			return redirect('/newsfeed')
+			if 'userid' in request.cookies:
+				return redirect('/newsfeed')
+			else:
+				return redirect('/browse')
+			
 		id = request.args['id']
-		idea = models.Idea.objects(id = id).first()
+		idea = models.Idea.objects(id = id, complete = 1).first()
 		comments = models.Comment.objects(ideaid = str(idea.id))
 		friends = {}
 		for row in comments:
 			f = models.User.objects(userid = row.userid).first()
 			friends[f.userid] = f
-			
+		
+		if 'userid' in request.cookies:
+			current_user = request.cookies['userid']
+		else:
+			current_user = None
+		
 		user = models.User.objects(userid = idea.userid).first()
-		templateData = {'current_user': request.cookies['userid'],
+		templateData = {'current_user': current_user,
 					'idea' : idea,
 					'user': user,
 					'friends': friends,

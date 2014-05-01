@@ -12,25 +12,22 @@
 		
 		</br>
 		
-		<div class="user_photo"><img src="{{ user.picture }}" height="125" width="125"></div>
+		<div class="user_photo"><img src="static/assets/img/new_user.png" height="125" width="125"></div>
 		
 		<div class="user_restaurant">
-			<strong><p>Welcome {{ user.user_name }}!</p></strong>
+			<strong><p>Welcome!</p></strong>
 		</div><!-- /demo-html -->
 		
 		{% for item in ideas -%}
 		<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
 			<div class="user_choice_why">
 				<img src="{{ friends[item.userid].picture }}" height="85" width="85">
-				<h2>{{ friends[item.userid].user_name }} just made <strong>{{ item.restaurant_name }}</strong> the Last Eats in {{ item.title }}</h2>
+				<h2>{{ friends[item.userid].user_name }} just made <strong>{{ item.restaurant_name }}</strong> his Last Eats in {{ item.title }}</h2>
 			</div>
 			<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
 		</a>
 		{%- endfor %}
 		
-		{% include "add_button.html" %}
-		
-		{% include "sidebars.html" %}
 	</div>
 	
 </div><!-- /page -->
