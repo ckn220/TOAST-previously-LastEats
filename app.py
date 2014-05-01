@@ -172,6 +172,9 @@ def last_eat_entry():
 			
 		id = request.args['id']
 		idea = models.Idea.objects(id = id, complete = 1).first()
+		idea = get_instagram_photo(idea)
+		idea.save()
+		
 		comments = models.Comment.objects(ideaid = str(idea.id))
 		friends = {}
 		for row in comments:
@@ -252,7 +255,7 @@ def add_last_eats():
 			idea = models.Idea(title = city, restaurant_name = request.form.get('addressName'),
 							latitude = lat, longitude = lng, cost = request.form.get('cost'), userid = request.cookies['userid'])
 			
-			idea = get_instagram_photo(idea, lat, lng)
+			idea = get_instagram_id(idea, lat, lng)
 			
 			idea.save()
 			if not idea.instagram_id:
@@ -311,7 +314,7 @@ def add_last_eats_last():
 		return render_template("add_last_eats_last.html", **templateData)
 
 
-def get_instagram_photo(idea, lat, lng):
+def get_instagram_id(idea, lat, lng):
 	url = 'https://api.foursquare.com/v2/venues/search?ll='+lat+','+lng+'&query='+idea.restaurant_name+'&client_id='+FOURSQUARE_CLIENT_ID+'&client_secret='+FOURSQUARE_CLIENT_SECRET+'&v=20120609'
 	response = requests.request("GET",url)
 	data = json.loads(response.text)
@@ -331,19 +334,26 @@ def get_instagram_photo(idea, lat, lng):
 	if len(instagram_ids) > 0:
 		print 'INSTAGRAM IDS FOR ' +idea.restaurant_name + ' ' + str(instagram_ids)
 		for row in instagram_ids:
-			url = 'https://api.instagram.com/v1/locations/'+ row +'/media/recent?access_token=' + INSTAGRAM_TOKEN
-			response = requests.request("GET",url)
-			data = json.loads(response.text)
-			if len(data['data']) > 0:
-				idea.instagram_id = row
-				idea.filename = data['data'][0]['images']['standard_resolution']['url']
-				idea.filenames = []
-				for row in data['data']:
-					idea.filenames.append(row['images']['standard_resolution']['url'])
+			idea.filenames = []
+			idea.instagram_id = row
+			idea = get_instagram_photo(idea)
+			if len(idea.filenames) > 0:
 				break
-	
+			
 	return idea
 	
+def get_instagram_photo(idea):
+	url = 'https://api.instagram.com/v1/locations/'+ idea.instagram_id +'/media/recent?access_token=' + INSTAGRAM_TOKEN
+	response = requests.request("GET",url)
+	data = json.loads(response.text)
+	if len(data['data']) > 0:
+		idea.filename = data['data'][0]['images']['standard_resolution']['url']
+		idea.filenames = []
+		for row in data['data']:
+			idea.filenames.append(row['images']['standard_resolution']['url'])
+		
+	return idea
+
 def checkCookies(request, path):
 	if 'fbook_auth' in request.cookies:
 		graph = facebook.GraphAPI(request.cookies['fbook_auth'])

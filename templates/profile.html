@@ -19,7 +19,7 @@
 		
 		{% for item in ideas -%}
 		<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
-			<strong>{{ item.restaurant_name }} in {{ item.title }}</strong>
+			<div style='padding-bottom:10px;'><strong>{{ item.restaurant_name }} in {{ item.title }}</strong></div>
 			<div class="my_last_eats"></div>
 			
 			<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
