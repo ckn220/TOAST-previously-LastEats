@@ -214,18 +214,26 @@ def last_eat_entry():
 		return render_template("last_eat_entry.html", **templateData)
 
 
-@app.route("/profile", methods=['GET','POST'])
+@app.route("/profile", methods=['GET','DELETE'])
 def profile():
-	cookie_check = checkCookies(request, "/profile")
-	if cookie_check != None:
-		return cookie_check
-	
-	user = models.User.objects(userid = request.cookies['userid']).first()
-	ideas = models.Idea.objects(userid = user.userid, complete = 1).order_by('-timestamp')
-	
-	templateData = {'user': user,
-					'ideas': ideas}
-	return render_template("profile.html", **templateData)
+	#cookie_check = checkCookies(request, "/profile")
+	#if cookie_check != None:
+#		return cookie_check
+
+	if request.method == "DELETE":
+		id = request.form.get('id')
+		idea = models.Idea.objects(id = id)
+		idea.delete()
+		
+		return ''
+		
+	else:
+		user = models.User.objects(userid = '1084381295').first()
+		ideas = models.Idea.objects(userid = user.userid, complete = 1).order_by('-timestamp')
+		
+		templateData = {'user': user,
+						'ideas': ideas}
+		return render_template("profile.html", **templateData)
 
 @app.route("/my_friends", methods=['GET','POST'])
 def my_friends():

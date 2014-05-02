@@ -37,6 +37,30 @@
 	cursor: pointer;
 }
 
+.entry {
+	position: relative;
+}
+.entry:hover .delete-entry {
+	left: 0px;
+}
+.entry .delete-entry {
+	position: absolute;
+	left: -150px;
+	top: 0px;
+	background: #d44;
+	border: 2px #999 solid;
+	color: white;
+	height: 60px;
+	width: 60px;
+	font-size: 3em;
+	border-radius: 75px;
+	text-align:center;
+	
+}
+.entry .delete-entry:hover {
+	cursor: pointer;
+}
+
 .ui-content {
 	padding:0;
 }

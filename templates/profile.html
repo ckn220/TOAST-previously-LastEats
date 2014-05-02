@@ -18,12 +18,15 @@
 		</div><!-- /demo-html -->
 		
 		{% for item in ideas -%}
-		<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
-			<div style='padding-bottom:10px;'><strong>{{ item.restaurant_name }} in {{ item.title }}</strong></div>
-			<div class="my_last_eats"></div>
-			
-			<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
-		</a>
+		<div class='entry'>
+			<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
+				<div style='padding-bottom:10px;'><strong>{{ item.restaurant_name }} in {{ item.title }}</strong></div>
+				<div class="my_last_eats"></div>
+				
+				<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
+			</a>
+			<div class='delete-entry transition' onclick='delete_entry(this, "{{ item.id }}")' >X</div>
+		</div>
 		{%- endfor %}
 		
 		{% include "add_button.html" %}
@@ -34,4 +37,39 @@
 </div><!-- /page -->
 
 {% endblock %}
+
+{% block scripts %} 
+<script>
+
+$(document).on('pageinit', function(event){
+	$(".entry").swiperight(function() {
+		show_delete(this);
+	});
+	$(".entry").swipeleft(function() {
+		hide_delete(this);
+	});
+});
+
+function show_delete(thisObject){
+	$(thisObject).children('.delete-entry').css('left','0px');
+}
+function hide_delete(thisObject){
+	$(thisObject).children('.delete-entry').css('left','-150px');
+}
+
+function delete_entry(thisObject, id){
+	$.ajax({
+		url: 'profile',
+		type: "delete",
+		data: {'id': id},
+		success: function(value) {
+			$(thisObject).parent().remove();
+		}
+	});
+}
+
+</script>
+
+{% endblock %}
+
 
