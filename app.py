@@ -97,28 +97,7 @@ def newsfeed():
 		return cookie_check
 	
 	if request.method == "POST":
-		lat = request.form.get('lat')
-		lng = request.form.get('lng')
-		user = models.User.objects(userid = request.cookies['userid']).first()
-		ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
-		idea_list = []
-		if lat != None:
-			for row in ideas:
-				row.distance = math.sqrt(math.pow((float(lat) - float(row.latitude))*69,2) + math.pow((float(lng) - float(row.longitude))*50, 2))
-				idea_list.append(row)
-			idea_list.sort(key=lambda x: x.distance)
-		else:
-			for row in ideas:
-				idea_list.append(row)
-		friends = {}
-		for row in models.User.objects(userid__in = user.friends):
-			friends[row.userid] = row
-		
-		templateData = {'user': user,
-					'ideas': idea_list,
-					'friends': friends}
-		return render_template("newsFeed_content.html", **templateData)
-		
+		return get_newsfeed(request)
 	else:
 		x = models.User.objects(userid = request.cookies['userid']).count()
 		if x == 0:
@@ -128,21 +107,48 @@ def newsfeed():
 		templateData = {'user': user}
 		return render_template("newsFeed.html", **templateData)
 
-@app.route("/browse", methods=['GET'])
+@app.route("/browse", methods=['GET','POST'])
 def browse():
-	ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:15]
-	friendList = []
-	for row in ideas:
-		friendList.append(row.userid)
 	
-	friends = {}
-	for row in models.User.objects(userid__in = friendList):
-		friends[row.userid] = row
-		
-	templateData = {'ideas': ideas,
+	if request.method == "POST":
+		return get_newsfeed(request)
+	else:
+		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:15]
+			
+		templateData = {}
+		return render_template("browse.html", **templateData)
+
+def get_newsfeed(request):
+	lat = request.form.get('lat')
+	lng = request.form.get('lng')
+	if 'userid' in request.cookies:
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
+		friends = {}
+		for row in models.User.objects(userid__in = user.friends):
+			friends[row.userid] = row
+	else:
+		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:15]
+		friendList = []
+		for row in ideas:
+			friendList.append(row.userid)
+		friends = {}
+		for row in models.User.objects(userid__in = friendList):
+			friends[row.userid] = row
+	
+	idea_list = []
+	if lat != None:
+		for row in ideas:
+			row.distance = math.sqrt(math.pow((float(lat) - float(row.latitude))*69,2) + math.pow((float(lng) - float(row.longitude))*50, 2))
+			idea_list.append(row)
+		idea_list.sort(key=lambda x: x.distance)
+	else:
+		for row in ideas:
+			idea_list.append(row)
+	
+	templateData = {'ideas': idea_list,
 				'friends': friends}
-	return render_template("browse.html", **templateData)
-	
+	return render_template("newsFeed_content.html", **templateData)
 	
 def addUser(request):
 	graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
@@ -228,7 +234,7 @@ def profile():
 		return ''
 		
 	else:
-		user = models.User.objects(userid = '1084381295').first()
+		user = models.User.objects(userid = request.cookies['userid']).first()
 		ideas = models.Idea.objects(userid = user.userid, complete = 1).order_by('-timestamp')
 		
 		templateData = {'user': user,

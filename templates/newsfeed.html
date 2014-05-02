@@ -31,45 +31,44 @@
 {% endblock %}
 
 {% block scripts %}
-
 <script>
-$(document).ready(function(){
-	// Try W3C Geolocation (Preferred)
-	if(navigator.geolocation) {
-		browserSupportFlag = true;
-		navigator.geolocation.getCurrentPosition(function(position) {
-			initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-			get_newsfeed(initialLocation.k, initialLocation.A);
-			
-		}, function() { handleNoGeolocation(browserSupportFlag); });
-	}
-	// Browser doesn't support Geolocation
-	else {
-		browserSupportFlag = false;
-		handleNoGeolocation(browserSupportFlag);
-	}
-});
-
-function handleNoGeolocation(errorFlag) {
-	if (errorFlag) {
-		console.log('Error: The Geolocation service failed.');}
-	else {
-		console.log('Error: Your browser doesn\'t support geolocation.');}
-		
-	get_newsfeed();
-}
-
-function get_newsfeed(lat, lng){
-	$.ajax({
-		url: 'newsfeed',
-		type: "post",
-		data: {'lat': lat, 'lng': lng},
-		success: function(value) {
-			$('.newsfeed').html('');
-			$('.newsfeed').append(value);
+	$(document).ready(function(){
+		// Try W3C Geolocation (Preferred)
+		if(navigator.geolocation) {
+			browserSupportFlag = true;
+			navigator.geolocation.getCurrentPosition(function(position) {
+				initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+				get_newsfeed(initialLocation.k, initialLocation.A);
+				
+			}, function() { handleNoGeolocation(browserSupportFlag); });
+		}
+		// Browser doesn't support Geolocation
+		else {
+			browserSupportFlag = false;
+			handleNoGeolocation(browserSupportFlag);
 		}
 	});
-}
+	
+	function handleNoGeolocation(errorFlag) {
+		if (errorFlag) {
+			console.log('Error: The Geolocation service failed.');}
+		else {
+			console.log('Error: Your browser doesn\'t support geolocation.');}
+			
+		get_newsfeed();
+	}
+	
+	function get_newsfeed(lat, lng){
+		$.ajax({
+			url: 'newsfeed',
+			type: "post",
+			data: {'lat': lat, 'lng': lng},
+			success: function(value) {
+				$('.newsfeed').html('');
+				$('.newsfeed').append(value);
+			}
+		});
+	}
 </script>
 {% endblock %}
 

@@ -17,6 +17,10 @@
 			<strong><p>Your Last Eats</p></strong>
 		</div><!-- /demo-html -->
 		
+		{% if ideas|length == 0 %}
+			<p>You don't have any Last Eats yet! Add one <a href='/add_last_eats'><b>here</b></a>.</p>
+		{% endif %}
+		
 		{% for item in ideas -%}
 		<div class='entry'>
 			<a href="/last_eat_entry?id={{ item.id }}" data-role="button">

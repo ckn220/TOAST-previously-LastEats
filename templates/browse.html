@@ -18,18 +18,53 @@
 			<strong><p>Welcome!</p></strong>
 		</div><!-- /demo-html -->
 		
-		{% for item in ideas -%}
-		<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
-			<div class="user_choice_why">
-				<img src="{{ friends[item.userid].picture }}" height="85" width="85">
-				<h2>{{ friends[item.userid].user_name }} just made <strong>{{ item.restaurant_name }}</strong> his Last Eats in {{ item.title }}</h2>
-			</div>
-			<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
-		</a>
-		{%- endfor %}
+		<div class='newsfeed'>
+			<div style='text-align:center;'>Loading . . . .</div>
+		</div>
 		
 	</div>
 	
 </div><!-- /page -->
 {% endblock %}
 
+{% block scripts %}
+<script>
+	$(document).ready(function(){
+		// Try W3C Geolocation (Preferred)
+		if(navigator.geolocation) {
+			browserSupportFlag = true;
+			navigator.geolocation.getCurrentPosition(function(position) {
+				initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+				get_newsfeed(initialLocation.k, initialLocation.A);
+				
+			}, function() { handleNoGeolocation(browserSupportFlag); });
+		}
+		// Browser doesn't support Geolocation
+		else {
+			browserSupportFlag = false;
+			handleNoGeolocation(browserSupportFlag);
+		}
+	});
+	
+	function handleNoGeolocation(errorFlag) {
+		if (errorFlag) {
+			console.log('Error: The Geolocation service failed.');}
+		else {
+			console.log('Error: Your browser doesn\'t support geolocation.');}
+			
+		get_newsfeed();
+	}
+	
+	function get_newsfeed(lat, lng){
+		$.ajax({
+			url: 'browse',
+			type: "post",
+			data: {'lat': lat, 'lng': lng},
+			success: function(value) {
+				$('.newsfeed').html('');
+				$('.newsfeed').append(value);
+			}
+		});
+	}
+</script>
+{% endblock %}
