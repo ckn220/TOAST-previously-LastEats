@@ -5,6 +5,25 @@
 
 {% block body %}
 
+<script>
+function startSlider(){
+	if ($('.photo_slider img').first().height() > 0){
+		$('.photo_slider').height($('.photo_slider img').first().height());
+		$('.photo_slider img').first().show();
+		$('.photo_slider').addClass('transition');
+		$('.photo_slider img').first().addClass('active');
+	}
+	else {
+		delayStart();
+	}
+}
+function delayStart(){
+	setTimeout(function(){
+		startSlider();
+	},10);
+}
+</script>
+
 <script src="static/js/mapquest.js"></script>
 
 <div data-role="page" class="jqm-demos" data-quicklinks="false">
@@ -12,11 +31,18 @@
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		
-		<div class="full_frame_text_box" data-role="fieldcontain">
-			<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px 30px;background:#faa;'></div>
-			<label for="textarea"></label>
-			<textarea onKeyDown="limitText(this);" onKeyUp="limitText(this);"
-				cols="40" rows="8" name="textarea" id='order' class="foo"  placeholder="Tell us about the food!"></textarea>
+		<p><b>Swipe</b> or <b>click</b> to find a photo you love!</p> 
+		<br>
+		<div class="restaurant_photo">
+			<div class='photo_slider transition'>
+			{% for img in idea.filenames %}
+				{% if loop.index == 1 %}
+					<img class='transition' src="{{ img }}" style='left:0%;' onload='startSlider();' />
+				{% else %}
+					<img class='transition' src="{{ img }}" />
+				{% endif %}
+			{% endfor %}
+			</div>
 			<input type="hidden" id="id" name="id" value="{{ id }}"/>
 		</div>
 		
@@ -38,29 +64,47 @@
 
 function moveOn(){
 	
-	var order = $('#order').val();
+	var image = $('.photo_slider img.active').attr('src');
 	var id = $('#id').val();
-	
-	if (order.length == 0){
-		$('.error_message').html('Please enter your description');
-		$('.error_message').show();
-	}
-	else {
-		$.ajax({
-			url: 'add_last_eats_last',
-			type: "post",
-			data: {'order': order, 'id': id},
-			success: function(value) {
-				window.location = "/profile";
-			}
-		});
-	}
+
+	$.ajax({
+		url: 'add_last_eats_last',
+		type: "post",
+		data: {'image': image, 'id': id},
+		success: function(value) {
+			window.location = "/profile";
+		}
+	});
 }
 
-function limitText(limitField) {
-	if (limitField.value.length > 140) {
-		limitField.value = limitField.value.substring(0, 140);
-	}
+$(document).on('pageinit', function(event){
+	$(".photo_slider").swipeleft(function() {
+		swipePhoto();
+	});
+	$(".photo_slider").click(function() {
+		swipePhoto();
+	});
+	$('.photo_slider img').on('dragstart', function(event) { event.preventDefault(); });
+});
+
+function swipePhoto(){
+	var old = $('.photo_slider img.active')
+	old.css('left', '-100%');
+	old.removeClass('active');
+	var next = old.next();
+	if (next.length == 0){
+		next = $('.photo_slider img').first();}
+	next.show();
+	setTimeout(function(){
+		next.css('left','0%');
+		next.addClass('active');
+		$('.photo_slider').height(next.height());
+		setTimeout(function(){
+			old.css('left','100%');
+			old.hide();
+		},200);
+	}, 10);
+	
 }
 
 </script>

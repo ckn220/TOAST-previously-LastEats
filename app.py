@@ -190,7 +190,7 @@ def last_eat_entry():
 			
 		id = request.args['id']
 		idea = models.Idea.objects(id = id, complete = 1).first()
-		idea = get_instagram_photo(idea)
+		#idea = get_instagram_photo(idea)
 		idea.save()
 		
 		comments = models.Comment.objects(ideaid = str(idea.id))
@@ -318,6 +318,26 @@ def add_last_eats_next():
 		templateData = {'id':id}
 		return render_template("add_last_eats_next.html", **templateData)
 
+@app.route("/add_last_eats_next_next", methods=['GET','POST'])
+def add_last_eats_next_next():
+	cookie_check = checkCookies(request, '/add_last_eats_next_next')
+	if cookie_check != None:
+		return cookie_check
+	
+	if request.method == "POST":
+		id = request.form.get('id')
+		idea = models.Idea.objects(id = id).first()
+		idea.order = request.form.get('order')
+		idea.save()
+		
+		d = {'id' : str(idea.id)}
+		return jsonify(**d)
+	
+	else:
+		id = request.args['id']
+		templateData = {'id':id}
+		return render_template("add_last_eats_next_next.html", **templateData)
+	
 @app.route("/add_last_eats_last", methods=['GET','POST'])
 def add_last_eats_last():
 	cookie_check = checkCookies(request, '/add_last_eats_last')
@@ -327,7 +347,7 @@ def add_last_eats_last():
 	if request.method == "POST":
 		id = request.form.get('id')
 		idea = models.Idea.objects(id = id).first()
-		idea.order = request.form.get('order')
+		idea.filename = request.form.get('image')
 		idea.complete = 1
 		idea.save()
 		
@@ -336,7 +356,9 @@ def add_last_eats_last():
 	
 	else:
 		id = request.args['id']
-		templateData = {'id':id}
+		idea = models.Idea.objects(id = id).first()
+		templateData = {'id':id,
+						'idea': idea}
 		return render_template("add_last_eats_last.html", **templateData)
 
 
