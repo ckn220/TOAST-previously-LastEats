@@ -34,21 +34,6 @@ function initialize() {
 		};
 		var autocomplete2 = new google.maps.places.Autocomplete(input2, options);
 	}
-	
-	// load markers if available
-	//if (loadMarkers) {
-	//	console.log("HERE!!!");
-	//	loadMarkers();
-	//}
-}
-
-function handleNoGeolocation(errorFlag) {
-	if (errorFlag) {
-		var content = 'Error: The Geolocation service failed.';
-	}
-	else {
-		var content = 'Error: Your browser doesn\'t support geolocation.';
-	}
 }
 //End of new stuff
 

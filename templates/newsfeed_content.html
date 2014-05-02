@@ -1,0 +1,10 @@
+
+{% for item in ideas -%}
+<a href="/last_eat_entry?id={{ item.id }}" data-role="button" class="ui-link ui-btn ui-shadow ui-corner-all" role="button">
+	<div class="user_choice_why">
+		<img src="{{ friends[item.userid].picture }}" height="85" width="85">
+		<h2>{{ friends[item.userid].user_name }} just made <strong>{{ item.restaurant_name }}</strong> the Last Eats in {{ item.title }}</h2>
+	</div>
+	<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
+</a>
+{%- endfor %}

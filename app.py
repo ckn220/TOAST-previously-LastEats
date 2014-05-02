@@ -1,6 +1,7 @@
 import os
 import datetime
 import re
+import math
 
 from flask import jsonify
 from flask import Flask, request, render_template, redirect, abort, session, flash
@@ -95,20 +96,37 @@ def newsfeed():
 	if cookie_check != None:
 		return cookie_check
 	
-	x = models.User.objects(userid = request.cookies['userid']).count()
-	if x == 0:
-		addUser(request)
-	
-	user = models.User.objects(userid = request.cookies['userid']).first()
-	ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
-	friends = {}
-	for row in models.User.objects(userid__in = user.friends):
-		friends[row.userid] = row
-	
-	templateData = {'user': user,
-				'ideas': ideas,
-				'friends': friends}
-	return render_template("newsFeed.html", **templateData)
+	if request.method == "POST":
+		lat = request.form.get('lat')
+		lng = request.form.get('lng')
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
+		idea_list = []
+		if lat != None:
+			for row in ideas:
+				row.distance = math.sqrt(math.pow((float(lat) - float(row.latitude))*69,2) + math.pow((float(lng) - float(row.longitude))*50, 2))
+				idea_list.append(row)
+			idea_list.sort(key=lambda x: x.distance)
+		else:
+			for row in ideas:
+				idea_list.append(row)
+		friends = {}
+		for row in models.User.objects(userid__in = user.friends):
+			friends[row.userid] = row
+		
+		templateData = {'user': user,
+					'ideas': idea_list,
+					'friends': friends}
+		return render_template("newsFeed_content.html", **templateData)
+		
+	else:
+		x = models.User.objects(userid = request.cookies['userid']).count()
+		if x == 0:
+			addUser(request)
+		
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		templateData = {'user': user}
+		return render_template("newsFeed.html", **templateData)
 
 @app.route("/browse", methods=['GET'])
 def browse():
