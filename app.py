@@ -98,7 +98,7 @@ def newsfeed():
 		return cookie_check
 	
 	if request.method == "POST":
-		return get_newsfeed(request)
+		return get_newsfeed(request, 'newsfeed')
 	else:
 		x = models.User.objects(userid = request.cookies['userid']).count()
 		if x == 0:
@@ -112,17 +112,18 @@ def newsfeed():
 def browse():
 	
 	if request.method == "POST":
-		return get_newsfeed(request)
+		return get_newsfeed(request, 'browse')
 	else:
 		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:15]
 			
 		templateData = {}
 		return render_template("browse.html", **templateData)
 
-def get_newsfeed(request):
+def get_newsfeed(request, path):
 	lat = request.form.get('lat')
 	lng = request.form.get('lng')
-	if 'userid' in request.cookies:
+	
+	if path == 'newsfeed':
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
 		friends = {}

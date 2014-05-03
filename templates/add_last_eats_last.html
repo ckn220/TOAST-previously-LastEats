@@ -31,20 +31,27 @@ function delayStart(){
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		
-		<p><b>Swipe</b> or <b>click</b> to find a photo you love!</p> 
-		<br>
-		<div class="restaurant_photo">
-			<div class='photo_slider transition'>
-			{% for img in idea.filenames %}
-				{% if loop.index == 1 %}
-					<img class='transition' src="{{ img }}" style='left:0%;' onload='startSlider();' />
-				{% else %}
-					<img class='transition' src="{{ img }}" />
-				{% endif %}
-			{% endfor %}
+		{% if ideas|length == 0 %}
+			<p>No images were found for this location :(</p>
+		{% else %}
+			
+			<p><b>Swipe</b> or <b>click</b> to find a photo you love!</p> 
+			<br>
+			<div class="restaurant_photo">
+				<div class='photo_slider transition'>
+				
+				{% for img in idea.filenames %}
+					{% if loop.index == 1 %}
+						<img class='transition' src="{{ img }}" style='left:0%;' onload='startSlider();' />
+					{% else %}
+						<img class='transition' src="{{ img }}" />
+					{% endif %}
+				{% endfor %}
+				</div>
+				<input type="hidden" id="id" name="id" value="{{ id }}"/>
 			</div>
-			<input type="hidden" id="id" name="id" value="{{ id }}"/>
-		</div>
+		
+		{% endif %}
 		
 		<div class="form_next"><a onclick='moveOn()' data-role="button" style="background: #grey; color: black;">Submit Last Eats</a></div>
 		

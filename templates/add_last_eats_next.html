@@ -16,6 +16,7 @@
 			<textarea onKeyDown="limitText(this);" onKeyUp="limitText(this);" cols="40" 
 				rows="8" name="textarea" id='idea' class="foo" placeholder="What makes it so special to you?"></textarea>
 			<input type="hidden" id="id" name="id" value="{{ id }}"/>
+			<p>Characters Remaining: <span class='char_counter'>140</span></p>
 		</div>
 		
 		<div class="form_next"><a onclick='moveOn()' data-role="button" style="background: #grey; color: black;">And What Would You Order?</a></div>
@@ -67,6 +68,10 @@ function moveOn(){
 function limitText(limitField) {
 	if (limitField.value.length > 140) {
 		limitField.value = limitField.value.substring(0, 140);
+		$('.char_counter').html(0);
+	}
+	else {
+		$('.char_counter').html(140 - limitField.value.length);
 	}
 }
 
