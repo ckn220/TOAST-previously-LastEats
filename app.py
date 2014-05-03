@@ -15,9 +15,6 @@ import models
 import StringIO
 
 import requests
-s = requests.session()
-s.config['keep_alive'] = False
-
 import json
 
 #instagram
