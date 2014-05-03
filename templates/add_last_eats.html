@@ -64,7 +64,7 @@
 {% block scripts %}
 
 <script>
-
+var ajax_loading = 0;
 function moveOn(){
 	
 	var city = $('#textinput-4').val();
@@ -75,27 +75,34 @@ function moveOn(){
 	var warned = false;
 	if ($('.error_message').css('display') != 'none'){
 		warned = true;}
-		
-	$.ajax({
-		url: 'add_last_eats',
-		type: "post",
-		data: {'city': city,
-				'addressName': addressName,
-				'addressLat': addressLat,
-				'addressLng': addressLng,
-				'cost': cost,
-				'warned': warned},
-		success: function(value) {
-			console.log(value);
-			if('error' in value && $('.error_message').css('display') == 'none'){
-				$('.error_message').html(value.error);
-				$('.error_message').show();
+	
+	$('.form_next a').html('Loading . . . ');
+	if (ajax_loading == 0){
+		ajax_loading = 1;
+		$.ajax({
+			url: 'add_last_eats',
+			type: "post",
+			data: {'city': city,
+					'addressName': addressName,
+					'addressLat': addressLat,
+					'addressLng': addressLng,
+					'cost': cost,
+					'warned': warned},
+			success: function(value) {
+				ajax_loading = 0;
+				console.log(value);
+				if('error' in value && $('.error_message').css('display') == 'none'){
+					$('.error_message').html(value.error);
+					$('.error_message').show();
+					$('.form_next a').html('Tell us more!');
+				}
+				else{
+					window.location = "/add_last_eats_next?id="+value.id;
+				}
 			}
-			else{
-				window.location = "/add_last_eats_next?id="+value.id;
-			}
-		}
-	});
+		});
+	}
+	
 }
 
 </script>

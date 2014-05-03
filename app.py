@@ -1,5 +1,6 @@
 import os
 import datetime
+import time
 import re
 import math
 
@@ -14,6 +15,9 @@ import models
 import StringIO
 
 import requests
+s = requests.session()
+s.config['keep_alive'] = False
+
 import json
 
 #instagram
@@ -377,9 +381,23 @@ def get_instagram_id(idea, lat, lng):
 	i = 0
 	while i < len(data['response']['venues']):
 		url = 'https://api.instagram.com/v1/locations/search?foursquare_v2_id='+data['response']['venues'][i]['id']+'&access_token=' + INSTAGRAM_TOKEN
-		response = requests.request("GET",url)
-		text = response.text
-		data2 = json.loads(text)
+		try:
+			response = requests.request("GET",url)
+			text = response.text
+			data2 = json.loads(text)
+		except Exception as e:
+			print e
+			print 'ERROR IN INSTAGRAM LOADING'
+			time.sleep(1)
+			try:
+				url = 'https://api.instagram.com/v1/locations/search?foursquare_v2_id='+data['response']['venues'][i]['id']+'&access_token=' + INSTAGRAM_TOKEN
+				response = requests.request("GET",url)
+				text = response.text
+				data2 = json.loads(text)
+			except:
+				print 'DOUBLE ERROR!!!'
+				data2 = {'data':[]}
+				
 		if len(data2['data']) > 0:
 			for item in data2['data']:
 				instagram_ids.append(item['id'])
