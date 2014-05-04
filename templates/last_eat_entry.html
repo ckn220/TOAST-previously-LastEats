@@ -98,6 +98,26 @@
 
 {% block scripts %}
 	<script src="static/js/mapquest.js"></script>
+	
+	<script>
+	function add_comment(){
+		var comment = $('#textarea').val();
+		var id = '{{ idea.id }}';
+		
+		$.ajax({
+			url: 'last_eat_entry',
+			type: "post",
+			data: {'comment': comment,
+					'id': id},
+			success: function(value) {
+				console.log(value);
+				$('.comments').append(value);
+				$('#textarea').hide();
+				$('.Guest_book_next').hide();
+			}
+		});
+	}
+	</script>
 {% endblock %}
 
 
