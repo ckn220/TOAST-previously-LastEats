@@ -61,6 +61,15 @@
 	cursor: pointer;
 }
 
+.phone_image {
+	display: none;
+}
+@media (min-width: 60em) {
+	.phone_image {
+		display: inline-block;
+	}
+}
+
 .ui-content {
 	padding:0;
 }
