@@ -1,3 +1,9 @@
+h1, h2, h3, h4, h5, h6 { margin: 0 0 0.5em 0; font-size: 1em; }
+h1 { font-size: 1.5em; margin-top: 0; }
+h2 { font-size: 1.2em; }
+h3 { font-size: 1.1em; }
+
+
 #tell_us_why .ui-btn {
 	padding-top: 10px;
 	font-size: 55px;
@@ -69,6 +75,7 @@
 		display: inline-block;
 	}
 }
+
 
 .ui-content {
 	padding:0;
@@ -147,6 +154,35 @@
 	border-style: none;
 }
 
+#footer_button #bottom_add {
+	width: 256px;
+	text-align: center;
+	background-color: white;
+}
+
+
+@media (max-width: 320px) {
+
+#footer_button #bottom_add {
+	width: 256px;
+	text-align: center;
+	background-color: white;
+}
+}
+
+@media (min-width: 321px) {
+
+#footer_button #bottom_add {
+	width: 25%;
+/*	padding-bottom: 10px;
+	padding-right: 40px;*/
+	padding-left: -10px;
+	text-align: center;
+	margin: 10px auto 20px;
+}
+}
+
+
 #footer_button .ui-btn {
 	background-color: white;
 	padding-top: 5px;
@@ -186,23 +222,51 @@
 	margin-top: 5px;
 }
 
+
 .guest_book {
 	text-align: center;
 	font-size: 15px;
 }
 
+
+.user_choice_why {
+
+	display: table;
+	width: 100%;
+	margin-bottom: 10px;
+
+}
+
 .user_choice_why img{
 	background: #fff;
-	float: left;
-	padding: 5% 5% 10% 4%;
+	display: inline-block;
+/*	padding: 0 5% 10% 4%;*/
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .user_choice_why h2{
-	padding-left: 2%;
-	padding-bottom: 40px;
-	padding-top: 15%;
-	font-size: 13px;
+	font-family: "Raleway";
+	display: inline-block;
+/*	padding-left: 10px;
+	padding-right: 10px;
+	padding-bottom: 40px;*/
+	padding-top: 0;
+	font-size: 1rem;
+	white-space: pre-wrap;
+	text-align: left;
+	display: table-cell;
+	vertical-align: middle;
+	margin-top: 10px;
 }
+
+
+/*.user_choice_why .centered h2 {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}*/
+
 
 .user_choice_why img{
 	background: #fff;
@@ -246,14 +310,33 @@
 
 .user_restaurant {
 	text-align: center;
-	font-size: 25px;
+	font-size: 28px;
 	margin-top: 10px;
+	color: black;
+	font-weight: 700;
+
 }
+
+.user_restaurant_order {
+	text-align: center;
+	font-size: 28px;
+	margin-top: 10px;
+	color: black;
+	
+
+}
+
 
 .user_photo {
 	text-align: center;
 	margin-top: -40px;
 }
+
+.restaurant_photo {
+
+	display: block;
+}
+
 
 .restaurant_photo img {
 	text-align: center;
@@ -386,10 +469,7 @@ div.error p{width:300px;line-height:180%;margin:0 auto;padding:167px 0 0}
 /*html { background: #fff url(../images/subtlepatterns.com/cubes.png) repeat 0 0; }*/
 body { font: 12px/1.5 Verdana, sans-serif; color: #2a3333; padding-top:6.5em; }
 
-h1, h2, h3, h4, h5, h6 { margin: 0 0 0.5em 0; font-size: 1em; }
-h1 { font-size: 1.5em; margin-top: 0; }
-h2 { font-size: 1.2em; }
-h3 { font-size: 1.1em; }
+
 a:link, a:focus, a:visited { color: #008595; text-decoration: none; }
 a:hover { text-decoration: underline; }
 p { margin: 0 0 1em; }

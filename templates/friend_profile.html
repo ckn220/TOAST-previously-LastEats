@@ -18,6 +18,7 @@
 		</div><!-- /demo-html -->
 		
 		{% for item in ideas -%}
+		<div class="user_choice_why"></div>
 		<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
 			<strong>{{ item.restaurant_name }} in {{ item.title }}</strong>
 			<div class="my_last_eats"></div>
