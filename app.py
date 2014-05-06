@@ -150,7 +150,7 @@ def get_newsfeed(request, path):
 	
 	templateData = {'ideas': idea_list,
 				'friends': friends}
-	return render_template("newsFeed_content.html", **templateData)
+	return render_template("newsfeed_content.html", **templateData)
 	
 def addUser(request):
 	graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
