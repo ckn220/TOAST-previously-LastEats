@@ -106,7 +106,7 @@ def newsfeed():
 		
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		templateData = {'user': user}
-		return render_template("newsFeed.html", **templateData)
+		return render_template("newsfeed.html", **templateData)
 
 @app.route("/browse", methods=['GET','POST'])
 def browse():
