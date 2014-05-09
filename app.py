@@ -130,7 +130,7 @@ def get_newsfeed(request, path):
 		for row in models.User.objects(userid__in = user.friends):
 			friends[row.userid] = row
 	else:
-		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:15]
+		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:20]
 		friendList = []
 		for row in ideas:
 			friendList.append(row.userid)
@@ -148,7 +148,7 @@ def get_newsfeed(request, path):
 		for row in ideas:
 			idea_list.append(row)
 	
-	templateData = {'ideas': idea_list,
+	templateData = {'ideas': idea_list[:20],
 				'friends': friends}
 	return render_template("newsfeed_content.html", **templateData)
 	
@@ -171,7 +171,6 @@ def addUser(request):
 		friendUser.friends.append(user.userid)
 		friendUser.save()
 	
-
 @app.route("/last_eat_entry", methods=['GET','POST'])
 def last_eat_entry():
 		
@@ -269,6 +268,52 @@ def friend_profile():
 				'ideas': ideas}
 	return render_template("friend_profile.html", **templateData)
 
+
+@app.route("/city_filter", methods=['GET'])
+def city_filter():
+	cities = {}
+	ordered_cities = []
+	display_city = {}
+	user = models.User.objects(userid = request.cookies['userid']).first()
+	ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
+	friends = {}
+	for row in models.User.objects(userid__in = user.friends):
+		friends[row.userid] = row
+
+	for idea in ideas:
+		if idea.title not in cities:
+			cities[idea.title] = []
+			display_city[idea.title] = idea.title
+			ordered_cities.append(idea.title)
+		cities[idea.title].append(idea)	
+	ordered_cities.sort()
+	templateData = {'user': user,
+				'friends': friends,
+				'filter': cities,
+				'list': ordered_cities,
+				'display': display_city}
+	return render_template("filter.html", **templateData)
+
+@app.route("/price_filter", methods=['GET'])
+def price_filter():
+	prices = {1:[],2:[],3:[],4:[]}
+	ordered_prices = [1,2,3,4]
+	display_prices = {1:'$',2:'$$',3:'$$$',4:'$$$$'}
+	user = models.User.objects(userid = request.cookies['userid']).first()
+	ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
+	friends = {}
+	for row in models.User.objects(userid__in = user.friends):
+		friends[row.userid] = row
+
+	for idea in ideas:
+		prices[idea.cost].append(idea)
+		
+	templateData = {'user': user,
+				'friends': friends,
+				'filter': prices,
+				'list': ordered_prices,
+				'display': display_prices}
+	return render_template("filter.html", **templateData)
 
 @app.route("/add_last_eats", methods=['GET','POST'])
 def add_last_eats():

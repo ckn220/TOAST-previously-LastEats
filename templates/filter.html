@@ -1,0 +1,75 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+		
+		<div class="my_friends_header">
+			<strong><h2>My Friends</h2></strong>
+		</div><!-- /demo-html -->
+		
+		{% for item in list -%}
+			<a href="" title="Friend Profile" onclick='toggleItems("{{ item|replace(' ','_') }}")'><div class="my_friends">
+				<!--<img src="{{ item.picture }}" height="50" width="50">-->
+				<h2 style='padding-left:20px;'>{{ display[item] }}</h2>
+			</div></a>
+			
+			<div class='city {{ item|replace(' ','_') }} transition' style='display:none;height:0px;overflow:hidden;'>
+			{% for row in filter[item] -%}
+				<a href="/last_eat_entry?id={{ row.id }}" data-role="button" class="ui-link ui-btn ui-shadow ui-corner-all" role="button">
+					<div class="user_choice_why">
+						<img src="{{ friends[row.userid].picture }}" height="85" width="85">
+						<h2>{{ friends[row.userid].user_name }} just made <strong>{{ row.restaurant_name }}</strong> the Last Eats in {{ row.title }}</h2>
+					</div>
+					<div class="restaurant_photo"><img src="{{ row.filename }}"></div>
+				</a>
+			{%- endfor %}
+			</div>
+		{%- endfor %}
+		
+		{% include "add_button.html" %}
+		
+		{% include "sidebars.html" %}
+		
+	</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+function toggleItems(item){
+	var old = $('.city.active');
+	old.height('0px');
+	old.removeClass('active');
+	setTimeout(function(){
+		old.hide();
+	},200);
+	
+	if (!old.hasClass(item)){
+		var temp = $('.city.'+item);
+		var height = 0;
+		temp.show();
+		setTimeout(function(){
+			$('.'+item+' a').each(function(){
+				height += $(this).height() + parseInt($(this).css('padding-top'))*2 + parseInt($(this).css('margin-top'))*2;
+			});
+			
+			temp.show();
+			temp.addClass('active');
+			setTimeout(function(){
+				temp.height(height);
+			},5);
+		},5);
+	}
+}
+</script>
+
+{% endblock %}
