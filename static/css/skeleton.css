@@ -43,27 +43,26 @@ h3 { font-size: 1.1em; }
 	cursor: pointer;
 }
 
-.entry {
+.entry, .user_choice_why_answered {
 	position: relative;
 }
-.entry:hover .delete-entry {
-	left: 0px;
+.entry:hover .delete-entry, .user_choice_why_answered:hover .delete-entry {
+	right: 0px;
 }
-.entry .delete-entry {
+.delete-entry {
 	position: absolute;
-	left: -150px;
+	right: -150px;
 	top: 0px;
 	background: #d44;
 	border: 2px #999 solid;
 	color: white;
-	height: 60px;
-	width: 60px;
-	font-size: 3em;
+	height: 45px;
+	width: 45px;
+	font-size: 2.2em;
 	border-radius: 75px;
 	text-align:center;
-	
 }
-.entry .delete-entry:hover {
+.delete-entry:hover {
 	cursor: pointer;
 }
 

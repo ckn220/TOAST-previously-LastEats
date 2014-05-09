@@ -56,10 +56,10 @@ $(document).on('pageinit', function(event){
 });
 
 function show_delete(thisObject){
-	$(thisObject).children('.delete-entry').css('left','0px');
+	$(thisObject).children('.delete-entry').css('right','0px');
 }
 function hide_delete(thisObject){
-	$(thisObject).children('.delete-entry').css('left','-150px');
+	$(thisObject).children('.delete-entry').css('right','-150px');
 }
 
 function delete_entry(thisObject, id){

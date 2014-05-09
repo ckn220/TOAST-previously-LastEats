@@ -62,14 +62,10 @@
 		{% if current_user != None %}
 			<div class="guest_book">
 				<label for="textarea">Guest Book:</label>
-				{% if current_user != idea.userid and current_user not in friends %}
-					<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ user.user_name }} about your experience"></textarea>
-				{% endif %}
+				<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ user.user_name }} about your experience"></textarea>
 			</div><!-- /demo-html -->
 			
-			{% if current_user != idea.userid and current_user not in friends %}
-			<div class="Guest_book_next"><a onclick='add_comment()' data-role="button" style="background: #grey; color: black;">Add Your Comments</a></div>
-			{% endif %}
+			<div class="Guest_book_next"><a onclick='add_comment()' data-role="button" style="background: #grey; color: black;">Add Your Comment</a></div>
 			
 			<div class='comments'>
 			{% for comment in comments -%}
@@ -79,6 +75,9 @@
 						<li><strong>{{ friends[comment.userid].user_name }} {{ friends[comment.userid].user_last_name }}</strong></li>
 						<li>{{ comment.comment_string }}</li>
 					</ul>
+					{% if current_user == comment.userid %}
+						<div class='delete-entry transition' onclick='delete_comment(this, "{{ comment.id }}")' >X</div>
+					{% endif %}
 				</div>
 			{%- endfor %}
 			</div>
@@ -98,7 +97,6 @@
 {% block scripts %}
 	<script src="static/js/mapquest.js"></script>
 	
-	
 	<script>
 	function add_comment(){
 		var comment = $('#textarea').val();
@@ -112,8 +110,33 @@
 			success: function(value) {
 				console.log(value);
 				$('.comments').append(value);
-				$('#textarea').hide();
-				$('.Guest_book_next').hide();
+			}
+		});
+	}
+	
+	$(document).on('pageinit', function(event){
+		$(".entry").swiperight(function() {
+			show_delete(this);
+		});
+		$(".entry").swipeleft(function() {
+			hide_delete(this);
+		});
+	});
+	
+	function show_delete(thisObject){
+		$(thisObject).children('.delete-entry').css('right','0px');
+	}
+	function hide_delete(thisObject){
+		$(thisObject).children('.delete-entry').css('right','-150px');
+	}
+	
+	function delete_comment(thisObject, id){
+		$.ajax({
+			url: 'last_eat_entry',
+			type: "delete",
+			data: {'id': id},
+			success: function(value) {
+				$(thisObject).parent().remove();
 			}
 		});
 	}

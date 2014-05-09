@@ -183,7 +183,7 @@ def addUser(request):
 		friendUser.friends.append(user.userid)
 		friendUser.save()
 	
-@app.route("/last_eat_entry", methods=['GET','POST'])
+@app.route("/last_eat_entry", methods=['GET','POST','DELETE'])
 def last_eat_entry():
 		
 	if request.method == "POST":
@@ -199,6 +199,12 @@ def last_eat_entry():
 		
 		templateData = {'comment': c, 'user': user}
 		return render_template("comment.html", **templateData)
+	
+	elif request.method == "DELETE":
+		id = request.form.get('id')
+		idea = models.Comment.objects(id = id)
+		idea.delete()
+		return ''
 		
 	else:
 		if 'id' not in request.args:
