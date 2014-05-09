@@ -105,8 +105,20 @@ def newsfeed():
 			addUser(request)
 		
 		user = models.User.objects(userid = request.cookies['userid']).first()
+		
+		if (datetime.datetime.now() - user.last_visited).days > 7:
+			user = update_user(user)
+			
 		templateData = {'user': user}
 		return render_template("newsfeed.html", **templateData)
+
+def update_user(user):
+	graph = facebook.GraphAPI()
+	user.picture = graph.get_profile(user.userid)['data']['url']
+	user.last_visited = datetime.datetime.now()
+	user.save()
+	
+	return user
 
 @app.route("/browse", methods=['GET','POST'])
 def browse():

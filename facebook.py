@@ -178,7 +178,7 @@ class GraphAPI(object):
         
     def get_profile(self, user_id):
         
-        path = str(user_id) + '/picture?type=large&redirect=false'
+        path = str(user_id) + '/picture?type=large&redirect=false&height=200&width=200'
         
         return self.request(path)
         
