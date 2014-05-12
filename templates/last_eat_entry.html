@@ -85,6 +85,9 @@
 			{% include "add_button.html" %}
 			{% include "sidebars.html" %}
 		
+		{% else %}
+			{% include "sidebars_small.html" %}
+			
 		{% endif %}
 		
 		
@@ -115,10 +118,10 @@
 	}
 	
 	$(document).on('pageinit', function(event){
-		$(".entry").swipeleft(function() {
+		$(".user_choice_why_answered").swipeleft(function() {
 			show_delete(this);
 		});
-		$(".entry").swiperight(function() {
+		$(".user_choice_why_answered").swiperight(function() {
 			hide_delete(this);
 		});
 	});

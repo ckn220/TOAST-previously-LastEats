@@ -27,7 +27,11 @@
 		
 		{% include "add_button.html" %}
 		
-		{% include "sidebars.html" %}
+		{% if user != None %}
+			{% include "sidebars.html" %}
+		{% else %}
+			{% include "sidebars_small.html" %}
+		{% endif %}
 		
 	</div>
 </div>

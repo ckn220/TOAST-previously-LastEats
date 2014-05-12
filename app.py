@@ -292,11 +292,12 @@ def city_filter():
 	cities = {}
 	ordered_cities = []
 	display_city = {}
-	user = models.User.objects(userid = request.cookies['userid']).first()
-	ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
-	friends = {}
-	for row in models.User.objects(userid__in = user.friends):
-		friends[row.userid] = row
+	user = None
+	if 'userid' in request.cookies:
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
+	else:
+		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')
 
 	for idea in ideas:
 		if idea.title not in cities:
@@ -306,7 +307,6 @@ def city_filter():
 		cities[idea.title].append(idea)	
 	ordered_cities.sort()
 	templateData = {'user': user,
-				'friends': friends,
 				'filter': cities,
 				'list': ordered_cities,
 				'display': display_city}
@@ -315,9 +315,15 @@ def city_filter():
 @app.route("/city", methods=['GET'])
 def city():
 	city = request.args['name']
-	ideas = models.Idea.objects(title = city, complete = 1).order_by('-timestamp')
+	user = None
+	if 'userid' in request.cookies:
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		ideas = models.Idea.objects(userid__in = user.friends, title = city, complete = 1).order_by('-timestamp')
+	else:
+		ideas = models.Idea.objects(title = city, complete = 1).order_by('-timestamp')
 	
-	templateData = {'city': city,
+	templateData = {'user': user,
+				'city': city,
 				'ideas': ideas}
 	return render_template("city.html", **templateData)
 	

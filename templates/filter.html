@@ -19,24 +19,16 @@
 				<!--<img src="{{ item.picture }}" height="50" width="50">-->
 				<h2 style='padding-left:20px;'>{{ display[item] }}</h2>
 			</div></a>
-			
-			<!--
-			<div class='city {{ item|replace(' ','_') }} transition' style='display:none;height:0px;overflow:hidden;'>
-			{% for row in filter[item] -%}
-				<a href="/last_eat_entry?id={{ row.id }}" data-role="button" class="ui-link ui-btn ui-shadow ui-corner-all" role="button">
-					<div class="user_choice_why">
-						<img src="{{ friends[row.userid].picture }}" height="85" width="85">
-						<h2>{{ friends[row.userid].user_name }} just made <strong>{{ row.restaurant_name }}</strong> the Last Eats in {{ row.title }}</h2>
-					</div>
-					<div class="restaurant_photo"><img src="{{ row.filename }}"></div>
-				</a>
-			{%- endfor %}
-			</div>-->
 		{%- endfor %}
 		
 		{% include "add_button.html" %}
 		
-		{% include "sidebars.html" %}
+		{% if user != None %}
+			{% include "sidebars.html" %}
+		{% else %}
+			{% include "sidebars_small.html" %}
+		{% endif %}
+		
 		
 	</div>
 </div>
