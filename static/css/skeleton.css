@@ -69,9 +69,15 @@ h3 { font-size: 1.1em; }
 .phone_image {
 	display: none;
 }
+#map_canvas {
+	max-height: 250px;
+}
 @media (min-width: 60em) {
 	.phone_image {
 		display: inline-block;
+	}
+	#map_canvas {
+		max-height: none;
 	}
 }
 
