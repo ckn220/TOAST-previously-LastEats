@@ -47,10 +47,10 @@
 <script>
 
 $(document).on('pageinit', function(event){
-	$(".entry").swiperight(function() {
+	$(".entry").swipeleft(function() {
 		show_delete(this);
 	});
-	$(".entry").swipeleft(function() {
+	$(".entry").swiperight(function() {
 		hide_delete(this);
 	});
 });
