@@ -350,7 +350,8 @@ def add_last_eats():
 			lat = request.form.get('addressLat')
 			lng = request.form.get('addressLng')
 			idea = models.Idea(title = city, restaurant_name = request.form.get('addressName'),
-							latitude = lat, longitude = lng, cost = request.form.get('cost'), userid = request.cookies['userid'])
+							latitude = lat, longitude = lng, userid = request.cookies['userid'])
+			#cost = request.form.get('cost'), 
 			
 			idea = get_instagram_id(idea, lat, lng)
 			
