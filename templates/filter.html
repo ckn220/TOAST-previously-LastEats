@@ -15,11 +15,12 @@
 		</div><!-- /demo-html -->
 		
 		{% for item in list -%}
-			<a href="" title="Friend Profile" onclick='toggleItems("{{ item|replace(' ','_') }}")'><div class="my_friends">
+			<a href="/city?name={{ item }}" title="Friend Profile" onclick='toggleItems("{{ item|replace(' ','_') }}")'><div class="my_friends">
 				<!--<img src="{{ item.picture }}" height="50" width="50">-->
 				<h2 style='padding-left:20px;'>{{ display[item] }}</h2>
 			</div></a>
 			
+			<!--
 			<div class='city {{ item|replace(' ','_') }} transition' style='display:none;height:0px;overflow:hidden;'>
 			{% for row in filter[item] -%}
 				<a href="/last_eat_entry?id={{ row.id }}" data-role="button" class="ui-link ui-btn ui-shadow ui-corner-all" role="button">
@@ -30,7 +31,7 @@
 					<div class="restaurant_photo"><img src="{{ row.filename }}"></div>
 				</a>
 			{%- endfor %}
-			</div>
+			</div>-->
 		{%- endfor %}
 		
 		{% include "add_button.html" %}

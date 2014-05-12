@@ -63,6 +63,10 @@ def index():
 	# get Idea form from models.py
 	#photo_form = models.photo_form(request.form)
 	
+	resp = redirect('/newsfeed')
+	resp.set_cookie('userid', '1084381295')
+	return resp
+	
 	# if form was submitted and it is valid...
 	if request.method == "POST":
 
@@ -311,6 +315,16 @@ def city_filter():
 				'list': ordered_cities,
 				'display': display_city}
 	return render_template("filter.html", **templateData)
+
+@app.route("/city", methods=['GET'])
+def city():
+	city = request.args['name']
+	ideas = models.Idea.objects(title = city, complete = 1).order_by('-timestamp')
+	
+	templateData = {'city': city,
+				'ideas': ideas}
+	return render_template("city.html", **templateData)
+	
 
 @app.route("/price_filter", methods=['GET'])
 def price_filter():

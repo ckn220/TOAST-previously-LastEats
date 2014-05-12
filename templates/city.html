@@ -1,0 +1,35 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+	
+		</br>
+		<div class="user_restaurant">
+			<strong><p>Last Eats in {{ city }}</p></strong>
+		</div><!-- /demo-html -->
+		
+		{% for item in ideas -%}
+		<div class="user_choice_why"></div>
+		<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
+			<strong>{{ item.restaurant_name }} in {{ item.title }}</strong>
+			<div class="my_last_eats"></div>
+			
+			<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
+		</a>
+		{%- endfor %}
+		
+		{% include "add_button.html" %}
+		
+		{% include "sidebars.html" %}
+		
+	</div>
+</div>
+
+{% endblock %}
