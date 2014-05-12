@@ -3,7 +3,7 @@ h1 { font-size: 1.5em; margin-top: 0; }
 h2 { font-size: 1.2em; }
 h3 { font-size: 1.1em; }
 
-* {font-family: "Raleway";}
+*, a.ui-btn {font-family: "Raleway";}
 
 #tell_us_why .ui-btn {
 	padding-top: 10px;
