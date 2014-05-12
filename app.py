@@ -63,10 +63,6 @@ def index():
 	# get Idea form from models.py
 	#photo_form = models.photo_form(request.form)
 	
-	resp = redirect('/newsfeed')
-	resp.set_cookie('userid', '1084381295')
-	return resp
-	
 	# if form was submitted and it is valid...
 	if request.method == "POST":
 
