@@ -518,9 +518,22 @@ def checkCookies(request, path):
 			resp = make_response(redirect('/'))
 			resp.set_cookie('fbook_auth', '', expires=0)
 			return resp
-		
-	if 'userid' in request.cookies:
+	
+	if 'userid' in request.cookies and models.User.objects(userid = request.cookies['userid']).count() > 0:
 		return None
+	
+	elif 'fbook_auth_old' in request.cookies:
+		graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
+		try:
+			me = graph.get_object('me')
+			resp = make_response(redirect('/newsfeed'))
+			return resp
+		except Exception as e:
+			print e
+			resp = make_response(redirect('/'))
+			resp.set_cookie('fbook_auth', '', expires=0)
+			return resp
+		
 	else:
 		return redirect('/')
 
