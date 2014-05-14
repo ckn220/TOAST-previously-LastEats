@@ -378,7 +378,7 @@ def add_last_eats():
 			d = {'id' : str(idea.id)}
 			return jsonify(**d)
 		else:
-			d = {'error' : 'You already <b>'+checkCity.restaurant_name+'</b> as your Last Eats in <b>'+checkCity.title+'</b>.<br>If you continue it will overwrite your old entry!'}
+			d = {'error' : 'You already have <b>'+checkCity.restaurant_name+'</b> as your Last Eats in <b>'+checkCity.title+'</b>.<br>If you continue it will overwrite your old entry.'}
 			return jsonify(**d)
 	else:
 		user = models.User.objects(userid = request.cookies['userid']).first()
