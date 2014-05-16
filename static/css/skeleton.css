@@ -215,6 +215,7 @@ h3 { font-size: 1.1em; }
 .user_choice {
 	text-align: center;
 	font-size: 15px;
+	padding: 0px 5px;
 }
 
 .front_user_choice{
