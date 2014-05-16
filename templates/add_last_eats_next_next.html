@@ -16,7 +16,7 @@
 			<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px 30px;background:#faa;'></div>
 			<label for="textarea"></label>
 			<textarea onKeyDown="limitText(this);" onKeyUp="limitText(this);"
-				cols="40" rows="8" name="textarea" id='order' class="foo"  placeholder="Tell us about the food!"></textarea>
+				cols="40" rows="4" name="textarea" id='order' class="foo"  placeholder="Tell us about the food!" style='overflow:visible;'></textarea>
 			<input type="hidden" id="id" name="id" value="{{ id }}"/>
 			<p>Characters Remaining: <span class='char_counter'>140</span></p>
 		</div>
