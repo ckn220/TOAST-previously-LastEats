@@ -116,10 +116,10 @@
 	}
 	
 	$(document).on('pageinit', function(event){
-		$(".user_choice_why_answered").swipeleft(function() {
+		$(".user_choice_why_answered").live('swipeleft', function() {
 			show_delete(this);
 		});
-		$(".user_choice_why_answered").swiperight(function() {
+		$(".user_choice_why_answered").live('swiperight', function() {
 			hide_delete(this);
 		});
 	});
