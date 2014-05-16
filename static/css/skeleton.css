@@ -348,8 +348,9 @@ h3 { font-size: 1.1em; }
 }
 
 .restaurant_photo {
-
 	display: block;
+	width: 80%;
+	margin: 0px auto;
 }
 
 
