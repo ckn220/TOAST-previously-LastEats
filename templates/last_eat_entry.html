@@ -12,7 +12,7 @@
 		<div class="user_choice"><p><strong>{{ user.user_name }} {{ user.user_last_name }}</strong></p></div>
 		
 		<div class="user_choice">
-			<p>If I only had time for one meal in <strong>{{ idea.title }}</strong>, i'd go to:</p>
+			<p>If I only had time for one meal in <strong>{{ idea.title }}</strong>, I'd go to:</p>
 		</div>
 		
 		<div class="user_restaurant">
@@ -61,7 +61,7 @@
 		
 		{% if current_user != None %}
 			<div class="guest_book">
-				<label for="textarea">Guest Book:</label>
+				<label for="textarea"><strong>Guest Book:</strong></label>
 				<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ user.user_name }} about your experience"></textarea>
 			</div><!-- /demo-html -->
 			
@@ -81,8 +81,6 @@
 				</div>
 			{%- endfor %}
 			</div>
-		
-			{% include "add_button.html" %}
 			{% include "sidebars.html" %}
 		
 		{% else %}
