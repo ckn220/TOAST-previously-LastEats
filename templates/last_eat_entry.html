@@ -110,6 +110,7 @@
 					'id': id},
 			success: function(value) {
 				console.log(value);
+				$('#textarea').val('');
 				$('.comments').append(value);
 			}
 		});
