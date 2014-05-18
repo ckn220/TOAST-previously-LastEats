@@ -21,9 +21,8 @@
 			</div></a>
 		{%- endfor %}
 		
-		{% include "add_button.html" %}
-		
 		{% if user != None %}
+			{% include "add_button.html" %}
 			{% include "sidebars.html" %}
 		{% else %}
 			{% include "sidebars_small.html" %}
