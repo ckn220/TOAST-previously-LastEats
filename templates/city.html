@@ -6,7 +6,12 @@
 {% block body %}
 
 <div data-role="page" class="jqm-demos" data-quicklinks="false">
-	{% include "header.html" %}
+	{% if user != None %}
+		{% include "header.html" %}
+	{% else %}
+		{% include "header_med.html" %}
+	{% endif %}
+	
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 	
