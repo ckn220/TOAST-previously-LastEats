@@ -103,7 +103,7 @@ def newsfeed():
 		x = models.User.objects(userid = request.cookies['userid']).count()
 		if x == 0:
 			addUser(request)
-		
+			
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
 		if (datetime.datetime.now() - user.last_visited).days > 7:
