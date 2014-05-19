@@ -12,7 +12,7 @@
 		<div class="user_choice"><p><strong>{{ user.user_name }} {{ user.user_last_name }}</strong></p></div>
 		
 		<div class="user_choice">
-			<p>If I only had time for one meal in <strong>{{ idea.title }}</strong>, i'd go to:</p>
+			<p>If I only had time for one meal in <strong>{{ idea.title }}</strong>, I'd go to:</p>
 		</div>
 		
 		<div class="user_restaurant">
@@ -47,7 +47,7 @@
 			<div class='map_data lat' style='display:none;'>{{ idea.latitude }}</div>
 			<div class='map_data lng' style='display:none;'>{{ idea.longitude }}</div>
 			
-			<div id="map_canvas" class="map rounded"></div>
+			<div id="map_canvas" class="map rounded" ></div>
 		</div>
 		
 		<div class="user_choice_why" style='display:none;'>
@@ -61,7 +61,7 @@
 		
 		{% if current_user != None %}
 			<div class="guest_book">
-				<label for="textarea">Guest Book:</label>
+				<label for="textarea"><strong>Guest Book:</strong></label>
 				<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ user.user_name }} about your experience"></textarea>
 			</div><!-- /demo-html -->
 			
@@ -81,10 +81,11 @@
 				</div>
 			{%- endfor %}
 			</div>
-		
-			{% include "add_button.html" %}
 			{% include "sidebars.html" %}
 		
+		{% else %}
+			{% include "sidebars_small.html" %}
+			
 		{% endif %}
 		
 		
@@ -109,16 +110,17 @@
 					'id': id},
 			success: function(value) {
 				console.log(value);
+				$('#textarea').val('');
 				$('.comments').append(value);
 			}
 		});
 	}
 	
 	$(document).on('pageinit', function(event){
-		$(".entry").swiperight(function() {
+		$(".user_choice_why_answered").live('swipeleft', function() {
 			show_delete(this);
 		});
-		$(".entry").swipeleft(function() {
+		$(".user_choice_why_answered").live('swiperight', function() {
 			hide_delete(this);
 		});
 	});

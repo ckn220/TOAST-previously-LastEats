@@ -18,7 +18,7 @@
 		</div><!-- /demo-html -->
 		
 		{% if ideas|length == 0 %}
-			<p>You don't have any Last Eats yet! Add one <a href='/add_last_eats'><b>here</b></a>.</p>
+			<p style='display: block;text-align: center;padding: 5px;'>You don't have any Last Eats yet! Add one <a href='/add_last_eats'><b>here</b></a>.</p>
 		{% endif %}
 		
 		{% for item in ideas -%}
@@ -34,8 +34,6 @@
 		</div>
 		{%- endfor %}
 		
-		{% include "add_button.html" %}
-		
 		{% include "sidebars.html" %}
 	
 	</div><!-- /panel -->
@@ -47,10 +45,10 @@
 <script>
 
 $(document).on('pageinit', function(event){
-	$(".entry").swiperight(function() {
+	$(".entry").swipeleft(function() {
 		show_delete(this);
 	});
-	$(".entry").swipeleft(function() {
+	$(".entry").swiperight(function() {
 		hide_delete(this);
 	});
 });

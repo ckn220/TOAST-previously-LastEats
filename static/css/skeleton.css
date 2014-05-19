@@ -3,6 +3,7 @@ h1 { font-size: 1.5em; margin-top: 0; }
 h2 { font-size: 1.2em; }
 h3 { font-size: 1.1em; }
 
+*, a.ui-btn {font-family: "Raleway";}
 
 #tell_us_why .ui-btn {
 	padding-top: 10px;
@@ -69,9 +70,15 @@ h3 { font-size: 1.1em; }
 .phone_image {
 	display: none;
 }
+#map_canvas {
+	max-height: 250px;
+}
 @media (min-width: 60em) {
 	.phone_image {
 		display: inline-block;
+	}
+	#map_canvas {
+		max-height: none;
 	}
 }
 
@@ -141,10 +148,11 @@ h3 { font-size: 1.1em; }
 
 .ui-footer .ui-btn {
 	font-size: 20px;
-	max-width: 100%;
+	max-width: 80%;
 	height: 15px;
 	display: inherit;
 	border-style: none;
+
 }
 
 #footer_button {
@@ -185,7 +193,7 @@ h3 { font-size: 1.1em; }
 #footer_button .ui-btn {
 	background-color: white;
 	padding-top: 5px;
-	background-color: rgba(255,255,255,0);
+	background-color: rgba(0,0,255,0);
 	border-radius: none;
 }
 
@@ -207,24 +215,28 @@ h3 { font-size: 1.1em; }
 .user_choice {
 	text-align: center;
 	font-size: 15px;
+	padding: 0px 5px;
 }
 
 .front_user_choice{
 	text-align: center;
-	font-size: 20px;
-	margin-top: -5px;
+	font-size: 22px;
+	margin-top: -25px;
+	line-height: 44px;
 }
 
 #front_user_choice_small{
 	text-align: center;
-	font-size: 15px;
+	font-size: 18px;
 	margin-top: 5px;
+	font-weight: 10px;
 }
 
 
 .guest_book {
 	text-align: center;
 	font-size: 15px;
+	font-weight: bold;
 }
 
 
@@ -267,10 +279,13 @@ h3 { font-size: 1.1em; }
 }*/
 
 
+
+/*Got rid of margin 5_15_14*/
+
 .user_choice_why img{
 	background: #fff;
 	float: left;
-	margin: 20px 0px 0 20px;
+/*	margin: 20px 0px 0 20px;*/
 	padding: 0px;
 	border-radius: 65px;
 	margin-right: 10px;
@@ -299,7 +314,7 @@ h3 { font-size: 1.1em; }
 .user_choice_why_answered img {
 	background: #fff;
 	float: left;
-	margin: 15px 0px 0 20px;
+	margin: 25px 0px 0 25px;
 	padding: 0px;
 	border-radius: 65px;
 }
@@ -329,12 +344,13 @@ h3 { font-size: 1.1em; }
 
 .user_photo {
 	text-align: center;
-	margin-top: -40px;
+	margin-top: -47px;
 }
 
 .restaurant_photo {
-
 	display: block;
+	width: 80%;
+	margin: 0px auto;
 }
 
 
@@ -356,7 +372,7 @@ h3 { font-size: 1.1em; }
 .my_friends img{
 	background: #fff;
 	float: left;
-	margin: 5px 10px 0 0;
+	margin: 5px 10px 0 10px;
 	padding: 0px;
 	border-radius: 65px;
 }

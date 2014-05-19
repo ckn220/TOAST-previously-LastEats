@@ -292,11 +292,12 @@ def city_filter():
 	cities = {}
 	ordered_cities = []
 	display_city = {}
-	user = models.User.objects(userid = request.cookies['userid']).first()
-	ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
-	friends = {}
-	for row in models.User.objects(userid__in = user.friends):
-		friends[row.userid] = row
+	user = None
+	if 'userid' in request.cookies:
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
+	else:
+		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')
 
 	for idea in ideas:
 		if idea.title not in cities:
@@ -306,11 +307,26 @@ def city_filter():
 		cities[idea.title].append(idea)	
 	ordered_cities.sort()
 	templateData = {'user': user,
-				'friends': friends,
 				'filter': cities,
 				'list': ordered_cities,
 				'display': display_city}
 	return render_template("filter.html", **templateData)
+
+@app.route("/city", methods=['GET'])
+def city():
+	city = request.args['name']
+	user = None
+	if 'userid' in request.cookies:
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		ideas = models.Idea.objects(userid__in = user.friends, title = city, complete = 1).order_by('-timestamp')
+	else:
+		ideas = models.Idea.objects(title = city, complete = 1).order_by('-timestamp')
+	
+	templateData = {'user': user,
+				'city': city,
+				'ideas': ideas}
+	return render_template("city.html", **templateData)
+	
 
 @app.route("/price_filter", methods=['GET'])
 def price_filter():
@@ -350,7 +366,8 @@ def add_last_eats():
 			lat = request.form.get('addressLat')
 			lng = request.form.get('addressLng')
 			idea = models.Idea(title = city, restaurant_name = request.form.get('addressName'),
-							latitude = lat, longitude = lng, cost = request.form.get('cost'), userid = request.cookies['userid'])
+							latitude = lat, longitude = lng, userid = request.cookies['userid'])
+			#cost = request.form.get('cost'), 
 			
 			idea = get_instagram_id(idea, lat, lng)
 			
@@ -361,7 +378,7 @@ def add_last_eats():
 			d = {'id' : str(idea.id)}
 			return jsonify(**d)
 		else:
-			d = {'error' : 'You already <b>'+checkCity.restaurant_name+'</b> as your Last Eats in <b>'+checkCity.title+'</b>.<br>If you continue it will overwrite your old entry!'}
+			d = {'error' : 'You already have <b>'+checkCity.restaurant_name+'</b> as your Last Eats in <b>'+checkCity.title+'</b>.<br>If you continue it will overwrite your old entry.'}
 			return jsonify(**d)
 	else:
 		user = models.User.objects(userid = request.cookies['userid']).first()
@@ -501,9 +518,25 @@ def checkCookies(request, path):
 			resp = make_response(redirect('/'))
 			resp.set_cookie('fbook_auth', '', expires=0)
 			return resp
-		
-	if 'userid' in request.cookies:
+	
+	if 'userid' in request.cookies and models.User.objects(userid = request.cookies['userid']).count() > 0:
 		return None
+	
+	elif 'fbook_auth_old' in request.cookies:
+		graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
+		try:
+			me = graph.get_object('me')
+			if path == '/newsfeed':
+				return None
+			else:
+				resp = make_response(redirect('/newsfeed'))
+				return resp
+		except Exception as e:
+			print e
+			resp = make_response(redirect('/'))
+			resp.set_cookie('fbook_auth', '', expires=0)
+			return resp
+		
 	else:
 		return redirect('/')
 

@@ -76,7 +76,7 @@ function codeLatLng() {
         	$('#map_canvas').gmap('get','map').setZoom(13);
         	$('#map_canvas').gmap('get','map').setCenter(latlng);
         	$('#map_canvas').gmap('addMarker', { 'position': latlng } ).click(function() {
-                $('#map_canvas').gmap('openInfoWindow', {'content': results[0].formatted_address}, this);
+                $('#map_canvas').gmap('openInfoWindow', {'content': '<a href="http://maps.google.com/maps?q='+results[0].formatted_address.replace('&','%26')+'" target="_blank">'+results[0].formatted_address+'</a>'}, this);
             });
       } else {
         alert("Geocoder failed due to: " + status);
