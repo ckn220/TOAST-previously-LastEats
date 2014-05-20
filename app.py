@@ -241,9 +241,9 @@ def last_eat_entry():
 
 @app.route("/profile", methods=['GET','DELETE'])
 def profile():
-	#cookie_check = checkCookies(request, "/profile")
-	#if cookie_check != None:
-#		return cookie_check
+	cookie_check = checkCookies(request, "/profile")
+	if cookie_check != None:
+		return cookie_check
 
 	if request.method == "DELETE":
 		id = request.form.get('id')
