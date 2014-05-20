@@ -526,11 +526,10 @@ def checkCookies(request, path):
 		graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
 		try:
 			me = graph.get_object('me')
-			if path == '/newsfeed':
-				return None
-			else:
-				resp = make_response(redirect('/newsfeed'))
-				return resp
+			resp = make_response(redirect(path))
+			resp.set_cookie('userid', me['id'])
+			return resp
+		
 		except Exception as e:
 			print e
 			resp = make_response(redirect('/'))
