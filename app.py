@@ -505,7 +505,7 @@ def get_instagram_photo(idea):
 	return idea
 
 def checkCookies(request, path):
-	if 'fbook_auth' in request.cookies:
+	if 'fbook_auth' in request.cookies and 'userid' not in request.cookies:
 		graph = facebook.GraphAPI(request.cookies['fbook_auth'])
 		try:
 			me = graph.get_object('me')
