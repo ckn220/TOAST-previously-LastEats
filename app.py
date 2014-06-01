@@ -142,7 +142,7 @@ def get_newsfeed(request, path):
 		for row in models.User.objects(userid__in = user.friends):
 			friends[row.userid] = row
 	else:
-		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:20]
+		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')
 		friendList = []
 		for row in ideas:
 			friendList.append(row.userid)
