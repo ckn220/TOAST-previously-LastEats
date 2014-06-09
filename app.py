@@ -61,8 +61,19 @@ from flask import make_response
 @app.route("/", methods=['GET'])
 def index():
 	# render the template
+	
+	if request.base_url == 'http://lasteats-dev.herokuapp.com/' or request.base_url == 'http://localhost:5000/':
+		if 'userid' in request.args:
+			resp = make_response(redirect('/newsfeed'))
+			resp.set_cookie('userid', request.args['userid'])
+			return resp
+		else:
+			users = models.User.objects()
+			templateData = {'users': users,
+						'fbookId' : FACEBOOK_APP_ID}
+			return render_template("index.html", **templateData)
+	
 	templateData = {'fbookId' : FACEBOOK_APP_ID}
-	# app.logger.debug(templateData)
 	return render_template("index.html", **templateData)		#if you make recent_submissions = DATA 
 
 @app.route("/logout", methods=['GET','POST'])
