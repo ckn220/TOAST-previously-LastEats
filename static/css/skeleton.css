@@ -67,6 +67,27 @@ h3 { font-size: 1.1em; }
 	cursor: pointer;
 }
 
+.icon_container {
+	text-align: center;
+	width: 60%;
+	margin: 10px 20%;
+}
+.icon_container .icon {
+	background: url('/static/img/icons.png');
+	height: 44px;
+	width: 44px;
+	display: inline-block;
+	border-radius: 25px;
+	border: thin solid black;
+}
+.icon_container .icon.comment {background-position: 0px 0px;}
+.icon_container .icon.comment:hover, .icon_container .icon.commented {background-position: -44px 0px;cursor:pointer;}
+.icon_container .icon.love {background-position: -88px 0px;}
+.icon_container .icon.love:hover, .icon_container .icon.loved {background-position: -132px 0px;cursor:pointer;}
+.icon_container .icon.save {background-position: -176px 0px;}
+.icon_container .icon.save:hover, .icon_container .icon.saved {background-position: -220px 0px;cursor:pointer;}
+
+
 .phone_image {
 	display: none;
 }

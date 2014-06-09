@@ -20,8 +20,25 @@
 		</div>
 		
 		<div class="user_restaurant">
-			<strong><p>{{ idea.restaurant_name }}</p></strong>
+			<strong>{{ idea.restaurant_name }}</strong>
 		</div><!-- /demo-html -->
+		
+		{% if current_user != None %}
+		<table class='icon_container'><tr>
+			<td width='33%'><a class='icon comment' href='#guest_book'></a></td>
+			{% if user.userid in idea.likes %}
+				<td width='33%'><div class='icon loved' onclick='loveIdea(this, "{{ idea.id }}")'></div></td>
+			{% else %}
+				<td width='33%'><div class='icon love' onclick='loveIdea(this, "{{ idea.id }}")'></div></td>
+			{% endif %}
+			
+			{% if idea.id in user.saves %}
+				<td width='33%'><div class='icon saved' onclick='saveIdea(this, "{{ idea.id }}")'></div></td>
+			{% else %}
+				<td width='33%'><div class='icon save' onclick='saveIdea(this, "{{ idea.id }}")'></div></td>
+			{% endif %}
+		</tr></table>
+		{% endif %}
 		
 		<div class="user_choice_why">
 			<h3>{{ idea.idea }}</h3>
@@ -64,7 +81,7 @@
 		</br>
 		
 		{% if current_user != None %}
-			<div class="guest_book">
+			<div class="guest_book" id='guest_book'>
 				<label for="textarea"><strong>Guest Book:</strong></label>
 				<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ user.user_name }} about your experience"></textarea>
 			</div><!-- /demo-html -->
@@ -143,6 +160,36 @@
 			data: {'id': id},
 			success: function(value) {
 				$(thisObject).parent().remove();
+			}
+		});
+	}
+	
+	
+	function saveIdea(thisObject, id){
+		$.ajax({
+			url: 'save_idea',
+			type: "post",
+			data: {'userid': {{ user.userid }},
+					'id': id},
+			success: function(value) {
+				console.log(value);
+				$(thisObject).removeClass('save');
+				$(thisObject).addClass('saved');
+				
+			}
+		});
+	}
+	
+	function loveIdea(thisObject, id){
+		$.ajax({
+			url: 'love_idea',
+			type: "post",
+			data: {'userid': {{ user.userid }},
+					'id': id},
+			success: function(value) {
+				console.log(value);
+				$(thisObject).removeClass('love');
+				$(thisObject).addClass('loved');
 			}
 		});
 	}

@@ -18,6 +18,8 @@ class Comment(Document):
 	ideaid = mongoengine.StringField()
 	comment_string = mongoengine.StringField(max_length=140)
 	
+	seen = mongoengine.IntField(required=True, default=0)
+	
 	timestamp = mongoengine.DateTimeField(default=datetime.now())
 	
 
@@ -31,6 +33,9 @@ class Idea(Document):
 	point = mongoengine.PointField(required=True)
 	
 	cost = mongoengine.IntField()
+	
+	likes = mongoengine.ListField(default=[])
+	like_count = mongoengine.IntField(default=0)
 	
 	idea = mongoengine.StringField(verbose_name="What makes it great?")
 	order = mongoengine.StringField(verbose_name="What would you order?")
@@ -66,6 +71,8 @@ class User(Document):
 	
 	picture = mongoengine.StringField()
 	
+	saves = mongoengine.ListField(default=[])
+	
 	#This works with storing the data as a string, but we want it in json in array
 	#user_friends = mongoengine.ListField()
 	
@@ -77,6 +84,7 @@ class User(Document):
 
 	#empty array structure 
 	friends = mongoengine.ListField()
+	all_friends = mongoengine.ListField()
 
 #user_form = model_form(User)
 

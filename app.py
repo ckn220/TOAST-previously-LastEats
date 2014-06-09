@@ -68,7 +68,7 @@ def index():
 			resp.set_cookie('userid', request.args['userid'])
 			return resp
 		else:
-			users = models.User.objects()
+			users = models.User.objects().exclude("all_friends")
 			templateData = {'users': users,
 						'fbookId' : FACEBOOK_APP_ID}
 			return render_template("index.html", **templateData)
@@ -158,9 +158,11 @@ def get_newsfeed(request, path):
 def addUser(request):
 	graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
 	me = graph.get_object('me')
-	f = graph.get_connections(me['id'], connection_name = 'friends?fields=installed')
+	f = graph.get_connections(me['id'], connection_name = 'friends?fields=installed,name,picture')
 	friends = []
+	all_friends = []
 	for id in f['data']:
+		all_friends.append({'id': id['id'], 'name': id['name'], 'picture': id['picture']['data']['url']})
 		if 'installed' in id:
 			friends.append(id['id'])
 	
@@ -229,6 +231,32 @@ def last_eat_entry():
 		
 		return render_template("last_eat_entry.html", **templateData)
 
+@app.route("/love_idea", methods=['POST','DELETE'])
+def love_idea():
+	if request.method == "POST":
+		id = request.form.get('id')
+		userid = request.form.get('userid')
+		
+		idea = models.Idea.objects(id = id).first()
+		if userid not in idea.likes:
+			idea.likes.append(userid)
+			idea.like_count = len(idea.likes)
+			idea.save()
+		
+		return '200'
+		
+@app.route("/save_idea", methods=['POST','DELETE'])
+def save_idea():
+	if request.method == "POST":
+		id = request.form.get('id')
+		userid = request.form.get('userid')
+		
+		user = models.User.objects(userid = userid).first()
+		if id not in user.saves:
+			user.saves.append(id)
+			user.save()
+		
+		return '200'
 
 @app.route("/profile", methods=['GET','DELETE'])
 def profile():
@@ -587,6 +615,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 # --------- Server On ----------
 # start the webserver
+
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test
