@@ -21,6 +21,7 @@ import json
 # import time
 # from instagram.client import InstagramAPI
 import facebook
+import mongoScripts
 
 ## Environment Variables
 MONGOLAB_URI = os.environ['MONGOLAB_URI']
@@ -57,34 +58,12 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 # this is our main page
 from flask import make_response
 
-@app.route("/", methods=['GET','POST'])
+@app.route("/", methods=['GET'])
 def index():
-	#PHOTO upload route section
-	# get Idea form from models.py
-	#photo_form = models.photo_form(request.form)
-	
-	# if form was submitted and it is valid...
-	if request.method == "POST":
-
-		# get form data - create new idea
-		idea = models.Idea()
-		idea.creator = request.form.get('creator','anonymous')
-		idea.title = request.form.get('title','no title')
-		idea.slug = slugify(idea.title + " " + idea.creator)
-		idea.idea = request.form.get('idea','')
-		idea.restaurant_name = request.form.get('restaurant_name','')
-		idea.latitude = request.form.get('latitude','')
-		idea.longitude = request.form.get('longitude','')
-		#idea.categories = request.form.getlist('categories') # getlist will pull multiple items 'categories' into a list
-		
-		idea.save()
-		return redirect('/ideas/%s' % idea.slug) 	#if you make recent_submissions = DATA
-	
-	else:
-		# render the template
-		templateData = {'fbookId' : FACEBOOK_APP_ID}
-		# app.logger.debug(templateData)
-		return render_template("index.html", **templateData)		#if you make recent_submissions = DATA 
+	# render the template
+	templateData = {'fbookId' : FACEBOOK_APP_ID}
+	# app.logger.debug(templateData)
+	return render_template("index.html", **templateData)		#if you make recent_submissions = DATA 
 
 @app.route("/logout", methods=['GET','POST'])
 def logout():
@@ -126,23 +105,30 @@ def browse():
 	if request.method == "POST":
 		return get_newsfeed(request, 'browse')
 	else:
-		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:15]
-			
 		templateData = {}
 		return render_template("browse.html", **templateData)
 
 def get_newsfeed(request, path):
-	lat = request.form.get('lat')
-	lng = request.form.get('lng')
+	lat = float(request.form.get('lat'))
+	lng = float(request.form.get('lng'))
 	
 	if path == 'newsfeed':
 		user = models.User.objects(userid = request.cookies['userid']).first()
-		ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
+		
+		if lat != None:
+			ideas = models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1)[:20]
+		else:
+			ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')[:20]
+			
 		friends = {}
 		for row in models.User.objects(userid__in = user.friends):
 			friends[row.userid] = row
 	else:
-		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')
+		if lat != None:
+			ideas = models.Idea.objects(point__near=[lng, lat], complete = 1)[:20]
+		else:
+			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:20]
+			
 		friendList = []
 		for row in ideas:
 			friendList.append(row.userid)
@@ -151,14 +137,8 @@ def get_newsfeed(request, path):
 			friends[row.userid] = row
 	
 	idea_list = []
-	if lat != None:
-		for row in ideas:
-			row.distance = math.sqrt(math.pow((float(lat) - float(row.latitude))*69,2) + math.pow((float(lng) - float(row.longitude))*50, 2))
-			idea_list.append(row)
-		idea_list.sort(key=lambda x: x.distance)
-	else:
-		for row in ideas:
-			idea_list.append(row)
+	for row in ideas:
+		idea_list.append(row)
 	
 	templateData = {'ideas': idea_list[:20],
 				'friends': friends}
@@ -274,17 +254,27 @@ def my_friends():
 
 @app.route("/friend_profile", methods=['GET','POST'])
 def friend_profile():
-	cookie_check = checkCookies(request, '/friend_profile')
-	if cookie_check != None:
-		return cookie_check
+	#cookie_check = checkCookies(request, '/friend_profile')
+	#if cookie_check != None:
+	#	return cookie_check
 	
-	id = request.args['friendid']
-	friend = models.User.objects(userid = id).first()
-	ideas = models.Idea.objects(userid = friend.userid, complete = 1).order_by('-timestamp')
+	if request.method == "POST":
+		id = request.form.get('friendid')
+		friend = models.User.objects(userid = id).first()
+		lat = float(request.form.get('lat'))
+		lng = float(request.form.get('lng'))
 	
-	templateData = {'friend': friend,
-				'ideas': ideas}
-	return render_template("friend_profile.html", **templateData)
+		ideas = models.Idea.objects(userid = friend.userid, point__near=[lng, lat], complete = 1)[:20]
+		
+		templateData = {'ideas': ideas[:20]}
+		return render_template("profile_content.html", **templateData)
+
+	else:
+		id = request.args['friendid']
+		friend = models.User.objects(userid = id).first()
+		templateData = {'friend': friend}
+		
+		return render_template("friend_profile.html", **templateData)
 
 
 @app.route("/city_filter", methods=['GET'])
@@ -363,10 +353,10 @@ def add_last_eats():
 		if not checkCity or warned == 'true':
 			if checkCity:
 				checkCity.delete()
-			lat = request.form.get('addressLat')
-			lng = request.form.get('addressLng')
+			lat = float(request.form.get('addressLat'))
+			lng = float(request.form.get('addressLng'))
 			idea = models.Idea(title = city, restaurant_name = request.form.get('addressName'),
-							latitude = lat, longitude = lng, userid = request.cookies['userid'])
+							point = [lng, lat], userid = request.cookies['userid'])
 			#cost = request.form.get('cost'), 
 			
 			idea = get_instagram_id(idea, lat, lng)
@@ -451,7 +441,7 @@ def add_last_eats_last():
 
 
 def get_instagram_id(idea, lat, lng):
-	url = 'https://api.foursquare.com/v2/venues/search?ll='+lat+','+lng+'&query='+idea.restaurant_name+'&client_id='+FOURSQUARE_CLIENT_ID+'&client_secret='+FOURSQUARE_CLIENT_SECRET+'&v=20120609'
+	url = 'https://api.foursquare.com/v2/venues/search?ll='+str(lat)+','+str(lng)+'&query='+idea.restaurant_name+'&client_id='+FOURSQUARE_CLIENT_ID+'&client_secret='+FOURSQUARE_CLIENT_SECRET+'&v=20120609'
 	response = requests.request("GET",url)
 	data = json.loads(response.text)
 	
@@ -586,9 +576,12 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 # --------- Server On ----------
 # start the webserver
+
 if __name__ == "__main__":
 	# unittest.main()	#FB Test
 	port = int(PORT) # locally PORT 5000, Heroku will assign its own port
 	app.run(host='0.0.0.0', port=port, debug = True, use_reloader = False)
+	
+	
 
 	

@@ -27,8 +27,9 @@ class Idea(Document):
 	
 	title = mongoengine.StringField(required=True)
 	restaurant_name = mongoengine.StringField(required=True)
-	latitude = mongoengine.StringField(max_length=120, required=True)
-	longitude = mongoengine.StringField(max_length=120, required=True)
+	
+	point = mongoengine.PointField(required=True)
+	
 	cost = mongoengine.IntField()
 	
 	idea = mongoengine.StringField(verbose_name="What makes it great?")
