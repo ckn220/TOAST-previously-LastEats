@@ -15,8 +15,21 @@
 		<div class="user_photo"><img src="{{ user.picture }}" height="125" width="125"></div>
 		
 		<div class="user_restaurant">
-			<strong><p>Welcome {{ user.user_name }}!</p></strong>
+			<strong>Welcome {{ user.user_name }}!</strong>
 		</div><!-- /demo-html -->
+		<br>
+		
+		<fieldset data-role="controlgroup" data-type="horizontal" >
+	     	<input type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" />
+	     	<label for="radio-choice-1" onclick="get_newsfeed('all')">All</label>
+	
+	     	<input type="radio" name="radio-choice" id="radio-choice-2" value="choice-2" checked="checked"  />
+	     	<label for="radio-choice-2" onclick="get_newsfeed('friends')">Friends</label>
+	
+	     	<input type="radio" name="radio-choice" id="radio-choice-3" value="choice-3"  />
+	     	<label for="radio-choice-3" onclick="get_newsfeed('saved')">Saved</label>
+		</fieldset>
+		<br>
 		
 		<div class='newsfeed'>
 			<div style='text-align:center;'>Loading . . . .</div>
@@ -32,13 +45,20 @@
 
 {% block scripts %}
 <script>
+	var LATITUDE = undefined;
+	var LONGITUDE = undefined;
+	
 	$(document).ready(function(){
 		// Try W3C Geolocation (Preferred)
 		if(navigator.geolocation) {
 			browserSupportFlag = true;
 			navigator.geolocation.getCurrentPosition(function(position) {
 				initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-				get_newsfeed(initialLocation.k, initialLocation.A);
+				
+				LATITUDE = initialLocation.k;
+				LONGITUDE = initialLocation.A;
+				
+				get_newsfeed('friends');
 				
 			}, function() { handleNoGeolocation(browserSupportFlag); });
 		}
@@ -58,17 +78,23 @@
 		get_newsfeed();
 	}
 	
-	function get_newsfeed(lat, lng){
+	function get_newsfeed(type){
+		$('.newsfeed').html("<div style='text-align:center;'>Loading . . . .</div>");
+		
 		$.ajax({
 			url: 'newsfeed',
 			type: "post",
-			data: {'lat': lat, 'lng': lng},
+			data: {'lat': LATITUDE, 'lng': LONGITUDE, 'type' : type},
 			success: function(value) {
 				$('.newsfeed').html('');
 				$('.newsfeed').append(value);
+				if (value == "\n"){
+					$('.newsfeed').html("<div style='text-align:center;'>Woops nothing was found!</div>");
+				}
 			}
 		});
 	}
+	
 </script>
 {% endblock %}
 

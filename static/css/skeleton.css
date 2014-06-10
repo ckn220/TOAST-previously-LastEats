@@ -113,7 +113,7 @@ h3 { font-size: 1.1em; }
 	box-shadow: none;
 }*/
 
-.ui-btn-active { 
+.ui-btn-active {
     color: #2F3E46 !important; 
     background: none !important; 
     background-color: #eee !important; 
@@ -124,14 +124,24 @@ h3 { font-size: 1.1em; }
 }
 
 .ui-page-theme-a .ui-btn.ui-btn-active {
-	background-color: none;
-	border-color: none;
+	border-color: #ddd;
 	text-shadow: none;
 }
 
 .ui-btn.ui-btn-active {
 	border-color: none;
 }
+
+.ui-controlgroup-horizontal { text-align: center; }
+.ui-controlgroup-controls { width: 66%;}
+.ui-controlgroup-horizontal .ui-controlgroup-controls .ui-radio {
+	width: 33%;
+	min-width: 95px;
+}
+.ui-controlgroup-horizontal .ui-controlgroup-controls .ui-radio label {
+	text-align: center;
+}
+.ui-page-theme-a .ui-btn { background: #fafafa; }
 
 .user_photo img{
 	border-radius: 65px;

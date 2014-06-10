@@ -122,11 +122,17 @@ def browse():
 def get_newsfeed(request, path):
 	lat = float(request.form.get('lat'))
 	lng = float(request.form.get('lng'))
+	if 'type' in request.form:
+		type = request.form.get('type')
+	else:
+		type = None
 	
-	if path == 'newsfeed':
+	if path == 'newsfeed' and type != 'all':
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
-		if lat != None:
+		if type == 'saved':
+			ideas = models.Idea.objects(id__in = user.saves, complete = 1)
+		elif lat != None:
 			ideas = models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1)[:20]
 		else:
 			ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')[:20]
@@ -139,12 +145,12 @@ def get_newsfeed(request, path):
 			ideas = models.Idea.objects(point__near=[lng, lat], complete = 1)[:20]
 		else:
 			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:20]
-			
+		
 		friendList = []
 		for row in ideas:
 			friendList.append(row.userid)
 		friends = {}
-		for row in models.User.objects(userid__in = friendList):
+		for row in models.User.objects(userid__in = friendList).exclude('all_friends'):
 			friends[row.userid] = row
 	
 	idea_list = []
@@ -222,10 +228,19 @@ def last_eat_entry():
 		else:
 			current_user = None
 		
-		user = models.User.objects(userid = idea.userid).first()
+		friend = models.User.objects(userid = idea.userid).first()
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		
+		a = user.saves
+		b = str(idea.id)
+		
+		if b in a:
+			c = 'a'
 		templateData = {'current_user': current_user,
 					'idea' : idea,
+					'idea_id' : str(idea.id),
 					'user': user,
+					'friend': friend,
 					'friends': friends,
 					'comments': comments}
 		
