@@ -4,6 +4,7 @@ var map;
 var allMarkers = [];
 var myMarker;
 var infoWindow;
+var autocomplete = undefined;
 
 //google maps
 
@@ -15,9 +16,29 @@ function initialize() {
 		codeLatLng();
 	}
 	
+	var input2 = document.getElementById('textinput-4');
+	if (input2){
+		var options = {
+		  types: ['(cities)']
+		};
+		var autocomplete2 = new google.maps.places.Autocomplete(input2, options);
+		google.maps.event.addListener(autocomplete2, 'place_changed', function () {
+	        if (autocomplete){
+	        	var place = autocomplete2.getPlace();
+		        var lati = place.geometry.location.lat();
+		        var long = place.geometry.location.lng();
+		        var s = new google.maps.LatLng(lati,long);
+		        var n = new google.maps.LatLng(lati,long);
+		        
+		        var boundary = new google.maps.LatLngBounds(s,n);
+		        autocomplete.setBounds(boundary);
+	        }
+	    });
+	}
+	
 	var input = document.getElementById('address');
 	if(input){
-		var autocomplete = new google.maps.places.Autocomplete(input);
+		autocomplete = new google.maps.places.Autocomplete(input);
 		google.maps.event.addListener(autocomplete, 'place_changed', function () {
 	        var place = autocomplete.getPlace();
 	        document.getElementById('addressName').value = place.name;
@@ -25,14 +46,6 @@ function initialize() {
 	        document.getElementById('addressLng').value = place.geometry.location.lng();
 	    });
 		//autocomplete.bindTo('bounds', map);
-	}
-	
-	var input2 = document.getElementById('textinput-4');
-	if (input2){
-		var options = {
-		  types: ['(cities)']
-		};
-		var autocomplete2 = new google.maps.places.Autocomplete(input2, options);
 	}
 }
 //End of new stuff

@@ -1,0 +1,80 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+		
+		<div class="my_friends_header">
+			<strong><h2>Request Last Eats</h2></strong>
+		</div><!-- /demo-html -->
+		
+		<p>Help! I only have one meal in:</p>
+		<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
+		<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="">
+		
+		<p>Who are you asking?</p>
+		<div data-role="fieldcontain">
+			<fieldset data-role="controlgroup">
+				
+			{% for item in friends -%}
+				<input type="checkbox" name="friends" id="{{ item.userid }}" class="custom" />
+				<label for="{{ item.userid }}">
+					<img src="{{ item.picture }}" height="30" width="30" style='border-radius:20px;'>
+					<span style='font-weight:normal;'>{{ item.user_name }} {{ item.user_last_name }}</span>
+				</label>
+			{%- endfor %}
+			
+			</fieldset>
+		</div>
+		
+		<div class="form_next"><a data-role="button" style="background: #grey; color: black;" onclick='moveOn()'>Send Request!</a></div>
+		
+		{% include "sidebars.html" %}
+		
+	</div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+	<script>
+	var ajax_loading = 0;
+	
+	function moveOn(){
+		
+		var city = $('#textinput-4').val();
+		var friends = Array();
+		$('input[type=checkbox]').each(function(){
+			if($(this).is(':checked')){
+				friends.push($(this).attr('id'));
+			}
+		});
+		
+		$('.form_next a').html('Loading . . . ');
+		if (ajax_loading == 0){
+			ajax_loading = 1;
+			$.ajax({
+				url: 'requests',
+				type: "post",
+				data: {'city': city,
+						'friends':friends},
+				success: function(value) {
+					console.log(value);
+					window.location = "/answered";
+				}
+			});
+		}
+		
+	}
+	</script>
+	<script src="static/js/mapquest.js"></script>
+	
+{% endblock %}
+

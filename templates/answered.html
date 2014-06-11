@@ -1,0 +1,42 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+		
+		<div class="my_friends_header">
+			<strong><h2>Answered Last Eats</h2></strong>
+		</div><!-- /demo-html -->
+		
+		{% for item in requests -%}
+			<div>
+				<h2>Request for {{ item.title }}</h2>
+				
+				{% for row in ideas[item.id] -%}
+				<a href="/last_eats_entry?id={{ row.id }}">
+					{{ friends[row.userid].user_name }} would eat at {{ row.restaurant_name }}
+				</a>
+				{%- endfor %}
+				
+				{% for row in item.friends -%}
+					<div>{{ friends[row].user_name }} {{ friends[row].user_last_name }}</div>
+				{%- endfor %}
+			</div>
+		{%- endfor %}
+		
+		{% include "add_button.html" %}
+		
+		{% include "sidebars.html" %}
+		
+	</div>
+</div>
+
+{% endblock %}
+
+

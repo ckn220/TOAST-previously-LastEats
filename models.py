@@ -28,6 +28,7 @@ class Idea(Document):
 	complete = mongoengine.IntField(required=True, default=0)
 	
 	title = mongoengine.StringField(required=True)
+	full_city = mongoengine.StringField()
 	restaurant_name = mongoengine.StringField(required=True)
 	
 	point = mongoengine.PointField(required=True)
@@ -44,6 +45,8 @@ class Idea(Document):
 	instagram_id = mongoengine.StringField()
 	filename = mongoengine.StringField()
 	filenames = mongoengine.ListField()
+	
+	request_id = mongoengine.StringField()
 	
 	# Timestamp will record the date and time idea was created.
 	timestamp = mongoengine.DateTimeField(default = datetime.now(), required=True)
@@ -90,16 +93,13 @@ class User(Document):
 class UserFriends(Document):
 	userid = mongoengine.StringField()
 	all_friends = mongoengine.ListField()
+
+class Request(Document):
+	userid = mongoengine.StringField(required=True)
+	friends = mongoengine.ListField(required=True)
 	
-#user_form = model_form(User)
-
-#All classes info goes here
-#Creating a new user, from example goes in the app.py
-
-#class User(Document):
-    #email = StringField(required=True)
-    #first_name = StringField(max_length=50)
-    #last_name = StringField(max_length=50)
+	title = mongoengine.StringField(required=True)
+	full_city = mongoengine.StringField(required=True)
 
 
-    
+

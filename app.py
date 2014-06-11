@@ -310,7 +310,6 @@ def my_friends():
 	friends = sorted(friends, key=lambda x: x.user_name)
 	
 	templateData = {'friends': friends}
-	return render_template("my_friends.html", **templateData)
 
 @app.route("/friend_profile", methods=['GET','POST'])
 def friend_profile():
@@ -428,6 +427,63 @@ def notify_content():
 				'ideas': ideas,
 				'comments': comments}
 	return render_template("notify_content.html", **templateData)
+
+
+@app.route("/requests", methods=['GET', 'POST'])
+def requests():
+	cookie_check = checkCookies(request, '/requests')
+	if cookie_check != None:
+		return cookie_check
+	
+	if request.method == "POST":
+		city = request.form.get('city')
+		title = city.split(',')[0]
+		friends = request.form.getlist('friends[]')
+		
+		r = models.Request(title = title, full_city = city, userid = request.cookies['userid'], friends = friends)
+		r.save()
+		
+		return 'Success'
+		
+	else:
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		friends = models.User.objects(userid__in = user.friends)
+	
+		templateData = {'user': user,
+				'friends': friends}
+		return render_template("request.html", **templateData)
+
+@app.route("/answered", methods=['GET', 'POST'])
+def answered():
+	cookie_check = checkCookies(request, '/answered')
+	if cookie_check != None:
+		return cookie_check
+	
+	requests = models.Request.objects(userid = request.cookies['userid'])
+	ids = []
+	friend_ids = []
+	r = []
+	for row in requests:
+		r.append(row)
+		friend_ids.extend(row.friends)
+		ids.append(str(row.id))
+		
+	ideas = {}
+	
+	for row in models.Idea.objects(request_id__in = ids):
+		if row.request_id not in ideas:
+			ideas[row.request_id] = []
+		ideas[row.request_id].append(row)
+		friend_ids.append(str(row.userid))
+	
+	friends = {}
+	for row in models.User.objects(userid__in = friend_ids):
+		friends[row.userid] = row
+	
+	templateData = {'requests': r,
+			'friends': friends,
+			'ideas': ideas}
+	return render_template("answered.html", **templateData)
 	
 	
 @app.route("/add_last_eats", methods=['GET','POST'])
@@ -437,7 +493,8 @@ def add_last_eats():
 		return cookie_check
 	
 	if request.method == "POST":
-		city = request.form.get('city').split(',')[0]
+		full_city = request.form.get('city')
+		city = full_city.split(',')[0]
 		checkCity = models.Idea.objects(userid = request.cookies['userid'], title = city, complete = 1).first()
 		warned = request.form.get('warned')
 		
@@ -446,7 +503,7 @@ def add_last_eats():
 				checkCity.delete()
 			lat = float(request.form.get('addressLat'))
 			lng = float(request.form.get('addressLng'))
-			idea = models.Idea(title = city, restaurant_name = request.form.get('addressName'),
+			idea = models.Idea(title = city, full_city = full_city, restaurant_name = request.form.get('addressName'),
 							point = [lng, lat], userid = request.cookies['userid'])
 			#cost = request.form.get('cost'), 
 			
