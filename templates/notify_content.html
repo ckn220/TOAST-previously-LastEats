@@ -1,0 +1,13 @@
+
+
+{% for item in comments -%}
+
+<li class='notifyItem' data-filtertext="buttons button markup buttonmarkup method anchor link button element">
+	<a data-ajax="false" class="ui-btn" href='/last_eat_entry?id={{ item.ideaid }}#guest_book' style='font-size: 1em;white-space: normal;font-weight: normal;'>
+		<img src='{{ friends[item.userid].picture }}' style='width: 30px;border-radius: 20px;float: left;'/>
+		<div style='margin-left:40px;'><b>{{ friends[item.userid].user_name }} {{ friends[item.userid].user_last_name }}</b>
+		commented on your LastEats <b>{{ ideas[item.ideaid].restaurant_name }}</b> in <b>{{ ideas[item.ideaid].title }}</b></div>
+	</a>
+</li>
+
+{%- endfor %}

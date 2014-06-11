@@ -18,7 +18,7 @@ class Comment(Document):
 	ideaid = mongoengine.StringField()
 	comment_string = mongoengine.StringField(max_length=140)
 	
-	seen = mongoengine.IntField(required=True, default=0)
+	seen = mongoengine.IntField()
 	
 	timestamp = mongoengine.DateTimeField(default=datetime.now())
 	
@@ -73,6 +73,8 @@ class User(Document):
 	
 	saves = mongoengine.ListField(default=[])
 	
+	notify_count = mongoengine.IntField()
+	
 	#This works with storing the data as a string, but we want it in json in array
 	#user_friends = mongoengine.ListField()
 	
@@ -84,8 +86,11 @@ class User(Document):
 
 	#empty array structure 
 	friends = mongoengine.ListField()
-	all_friends = mongoengine.ListField()
 
+class UserFriends(Document):
+	userid = mongoengine.StringField()
+	all_friends = mongoengine.ListField()
+	
 #user_form = model_form(User)
 
 #All classes info goes here

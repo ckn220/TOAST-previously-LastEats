@@ -5,8 +5,15 @@ import facebook
 
 def fixUsers():
     for user in models.User.objects():
-        user.saves = []
+        c = models.UserFriends(userid = user.userid, all_friends = user.all_friends)
+        c.save()
+        user.all_friends = None
         user.save()
+
+def addSeen():
+    for c in models.Comment.objects():
+        c.seen = 0
+        c.save()
 
 def convertLocation():
     

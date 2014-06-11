@@ -62,17 +62,21 @@ from flask import make_response
 def index():
 	# render the template
 	
+	if 'userid' in request.cookies:
+		resp = make_response(redirect('/newsfeed'))
+		return resp
+	
 	if request.base_url == 'http://lasteats-dev.herokuapp.com/' or request.base_url == 'http://localhost:5000/':
 		if 'userid' in request.args:
 			resp = make_response(redirect('/newsfeed'))
 			resp.set_cookie('userid', request.args['userid'])
 			return resp
 		else:
-			users = models.User.objects().exclude("all_friends")
+			users = models.User.objects()
 			templateData = {'users': users,
 						'fbookId' : FACEBOOK_APP_ID}
 			return render_template("index.html", **templateData)
-	
+		
 	templateData = {'fbookId' : FACEBOOK_APP_ID}
 	return render_template("index.html", **templateData)		#if you make recent_submissions = DATA 
 
@@ -150,7 +154,7 @@ def get_newsfeed(request, path):
 		for row in ideas:
 			friendList.append(row.userid)
 		friends = {}
-		for row in models.User.objects(userid__in = friendList).exclude('all_friends'):
+		for row in models.User.objects(userid__in = friendList):
 			friends[row.userid] = row
 	
 	idea_list = []
@@ -176,6 +180,9 @@ def addUser(request):
 	user = models.User(userid = me['id'], user_name = me['first_name'], user_last_name = me['last_name'], date_joined = datetime.datetime.now(), 
 					last_visited = datetime.datetime.now(), friends = friends, picture = picture)
 	user.save()
+	
+	userFriends = models.UserFriends(userid = me['id'], all_friends = all_friends)
+	userFriends.save()
 	
 	#Update each other user already in the database
 	for friendUser in models.User.objects(userid__in = friends):
@@ -393,6 +400,37 @@ def price_filter():
 				'display': display_prices}
 	return render_template("filter.html", **templateData)
 
+
+@app.route("/notify_content", methods=['POST'])
+def notify_content():
+	userid = request.form.get('userid')
+	
+	ideas = models.Idea.objects(userid = userid).only('id')
+	ids = []
+	for idea in ideas:
+		ids.append(str(idea.id))
+	c = models.Comment.objects(ideaid__in = ids, seen = 0).order_by('timestamp')
+	friend_ids = []
+	idea_ids = []
+	comments = []
+	for row in c:
+		friend_ids.append(row.userid)
+		idea_ids.append(row.ideaid)
+		comments.append(row)
+		
+	friends = {}
+	for row in models.User.objects(userid__in = friend_ids):
+		friends[row.userid] = row
+	ideas = {}
+	for row in models.Idea.objects(id__in = idea_ids):
+		ideas[str(row.id)] = row
+		
+	templateData = {'friends': friends,
+				'ideas': ideas,
+				'comments': comments}
+	return render_template("notify_content.html", **templateData)
+	
+	
 @app.route("/add_last_eats", methods=['GET','POST'])
 def add_last_eats():
 	cookie_check = checkCookies(request, '/add_last_eats')
@@ -630,7 +668,6 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 # --------- Server On ----------
 # start the webserver
-
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test
