@@ -238,11 +238,6 @@ def last_eat_entry():
 		friend = models.User.objects(userid = idea.userid).first()
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
-		a = user.saves
-		b = str(idea.id)
-		
-		if b in a:
-			c = 'a'
 		templateData = {'current_user': current_user,
 					'idea' : idea,
 					'idea_id' : str(idea.id),
@@ -308,7 +303,11 @@ def my_friends():
 		return cookie_check
 	
 	user = models.User.objects(userid = request.cookies['userid']).first()
-	friends = models.User.objects(userid__in = user.friends)
+	f = models.User.objects(userid__in = user.friends)
+	friends = []
+	for row in f:
+		friends.append(row)
+	friends = sorted(friends, key=lambda x: x.user_name)
 	
 	templateData = {'friends': friends}
 	return render_template("my_friends.html", **templateData)
