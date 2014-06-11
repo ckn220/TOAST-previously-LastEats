@@ -200,8 +200,13 @@ def last_eat_entry():
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		id = request.form.get('id')
 		comment = request.form.get('comment')
-		c = models.Comment(userid = user.userid, ideaid = id, comment_string = comment)
+		c = models.Comment(userid = user.userid, ideaid = id, seen = 0, comment_string = comment)
 		c.save()
+		
+		friendid = models.Idea.objects(id = id).only('userid').first()
+		friend = models.User.objects(userid = friendid.userid).only('notify_count').first()
+		friend.notify_count += 1
+		friend.save()
 		
 		templateData = {'comment': c, 'user': user}
 		return render_template("comment.html", **templateData)
@@ -310,6 +315,7 @@ def my_friends():
 	friends = sorted(friends, key=lambda x: x.user_name)
 	
 	templateData = {'friends': friends}
+	return render_template("all_friends.html", **templateData)
 
 @app.route("/friend_profile", methods=['GET','POST'])
 def friend_profile():
@@ -407,7 +413,7 @@ def notify_content():
 	ids = []
 	for idea in ideas:
 		ids.append(str(idea.id))
-	c = models.Comment.objects(ideaid__in = ids, seen = 0).order_by('timestamp')
+	c = models.Comment.objects(ideaid__in = ids, seen = 0).order_by('-timestamp')
 	friend_ids = []
 	idea_ids = []
 	comments = []

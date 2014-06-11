@@ -76,7 +76,7 @@ class User(Document):
 	
 	saves = mongoengine.ListField(default=[])
 	
-	notify_count = mongoengine.IntField()
+	notify_count = mongoengine.IntField(default = 0)
 	
 	#This works with storing the data as a string, but we want it in json in array
 	#user_friends = mongoengine.ListField()

@@ -3,5 +3,10 @@
 	<h2><a href="/newsfeed" title="Last Eats home"><img src="static/assets/img/LE.png" alt="jQuery Mobile"></a></h2>
 	<!-- <p><span class="jqm-version"></span> Demos</p> -->
 	<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
-	<a href="#" class="jqm-search-link icon notify ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-alt-icon ui-btn-right" onclick='getNotifications()'></a>
+	<a href="#" class="jqm-search-link icon notify ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-alt-icon ui-btn-right" onclick='getNotifications()'>
+		
+		{% if user %}
+			<div class='userNotifyCount'>{{ user.notify_count }}</div>
+		{% endif %}
+	</a>
 </div><!-- /header -->
