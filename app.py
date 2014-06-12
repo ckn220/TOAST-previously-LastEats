@@ -646,7 +646,7 @@ def get_instagram_id(idea, lat, lng):
 	return idea
 	
 def get_instagram_photo(idea):
-	url = 'https://api.instagram.com/v1/locations/'+ idea.instagram_id +'/media/recent?access_token=' + INSTAGRAM_TOKEN
+	url = 'https://api.instagram.com/v1/locations/'+ idea.instagram_id +'/media/recent?access_token=' + INSTAGRAM_TOKEN + '&count=30'
 	response = requests.request("GET",url)
 	data = json.loads(response.text)
 	if len(data['data']) > 0:
