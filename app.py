@@ -280,13 +280,22 @@ def save_idea():
 		
 		return '200'
 
-@app.route("/profile", methods=['GET','DELETE'])
+@app.route("/profile", methods=['GET','POST','DELETE'])
 def profile():
 	cookie_check = checkCookies(request, "/profile")
 	if cookie_check != None:
 		return cookie_check
-
-	if request.method == "DELETE":
+	
+	if request.method == "POST":
+		lat = float(request.form.get('lat'))
+		lng = float(request.form.get('lng'))
+		
+		ideas = models.Idea.objects(userid = request.cookies['userid'], point__near=[lng, lat], complete = 1)
+		
+		templateData = {'ideas': ideas}
+		return render_template("profile_content.html", **templateData)
+	
+	elif request.method == "DELETE":
 		id = request.form.get('id')
 		idea = models.Idea.objects(id = id)
 		idea.delete()
@@ -315,7 +324,7 @@ def my_friends():
 	friends = sorted(friends, key=lambda x: x.user_name)
 	
 	templateData = {'friends': friends}
-	return render_template("all_friends.html", **templateData)
+	return render_template("my_friends.html", **templateData)
 
 @app.route("/friend_profile", methods=['GET','POST'])
 def friend_profile():
@@ -332,7 +341,7 @@ def friend_profile():
 		ideas = models.Idea.objects(userid = friend.userid, point__near=[lng, lat], complete = 1)[:20]
 		
 		templateData = {'ideas': ideas[:20]}
-		return render_template("profile_content.html", **templateData)
+		return render_template("friend_profile_content.html", **templateData)
 
 	else:
 		id = request.args['friendid']
@@ -435,9 +444,9 @@ def notify_content():
 	return render_template("notify_content.html", **templateData)
 
 
-@app.route("/requests", methods=['GET', 'POST'])
-def requests():
-	cookie_check = checkCookies(request, '/requests')
+@app.route("/le_requests", methods=['GET', 'POST'])
+def le_requests():
+	cookie_check = checkCookies(request, '/le_requests')
 	if cookie_check != None:
 		return cookie_check
 	
@@ -465,11 +474,11 @@ def answered():
 	if cookie_check != None:
 		return cookie_check
 	
-	requests = models.Request.objects(userid = request.cookies['userid'])
+	rs = models.Request.objects(userid = request.cookies['userid'])
 	ids = []
 	friend_ids = []
 	r = []
-	for row in requests:
+	for row in rs:
 		r.append(row)
 		friend_ids.extend(row.friends)
 		ids.append(str(row.id))
