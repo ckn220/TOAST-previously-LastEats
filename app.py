@@ -141,25 +141,21 @@ def get_newsfeed(request, path):
 		else:
 			ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')[:20]
 			
-		friends = {}
-		for row in models.User.objects(userid__in = user.friends):
-			friends[row.userid] = row
 	else:
 		if lat != None:
 			ideas = models.Idea.objects(point__near=[lng, lat], complete = 1)[:20]
 		else:
 			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:20]
-		
-		friendList = []
-		for row in ideas:
-			friendList.append(row.userid)
-		friends = {}
-		for row in models.User.objects(userid__in = friendList):
-			friends[row.userid] = row
 	
 	idea_list = []
+	friendList = []
 	for row in ideas:
 		idea_list.append(row)
+		friendList.append(row.userid)
+	
+	friends = {}
+	for row in models.User.objects(userid__in = friendList):
+		friends[row.userid] = row
 	
 	templateData = {'ideas': idea_list[:20],
 				'friends': friends}
