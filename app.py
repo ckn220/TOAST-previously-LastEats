@@ -315,11 +315,18 @@ def my_friends():
 	user = models.User.objects(userid = request.cookies['userid']).first()
 	f = models.User.objects(userid__in = user.friends)
 	friends = []
+	fid = []
 	for row in f:
 		friends.append(row)
+		fid.append(row.userid)
 	friends = sorted(friends, key=lambda x: x.user_name)
 	
-	templateData = {'friends': friends}
+	all_friends = models.UserFriends.objects(userid = user.userid).first()
+	
+	templateData = {'friends': friends,
+				'all_friends': all_friends.all_friends[:20],
+				'all_friends_hidden': all_friends.all_friends[20:],
+				'fid':fid}
 	return render_template("my_friends.html", **templateData)
 
 @app.route("/friend_profile", methods=['GET','POST'])

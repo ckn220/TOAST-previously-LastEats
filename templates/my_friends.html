@@ -14,12 +14,44 @@
 			<strong><h2>My Friends</h2></strong>
 		</div><!-- /demo-html -->
 		
-		{% for item in friends -%}
-		<a href="/friend_profile?friendid={{ item.userid }}" title="Friend Profile"><div class="my_friends">
-			<img src="{{ item.picture }}" height="50" width="50">
-			<h2>{{ item.user_name }} {{ item.user_last_name }}</h2>
-		</div></a>
-		{%- endfor %}
+		<input type="search" name="search" id="search-basic" value="" placeholder='Search' autocomplete="off"/>
+		
+		<div class='current'>
+			{% for item in friends -%}
+			<a href="/friend_profile?friendid={{ item.userid }}" title="Friend Profile" class="my_friends">
+				<img src="{{ item.picture }}" height="50" width="50">
+				<h2>{{ item.user_name }} {{ item.user_last_name }}</h2>
+			</a>
+			{%- endfor %}
+		</div>
+		
+		<p>INVITE TO LAST EATS</p>
+		
+		<div class='all'>
+			{% for item in all_friends -%}
+				{% if item['id'] not in fid %}
+					<div id='{{item['id']}}' class="my_friends">
+						<img src="{{ item['picture'] }}" height="50" width="50">
+						
+						<a href="http://www.facebook.com/dialog/send?app_id=238836302966820&to={{item['id']}}&link=http://beta.lasteats.com&redirect_uri=http://beta.lasteats.com" target='_blank'
+							style='float:right;margin:10px;padding:10px;'>Invite</a>
+						<h2>{{ item['name'] }}</h2>
+					</div>
+				{% endif %}
+			{%- endfor %}
+			{% for item in all_friends_hidden -%}
+				{% if item['id'] not in fid %}
+				<div id='{{item['id']}}' class="my_friends" style='display:none;'>
+					<img src="{{ item['picture'] }}" height="50" width="50">
+					
+					<a href="http://www.facebook.com/dialog/send?app_id=238836302966820&to={{item['id']}}&link=http://beta.lasteats.com&redirect_uri=http://beta.lasteats.com" target='_blank'
+						style='float:right;margin:10px;padding:10px;'>Invite</a>
+					<h2>{{ item['name'] }}</h2>
+				</div>
+				{% endif %}
+			{%- endfor %}
+		</div>
+		
 		
 		{% include "add_button.html" %}
 		
@@ -31,3 +63,34 @@
 {% endblock %}
 
 
+{% block scripts %}
+	
+	<script>
+		$(document).on('pageinit', function(event){
+			$('.ui-input-clear').click(function(){
+				search();
+			})
+			$('#search-basic').keyup(function(){
+				search();
+			});
+		});
+		
+		function search(){
+			var s = $('#search-basic').val().toLowerCase();
+			
+			$('.current .my_friends').hide();
+			$('.current .my_friends').each(function(){
+				if($(this).children('h2').html().toLowerCase().indexOf(s) > -1){
+					$(this).show();
+				}
+			});
+			
+			$('.all .my_friends').hide();
+			$('.all .my_friends').each(function(){
+				if($(this).children('h2').html().toLowerCase().indexOf(s) > -1){
+					$(this).show();
+				}
+			});
+		}
+	</script>
+{% endblock %}
