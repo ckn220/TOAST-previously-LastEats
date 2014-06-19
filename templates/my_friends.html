@@ -77,7 +77,7 @@
 		
 		function search(){
 			var s = $('#search-basic').val().toLowerCase();
-			
+			var i = 0;
 			$('.current .my_friends').hide();
 			$('.current .my_friends').each(function(){
 				if($(this).children('h2').html().toLowerCase().indexOf(s) > -1){
@@ -86,9 +86,11 @@
 			});
 			
 			$('.all .my_friends').hide();
+			var i = 0;
 			$('.all .my_friends').each(function(){
 				if($(this).children('h2').html().toLowerCase().indexOf(s) > -1){
 					$(this).show();
+					i += 1;
 				}
 			});
 		}

@@ -319,13 +319,14 @@ def my_friends():
 	for row in f:
 		friends.append(row)
 		fid.append(row.userid)
-	friends = sorted(friends, key=lambda x: x.user_name)
+	friends = sorted(friends, key=lambda x: x.name)
 	
-	all_friends = models.UserFriends.objects(userid = user.userid).first()
+	all_friends = models.UserFriends.objects(userid = user.userid).first().all_friends
+	all_friends = sorted(all_friends, key=lambda x: x.user_name)
 	
 	templateData = {'friends': friends,
-				'all_friends': all_friends.all_friends[:20],
-				'all_friends_hidden': all_friends.all_friends[20:],
+				'all_friends': all_friends[:20],
+				'all_friends_hidden': all_friends[20:],
 				'fid':fid}
 	return render_template("my_friends.html", **templateData)
 
