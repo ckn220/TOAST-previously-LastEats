@@ -15,6 +15,17 @@ def addSeen():
         c.seen = 0
         c.save()
 
+
+def convertFilename():
+    for idea in models.Idea.objects(complete = 1):
+        if not isinstance(idea.filename, dict):
+            idea.filename = {'url': idea.filename}
+            
+        for i in range(len(idea.filenames)):
+            if not isinstance(idea.filenames[i], dict):
+                idea.filenames[i] = {'url': idea.filenames[i]}
+        idea.save()
+        
 def convertLocation():
     
     for idea in models.Idea.objects(complete = 1):

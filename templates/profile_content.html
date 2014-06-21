@@ -7,7 +7,7 @@
 				<div class="centered" style='padding-bottom:10px;'><h2 style='display:inline-block;'>{{ item.restaurant_name }} in {{ item.title }}</h2></div>
 			</div>
 			
-			<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
+			<div class="restaurant_photo"><img src="{{ item.filename['url'] }}"></div>
 		</a>
 		<div class='delete-entry transition' onclick='delete_entry(this, "{{ item.id }}")' >X</div>
 	</div>

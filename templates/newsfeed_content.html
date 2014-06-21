@@ -5,6 +5,6 @@
 		<img src="{{ friends[item.userid].picture }}" height="85" width="85">
 		<h2>{{ friends[item.userid].user_name }} just made <strong>{{ item.restaurant_name }}</strong> the Last Eats in {{ item.title }}</h2>
 	</div>
-	<div class="restaurant_photo"><img src="{{ item.filename }}"></div>
+	<div class="restaurant_photo"><img src="{{ item.filename['url'] }}"></div>
 </a>
 {%- endfor %}

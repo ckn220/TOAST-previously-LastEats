@@ -190,12 +190,9 @@ h3 { font-size: 1.1em; }
 	text-shadow: none;
 }
 
-.ui-page-theme-a a {
-	color: grey;
-}
-
-.ui-page-theme-a a:visited {
-	color: grey;
+a {
+	color: black !important;
+	text-decoration: none !important;
 }
 
 .ui-content .full_frame_text_box textarea   {
@@ -225,7 +222,7 @@ h3 { font-size: 1.1em; }
 }
 
 #footer_button {
-	background-color: rgba(255,255,255,0.9);
+	background-color: rgba(200,200,200,0.9);
 	border: none;
 	border-style: none;
 }

@@ -43,7 +43,8 @@ class Idea(Document):
 	
 	slug = mongoengine.StringField()
 	instagram_id = mongoengine.StringField()
-	filename = mongoengine.StringField()
+	
+	filename = mongoengine.fields.DictField()
 	filenames = mongoengine.ListField()
 	
 	request_id = mongoengine.StringField()

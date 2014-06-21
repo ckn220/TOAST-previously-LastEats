@@ -368,6 +368,7 @@ def friend_profile():
 def city_filter():
 	cities = {}
 	ordered_cities = []
+	city_count = []
 	display_city = {}
 	user = None
 	if 'userid' in request.cookies:
@@ -381,11 +382,17 @@ def city_filter():
 			cities[idea.title] = []
 			display_city[idea.title] = idea.title
 			ordered_cities.append(idea.title)
-		cities[idea.title].append(idea)	
+			if 'userid' in request.cookies:
+				city_count.append(models.Idea.objects(userid__in = user.friends, title = idea.title, complete = 1).count())
+			else:
+				city_count.append(models.Idea.objects(title = idea.title, complete = 1).count())
+			
+		cities[idea.title].append(idea)
 	ordered_cities.sort()
 	templateData = {'user': user,
 				'filter': cities,
 				'list': ordered_cities,
+				'count': city_count,
 				'display': display_city}
 	return render_template("filter.html", **templateData)
 
@@ -609,7 +616,6 @@ def add_last_eats_next():
 		return cookie_check
 	
 	if request.method == "POST":
-		r = request
 		id = request.form.get('id')
 		idea = models.Idea.objects(id = id).first()
 		idea.idea = request.form.get('idea')
@@ -672,7 +678,7 @@ def add_last_eats_last():
 				
 				# connect to s3
 				s3conn = boto.connect_s3(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-
+				
 				# open s3 bucket, create new Key/file
 				# set the mimetype, content and access control
 				b = s3conn.get_bucket(AWS_BUCKET) # bucket name defined in .env
@@ -685,10 +691,12 @@ def add_last_eats_last():
 				
 				# if content was actually saved to S3 - save info to Database
 				if k and k.size > 0:
-					idea.filename = filename
+					idea.filename = {'url':filename}
 					
 		else:
-			idea.filename = request.form.get('image')
+			creator = request.form.get('creator')
+			id = request.form.get('id')
+			idea.filename = {'url':request.form.get('image'), 'creator':creator, 'id':id}
 			
 		idea.complete = 1
 		idea.save()
@@ -751,10 +759,10 @@ def get_instagram_photo(idea):
 	response = requests.request("GET",url)
 	data = json.loads(response.text)
 	if len(data['data']) > 0:
-		idea.filename = data['data'][0]['images']['standard_resolution']['url']
+		idea.filename = {'url':data['data'][0]['images']['standard_resolution']['url'],'id':data['data'][0]['user']['id'],'creator':data['data'][0]['user']['username']}
 		idea.filenames = []
 		for row in data['data']:
-			idea.filenames.append(row['images']['standard_resolution']['url'])
+			idea.filenames.append({'url':row['images']['standard_resolution']['url'],'id':row['user']['id'],'creator':row['user']['username']})
 		
 	return idea
 

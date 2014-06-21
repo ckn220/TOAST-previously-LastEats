@@ -35,7 +35,7 @@ function delayStart(){
 			<p>No images were found for this location :(</p>
 		{% else %}
 		
-			<input type='hidden' id='image' name='image' value='{{ idea.filenames[0] }}' />
+			<input type='hidden' id='image' name='image' value='{{ idea.filenames[0]["url"] }}' />
 			<p style='display: block;text-align: center;padding: 5px;'><b>Swipe</b> or <b>click</b> to find a photo you love!</p> 
 			<br>
 			<div class="restaurant_photo">
@@ -43,9 +43,9 @@ function delayStart(){
 				
 				{% for img in idea.filenames %}
 					{% if loop.index == 1 %}
-						<img class='transition' src="{{ img }}" style='left:0%;' onload='startSlider();' />
+						<img class='transition' src="{{ img['url'] }}" style='left:0%;' onload='startSlider();' />
 					{% else %}
-						<img class='transition' src="{{ img }}" />
+						<img class='transition' src="{{ img['url'] }}" />
 					{% endif %}
 				{% endfor %}
 				</div>
