@@ -163,36 +163,56 @@
 		});
 	}
 	
-	
+	ajaxOut = 0;
 	function saveIdea(thisObject, id){
-		$.ajax({
-			url: 'save_idea',
-			type: "post",
-			data: {'userid': {{ user.userid }},
-					'id': id},
-			success: function(value) {
-				console.log(value);
-				$(thisObject).removeClass('save');
-				$(thisObject).addClass('saved');
-				
-			}
-		});
+		if (ajaxOut == 0){
+			ajaxOut = 1;
+			$.ajax({
+				url: 'save_idea',
+				type: "post",
+				data: {'userid': {{ user.userid }},
+						'id': id},
+				success: function(value) {
+					console.log(value);
+					ajaxOut = 0;
+					if(value == 'ADDED'){
+						$(thisObject).removeClass('save');
+						$(thisObject).addClass('saved');
+					}
+					else{
+						$(thisObject).removeClass('saved');
+						$(thisObject).addClass('save');
+					}
+					
+				}
+			});
+		}
 	}
 	
 	function loveIdea(thisObject, id){
-		$.ajax({
-			url: 'love_idea',
-			type: "post",
-			data: {'userid': {{ user.userid }},
-					'id': id},
-			success: function(value) {
-				console.log(value);
-				$(thisObject).removeClass('love');
-				$(thisObject).addClass('loved');
-				
-				$('.likeCount').html(parseInt($('.likeCount').html()) + 1);
-			}
-		});
+		if (ajaxOut == 0){
+			ajaxOut = 1;
+			$.ajax({
+				url: 'love_idea',
+				type: "post",
+				data: {'userid': {{ user.userid }},
+						'id': id},
+				success: function(value) {
+					console.log(value);
+					ajaxOut = 0;
+					if(value == 'ADDED'){
+						$(thisObject).removeClass('love');
+						$(thisObject).addClass('loved');
+						$('.likeCount').html(parseInt($('.likeCount').html()) + 1);
+					}
+					else {
+						$(thisObject).removeClass('loved');
+						$(thisObject).addClass('love');
+						$('.likeCount').html(parseInt($('.likeCount').html()) - 1);
+					}
+				}
+			});
+		}
 	}
 	</script>
 {% endblock %}

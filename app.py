@@ -270,8 +270,12 @@ def love_idea():
 			idea.likes.append(userid)
 			idea.like_count = len(idea.likes)
 			idea.save()
-		
-		return '200'
+			return 'ADDED'
+		else:
+			idea.likes.remove(userid)
+			idea.like_count = len(idea.likes)
+			idea.save()
+			return 'REMOVED'
 		
 @app.route("/save_idea", methods=['POST','DELETE'])
 def save_idea():
@@ -283,8 +287,12 @@ def save_idea():
 		if id not in user.saves:
 			user.saves.append(id)
 			user.save()
+			return 'ADDED'
+		else:
+			user.saves.remove(id)
+			user.save()
+			return 'REMOVED'
 		
-		return '200'
 
 @app.route("/profile", methods=['GET','POST','DELETE'])
 def profile():
