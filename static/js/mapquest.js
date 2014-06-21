@@ -23,8 +23,10 @@ function initialize() {
 		};
 		var autocomplete2 = new google.maps.places.Autocomplete(input2, options);
 		google.maps.event.addListener(autocomplete2, 'place_changed', function () {
+			var place = autocomplete2.getPlace();
+			document.getElementById('cityLat').value = place.geometry.location.lat();
+	        document.getElementById('cityLng').value = place.geometry.location.lng();
 	        if (autocomplete){
-	        	var place = autocomplete2.getPlace();
 		        var lati = place.geometry.location.lat();
 		        var long = place.geometry.location.lng();
 		        var s = new google.maps.LatLng(lati,long);
@@ -45,6 +47,12 @@ function initialize() {
 	        document.getElementById('addressLat').value = place.geometry.location.lat();
 	        document.getElementById('addressLng').value = place.geometry.location.lng();
 	    });
+	    if (req){
+        	var s = new google.maps.LatLng(req.lati,req.long);
+	        var n = new google.maps.LatLng(req.lati,req.long);
+	        var boundary = new google.maps.LatLngBounds(s,n);
+	        autocomplete.setBounds(boundary);
+        }
 		//autocomplete.bindTo('bounds', map);
 	}
 }

@@ -21,6 +21,9 @@
 		<label for="textinput-4" class="ui-hidden-accessible">Text Input:</label>
 		<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
 		<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="">
+		<input type="hidden" id="cityLat" name="cityLat" />
+		<input type="hidden" id="cityLng" name="cityLng" />
+		
 		</br>
 		<p>I'd go to:</p>
 		<div id="geocode">
@@ -95,6 +98,7 @@ function moveOn(){
 					'addressLat': addressLat,
 					'addressLng': addressLng,
 					'cost': cost,
+					'requestid': reqId,
 					'warned': warned},
 			success: function(value) {
 				ajax_loading = 0;
@@ -112,6 +116,17 @@ function moveOn(){
 	}
 	
 }
+
+{% if req %}
+var req = {'lati': {{ req.point.coordinates[1] }},'long': {{ req.point.coordinates[0] }}};
+var reqId = "{{ req.id }}";
+$("#textinput-4").val("{{ req.full_city }}");
+$("#textinput-4").prop('disabled', true);
+
+{% else %}
+var reqId = undefined;
+
+{% endif %}
 
 </script>
 

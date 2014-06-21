@@ -1,5 +1,29 @@
 
 
+{% for item in requestIdeas -%}
+
+<li class='notifyItem' data-filtertext="buttons button markup buttonmarkup method anchor link button element">
+	<a data-ajax="false" class="ui-btn" href='/last_eat_entry?id={{ item.id }}' style='font-size: 1em;white-space: normal;font-weight: normal;'>
+		<img src='{{ friends[item.userid].picture }}' style='width: 30px;border-radius: 20px;float: left;'/>
+		<div style='margin-left:40px;'><b>{{ friends[item.userid].user_name }} {{ friends[item.userid].user_last_name }}</b>
+		thinks you should eat at <b>{{ item.restaurant_name }}</b> in <b>{{ item.title }}</b></div>
+	</a>
+</li>
+
+{%- endfor %}
+
+{% for item in open_requests -%}
+
+<li class='notifyItem' data-filtertext="buttons button markup buttonmarkup method anchor link button element">
+	<a data-ajax="false" class="ui-btn" href='/add_last_eats?requestid={{ item.id }}' style='font-size: 1em;white-space: normal;font-weight: normal;'>
+		<img src='{{ friends[item.userid].picture }}' style='width: 30px;border-radius: 20px;float: left;'/>
+		<div style='margin-left:40px;'><b>{{ friends[item.userid].user_name }} {{ friends[item.userid].user_last_name }}</b>
+		wants to know where you would eat in  <b>{{ item.title }}</b></div>
+	</a>
+</li>
+
+{%- endfor %}
+
 {% for item in comments -%}
 
 <li class='notifyItem' data-filtertext="buttons button markup buttonmarkup method anchor link button element">

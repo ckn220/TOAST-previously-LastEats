@@ -17,6 +17,8 @@
 		<p>Help! I only have one meal in:</p>
 		<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
 		<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="">
+		<input type="hidden" id="cityLat" name="cityLat" />
+		<input type="hidden" id="cityLng" name="cityLng" />
 		
 		<p>Who are you asking?</p>
 		<div data-role="fieldcontain">
@@ -50,6 +52,9 @@
 	function moveOn(){
 		
 		var city = $('#textinput-4').val();
+		var cityLat = $('#cityLat').val();
+		var cityLng = $('#cityLng').val();
+		
 		var friends = Array();
 		$('input[type=checkbox]').each(function(){
 			if($(this).is(':checked')){
@@ -64,7 +69,9 @@
 				url: 'le_requests',
 				type: "post",
 				data: {'city': city,
-						'friends':friends},
+						'friends':friends,
+						'cityLat': cityLat,
+						'cityLng': cityLng},
 				success: function(value) {
 					console.log(value);
 					window.location = "/answered";

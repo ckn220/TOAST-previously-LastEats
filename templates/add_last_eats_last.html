@@ -30,11 +30,12 @@ function delayStart(){
 	{% include "header.html" %}
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
-		
+		<form action="add_last_eats_last" method="post" enctype='multipart/form-data' encoding='multipart/form-data'>
 		{% if idea.filenames|length == 0 %}
 			<p>No images were found for this location :(</p>
 		{% else %}
-			
+		
+			<input type='hidden' id='image' name='image' value='{{ idea.filenames[0] }}' />
 			<p style='display: block;text-align: center;padding: 5px;'><b>Swipe</b> or <b>click</b> to find a photo you love!</p> 
 			<br>
 			<div class="restaurant_photo">
@@ -48,12 +49,18 @@ function delayStart(){
 					{% endif %}
 				{% endfor %}
 				</div>
+				
 				<input type="hidden" id="id" name="id" value="{{ id }}"/>
 			</div>
 		
 		{% endif %}
+		<br>
+		<p style='display: block;text-align: center;padding: 5px;'>or upload your own image</h3>
 		
-		<div class="form_next"><a onclick='moveOn()' data-role="button" style="background: #grey; color: black;">Submit Last Eats</a></div>
+		<input class='picture-file-input' type='file' name='picture' />
+		
+		<div class="form_next"><input type='submit' data-role="button" style="background: #grey; color: black;" value='Submit Last Eats' /></div>
+		</form>
 		
 		<div class='progressBar'>
 			<div class='progress active'></div>
@@ -116,6 +123,7 @@ function swipePhoto(dir){
 		if (next.length == 0){
 			next = $('.photo_slider img').first();}
 		next.show();
+		$('#image').val(next.attr('src'));
 		setTimeout(function(){
 			next.css('left','0%');
 			next.addClass('active');
@@ -135,6 +143,7 @@ function swipePhoto(dir){
 			next = $('.photo_slider img').last();}
 		next.css('left','-100%');
 		next.show();
+		$('#image').val(next.attr('src'));
 		setTimeout(function(){
 			next.css('left','0%');
 			next.addClass('active');

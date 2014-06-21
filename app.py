@@ -5,10 +5,10 @@ import re
 import math
 
 from flask import jsonify
-from flask import Flask, request, render_template, redirect, abort, session, flash
+from flask import Flask, request, render_template, redirect, abort, session, flash, url_for
 
 from unidecode import unidecode
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 
 from flask.ext.mongoengine import MongoEngine
 import models
@@ -16,6 +16,7 @@ import StringIO
 
 import requests
 import json
+import boto
 
 #instagram
 # import time
@@ -31,6 +32,10 @@ CLIENT_ID = os.environ['CLIENT_ID']
 CLIENT_SECRET = os.environ['CLIENT_SECRET']
 SECRET_KEY = os.environ['SECRET_KEY']
 
+AWS_BUCKET='restaurant_photos_locavore'
+AWS_ACCESS_KEY_ID='AKIAI3P2HEHI6EUEH6UQ'
+AWS_SECRET_ACCESS_KEY='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'
+
 PORT = int(os.environ.get("PORT", 5000))
 #Instagram
 INSTAGRAM_TOKEN = os.environ['access_token']
@@ -38,13 +43,18 @@ FOURSQUARE_CLIENT_ID = 'PVTLQK3ZVWOHDSH2TSKPMRS41R5LN2E4XVRC5T2VTSRRO3WC'
 FOURSQUARE_CLIENT_SECRET = '2KSXRK2JY2VA0XV2F5JGYTYB2JYPUHMRYFG1ZSKITDUWDJ2X'
 ## End Env
 
+UPLOAD_FOLDER = os.getcwd() + '\static\img\lasteatimg'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 app = Flask(__name__)   # create our flask app
+
 app.secret_key = SECRET_KEY 
 # put SECRET_KEY variable inside .env file with a random string of alphanumeric characters
 app.config['DEBUG'] = True
 app.config['CSRF_ENABLED'] = False
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 megabyte file upload
 app.config['WTF_CSRF_SECRET_KEY'] = 'dflksdlkfsdlfjgldkf'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # --------- Database Connection ---------
 # MongoDB connection to MongoLab's database
@@ -313,16 +323,15 @@ def my_friends():
 		return cookie_check
 	
 	user = models.User.objects(userid = request.cookies['userid']).first()
-	f = models.User.objects(userid__in = user.friends)
 	friends = []
 	fid = []
-	for row in f:
+	for row in models.User.objects(userid__in = user.friends):
 		friends.append(row)
 		fid.append(row.userid)
-	friends = sorted(friends, key=lambda x: x.name)
+	friends = sorted(friends, key=lambda x: x.user_name)
 	
 	all_friends = models.UserFriends.objects(userid = user.userid).first().all_friends
-	all_friends = sorted(all_friends, key=lambda x: x.user_name)
+	all_friends = sorted(all_friends, key=lambda x: x['name'])
 	
 	templateData = {'friends': friends,
 				'all_friends': all_friends[:20],
@@ -422,13 +431,30 @@ def price_filter():
 def notify_content():
 	userid = request.form.get('userid')
 	
+	friend_ids = []
+	idea_ids = []
+	open_requests = []
+	#Get open requests for your opinion
+	for row in models.Request.objects(friends = request.cookies['userid']):
+		open_requests.append(row)
+		friend_ids.append(row.userid)
+		
+	#Requests that your friends have responded to
+	requestIds = []
+	for row in models.Request.objects(userid = request.cookies['userid']).only('id'):
+		requestIds.append(str(row.id))
+	requestIdeas = []
+	for row in models.Idea.objects(request_id__in = requestIds):
+		requestIdeas.append(row)
+		friend_ids.append(str(row.userid))
+	
+	#Get comments for your last eat entries 
 	ideas = models.Idea.objects(userid = userid).only('id')
 	ids = []
 	for idea in ideas:
 		ids.append(str(idea.id))
 	c = models.Comment.objects(ideaid__in = ids, seen = 0).order_by('-timestamp')
-	friend_ids = []
-	idea_ids = []
+	
 	comments = []
 	for row in c:
 		friend_ids.append(row.userid)
@@ -443,6 +469,8 @@ def notify_content():
 		ideas[str(row.id)] = row
 		
 	templateData = {'friends': friends,
+				'requestIdeas': requestIdeas,
+				'open_requests': open_requests,
 				'ideas': ideas,
 				'comments': comments}
 	return render_template("notify_content.html", **templateData)
@@ -456,11 +484,19 @@ def le_requests():
 	
 	if request.method == "POST":
 		city = request.form.get('city')
+		lat = float(request.form.get('cityLat'))
+		lng = float(request.form.get('cityLng'))
+			
 		title = city.split(',')[0]
 		friends = request.form.getlist('friends[]')
 		
-		r = models.Request(title = title, full_city = city, userid = request.cookies['userid'], friends = friends)
+		r = models.Request(title = title, full_city = city, userid = request.cookies['userid'], 
+						friends = friends, point = [lng, lat])
 		r.save()
+		
+		for friend in models.User.objects(userid__in = friends).only('notify_count'):
+			friend.notify_count += 1
+			friend.save()
 		
 		return 'Success'
 		
@@ -478,17 +514,20 @@ def answered():
 	if cookie_check != None:
 		return cookie_check
 	
-	rs = models.Request.objects(userid = request.cookies['userid'])
-	ids = []
 	friend_ids = []
+	open_requests = []
+	for row in models.Request.objects(friends = request.cookies['userid']):
+		open_requests.append(row)
+		friend_ids.append(row.userid)
+		
+	ids = []
 	r = []
-	for row in rs:
+	for row in models.Request.objects(userid = request.cookies['userid']):
 		r.append(row)
 		friend_ids.extend(row.friends)
 		ids.append(str(row.id))
 		
 	ideas = {}
-	
 	for row in models.Idea.objects(request_id__in = ids):
 		if row.request_id not in ideas:
 			ideas[row.request_id] = []
@@ -499,7 +538,9 @@ def answered():
 	for row in models.User.objects(userid__in = friend_ids):
 		friends[row.userid] = row
 	
-	templateData = {'requests': r,
+	templateData = {'open_requests':open_requests,
+			'requests': r,
+			'requestIds': ids,
 			'friends': friends,
 			'ideas': ideas}
 	return render_template("answered.html", **templateData)
@@ -528,6 +569,20 @@ def add_last_eats():
 			
 			idea = get_instagram_id(idea, lat, lng)
 			
+			if 'requestid' in request.form:
+				req = models.Request.objects(id = request.form.get('requestid')).first()
+				if req and request.cookies['userid'] in req.friends:
+					idea.request_id = request.form.get('requestid')
+					idea.seen = 0
+					
+					friend = models.User.objects(userid = req.userid).only('notify_count').first()
+					friend.notify_count += 1
+					friend.save()
+					
+					req.friends.remove(request.cookies['userid'])
+					req.save()
+					
+			
 			idea.save()
 			if not idea.instagram_id:
 				print 'NO INSTAGRAM PHOTOS FOUND FOR IDEA ' + str(idea.id)
@@ -538,8 +593,13 @@ def add_last_eats():
 			d = {'error' : 'You already have <b>'+checkCity.restaurant_name+'</b> as your Last Eats in <b>'+checkCity.title+'</b>.<br>If you continue it will overwrite your old entry.'}
 			return jsonify(**d)
 	else:
+		req = None
+		if 'requestid' in request.args:
+			req = models.Request.objects(id = request.args['requestid']).first()
+		
 		user = models.User.objects(userid = request.cookies['userid']).first()
-		templateData = {'user': user}
+		templateData = {'user': user,
+					'req': req}
 		return render_template("add_last_eats.html", **templateData)
 
 @app.route("/add_last_eats_next", methods=['GET','POST'])
@@ -592,12 +652,49 @@ def add_last_eats_last():
 	if request.method == "POST":
 		id = request.form.get('id')
 		idea = models.Idea.objects(id = id).first()
-		idea.filename = request.form.get('image')
+		
+		if 'picture' in request.files:
+			uploaded_file = request.files['picture']
+			
+			# Uploading is fun
+			# 1 - Generate a file name with the datetime prefixing filename
+			# 2 - Connect to s3
+			# 3 - Get the s3 bucket, put the file
+			# 4 - After saving to s3, save data to database
+			# get form data - create new idea
+			
+			if uploaded_file:
+				# return "upload file"
+				# create filename, prefixed with datetime
+				now = datetime.datetime.now()
+				filename = now.strftime('%Y%m%d%H%M%S%f') + "-" + secure_filename(uploaded_file.filename)
+				# thumb_filename = now.strftime('%Y%m%d%H%M%s') + "-" + secure_filename(uploaded_file.filename)
+				
+				# connect to s3
+				s3conn = boto.connect_s3(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+
+				# open s3 bucket, create new Key/file
+				# set the mimetype, content and access control
+				b = s3conn.get_bucket(AWS_BUCKET) # bucket name defined in .env
+				
+				k = b.new_key(b) # create a new Key (like a file)
+				k.key = filename # set filename
+				k.set_metadata("Content-Type", uploaded_file.mimetype) # identify MIME type
+				k.set_contents_from_string(uploaded_file.stream.read()) # file contents to be added
+				k.set_acl('public-read') # make publicly readable
+				
+				# if content was actually saved to S3 - save info to Database
+				if k and k.size > 0:
+					idea.filename = filename
+					
+		else:
+			idea.filename = request.form.get('image')
+			
 		idea.complete = 1
 		idea.save()
 		
-		d = {}
-		return jsonify(**d)
+		resp = make_response(redirect('/profile'))
+		return resp
 	
 	else:
 		id = request.args['id']

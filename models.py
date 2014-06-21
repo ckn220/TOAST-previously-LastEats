@@ -18,7 +18,7 @@ class Comment(Document):
 	ideaid = mongoengine.StringField()
 	comment_string = mongoengine.StringField(max_length=140)
 	
-	seen = mongoengine.IntField()
+	seen = mongoengine.IntField(default=0)
 	
 	timestamp = mongoengine.DateTimeField(default=datetime.now())
 	
@@ -47,10 +47,11 @@ class Idea(Document):
 	filenames = mongoengine.ListField()
 	
 	request_id = mongoengine.StringField()
+	seen = mongoengine.IntField(default=0)
 	
 	# Timestamp will record the date and time idea was created.
 	timestamp = mongoengine.DateTimeField(default = datetime.now(), required=True)
-
+	
 #photo_form = model_form(Idea)
 
 
@@ -96,10 +97,12 @@ class UserFriends(Document):
 
 class Request(Document):
 	userid = mongoengine.StringField(required=True)
-	friends = mongoengine.ListField(required=True)
+	friends = mongoengine.ListField()
+	
+	#How does friends seeing the request get recorded??
 	
 	title = mongoengine.StringField(required=True)
 	full_city = mongoengine.StringField(required=True)
 
-
+	point = mongoengine.PointField(required=True)
 

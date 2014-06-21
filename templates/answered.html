@@ -10,16 +10,22 @@
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		
-		<div class="my_friends_header">
-			<strong><h2>Answered Last Eats</h2></strong>
-		</div><!-- /demo-html -->
+		<div class='my_friends_header'><h2>Requests for you</h2></div>
+		{% for item in open_requests -%}
+			<a href="/add_last_eats?requestid={{ item.id }}" class="my_friends">
+				<img src="{{ friends[item.userid].picture }}" height="50" width="50">
+				<h2>{{ friends[item.userid].user_name }} wants to know what you would eat in {{ item.title }}</h2>
+			</a>
+		{%- endfor %}
+		<br><br>
 		
+		<div class='my_friends_header'><h2>Your Requests</h2></div>
 		{% for item in requests -%}
 			<div>
 				<h2>Request for {{ item.title }}</h2>
 				
-				{% for row in ideas[item.id] -%}
-				<a href="/last_eats_entry?id={{ row.id }}">
+				{% for row in ideas[requestIds[loop.index0]] -%}
+				<a href="/last_eat_entry?id={{ row.id }}">
 					{{ friends[row.userid].user_name }} would eat at {{ row.restaurant_name }}
 				</a>
 				{%- endfor %}
