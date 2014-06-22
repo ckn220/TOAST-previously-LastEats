@@ -16,14 +16,18 @@
 		
 		<div class="my_friends_header">
 			<strong><h2>Browse By City</h2></strong>
-		</div><!-- /demo-html -->
+		</div>
 		
+		<input type="search" name="search" id="search-basic" value="" placeholder='Search' autocomplete="off"/>
+		
+		<div class='cityContainer'>
 		{% for item in list -%}
-			<a href="/city?name={{ item }}" title="Friend Profile" onclick='toggleItems("{{ item|replace(' ','_') }}")'><div class="my_friends">
+			<a class='city' href="/city?name={{ item }}" title="Friend Profile" onclick='toggleItems("{{ item|replace(' ','_') }}")'><div class="my_friends">
 				<!--<img src="{{ item.picture }}" height="50" width="50">-->
-				<h2 style='padding-left:20px;'>{{ display[item] }} ({{ count[loop.index0] }})</h2>
+				<h2 style='padding-left:20px;'>{{ cities[item] }} ({{ count[loop.index0] }})</h2>
 			</div></a>
 		{%- endfor %}
+		</div>
 		
 		{% if user != None %}
 			{% include "add_button.html" %}
@@ -41,6 +45,22 @@
 {% block scripts %}
 
 <script>
+
+$(document).on('pageinit', function(event){
+	$('#search-basic').keyup(function(){search();});
+});
+
+function search(){
+	var s = $('#search-basic').val().toLowerCase();
+	var i = 0;
+	$('.cityContainer .city').hide();
+	$('.cityContainer .city').each(function(){
+		if($(this).children('h2').html().toLowerCase().indexOf(s) > -1){
+			$(this).show();
+		}
+	});
+}
+
 function toggleItems(item){
 	var old = $('.city.active');
 	old.height('0px');

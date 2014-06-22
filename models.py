@@ -53,6 +53,8 @@ class Idea(Document):
 	# Timestamp will record the date and time idea was created.
 	timestamp = mongoengine.DateTimeField(default = datetime.now(), required=True)
 	
+	hot = mongoengine.IntField()
+	
 #photo_form = model_form(Idea)
 
 

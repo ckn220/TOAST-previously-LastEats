@@ -134,6 +134,10 @@ def browse():
 		return render_template("browse.html", **templateData)
 
 def get_newsfeed(request, path):
+	offset = 0
+	if 'offset' in request.form:
+		offset = int(request.form.get('offset'))
+	
 	lat = float(request.form.get('lat'))
 	lng = float(request.form.get('lng'))
 	if 'type' in request.form:
@@ -145,17 +149,17 @@ def get_newsfeed(request, path):
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
 		if type == 'saved':
-			ideas = models.Idea.objects(id__in = user.saves, complete = 1)
+			ideas = models.Idea.objects(id__in = user.saves, complete = 1)[offset:20+offset]
 		elif lat != None:
-			ideas = models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1)[:20]
+			ideas = models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1)[offset:20+offset]
 		else:
-			ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')[:20]
+			ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')[offset:20+offset]
 			
 	else:
 		if lat != None:
-			ideas = models.Idea.objects(point__near=[lng, lat], complete = 1)[:20]
+			ideas = models.Idea.objects(point__near=[lng, lat], complete = 1)[offset:20+offset]
 		else:
-			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[:20]
+			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[offset:20+offset]
 	
 	idea_list = []
 	friendList = []
@@ -374,10 +378,10 @@ def friend_profile():
 
 @app.route("/city_filter", methods=['GET'])
 def city_filter():
-	cities = {}
+	#cities = {}
 	ordered_cities = []
 	city_count = []
-	display_city = {}
+	cities = {}
 	user = None
 	if 'userid' in request.cookies:
 		user = models.User.objects(userid = request.cookies['userid']).first()
@@ -386,22 +390,22 @@ def city_filter():
 		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')
 
 	for idea in ideas:
-		if idea.title not in cities:
-			cities[idea.title] = []
-			display_city[idea.title] = idea.title
-			ordered_cities.append(idea.title)
+		if idea.full_city not in cities:
+			#cities[idea.title] = []
+			cities[idea.full_city] = idea.full_city.split(',')[:2]
+			ordered_cities.append(idea.full_city)
 			if 'userid' in request.cookies:
-				city_count.append(models.Idea.objects(userid__in = user.friends, title = idea.title, complete = 1).count())
+				city_count.append(models.Idea.objects(userid__in = user.friends, full_city = idea.full_city, complete = 1).count())
 			else:
-				city_count.append(models.Idea.objects(title = idea.title, complete = 1).count())
+				city_count.append(models.Idea.objects(full_city = idea.full_city, complete = 1).count())
 			
-		cities[idea.title].append(idea)
+		#cities[idea.title].append(idea)
 	ordered_cities.sort()
 	templateData = {'user': user,
-				'filter': cities,
+				#'filter': cities,
 				'list': ordered_cities,
 				'count': city_count,
-				'display': display_city}
+				'cities': cities}
 	return render_template("filter.html", **templateData)
 
 @app.route("/city", methods=['GET'])
@@ -699,7 +703,7 @@ def add_last_eats_last():
 				
 				# if content was actually saved to S3 - save info to Database
 				if k and k.size > 0:
-					idea.filename = {'url':filename}
+					idea.filename = {'url': 'http://lasteats.s3-website-us-west-2.amazonaws.com/' + filename}
 					
 		else:
 			creator = request.form.get('creator')
@@ -810,6 +814,21 @@ def checkCookies(request, path):
 	else:
 		return redirect('/')
 
+		
+import math
+def calcDist(lat1, lng1, lat2, lng2):
+	earthRadius = 3958.75
+    dLat = math.radians(lat2-lat1);
+    dLng = math.radians(lng2-lng1);
+    a = math.sin(dLat/2) * math.sin(dLat/2) +
+	   math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *
+	   math.sin(dLng/2) * math.sin(dLng/2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    dist = earthRadius * c
+	
+    int mileConversion = 1609 * 0.000621371
+	dist = dist * mileConversion
+    return dist
 
 #Here is the psuedo code that needs to be translated into python
 

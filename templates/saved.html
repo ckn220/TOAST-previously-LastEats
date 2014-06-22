@@ -19,27 +19,14 @@
 		</div><!-- /demo-html -->
 		<br>
 		
-		<fieldset data-role="controlgroup" data-type="horizontal" >
-			
-			{% if user.friends|length > 0 %}
-				<input type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" />
-	     		<input type="radio" name="radio-choice" id="radio-choice-2" value="choice-2" checked="checked"  />
-			{% else %}
-				<input type="radio" name="radio-choice" id="radio-choice-1" value="choice-1" checked="checked"  />
-	     		<input type="radio" name="radio-choice" id="radio-choice-2" value="choice-2" />
-			{% endif %}
-			
-	     	<label for="radio-choice-1" onclick="get_newsfeed('all')">All</label>
-	     	<label for="radio-choice-2" onclick="get_newsfeed('friends')">Friends</label>
-	     	
-	     	
-	     	<input type="radio" name="radio-choice" id="radio-choice-3" value="choice-3"  />
-	     	<label for="radio-choice-3" onclick="get_newsfeed('hot')">Hot</label>
-		</fieldset>
+		<div class="my_friends_header">
+			<strong><h2>Saved</h2></strong>
+		</div>
+		
 		<br>
 		
 		<div class='newsfeed'>
-			<div  class='loading' style='text-align:center;'>Loading . . . .</div>
+			<div class='loading' style='text-align:center;'>Loading . . . .</div>
 		</div>
 		
 		{% include "add_button.html" %}
@@ -65,12 +52,7 @@
 				LATITUDE = initialLocation.k;
 				LONGITUDE = initialLocation.A;
 				
-				if ({{ user.friends|length }} > 0){
-					get_newsfeed('friends');
-				}
-				else {
-					get_newsfeed('all');
-				}
+				get_newsfeed('saved');
 				
 			}, function() { handleNoGeolocation(browserSupportFlag); });
 		}
