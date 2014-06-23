@@ -26,6 +26,13 @@ def convertFilename():
                 idea.filenames[i] = {'url': idea.filenames[i]}
         idea.save()
         
+def convertTitle():
+    
+    for idea in models.Idea.objects(complete = 1):
+        if not idea.full_city:
+            idea.full_city = idea.title
+            idea.save()
+
 def convertLocation():
     
     for idea in models.Idea.objects(complete = 1):

@@ -1,11 +1,12 @@
 
 
 $(document).ready(function(){
-	$('body').scroll(function(){
+	$('.ui-page').live('scroll', function(){
+		console.log($('.ui-page').height() - ($('body').scrollTop() + $('body').height()));
 		if ($('.ui-page').height() - ($('body').scrollTop() + $('body').height()) < 500){
 			get_newsfeed(lastType);
 		}
-	)};
+	});
 });
 
 

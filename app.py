@@ -138,8 +138,8 @@ def get_newsfeed(request, path):
 	if 'offset' in request.form:
 		offset = int(request.form.get('offset'))
 	
-	lat = float(request.form.get('lat'))
-	lng = float(request.form.get('lng'))
+	lat = float(request.form.get('lat', None))
+	lng = float(request.form.get('lng', None))
 	if 'type' in request.form:
 		type = request.form.get('type')
 	else:
@@ -392,7 +392,8 @@ def city_filter():
 	for idea in ideas:
 		if idea.full_city not in cities:
 			#cities[idea.title] = []
-			cities[idea.full_city] = idea.full_city.split(',')[:2]
+			cities[idea.full_city] = ','.join(idea.full_city.split(',')[:2])
+			
 			ordered_cities.append(idea.full_city)
 			if 'userid' in request.cookies:
 				city_count.append(models.Idea.objects(userid__in = user.friends, full_city = idea.full_city, complete = 1).count())
@@ -818,17 +819,17 @@ def checkCookies(request, path):
 import math
 def calcDist(lat1, lng1, lat2, lng2):
 	earthRadius = 3958.75
-    dLat = math.radians(lat2-lat1);
-    dLng = math.radians(lng2-lng1);
-    a = math.sin(dLat/2) * math.sin(dLat/2) +
-	   math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *
-	   math.sin(dLng/2) * math.sin(dLng/2)
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
-    dist = earthRadius * c
+	dLat = math.radians(lat2-lat1)
+	dLng = math.radians(lng2-lng1)
+	a = math.sin(dLat/2) * math.sin(dLat/2) +\
+		math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) *\
+		math.sin(dLng/2) * math.sin(dLng/2)
+	c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+	dist = earthRadius * c
 	
-    int mileConversion = 1609 * 0.000621371
+	mileConversion = 1609 * 0.000621371
 	dist = dist * mileConversion
-    return dist
+	return dist
 
 #Here is the psuedo code that needs to be translated into python
 
@@ -875,6 +876,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 # --------- Server On ----------
 # start the webserver
+
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test

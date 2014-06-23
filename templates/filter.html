@@ -47,6 +47,7 @@
 <script>
 
 $(document).on('pageinit', function(event){
+	$('.ui-input-clear').click(function(){search();});
 	$('#search-basic').keyup(function(){search();});
 });
 
@@ -55,7 +56,8 @@ function search(){
 	var i = 0;
 	$('.cityContainer .city').hide();
 	$('.cityContainer .city').each(function(){
-		if($(this).children('h2').html().toLowerCase().indexOf(s) > -1){
+		var city = $(this).children('.my_friends').children('h2').html();
+		if(city.toLowerCase().indexOf(s) > -1){
 			$(this).show();
 		}
 	});

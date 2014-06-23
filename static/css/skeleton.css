@@ -359,8 +359,8 @@ a {
 
 .user_choice_why h3{
 	background: #fff;
-	padding: 5px;
-	font-size: 12px;
+	padding: 8px;
+	font-size: 14px;
 }
 
 .user_choice_why li .friend_answer_name{
@@ -446,14 +446,14 @@ a {
 .my_friends h2{
 	background: #fff;
 	padding-left: 100px;
-	padding-bottom: 20px;
-	padding-top: 20px;
-	font-size: 13px;
+	padding-bottom: 18px;
+	padding-top: 18px;
+	font-size: 16px;
 }
 
 .my_friends_header h2 {
 	text-align: center;
-	font-size: 18px;
+	font-size: 20px;
 	margin-top: -20px;
 	padding: 0 0 10px 0;
 }
