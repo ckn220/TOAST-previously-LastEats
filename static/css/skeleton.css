@@ -101,7 +101,6 @@ h3 { font-size: 1.1em; }
 	width: 44px;
 	display: inline-block;
 	border-radius: 25px;
-	border: thin solid black;
 }
 .icon.comment {background-position: 0px 0px;}
 .icon.comment:hover, .icon_container .icon.commented {background-position: -44px 0px;cursor:pointer;}
