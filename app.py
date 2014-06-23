@@ -32,7 +32,7 @@ CLIENT_ID = os.environ['CLIENT_ID']
 CLIENT_SECRET = os.environ['CLIENT_SECRET']
 SECRET_KEY = os.environ['SECRET_KEY']
 
-AWS_BUCKET='restaurant_photos_locavore'
+AWS_BUCKET='lasteats'
 AWS_ACCESS_KEY_ID='AKIAI3P2HEHI6EUEH6UQ'
 AWS_SECRET_ACCESS_KEY='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'
 
