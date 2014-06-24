@@ -9,51 +9,120 @@
 	{% include "header_small.html" %}
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
-		</br>
-		</br>
 		
-		<div class="user_photo"><img src="static/assets/img/CURRENT_LOGO.jpeg"  height="125" width="125"></div>
-		<div style='font-size: .8em;color: #999;text-align: center;'>Beta</div>
+		<div class='mobileContent'>
+			</br>
+			</br>
+			<div class="user_photo"><img src="static/assets/img/CURRENT_LOGO.jpeg"  height="125" width="125"></div>
+			<div style='font-size: .8em;color: #999;text-align: center;'>Beta</div>
+			
+			</br>
 		
-		<div class='phone_image' style='max-width:100%'><img src='static/img/phone_for_site_LE.png' style='max-width:100%' /></div>
-		
-		</br>
-	
-		</br>
-		<div>
-			<h1 class="front_user_choice">One Restaurant</h1>
-			<h1 class="front_user_choice">One City </h1>
-			<h1 class="front_user_choice">One Choice</h1>
+			</br>
+			<div>
+				<h1 class="front_user_choice">One Restaurant</h1>
+				<h1 class="front_user_choice">One City </h1>
+				<h1 class="front_user_choice">One Choice</h1>
+			</div>
+			
+			
+			<div id="front_user_choice_small"><strong>Discover the food your friends love most, one meal at a time.</strong></div>
+			</br>
+			<div id="fb-root"></div>
+			{% include "facebook.html" %}
+			
+			{% if users != None %}
+				{% for item in users -%}
+					<div style='margin:4px;padding:4px;display:inline-block;'><img src='{{ item.picture }}' style='width:50px;border-radius:50px;'><a href='/?userid={{ item.userid }}'>{{ item.user_name }} {{ item.user_last_name }}</a></div>
+				{%- endfor %}
+			{% else %}
+				<div style='text-align:center;'><img id="login" onclick="FB.login()" src='static/img/fbook.jpg' /></div>
+			{% endif %}
+			
+			
+			<div style='text-align:center;'>
+				<a href="/browse" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats</a>
+			</div>
 		</div>
 		
 		
-		<div id="front_user_choice_small"><strong>Discover the food your friends love most, one meal at a time.</strong></div>
-		</br>
-		<div id="fb-root"></div>
-		{% include "facebook.html" %}
-		
-		{% if users != None %}
-			{% for item in users -%}
-				<div style='margin:4px;padding:4px;display:inline-block;'><img src='{{ item.picture }}' style='width:50px;border-radius:50px;'><a href='/?userid={{ item.userid }}'>{{ item.user_name }} {{ item.user_last_name }}</a></div>
+		<div class='desktopContent'>
+			<img src="static/assets/img/CURRENT_LOGO.jpeg"  height="125" width="125" style='float:left;padding-right:30px;'>
+			
+			<div style='float:right;padding-left:30px;'>
+				<a data-role="button" class="button"  onclick='openCover()'>Sign Up</a>
+				<div style='font-size: .8em;color: #999;text-align: center;'>Beta</div>
+			</div>
+			
+			<h1>If you only had time for one great meal, where would you go?</h1>
+			
+			<div style='width:100%;clear:both;'></div>
+			<br>
+			
+			<h2>Recent Last Eats Declerations</h2>
+			{% for item in ideas -%}
+				<a class='ideaItem' href="last_eat_entry?id={{ item.id }}">
+					<img class='ideaImage' src='{{ item.filename['url'] }}' />
+					<div style='background:rgba(255,255,255,.5);' class='ideaHover'><div class='ideaHoverInner'>
+						<img src='{{ friends[item.userid].picture }}' />
+						<br>
+						<div class='city'>{{ item.display_city }}</div>
+						<div class='name'><b>{{ item.restaurant_name }}</b></div>
+						<div class='likes'><b>{{ item.like_count }}</b></div>
+					</div></div>
+				</a>
 			{%- endfor %}
-		{% else %}
-			<div style='text-align:center;'><img id="login" onclick="FB.login()" src='static/img/fbook.jpg' /></div>
-		{% endif %}
-		
-		
-		<div style='text-align:center;'>
-			<a href="/browse" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats</a>
+			<br>
+			
+			<div style='text-align:center;float:right;'>
+				<img id="login" onclick="FB.login()" src='static/img/fbook.jpg' /><br>
+				<a href="/browse" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats</a>
+			</div>
+			<br>
+			<h1>Find the best meals chosen by your friends for cities all over the world</h1>
+			<br>
+			
+			<div class='phone_image' style='max-width:100%'><img src='static/img/phone_for_site_LE.png' style='max-width:100%' /></div>
+			<br>
+			<h1>Optimized for mobile, Last Eats is for friends and foodies to share and discover favorite meals on the go.</h1>
+			<br>
+			
+			<div class='phone_image' style='max-width:100%'><img src='static/img/examples_for_site_LE.png' style='max-width:100%' /></div>
+			<br>
+			<h1>Restaurants change and so can you. Easily update your Last Eats declarations in seconds</h1>
+			<br>
+			
+			<a href='https://www.facebook.com/sharer/sharer.php?src=sp&u=http://beta.lasteats.com/'><img style='width:100px;padding:10px;' src='static/img/facebookIcon.png' /></a>
+			<a href='https://twitter.com/intent/tweet?text=http://beta.lasteats.com/'><img style='width:100px;padding:10px;' src='static/img/twitterIcon.png' /></a>
 		</div>
-		
 	</div><!-- /page -->
 	
+	<div class='cover' style='position:absolute;width:100%;height:100%;top:0px;left:0px;background:rgba(255,255,255,.5);display:none;'>
+		<div style='position:relative;margin:100px auto;width:680px;height:150px;background:white;padding:60px;text-align:center;border:2px solid #aaa;'>
+			<div class='close' onclick='closeCover()'>x</div>
+			<div style='display:inline-block;vertical-align:top;'><img id="login" onclick="FB.login()" src='static/img/fbook.jpg' /></div>
+			<div style='display:inline-block;padding:15px;vertical-align:top;'>or</div>
+			<div style='display:inline-block;vertical-align:top;'><img id="login" src='static/img/twitter.jpg' style='opacity:.6;' /><div>Coming Soon!</div></div>
+		</div>
+	</div>
+	
 </div><!-- /panel -->
+
+
 
 {% endblock %}
 
 
 {% block scripts %}
 
+<script>
+	function closeCover(){
+		$('.cover').hide();
+	}
+	function openCover(){
+		$('.cover').show();
+	}
+</script>
 {% endblock %}
 
 

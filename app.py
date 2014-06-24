@@ -76,6 +76,17 @@ def index():
 		resp = make_response(redirect('/newsfeed'))
 		return resp
 	
+	ideas = []
+	friendIds = []
+	for item in models.Idea.objects(complete = 1).order_by('-timestamp')[:12]:
+		item.display_city = ','.join(item.full_city.split(',')[:2])
+		ideas.append(item)
+		friendIds.append(item.userid)
+	
+	friends = {}
+	for friend in models.User.objects(userid__in = friendIds).only('picture','userid'):
+		friends[friend.userid] = friend
+	
 	if request.base_url == 'http://lasteats-dev.herokuapp.com/' or request.base_url == 'http://localhost:5000/':
 		if 'userid' in request.args:
 			resp = make_response(redirect('/newsfeed'))
@@ -84,10 +95,15 @@ def index():
 		else:
 			users = models.User.objects()
 			templateData = {'users': users,
-						'fbookId' : FACEBOOK_APP_ID}
+						'fbookId' : FACEBOOK_APP_ID,
+						'ideas': ideas,
+						'friends': friends}
 			return render_template("index.html", **templateData)
 		
-	templateData = {'fbookId' : FACEBOOK_APP_ID}
+		
+	templateData = {'fbookId' : FACEBOOK_APP_ID,
+				'ideas': ideas,
+				'friends': friends}
 	return render_template("index.html", **templateData)		#if you make recent_submissions = DATA 
 
 @app.route("/logout", methods=['GET','POST'])
@@ -245,13 +261,14 @@ def last_eat_entry():
 			f = models.User.objects(userid = row.userid).first()
 			friends[f.userid] = f
 		
+		user = None
 		if 'userid' in request.cookies:
 			current_user = request.cookies['userid']
+			user = models.User.objects(userid = request.cookies['userid']).first()
 		else:
 			current_user = None
 		
 		friend = models.User.objects(userid = idea.userid).first()
-		user = models.User.objects(userid = request.cookies['userid']).first()
 		
 		templateData = {'current_user': current_user,
 					'idea' : idea,

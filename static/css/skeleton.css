@@ -3,6 +3,8 @@ h1 { font-size: 1.5em; margin-top: 0; }
 h2 { font-size: 1.2em; }
 h3 { font-size: 1.1em; }
 
+body {position: relative;}
+
 *, a.ui-btn {font-family: "Raleway";}
 
 #tell_us_why .ui-btn {
@@ -113,27 +115,104 @@ h3 { font-size: 1.1em; }
 	background: url('/static/img/icons.png');
 	padding: 0px;
 	box-shadow: none;
-	height: 40px;
-	width: 40px;
+	height: 44px;
+	width: 44px;
 	top: 30%;
 	display: inline-block;
 	border-radius: 25px;
 	border: none;
-	background-position: -312px 0px;}
+	background-position: -264px 0px;
+	opacity: 1;
+}
 
 .jqm-search-panel .ui-panel-inner {
 	padding-top: 1em;
 }
 
-.phone_image {
+.desktopContent {
 	display: none;
 }
+.ui-page-theme-a .desktopContent .button.ui-btn{
+	display: inline-block;
+	background: #fc5d61; 
+	color: #fdb65d !important;
+	margin: 5px 0px;
+	padding:10px 20px;
+	text-shadow: none;
+}
+
+.ideaItem {
+	width: 23%;
+	height: 138px;
+	margin: 1%;
+	background: black;
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.ideaHover {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	text-align: center;
+	height: 100%;
+	width: 100%;
+	display: none;
+}
+.ideaItem:hover .ideaHover{
+	display: block;
+	cursor: pointer;
+}
+
+.ideaHoverInner {
+	margin: 10%;
+	padding: 10%;
+	background: rgba(255,255,255,.5);
+	border-radius: 300px;
+	width: 60%;
+	height: 60%;
+	overflow: hidden;
+}
+.ideaHover img {
+	width: 30px;
+	border-radius: 20px;
+	position: absolute;
+	top: 15px;
+	left: 15px;
+}
+.ideaItem .ideaImage {
+	width: 100%;
+}
+
+
+.close {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	margin: 5px;
+	padding: 5px 11px;
+	background: #f66;
+	color: white;
+	border-radius: 20px;
+}
+.close:hover {
+	cursor: pointer;
+}
+
+.mobileContent {
+	display: block;
+}
+
 #map_canvas {
 	max-height: 250px;
 }
 @media (min-width: 60em) {
-	.phone_image {
-		display: inline-block;
+	.desktopContent {
+		display: block;
+	}
+	.mobileContent {
+		display: none;
 	}
 	#map_canvas {
 		max-height: none;
