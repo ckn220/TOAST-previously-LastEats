@@ -15,6 +15,7 @@ body {position: relative;}
 .main-content {
 	max-width: 600px;
 	margin: 0px auto;
+	text-align:center;
 }
 
 .transition {
@@ -132,6 +133,28 @@ body {position: relative;}
 .desktopContent {
 	display: none;
 }
+
+.topPhoto {
+	background: url('/static/img/topPhoto.jpeg');
+	background-size: cover;
+}
+
+.bottomPhoto {
+	background: url('/static/img/bottomPhoto.jpeg');
+	background-size: cover;
+}
+
+.backgroundText {
+	display:inline-block;
+	padding:10px;
+	font-weight:normal;
+	font-size:2.2em;
+	color:white;
+	background:rgba(0,0,0,.5);
+	text-align:left;
+	text-shadow: none;
+}
+
 .ui-page-theme-a .desktopContent .button.ui-btn{
 	display: inline-block;
 	background: #fc5d61; 
@@ -139,12 +162,13 @@ body {position: relative;}
 	margin: 5px 0px;
 	padding:10px 20px;
 	text-shadow: none;
+	font-size: 2em;
 }
 
 .ideaItem {
-	width: 23%;
-	height: 138px;
-	margin: 1%;
+	width: 25%;
+	height: 225px;
+	margin: 0%;
 	background: black;
 	position: relative;
 	display: inline-block;
@@ -175,11 +199,11 @@ body {position: relative;}
 	overflow: hidden;
 }
 .ideaHover img {
-	width: 30px;
-	border-radius: 20px;
+	width: 50px;
+	border-radius: 30px;
 	position: absolute;
-	top: 15px;
-	left: 15px;
+	top: 25px;
+	left: 25px;
 }
 .ideaItem .ideaImage {
 	width: 100%;
@@ -208,6 +232,12 @@ body {position: relative;}
 	max-height: 250px;
 }
 @media (min-width: 60em) {
+	
+	.main-content {
+		max-width: 900px;
+		margin: 0px auto;
+	}
+
 	.desktopContent {
 		display: block;
 	}

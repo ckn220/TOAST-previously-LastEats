@@ -47,53 +47,67 @@
 		
 		
 		<div class='desktopContent'>
-			<img src="static/assets/img/CURRENT_LOGO.jpeg"  height="125" width="125" style='float:left;padding-right:30px;'>
-			
-			<div style='float:right;padding-left:30px;padding-top:30px;'>
-				<a data-role="button" class="button"  onclick='openCover()'>Sign Up</a>
-				<div style='font-size: .8em;color: #999;text-align: center;'>Beta</div>
+			<div class='topPhoto'>
+				<br><br><br>
+				<img src="static/assets/img/CURRENT_LOGO_WHITE.png"  height="125" width="125" style=''>
+				<br><br><br>
+				
+				<h2 class='backgroundText'>
+					Find <b>the best meals</b> chosen by <br><b>your friends</b> for cities all <b>over the world.</b>
+				</h2>
+				
+				<div style=''>
+					<a data-role="button" class="button"  onclick='openCover()' style='border:none;'>Join Last Eats</a>
+				</div>
+				<br><br>
 			</div>
 			
-			<h1 style='font-size:2.2em;'>If you only had time for one great meal, where would you go?</h1>
 			
 			<div style='width:100%;clear:both;'></div>
-			<br>
+			<br><br>
 			
-			<h2>Recent Last Eats Declerations</h2>
+			<h1 style='font-size:2em;font-weight:normal;'>Recent Last Eats Declarations</h1>
+			<h2 style='font-weight:normal;'>The best, most recently added restaurants</h2>
+			<br><br>
 			{% for item in ideas -%}
 				<a class='ideaItem' href="last_eat_entry?id={{ item.id }}">
 					<img class='ideaImage' src='{{ item.filename['url'] }}' />
-					<div style='background:rgba(255,255,255,.5);' class='ideaHover'><div class='ideaHoverInner'>
+					<div style='background:rgba(255,255,255,.5);' class='ideaHover'>
+					<div class='ideaHoverInner' style='font-size: 1.4em;font-weight: normal;'>
 						<img src='{{ friends[item.userid].picture }}' />
 						<br>
-						<div class='city'>{{ item.display_city }}</div>
 						<div class='name'><b>{{ item.restaurant_name }}</b></div>
-						<div class='likes'><b>{{ item.like_count }}</b></div>
+						<div class='city'>{{ item.display_city }}</div>
 					</div></div>
 				</a>
 			{%- endfor %}
-			<br>
+			<br><br>
 			
-			<div style='text-align:center;float:right;'>
-				<img id="login" onclick="FB.login()" src='static/img/fbook.jpg' /><br>
-				<a href="/browse" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats</a>
-			</div>
 			
-			<h1 style='margin-top:30px;'>Find the best meals chosen by your friends for cities all over the world.</h1>
-			<br>
-			
-			<div class='phone_image' style='max-width:100%'><img src='static/img/phone_for_site_LE.png' style='max-width:100%' /></div>
-			<br>
-			<h1>Optimized for mobile, Last Eats is for friends and foodies to share and discover favorite meals on the go.</h1>
-			<br>
-			
-			<div class='phone_image' style='max-width:100%'><img src='static/img/examples_for_site_LE.png' style='max-width:100%' /></div>
-			<br>
-			<h1>Restaurants change and so can you. Easily update your Last Eats declarations in seconds</h1>
+			<h1 style='font-size:2em;font-weight:normal;'>Your reccomendations count.</h1>
+			<h2 style='font-weight:normal;'>Help spread the word.</h2>
 			<br>
 			
 			<a href='https://www.facebook.com/sharer/sharer.php?src=sp&u=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='static/img/facebookIcon.png' /></a>
 			<a href='https://twitter.com/intent/tweet?text=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='static/img/twitterIcon.png' /></a>
+			<br><br><br><br>
+			
+			
+			
+			<div class='bottomPhoto' style='text-align:center;'>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+				<h2 class='backgroundText'>
+					If you only had time for one great meal in<br> ---, where would you go?</h2><br><br><br>
+				<a href="/browse" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats</a>
+				<br><br><br><br><br><br><br>
+			</div>
+			<br><br><br>
+			<div>
+				<h1 style='display:inline-block;font-size:3em;font-weight:normal;vertical-align:top;padding-right:15px;'>Hungry yet?</h1>
+				<img id="login" onclick="FB.login()" src='static/img/fbook.jpg' style='margin-top:10px;height:40px;'/><br>
+				<br><br><br>
+			</div>
+			
 		</div>
 	</div><!-- /page -->
 	
