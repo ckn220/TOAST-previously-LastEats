@@ -1,12 +1,14 @@
 
 
 $(document).ready(function(){
-	$('.ui-page').live('scroll', function(){
-		console.log($('.ui-page').height() - ($('body').scrollTop() + $('body').height()));
-		if ($('.ui-page').height() - ($('body').scrollTop() + $('body').height()) < 500){
-			get_newsfeed(lastType);
-		}
-	});
+	setTimeout(function(){
+		$(window).scroll(function(){
+			console.log($('.ui-page').height() - ($('body').scrollTop() + $('body').height()));
+			if ($('.ui-page').height() - ($('body').scrollTop() + $('body').height()) < 500){
+				get_newsfeed(lastType);
+			}
+		});
+	},200);
 });
 
 
