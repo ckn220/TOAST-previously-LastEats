@@ -185,6 +185,7 @@ def get_newsfeed(request, path):
 	idea_id_list = []
 	friend_list = []
 	for row in ideas:
+		row.distance = '%.1f' % calcDist(lat, lng, row.point['coordinates'][1], row.point['coordinates'][0])
 		idea_list[str(row.id)] = row
 		idea_id_list.append(str(row.id))
 		friend_list.append(row.userid)

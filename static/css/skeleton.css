@@ -12,6 +12,13 @@ body {position: relative;}
 	font-size: 55px;
 }
 
+.jqm-demos .jqm-header {
+	border-top:none;
+}
+.ui-field-contain .ui-controlgroup-controls {
+	width: 100%;
+}
+
 .main-content {
 	max-width: 600px;
 	margin: 0px auto;
@@ -126,6 +133,9 @@ body {position: relative;}
 	border: none;
 	background-position: -264px 0px;
 	opacity: 1;
+}
+.jqm-demos .jqm-header .ui-btn.icon.notify.active {
+	background-position: -308px 0px;
 }
 
 .jqm-search-panel .ui-panel-inner {
@@ -251,7 +261,6 @@ body {position: relative;}
 @media (min-width: 60em) {
 	
 	.main-content {
-		max-width: 900px;
 		margin: 0px auto;
 	}
 

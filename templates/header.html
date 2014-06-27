@@ -3,10 +3,11 @@
 	<h2><a href="/newsfeed" title="Last Eats home"><img src="static/assets/img/LE.png" alt="jQuery Mobile"></a></h2>
 	<!-- <p><span class="jqm-version"></span> Demos</p> -->
 	<a href="#" class="jqm-navmenu-link ui-btn ui-btn-icon-notext ui-corner-all ui-icon-bars ui-nodisc-icon ui-alt-icon ui-btn-left">Menu</a>
-	<a href="#" class="jqm-search-link icon notify ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-alt-icon ui-btn-right" onclick='getNotifications()'>
-		
-		{% if user and user.notify_count > 0  %}
-			<div class='userNotifyCount'>{{ user.notify_count }}</div>
-		{% endif %}
+	{% if user and user.notify_count > 0  %}
+		<a href="#" class="jqm-search-link icon notify active ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-alt-icon ui-btn-right" onclick='getNotifications()'>
+		<div class='userNotifyCount'>{{ user.notify_count }}</div>
+	{% else  %}
+		<a href="#" class="jqm-search-link icon notify ui-btn-icon-notext ui-corner-all ui-nodisc-icon ui-alt-icon ui-btn-right" onclick='getNotifications()'>
+	{% endif %}
 	</a>
 </div><!-- /header -->

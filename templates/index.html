@@ -1,9 +1,16 @@
 {% extends "skeleton.html" %}
-
 {% block style %}
 {% endblock %} 
 
 {% block body %}
+
+<style>
+	@media (min-width: 60em) {
+		.main-content {
+			max-width:900px;
+		}
+	}
+</style>
 
 <div data-role="page" class="jqm-demos" data-quicklinks="false">
 	{% include "header_small.html" %}
