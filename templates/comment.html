@@ -1,9 +1,13 @@
 
-<div class="user_choice_why_answered">
-	<img src="{{ user.picture }}" height="75" width="75"> 
-	<ul>
-		<li><strong>{{ user.user_name }} {{ user.user_last_name }}</strong></li>
-		<li>{{ comment.comment_string }}</li>
-	</ul>
-	<div class='delete-entry transition' onclick='delete_comment(this, "{{ comment.id }}")' >X</div>
+
+<div class="comment entry">
+	<img src="{{ user.picture }}"/>
+	<span><strong>{{ user.user_name }} {{ user.user_last_name }}</strong></span>
+	<span>{{ comment.comment_string }}</span>
+	
+	{% if current_user == comment.userid %}
+		<div class='delete-entry transition' onclick='delete_comment(this, "{{ comment.id }}")' >X</div>
+	{% endif %}
+	<div style='clear:both;width:100%;'></div>
+	
 </div>
