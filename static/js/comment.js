@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-	$('.guest_book #textarea').live('keydown', function (e){
+	$('.guest_book textarea').live('keydown', function (e){
 	    if(e.keyCode == 13){
 	    	e.preventDefault();
 	        add_comment($(this).parent().attr('num'));
@@ -9,7 +9,7 @@ $(document).ready(function(){
 });
 
 function add_comment(id){
-	var comment = $('.guest_book[num='+ id +'] #textarea').val();
+	var comment = $('.guest_book[num='+ id +'] textarea').val();
 	
 	$.ajax({
 		url: 'last_eat_entry',
@@ -18,7 +18,7 @@ function add_comment(id){
 				'id': id},
 		success: function(value) {
 			console.log(value);
-			$('.guest_book[num='+ id +'] #textarea').val('');
+			$('.guest_book[num='+ id +'] textarea').val('');
 			$('.comments[num='+ id +']').append(value);
 		}
 	});
