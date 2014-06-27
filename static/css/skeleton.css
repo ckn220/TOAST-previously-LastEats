@@ -105,12 +105,14 @@ body {position: relative;}
 	display: inline-block;
 	border-radius: 25px;
 }
-.icon.comment {background-position: 0px 0px;}
-.icon.comment:hover, .icon_container .icon.commented {background-position: -44px 0px;cursor:pointer;}
+.icon.commentIcon {background-position: 0px 0px;}
+.icon.commentIcon:hover, .icon.commented {background-position: -44px 0px;cursor:pointer;}
+
 .icon.love {background-position: -88px 0px;}
-.icon.love:hover, .icon_container .icon.loved {background-position: -132px 0px;cursor:pointer;}
+.icon.love:hover, .icon.loved {background-position: -132px 0px;cursor:pointer;}
+
 .icon.save {background-position: -176px 0px;}
-.icon.save:hover, .icon_container .icon.saved {background-position: -220px 0px;cursor:pointer;}
+.icon.save:hover, .icon.saved {background-position: -220px 0px;cursor:pointer;}
 
 .jqm-demos .jqm-header .ui-btn.icon.notify {
 	background: url('/static/img/icons.png');
@@ -227,6 +229,21 @@ body {position: relative;}
 .mobileContent {
 	display: block;
 }
+
+.comment {
+	text-align:left;
+	padding:10px;
+	font-size:1.2em;
+}
+.comment img {
+	background: #fff;
+	float: left;
+	margin-right: 10px;
+	width:40px;
+	padding: 0px;
+	border-radius: 10px;
+}
+
 
 #map_canvas {
 	max-height: 250px;
@@ -525,12 +542,18 @@ a {
 	display: block;
 	width: 100%;
 	margin: 0px auto;
+	
 }
-
+.restaurant_photo_bottom {
+	width: 100%;
+	margin: 0px auto;
+	border-bottom: thin solid #ddd;
+	text-align:left;
+}
 
 .restaurant_photo img {
 	text-align: center;
-	max-width:100%;
+	width:100%;
 }
 
 .my_last_eats h2 {

@@ -1,10 +1,62 @@
 
-{% for item in ideas -%}
-<a href="/last_eat_entry?id={{ item.id }}" data-role="button" class="ui-link ui-btn ui-shadow ui-corner-all" role="button">
-	<div class="user_choice_why">
-		<img src="{{ friends[item.userid].picture }}" height="85" width="85">
-		<h2>{{ friends[item.userid].user_name }} just made <strong>{{ item.restaurant_name }}</strong> the Last Eats in {{ item.title }}</h2>
+{% for id in ideaIds -%}
+<div style='border:#ddd thin solid;border-radius:4px; margin-bottom:20px;padding:0px 10px;'>
+	<a href="/last_eat_entry?id={{ id }}" data-role="button" class="ui-link ui-btn ui-shadow ui-corner-all" role="button" style='border:none;box-shadow:none;padding:0px;background:none;'>
+		<div class="user_choice_why">
+			<img src="{{ friends[ideas[id].userid].picture }}" height="85" width="85">
+			<h2>{{ friends[ideas[id].userid].user_name }} just made <strong>{{ ideas[id].restaurant_name }}</strong> the Last Eats in {{ ideas[id].title }}</h2>
+		</div>
+		<div class="restaurant_photo">
+			<img src="{{ ideas[id].filename['url'] }}"><br>
+		</div>
+	</a>
+		
+	<div class="restaurant_photo_bottom">
+			<div style='float:right;'>
+				<a><img class='facebookIcon' src='/static/img/facebookIcon.png' style='width:44px;' /></a>
+				<a><img class='twitterIcon' src='/static/img/twitterIcon.png' style='width:44px;' /></a>
+			</div>
+			
+			{% if user.userid in ideas[id].likes %}
+				<div class='icon loved' onclick='loveIdea(this, "{{ id }}")'></div>
+			{% else %}
+				<div class='icon love' onclick='loveIdea(this, "{{ id }}")'></div>
+			{% endif %}
+			
+			{% if id in user.saves %}
+				<div class='icon saved' onclick='saveIdea(this, "{{ id }}")'></div>
+			{% else %}
+				<div class='icon save' onclick='saveIdea(this, "{{ id }}")'></div>
+			{% endif %}
+			
+			<div style='display: inline-block;vertical-align: top;font-size: 1.2em;padding: 10px 5px;'>
+				<div class='likeCount' style='display:inline-block;'>{{ ideas[id].like_count }}</div> people love this</div>
 	</div>
-	<div class="restaurant_photo"><img src="{{ item.filename['url'] }}"></div>
-</a>
+	<br>
+		
+	{% if current_user != None %}
+	<div class='comments' num='{{ id }}'>
+	{% for comment in comments[id] -%}
+		<div class="comment entry">
+			<img src="{{ friends[comment.userid].picture }}"/>
+			<span><strong>{{ friends[comment.userid].user_name }} {{ friends[comment.userid].user_last_name }}</strong></span>
+			<span>{{ comment.comment_string }}</span>
+			
+			{% if current_user == comment.userid %}
+				<div class='delete-entry transition' onclick='delete_comment(this, "{{ comment.id }}")' >X</div>
+			{% endif %}
+			<div style='clear:both;width:100%;'></div>
+			
+		</div>
+		
+	{%- endfor %}
+	</div>
+	<div class="guest_book" num='{{ id }}'>
+		<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ friends[ideas[id].userid].user_name }} about your experience" 
+		class='ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all ui-textinput-autogrow' style='padding:10px;'></textarea>
+	</div><!-- /demo-html -->
+	<br>
+	{% endif %}
+</div>
+
 {%- endfor %}

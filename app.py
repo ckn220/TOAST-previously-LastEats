@@ -161,9 +161,13 @@ def get_newsfeed(request, path):
 	else:
 		type = None
 	
-	if path == 'newsfeed' and type != 'all':
+	user = None
+	current_user = None
+	if 'userid' in request.cookies:
+		current_user = request.cookies['userid']
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
+	if path == 'newsfeed' and type != 'all':
 		if type == 'saved':
 			ideas = models.Idea.objects(id__in = user.saves, complete = 1)[offset:20+offset]
 		elif lat != None:
@@ -177,18 +181,31 @@ def get_newsfeed(request, path):
 		else:
 			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[offset:20+offset]
 	
-	idea_list = []
-	friendList = []
+	idea_list = {}
+	idea_id_list = []
+	friend_list = []
 	for row in ideas:
-		idea_list.append(row)
-		friendList.append(row.userid)
+		idea_list[str(row.id)] = row
+		idea_id_list.append(str(row.id))
+		friend_list.append(row.userid)
 	
+	comments = {}
+	for row in models.Comment.objects(ideaid__in = idea_id_list):
+		if row.ideaid not in comments:
+			comments[row.ideaid] = []
+		comments[row.ideaid].append(row)
+		friend_list.append(row.userid)
+		
 	friends = {}
-	for row in models.User.objects(userid__in = friendList):
+	for row in models.User.objects(userid__in = friend_list):
 		friends[row.userid] = row
-	
-	templateData = {'ideas': idea_list[:20],
-				'friends': friends}
+		
+	templateData = {'ideas': idea_list,
+				'ideaIds' : idea_id_list,
+				'friends': friends,
+				'user': user,
+				'current_user': current_user,
+				'comments': comments}
 	return render_template("newsfeed_content.html", **templateData)
 	
 def addUser(request):
@@ -284,7 +301,7 @@ def last_eat_entry():
 def love_idea():
 	if request.method == "POST":
 		id = request.form.get('id')
-		userid = request.form.get('userid')
+		userid = request.cookies['userid']
 		
 		idea = models.Idea.objects(id = id).first()
 		if userid not in idea.likes:
@@ -302,9 +319,8 @@ def love_idea():
 def save_idea():
 	if request.method == "POST":
 		id = request.form.get('id')
-		userid = request.form.get('userid')
 		
-		user = models.User.objects(userid = userid).first()
+		user = models.User.objects(userid = request.cookies['userid']).first()
 		if id not in user.saves:
 			user.saves.append(id)
 			user.save()

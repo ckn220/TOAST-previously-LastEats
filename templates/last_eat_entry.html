@@ -25,7 +25,7 @@
 		
 		{% if current_user != None %}
 		<table class='icon_container'><tr>
-			<td width='33%'><a class='icon comment' href='#guest_book'></a></td>
+			<td width='33%'><a class='icon commentIcon' href='#guest_book'></a></td>
 			{% if user.userid in idea.likes %}
 				<td width='33%'><div class='icon loved' onclick='loveIdea(this, "{{ idea.id }}")'></div></td>
 			{% else %}
@@ -52,14 +52,60 @@
 		</div><!-- /demo-html -->
 		
 		
-		<div class="restaurant_photo">
-			<img src="{{ idea.filename['url'] }}">
-			<div class='icon loved' style='border: none;background-position: -132px 0px;'></div>
-			<div class='likeCount' style='display: inline-block;vertical-align: top;font-size: 1.5em;padding: 8px 4px;'>{{ idea.like_count }}</div>
+		<div class="restaurant_photo" style='text-align:left;'>
+			<img src="{{ idea.filename['url'] }}"><br>
 		</div>
+		<div class="restaurant_photo_bottom" style='text-align:left;'>
+			<div style='float:right;'>
+				<a><img class='facebookIcon' src='/static/img/facebookIcon.png' style='width:44px;' /></a>
+				<a><img class='twitterIcon' src='/static/img/twitterIcon.png' style='width:44px;' /></a>
+			</div>
+			
+			{% if user.userid in idea.likes %}
+				<div class='icon loved' onclick='loveIdea(this, "{{ idea.id }}")'></div>
+			{% else %}
+				<div class='icon love' onclick='loveIdea(this, "{{ idea.id }}")'></div>
+			{% endif %}
+			
+			{% if idea_id in user.saves %}
+				<div class='icon saved' onclick='saveIdea(this, "{{ idea.id }}")'></div>
+			{% else %}
+				<div class='icon save' onclick='saveIdea(this, "{{ idea.id }}")'></div>
+			{% endif %}
+			
+			<div style='display: inline-block;vertical-align: top;font-size: 1.2em;padding: 10px 5px;'>
+				<div class='likeCount' style='display:inline-block;'>{{ idea.like_count }}</div> people love this</div>
+		</div>
+		<br>
 		
-		</br>
-		</br>
+		{% if current_user != None %}
+			<div class='comments'>
+			{% for comment in comments -%}
+				<div class="comment entry">
+					<img src="{{ friends[comment.userid].picture }}"/>
+					<span><strong>{{ friends[comment.userid].user_name }} {{ friends[comment.userid].user_last_name }}</strong></span>
+					<span>{{ comment.comment_string }}</span>
+					
+					{% if current_user == comment.userid %}
+						<div class='delete-entry transition' onclick='delete_comment(this, "{{ comment.id }}")' >X</div>
+					{% endif %}
+					<div style='clear:both;width:100%;'></div>
+					
+				</div>
+				
+			{%- endfor %}
+			</div>
+			<div class="guest_book" id='guest_book' num='{{ idea.id }}'>
+				<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ friend.user_name }} about your experience" style='padding:10px;' 
+				class='ui-input-text ui-shadow-inset ui-body-inherit ui-corner-all ui-textinput-autogrow'></textarea>
+			</div><!-- /demo-html -->
+			<br><br>
+			{% include "sidebars.html" %}
+		
+		{% else %}
+			{% include "sidebars_small.html" %}
+			
+		{% endif %}
 		
 		<div class="container_16"></div>
 		<article class="grid_16"></article>
@@ -78,38 +124,6 @@
 			</ul>
 		</div>
 		</br>
-		
-		{% if current_user != None %}
-			<div class="guest_book" id='guest_book'>
-				<label for="textarea"><strong>Guest Book:</strong></label>
-				<textarea name="textarea" id="textarea" placeholder="Been here? Tell {{ friend.user_name }} about your experience"></textarea>
-			</div><!-- /demo-html -->
-			
-			<div class="Guest_book_next"><a onclick='add_comment()' data-role="button" style="background: #grey; color: black;">Add Your Comment</a></div>
-			
-			<div class='comments'>
-			{% for comment in comments -%}
-				<div class="user_choice_why_answered">
-					<img src="{{ friends[comment.userid].picture }}" height="75" width="75"> 
-					<ul>
-						<li><strong>{{ friends[comment.userid].user_name }} {{ friends[comment.userid].user_last_name }}</strong></li>
-						<li>{{ comment.comment_string }}</li>
-					</ul>
-					{% if current_user == comment.userid %}
-						<div class='delete-entry transition' onclick='delete_comment(this, "{{ comment.id }}")' >X</div>
-					{% endif %}
-				</div>
-			{%- endfor %}
-			</div>
-			{% include "sidebars.html" %}
-		
-		{% else %}
-			{% include "sidebars_small.html" %}
-			
-		{% endif %}
-		
-		
-
 	</div>
 </div><!-- /page -->
 
@@ -118,24 +132,9 @@
 {% block scripts %}
 	<script src="static/js/mapquest.js"></script>
 	
-	<script>
-	function add_comment(){
-		var comment = $('#textarea').val();
-		var id = '{{ idea.id }}';
-		
-		$.ajax({
-			url: 'last_eat_entry',
-			type: "post",
-			data: {'comment': comment,
-					'id': id},
-			success: function(value) {
-				console.log(value);
-				$('#textarea').val('');
-				$('.comments').append(value);
-			}
-		});
-	}
+	<script src="static/js/comment.js"></script>
 	
+	<script>
 	$(document).on('pageinit', function(event){
 		$(".user_choice_why_answered").live('swipeleft', function() {
 			show_delete(this);
@@ -150,69 +149,6 @@
 	}
 	function hide_delete(thisObject){
 		$(thisObject).children('.delete-entry').css('right','-150px');
-	}
-	
-	function delete_comment(thisObject, id){
-		$.ajax({
-			url: 'last_eat_entry',
-			type: "delete",
-			data: {'id': id},
-			success: function(value) {
-				$(thisObject).parent().remove();
-			}
-		});
-	}
-	
-	ajaxOut = 0;
-	function saveIdea(thisObject, id){
-		if (ajaxOut == 0){
-			ajaxOut = 1;
-			$.ajax({
-				url: 'save_idea',
-				type: "post",
-				data: {'userid': {{ user.userid }},
-						'id': id},
-				success: function(value) {
-					console.log(value);
-					ajaxOut = 0;
-					if(value == 'ADDED'){
-						$(thisObject).removeClass('save');
-						$(thisObject).addClass('saved');
-					}
-					else{
-						$(thisObject).removeClass('saved');
-						$(thisObject).addClass('save');
-					}
-					
-				}
-			});
-		}
-	}
-	
-	function loveIdea(thisObject, id){
-		if (ajaxOut == 0){
-			ajaxOut = 1;
-			$.ajax({
-				url: 'love_idea',
-				type: "post",
-				data: {'userid': {{ user.userid }},
-						'id': id},
-				success: function(value) {
-					console.log(value);
-					ajaxOut = 0;
-					if(value == 'ADDED'){
-						$(thisObject).removeClass('love');
-						$(thisObject).addClass('loved');
-						$('.likeCount').html(parseInt($('.likeCount').html()) + 1);
-					}
-					else {
-						$(thisObject).removeClass('loved');
-						$(thisObject).addClass('love');
-						$('.likeCount').html(parseInt($('.likeCount').html()) - 1);
-					}
-				}
-			});
-		}
 	}
 	</script>
 {% endblock %}
