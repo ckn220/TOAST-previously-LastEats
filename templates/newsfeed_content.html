@@ -5,7 +5,10 @@
 		<div class="user_choice_why">
 			<img src="{{ friends[ideas[id].userid].picture }}" height="85" width="85">
 			<h2>{{ friends[ideas[id].userid].user_name }} just made <strong>{{ ideas[id].restaurant_name }}</strong> the Last Eats in {{ ideas[id].title }}</h2>
-			<h3 style='float:right;font-weight:normal;'>{{ ideas[id].distance }} miles</h3>
+			{% if ideas[id].distance %}
+				<h3 style='float:right;font-weight:normal;'>{{ ideas[id].distance }} miles</h3>
+			{% endif %}
+			
 		</div>
 		<div class="restaurant_photo">
 			<img src="{{ ideas[id].filename['url'] }}"><br>

@@ -107,6 +107,10 @@ body {position: relative;}
 }
 .icon {
 	background: url('/static/img/icons.png');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 	height: 44px;
 	width: 44px;
 	display: inline-block;
@@ -308,7 +312,6 @@ body {position: relative;}
 .ui-controlgroup-controls { width: 66%;}
 .ui-controlgroup-horizontal .ui-controlgroup-controls .ui-radio {
 	width: 33%;
-	min-width: 95px;
 }
 .ui-controlgroup-horizontal .ui-controlgroup-controls .ui-radio label {
 	text-align: center;
