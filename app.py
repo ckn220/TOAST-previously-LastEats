@@ -178,13 +178,13 @@ def get_newsfeed(request, path):
 	if path == 'newsfeed' and type != 'all':
 		if type == 'saved':
 			ideas = models.Idea.objects(id__in = user.saves, complete = 1)[offset:20+offset]
-		elif lat != None:
+		elif lat:
 			ideas = models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1)[offset:20+offset]
 		else:
 			ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')[offset:20+offset]
 			
 	else:
-		if lat != None:
+		if lat:
 			ideas = models.Idea.objects(point__near=[lng, lat], complete = 1)[offset:20+offset]
 		else:
 			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[offset:20+offset]
@@ -193,7 +193,8 @@ def get_newsfeed(request, path):
 	idea_id_list = []
 	friend_list = []
 	for row in ideas:
-		row.distance = '%.1f' % calcDist(lat, lng, row.point['coordinates'][1], row.point['coordinates'][0])
+		if lat:
+			row.distance = '%.1f' % calcDist(lat, lng, row.point['coordinates'][1], row.point['coordinates'][0])
 		idea_list[str(row.id)] = row
 		idea_id_list.append(str(row.id))
 		friend_list.append(row.userid)
