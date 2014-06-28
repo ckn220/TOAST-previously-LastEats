@@ -157,8 +157,13 @@ def get_newsfeed(request, path):
 	if 'offset' in request.form:
 		offset = int(request.form.get('offset'))
 	
-	lat = float(request.form.get('lat', None))
-	lng = float(request.form.get('lng', None))
+	lat = None
+	try:
+		lat = float(request.form.get('lat'))
+		lng = float(request.form.get('lng'))
+	except:
+		print 'LAT LNG FAIL!!!'
+		
 	if 'type' in request.form:
 		type = request.form.get('type')
 	else:

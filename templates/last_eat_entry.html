@@ -79,7 +79,7 @@
 		<br>
 		
 		{% if current_user != None %}
-			<div class='comments'>
+			<div class='comments' num='{{ idea.id }}'>
 			{% for comment in comments -%}
 				<div class="comment entry">
 					<img src="{{ friends[comment.userid].picture }}"/>
