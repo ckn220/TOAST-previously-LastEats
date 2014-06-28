@@ -18,6 +18,9 @@ import requests
 import json
 import boto
 
+from PIL import Image, ImageOps
+from StringIO import StringIO
+
 #instagram
 # import time
 # from instagram.client import InstagramAPI
@@ -730,10 +733,18 @@ def add_last_eats_last():
 				# set the mimetype, content and access control
 				b = s3conn.get_bucket(AWS_BUCKET) # bucket name defined in .env
 				
+				file_string = uploaded_file.stream.read()
+				
+				image = Image.open(StringIO(file_string))
+				image = ImageOps.fit(image, (600,600), Image.ANTIALIAS)
+				
+				filename = 'static/img/lasteatimg/' + filename
+				image.save(filename)
+				
 				k = b.new_key(b) # create a new Key (like a file)
 				k.key = filename # set filename
 				k.set_metadata("Content-Type", uploaded_file.mimetype) # identify MIME type
-				k.set_contents_from_string(uploaded_file.stream.read()) # file contents to be added
+				k.set_contents_from_filename(filename) # file contents to be added
 				k.set_acl('public-read') # make publicly readable
 				
 				# if content was actually saved to S3 - save info to Database
