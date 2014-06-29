@@ -79,9 +79,9 @@ def index():
 		resp = make_response(redirect('/newsfeed'))
 		return resp
 	
-	url = 'http://httpbin.org/ip'
-	response = requests.request("GET",url)
-	ip = json.loads(response.text)['origin']
+	ip = ''
+	if 'x-forwarded-for' in request.headers:
+		ip = request.headers['x-forwarded-for']
 	
 	[lat, lng] = ipToLatLng(ip)
 	if lat:
