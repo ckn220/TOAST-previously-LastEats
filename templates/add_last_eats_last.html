@@ -43,9 +43,9 @@ function delayStart(){
 				
 				{% for img in idea.filenames %}
 					{% if loop.index == 1 %}
-						<img class='transition' src="{{ img['url'] }}" style='left:0%;' onload='startSlider();' />
+						<img class='transition image' src="{{ img['url'] }}" style='left:0%;' onload='startSlider();' />
 					{% else %}
-						<img class='transition' src="{{ img['url'] }}" />
+						<img class='transition image' src="{{ img['url'] }}" />
 					{% endif %}
 				{% endfor %}
 				</div>
