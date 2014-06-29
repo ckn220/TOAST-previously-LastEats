@@ -333,7 +333,7 @@ body {position: relative;}
 }
 
 .ui-controlgroup-horizontal { text-align: center; }
-.ui-controlgroup-controls { width: 66%;}
+.ui-controlgroup-controls { width: 100%;}
 .ui-controlgroup-horizontal .ui-controlgroup-controls .ui-radio {
 	width: 33%;
 }
