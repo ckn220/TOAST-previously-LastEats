@@ -79,6 +79,9 @@ def index():
 		resp = make_response(redirect('/newsfeed'))
 		return resp
 	
+	[lat, lng] = ipToLatLng(request.remote_addr)
+	locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1).first()
+	
 	ideas = []
 	friendIds = []
 	for item in models.Idea.objects(complete = 1).order_by('-timestamp')[:8]:
@@ -100,13 +103,15 @@ def index():
 			templateData = {'users': users,
 						'fbookId' : FACEBOOK_APP_ID,
 						'ideas': ideas,
-						'friends': friends}
+						'friends': friends,
+						'locationIdea': locationIdea}
 			return render_template("index.html", **templateData)
-		
-		
+	
+	
 	templateData = {'fbookId' : FACEBOOK_APP_ID,
 				'ideas': ideas,
-				'friends': friends}
+				'friends': friends,
+				'locationIdea': locationIdea}
 	return render_template("index.html", **templateData)		#if you make recent_submissions = DATA 
 
 @app.route("/logout", methods=['GET','POST'])
@@ -882,6 +887,18 @@ def calcDist(lat1, lng1, lat2, lng2):
 	dist = dist * mileConversion
 	return dist
 
+import json
+def ipToLatLng(ip):
+	ip = '71.225.125.133'
+	
+	url = 'http://www.iptolatlng.com/?ip='+ ip
+	
+	response = requests.request("GET",url)
+	
+	data = json.loads(response.text) 
+	
+	return [data['lat'], data['lng']]
+	
 #Here is the psuedo code that needs to be translated into python
 
 # var allUsers = request.get('users')

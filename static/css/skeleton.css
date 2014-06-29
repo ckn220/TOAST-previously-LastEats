@@ -127,6 +127,10 @@ body {position: relative;}
 
 .jqm-demos .jqm-header .ui-btn.icon.notify {
 	background: url('/static/img/icons.png');
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 	padding: 0px;
 	box-shadow: none;
 	height: 44px;
