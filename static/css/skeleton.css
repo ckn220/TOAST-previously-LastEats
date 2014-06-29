@@ -213,6 +213,9 @@ body {position: relative;}
 	display: block;
 	cursor: pointer;
 }
+.mobileContent .ideaItem:hover .ideaHover{
+	display: none;
+}
 
 .ideaHoverInner {
 	margin: 10%;

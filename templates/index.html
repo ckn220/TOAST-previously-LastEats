@@ -203,7 +203,7 @@ function delayStart(){
 		$('.photo_slider img').on('dragstart', function(event) { event.preventDefault(); });
 		
 		$('.ideaItem').on('click',function(){
-	        $('.ideaItem').trigger('hover');
+	        $(this).children('.ideaHover').show();
 	    });
 	});
 	
