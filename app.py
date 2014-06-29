@@ -572,6 +572,10 @@ def notify_content():
 	for row in models.Idea.objects(id__in = idea_ids):
 		ideas[str(row.id)] = row
 		
+	user = models.User.objects(userid = request.cookies['userid']).first()
+	user.notify_count = 0
+	user.save()
+	
 	templateData = {'friends': friends,
 				'requestIdeas': requestIdeas,
 				'open_requests': open_requests,
