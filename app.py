@@ -183,6 +183,11 @@ def get_newsfeed(request, path):
 	if path == 'newsfeed' and type != 'all':
 		if type == 'saved':
 			ideas = models.Idea.objects(id__in = user.saves, complete = 1)[offset:20+offset]
+		elif type == 'hot':
+			if lat:
+				ideas = models.Idea.objects(like_count__gte = 4, point__near=[lng, lat], complete = 1)[offset:20+offset]
+			else:
+				ideas = models.Idea.objects(like_count__gte = 4, complete = 1)[offset:20+offset]
 		elif lat:
 			ideas = models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1)[offset:20+offset]
 		else:

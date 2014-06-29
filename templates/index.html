@@ -62,17 +62,17 @@ function delayStart(){
 			<div class='photo_slider'>
 			{% for item in ideas -%}
 				{% if loop.index0 == 0 %}
-				<div class='ideaItem' style='left:0%;'>
+				<div class='ideaItem transition' style='left:0%;'>
 					<img class='ideaImage' src='{{ item.filename['url'] }}' onload='startSlider();' />
 				{% else %}
-				<div class='ideaItem'>
+				<div class='ideaItem transition'>
 					<img class='ideaImage' src='{{ item.filename['url'] }}' />
 				{% endif  %}
 					
 					<a style='background:rgba(255,255,255,.5);' class='ideaHover' href="last_eat_entry?id={{ item.id }}">
 						<div class='ideaHoverInner' style='font-size: 1.4em;font-weight: normal;'>
 							<img src='{{ friends[item.userid].picture }}' />
-							<br>
+							<br><br>
 							<div class='name'><b>{{ item.restaurant_name }}</b></div>
 							<div class='city'>{{ item.display_city }}</div>
 						</div>
@@ -93,7 +93,7 @@ function delayStart(){
 			
 			<div class='bottomPhoto' style='text-align:center;'>
 				<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-				<h2 class='backgroundText'>
+				<h2 class='backgroundText' style='padding:10px 30px;'>
 					If you only had time for one great meal in<br> {{ locationIdea.title }}, where would you go?</h2><br><br><br>
 				<a href="/city?name={{ locationIdea.title }}" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats <br>in {{ locationIdea.title }}</a>
 				<br><br><br><br><br>
@@ -160,6 +160,14 @@ function delayStart(){
 				<img id="login" onclick="FB.login()" src='static/img/fbook.jpg' style='margin-top:10px;height:40px;'/><br>
 				<br><br><br>
 			</div>
+			
+			{% if users != None %}
+				{% for item in users -%}
+					<div style='margin:4px;padding:4px;display:inline-block;'><img src='{{ item.picture }}' style='width:50px;border-radius:50px;'><a href='/?userid={{ item.userid }}'>{{ item.user_name }} {{ item.user_last_name }}</a></div>
+				{%- endfor %}
+			{% else %}
+				<div style='text-align:center;'><img id="login" onclick="FB.login()" src='static/img/fbook.jpg' /></div>
+			{% endif %}
 			
 		</div>
 	</div><!-- /page -->

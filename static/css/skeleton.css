@@ -233,6 +233,18 @@ body {position: relative;}
 	top: 25px;
 	left: 25px;
 }
+.mobileContent .ideaHover img {
+	width: 15%;
+	border-radius: 100px;
+	position: absolute;
+	top: 13%;
+	left: 13%;
+}
+.mobileContent .ideaHover .name, .mobileContent .ideaHover .city {
+	font-size: 1.8em;
+}
+
+
 .ideaItem .ideaImage {
 	width: 100%;
 }
