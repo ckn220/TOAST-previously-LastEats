@@ -80,8 +80,10 @@ def index():
 		return resp
 	
 	[lat, lng] = ipToLatLng(request.remote_addr)
-	locationIdea = None
-	#locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1).first()
+	if lat:
+		locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1).first()
+	else:
+		locationIdea = models.Idea.objects(complete = 1).first()
 	
 	ideas = []
 	friendIds = []
@@ -919,8 +921,6 @@ def calcDist(lat1, lng1, lat2, lng2):
 
 
 def ipToLatLng(ip):
-	print ip
-	#ip = '71.225.125.133'
 	
 	url = 'http://www.iptolatlng.com/?ip='+ ip
 	
