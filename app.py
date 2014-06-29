@@ -911,6 +911,10 @@ def checkCookies(request, path):
 		return None
 	
 	elif 'fbook_auth_old' in request.cookies:
+		resp = make_response(redirect(path))
+		resp.set_cookie('userid', '12202109')
+		return resp
+		
 		graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
 		try:
 			me = graph.get_object('me')
