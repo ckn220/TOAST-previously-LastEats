@@ -870,7 +870,7 @@ def get_instagram_id(idea, lat, lng):
 				idea.phone = id_phones[idea.instagram_id]
 				idea.address = id_address[idea.instagram_id]
 				idea.hours = [[],[],[],[],[],[],[]]
-				if 'timeframes' in data['response']['popular']:
+				if 'popular' in data['response'] and 'timeframes' in data['response']['popular']:
 					for row in data['response']['popular']['timeframes']:
 						for day in row['days']:
 							idea.hours[day-1] = row['open']
