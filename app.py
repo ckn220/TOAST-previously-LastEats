@@ -79,11 +79,16 @@ def index():
 		resp = make_response(redirect('/newsfeed'))
 		return resp
 	
-	[lat, lng] = ipToLatLng(request.remote_addr)
+	url = 'http://httpbin.org/ip'
+	response = requests.request("GET",url)
+	ip = json.loads(response.text)['origin']
+	
+	[lat, lng] = ipToLatLng(ip)
 	if lat:
 		locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1).first()
 	else:
 		locationIdea = models.Idea.objects(complete = 1).first()
+		
 	
 	ideas = []
 	friendIds = []
@@ -108,7 +113,7 @@ def index():
 						'ideas': ideas,
 						'friends': friends,
 						'locationIdea': locationIdea,
-						'ip': request.remote_addr}
+						'ip': ip}
 			return render_template("index.html", **templateData)
 	
 	
