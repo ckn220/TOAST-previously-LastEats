@@ -32,7 +32,6 @@ class Idea(Document):
 	restaurant_name = mongoengine.StringField(required=True)
 	
 	point = mongoengine.PointField(required=True)
-	
 	cost = mongoengine.IntField()
 	
 	likes = mongoengine.ListField(default=[])
@@ -46,6 +45,9 @@ class Idea(Document):
 	
 	filename = mongoengine.fields.DictField()
 	filenames = mongoengine.ListField()
+	phone = mongoengine.StringField()
+	hours = mongoengine.ListField()
+	address = mongoengine.StringField()
 	
 	request_id = mongoengine.StringField()
 	seen = mongoengine.IntField(default=0)

@@ -116,12 +116,18 @@
 			<div id="map_canvas" class="map rounded" ></div>
 		</div>
 		
-		<div class="user_choice_why" style='display:none;'>
-			<ul>
-				<li>1800 Mission St, San Diego, CA</li>
-				<li>Open: Monday - Friday, 10am - 7pm</li>
-				<li>(555) - 555-1987</li>
-			</ul>
+		<div class="ideaInfo" style='padding:10px;margin:5px;background:white;font-size:14px;text-align:left;'>
+			<div>{{ idea.address }}</div><br>
+			<div>Phone:  {{ idea.phone }}</div><br>
+			{% for day in idea.hours %}
+				<div>
+					<span>{{ days[loop.index0] }}: </span>
+					{% for window in day %}
+						<span> {{ window.start }} - {{ window.end  }}</span>
+					{% endfor %}
+				</div>
+			{% endfor %}
+
 		</div>
 		</br>
 	</div>

@@ -302,13 +302,16 @@ def last_eat_entry():
 		
 		friend = models.User.objects(userid = idea.userid).first()
 		
+		days = ['Mon','Tue','Wed','Thur','Fri','Sat','Sun']
+		
 		templateData = {'current_user': current_user,
 					'idea' : idea,
 					'idea_id' : str(idea.id),
 					'user': user,
 					'friend': friend,
 					'friends': friends,
-					'comments': comments}
+					'comments': comments,
+					'days': days}
 		
 		return render_template("last_eat_entry.html", **templateData)
 
@@ -787,6 +790,8 @@ def get_instagram_id(idea, lat, lng):
 	data = json.loads(response.text)
 	
 	instagram_ids = []
+	id_phones = {}
+	id_address = {}
 	i = 0
 	while i < len(data['response']['venues']):
 		url = 'https://api.instagram.com/v1/locations/search?foursquare_v2_id='+data['response']['venues'][i]['id']+'&access_token=' + INSTAGRAM_TOKEN
@@ -810,6 +815,12 @@ def get_instagram_id(idea, lat, lng):
 		if len(data2['data']) > 0:
 			for item in data2['data']:
 				instagram_ids.append(item['id'])
+				
+				id_phones[item['id']] = ''
+				if 'phone' in data['response']['venues'][i]['contact']:
+					id_address[item['id']] = data['response']['venues'][i]['location']['formattedAddress'][0]
+					id_phones[item['id']] = data['response']['venues'][i]['contact']['phone']
+				
 		i += 1
 	
 	if len(instagram_ids) > 0:
@@ -819,6 +830,17 @@ def get_instagram_id(idea, lat, lng):
 			idea.instagram_id = row
 			idea = get_instagram_photo(idea)
 			if len(idea.filenames) > 0:
+				url = 'https://api.foursquare.com/v2/venues/' + idea.instagram_id + '/hours?client_id=' + FOURSQUARE_CLIENT_ID + '&client_secret=' + FOURSQUARE_CLIENT_SECRET + '&v=20120609'
+				response = requests.request("GET",url)
+				data = json.loads(response.text)
+				
+				idea.phone = id_phones[idea.instagram_id]
+				idea.address = id_address[idea.instagram_id]
+				idea.hours = [[],[],[],[],[],[],[]]
+				for row in data['response']['popular']['timeframes']:
+					for day in row['days']:
+						idea.hours[day-1] = row['open']
+				
 				break
 			
 	return idea
@@ -887,7 +909,7 @@ def calcDist(lat1, lng1, lat2, lng2):
 	dist = dist * mileConversion
 	return dist
 
-import json
+
 def ipToLatLng(ip):
 	ip = '71.225.125.133'
 	
