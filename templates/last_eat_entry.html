@@ -122,10 +122,7 @@
 			{% for day in idea.hours %}
 				{% if day|length > 0 %}
 				<div>
-					<span>{{ days[loop.index0] }}: </span>
-					{% for window in day %}
-						<span> {{ window.start }} - {{ window.end  }}</span>
-					{% endfor %}
+					<span>{{ days[loop.index0] }}</span>
 				</div>
 				{% endif %}
 			{% endfor %}

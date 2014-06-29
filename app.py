@@ -317,7 +317,25 @@ def last_eat_entry():
 		
 		friend = models.User.objects(userid = idea.userid).first()
 		
-		days = ['Mon','Tue','Wed','Thur','Fri','Sat','Sun']
+		days = ['Mon: ','Tue: ','Wed: ','Thur: ','Fri: ','Sat: ','Sun: ']
+		for i in range(len(idea.hours)):
+			for j in range(len(idea.hours[i])):
+				start = str(int(idea.hours[i][j]['start']) % 1200)
+				start = start[:-2] + ':' + start[-2:]
+				if int(idea.hours[i][j]['start']) /1200 > 1:
+					start += 'pm'
+				else:
+					start += 'am'
+				days[i] += start + ' - '
+				
+				end = str(int(idea.hours[i][j]['end']) % 1200)
+				end = end[:-2] + ':' + end[-2:]
+				if int(idea.hours[i][j]['end']) /1200 > 1:
+					end += 'pm'
+				else:
+					end += 'am'
+				days[i] += end + '  '
+				
 		
 		templateData = {'current_user': current_user,
 					'idea' : idea,
