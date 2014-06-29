@@ -916,7 +916,7 @@ def calcDist(lat1, lng1, lat2, lng2):
 
 
 def ipToLatLng(ip):
-	ip = '71.225.125.133'
+	#ip = '71.225.125.133'
 	
 	url = 'http://www.iptolatlng.com/?ip='+ ip
 	
