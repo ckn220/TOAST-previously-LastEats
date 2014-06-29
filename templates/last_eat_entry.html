@@ -120,12 +120,14 @@
 			<div>{{ idea.address }}</div><br>
 			<div>Phone:  {{ idea.phone }}</div><br>
 			{% for day in idea.hours %}
+				{% if day|length > 0 %}
 				<div>
 					<span>{{ days[loop.index0] }}: </span>
 					{% for window in day %}
 						<span> {{ window.start }} - {{ window.end  }}</span>
 					{% endfor %}
 				</div>
+				{% endif %}
 			{% endfor %}
 
 		</div>
