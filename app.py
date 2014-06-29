@@ -80,7 +80,8 @@ def index():
 		return resp
 	
 	[lat, lng] = ipToLatLng(request.remote_addr)
-	locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1).first()
+	locationIdea = None
+	#locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1).first()
 	
 	ideas = []
 	friendIds = []
@@ -104,14 +105,16 @@ def index():
 						'fbookId' : FACEBOOK_APP_ID,
 						'ideas': ideas,
 						'friends': friends,
-						'locationIdea': locationIdea}
+						'locationIdea': locationIdea,
+						'ip': request.remote_addr}
 			return render_template("index.html", **templateData)
 	
 	
 	templateData = {'fbookId' : FACEBOOK_APP_ID,
 				'ideas': ideas,
 				'friends': friends,
-				'locationIdea': locationIdea}
+				'locationIdea': locationIdea,
+				'ip': request.remote_addr}
 	return render_template("index.html", **templateData)		#if you make recent_submissions = DATA 
 
 @app.route("/logout", methods=['GET','POST'])
