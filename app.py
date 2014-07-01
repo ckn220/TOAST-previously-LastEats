@@ -166,8 +166,23 @@ def browse():
 	else:
 		templateData = {}
 		return render_template("browse.html", **templateData)
+	
+@app.route("/pinned", methods=['GET','POST'])
+def pinned():
+	cookie_check = checkCookies(request, '/newsfeed')
+	if cookie_check != None:
+		return cookie_check
+	
+	if request.method == "POST":
+		return get_newsfeed(request, 'newsfeed', 'saved')
+	else:
+		
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		
+		templateData = {'user': user}
+		return render_template("pinned.html", **templateData)
 
-def get_newsfeed(request, path):
+def get_newsfeed(request, path, type = None):
 	offset = 0
 	if 'offset' in request.form:
 		offset = int(request.form.get('offset'))
@@ -181,8 +196,6 @@ def get_newsfeed(request, path):
 		
 	if 'type' in request.form:
 		type = request.form.get('type')
-	else:
-		type = None
 	
 	user = None
 	current_user = None
@@ -277,9 +290,10 @@ def last_eat_entry():
 		c.save()
 		
 		friendid = models.Idea.objects(id = id).only('userid').first()
-		friend = models.User.objects(userid = friendid.userid).only('notify_count').first()
-		friend.notify_count += 1
-		friend.save()
+		if friendid == user.userid:
+			friend = models.User.objects(userid = friendid.userid).only('notify_count').first()
+			friend.notify_count += 1
+			friend.save()
 		
 		templateData = {'comment': c, 'user': user}
 		return render_template("comment.html", **templateData)
@@ -464,7 +478,7 @@ def friend_profile():
 def city_filter():
 	#cities = {}
 	ordered_cities = []
-	city_count = []
+	city_count = {}
 	cities = {}
 	user = None
 	if 'userid' in request.cookies:
@@ -480,9 +494,9 @@ def city_filter():
 			
 			ordered_cities.append(idea.full_city)
 			if 'userid' in request.cookies:
-				city_count.append(models.Idea.objects(userid__in = user.friends, full_city = idea.full_city, complete = 1).count())
+				city_count[idea.full_city] = models.Idea.objects(userid__in = user.friends, full_city = idea.full_city, complete = 1).count()
 			else:
-				city_count.append(models.Idea.objects(full_city = idea.full_city, complete = 1).count())
+				city_count[idea.full_city] = models.Idea.objects(full_city = idea.full_city, complete = 1).count()
 			
 		#cities[idea.title].append(idea)
 	ordered_cities.sort()
@@ -557,13 +571,15 @@ def notify_content():
 	ids = []
 	for idea in ideas:
 		ids.append(str(idea.id))
-	c = models.Comment.objects(ideaid__in = ids, seen = 0).order_by('-timestamp')
+	c = models.Comment.objects(ideaid__in = ids, userid__ne = userid, seen = 0).order_by('-timestamp')
 	
 	comments = []
 	for row in c:
 		friend_ids.append(row.userid)
 		idea_ids.append(row.ideaid)
 		comments.append(row)
+		row.seen = 1
+		row.save()
 		
 	friends = {}
 	for row in models.User.objects(userid__in = friend_ids):
@@ -757,6 +773,7 @@ def add_last_eats_last():
 		return cookie_check
 	
 	if request.method == "POST":
+		image_suc = False
 		id = request.form.get('id')
 		idea = models.Idea.objects(id = id).first()
 		
@@ -802,7 +819,9 @@ def add_last_eats_last():
 				if k and k.size > 0:
 					idea.filename = {'url': 'http://lasteats.s3-website-us-west-2.amazonaws.com/' + filename}
 					
-		else:
+					image_suc = True
+					
+		if not image_suc:
 			creator = request.form.get('creator')
 			id = request.form.get('id')
 			idea.filename = {'url':request.form.get('image'), 'creator':creator, 'id':id}
@@ -854,6 +873,7 @@ def get_instagram_id(idea, lat, lng):
 				instagram_ids.append(item['id'])
 				
 				id_phones[item['id']] = ''
+				id_address[item['id']] = ''
 				if 'phone' in data['response']['venues'][i]['contact']:
 					id_address[item['id']] = data['response']['venues'][i]['location']['formattedAddress'][0]
 					id_phones[item['id']] = data['response']['venues'][i]['contact']['phone']

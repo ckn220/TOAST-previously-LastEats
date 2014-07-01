@@ -124,6 +124,7 @@ function swipePhoto(dir){
 			next = $('.photo_slider img').first();}
 		next.show();
 		$('#image').val(next.attr('src'));
+		
 		setTimeout(function(){
 			next.css('left','0%');
 			next.addClass('active');
@@ -144,6 +145,7 @@ function swipePhoto(dir){
 		next.css('left','-100%');
 		next.show();
 		$('#image').val(next.attr('src'));
+		
 		setTimeout(function(){
 			next.css('left','0%');
 			next.addClass('active');

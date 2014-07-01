@@ -60,26 +60,29 @@ function delayStart(){
 			<h2 style='font-weight:normal;'>The best, most recently added restaurants</h2>
 			<br><br>
 			
-			<div class='photo_slider'>
-			{% for item in ideas -%}
-				{% if loop.index0 == 0 %}
-				<div class='ideaItem transition' style='left:0%;'>
-					<img class='ideaImage' src='{{ item.filename['url'] }}' onload='startSlider();' />
-				{% else %}
-				<div class='ideaItem transition'>
-					<img class='ideaImage' src='{{ item.filename['url'] }}' />
-				{% endif  %}
-					
-					<a style='background:rgba(255,255,255,.5);' class='ideaHover' href="last_eat_entry?id={{ item.id }}">
-						<div class='ideaHoverInner' style='font-size: 1.4em;font-weight: normal;'>
-							<img src='{{ friends[item.userid].picture }}' />
-							<br><br>
-							<div class='name'><b>{{ item.restaurant_name }}</b></div>
-							<div class='city'>{{ item.display_city }}</div>
-						</div>
-					</a>
-				</div>
-			{%- endfor %}
+			<div class='photo_slider' style='position:relative;'>
+				{% for item in ideas -%}
+					{% if loop.index0 == 0 %}
+					<div class='ideaItem transition' style='left:0%;'>
+						<img class='ideaImage' src='{{ item.filename['url'] }}' onload='startSlider();' />
+					{% else %}
+					<div class='ideaItem transition'>
+						<img class='ideaImage' src='{{ item.filename['url'] }}' />
+					{% endif  %}
+						
+						<a style='background:rgba(255,255,255,.5);' class='ideaHover' href="last_eat_entry?id={{ item.id }}">
+							<div class='ideaHoverInner' style='font-size: 1.4em;font-weight: normal;'>
+								<img src='{{ friends[item.userid].picture }}' />
+								<br><br>
+								<div class='name'><b>{{ item.restaurant_name }}</b></div>
+								<div class='city'>{{ item.display_city }}</div>
+							</div>
+						</a>
+					</div>
+				{%- endfor %}
+			
+				<div style='border: 40px solid transparent;border-right: 25px solid white;height: 0px;width: 0px;position:absolute;left:-25px;top:50%;z-index:20;'></div>
+				<div style='border: 40px solid transparent;border-left: 25px solid white;height: 0px;width: 0px;position:absolute;right:-25px;top:50%;z-index:20;'></div>
 			</div>
 			<br><br>
 			

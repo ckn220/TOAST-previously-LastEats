@@ -18,7 +18,7 @@ class Comment(Document):
 	ideaid = mongoengine.StringField()
 	comment_string = mongoengine.StringField(max_length=140)
 	
-	seen = mongoengine.IntField(default=0)
+	seen = mongoengine.IntField()
 	
 	timestamp = mongoengine.DateTimeField(default=datetime.now())
 	

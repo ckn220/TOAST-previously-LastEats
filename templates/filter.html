@@ -24,7 +24,7 @@
 		{% for item in list -%}
 			<a class='city' href="/city?name={{ item }}" title="Friend Profile" onclick='toggleItems("{{ item|replace(' ','_') }}")'><div class="my_friends">
 				<!--<img src="{{ item.picture }}" height="50" width="50">-->
-				<h2 style='padding-left:20px;'>{{ cities[item] }} ({{ count[loop.index0] }})</h2>
+				<h2 style='padding-left:20px;'>{{ cities[item] }} ({{ count[item] }})</h2>
 			</div></a>
 		{%- endfor %}
 		</div>

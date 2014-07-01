@@ -1,0 +1,74 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header_med.html" %}
+	
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+		
+		</br>
+		
+		<div class="user_photo"><img src="{{ user.picture }}" height="125" width="125"></div>
+		
+		<div class="user_restaurant">
+			<strong>Welcome {{ user.user_name }}!</strong>
+		</div><!-- /demo-html -->
+		<br>
+		
+		<div class='newsfeed'>
+			<div style='text-align:center;'>Loading . . . .</div>
+		</div>
+		
+		{% include "add_button.html" %}
+		
+		{% include "sidebars.html" %}
+	</div>
+	
+</div><!-- /page -->
+{% endblock %}
+
+{% block scripts %}
+<script>
+	$(document).ready(function(){
+		// Try W3C Geolocation (Preferred)
+		if(navigator.geolocation) {
+			browserSupportFlag = true;
+			navigator.geolocation.getCurrentPosition(function(position) {
+				initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+				get_newsfeed(initialLocation.k, initialLocation.A);
+				
+			}, function() { handleNoGeolocation(browserSupportFlag); });
+		}
+		// Browser doesn't support Geolocation
+		else {
+			browserSupportFlag = false;
+			handleNoGeolocation(browserSupportFlag);
+		}
+	});
+	
+	function handleNoGeolocation(errorFlag) {
+		if (errorFlag) {
+			console.log('Error: The Geolocation service failed.');}
+		else {
+			console.log('Error: Your browser doesn\'t support geolocation.');}
+			
+		get_newsfeed();
+	}
+	
+	function get_newsfeed(lat, lng){
+		$.ajax({
+			url: 'pinned',
+			type: "post",
+			data: {'lat': lat, 'lng': lng},
+			success: function(value) {
+				$('.newsfeed').html('');
+				$('.newsfeed').append(value);
+			}
+		});
+	}
+</script>
+{% endblock %}

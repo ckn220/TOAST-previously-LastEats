@@ -2,10 +2,17 @@
 <div data-role="panel" class="jqm-navmenu-panel" data-position="left" data-display="overlay" data-theme="a">
 	<ul class="jqm-list ui-alt-icon ui-nodisc-icon">
 		<li data-filtertext="demos homepage" data-icon="home"><a href="/profile">My Last Eats</a></li>
+		
 		<li data-filtertext="introduction overview getting started"><a href="/add_last_eats" data-ajax="false">Add Last Eats</a></li>
-		<li data-filtertext="buttons button markup buttonmarkup method anchor link button element"><a href="/my_friends" data-ajax="false">View Friends</a></li>
-		<li data-filtertext="form button widget input button submit reset"><a href="/newsfeed" data-ajax="false">Newsfeed</a></li>
-		<!-- <li data-filtertext="pages page widget ajax navigation"><a href="../jquery_mobile_frontend/request_le.html" data-ajax="false">Request Last Eats</a></li>-->
+		
+		<li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
+			<h3>Browse Last Eats</h3>
+			<ul>
+				<li data-filtertext="buttons in grids css framework"><a href="/newsfeed" data-ajax="false">By Newsfeed</a></li>
+				<li data-filtertext="buttons in grids css framework"><a href="/my_friends" data-ajax="false">By Friends</a></li>
+				<li data-filtertext="buttons in grids css framework"><a href="/city_filter" data-ajax="false">By City</a></li>
+			</ul>
+		</li>
 		
 		<li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
 			<h3>Request Last Eats</h3>
@@ -15,15 +22,7 @@
 			</ul>
 		</li>
 		
-		<li data-filtertext="buttons in grids css framework"><a href="/city_filter" data-ajax="false">Browse by City</a></li>
-		<!--<li data-role="collapsible" data-collapsed-icon="carat-d" data-expanded-icon="carat-u" data-iconpos="right" data-inset="false">
-			<h3>Filters</h3>
-			<ul>
-				<li data-filtertext="grids columns blocks content formatting rwd responsive css framework"><a href="/price_filter" data-ajax="false">Filter by Price</a></li>
-				<li data-filtertext="buttons in grids css framework"><a href="/city_filter" data-ajax="false">Filter by City</a></li>
-				<li data-filtertext="custom responsive grids rwd css framework"><a href="" data-ajax="false">Filter by Food</a></li>
-			</ul>
-		</li>-->
+		<li data-filtertext="buttons in grids css framework"><a href="/pinned">Saved</a></li>
 		
 		<li data-filtertext="buttons in grids css framework"><a href="mailto:lasteats@gmail.com" data-ajax="false">Contact Us</a></li>
 		
