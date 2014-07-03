@@ -20,15 +20,9 @@
 			<strong><p>Last Eats in {{ city }}</p></strong>
 		</div><!-- /demo-html -->
 		
-		{% for item in ideas -%}
-		<div class="user_choice_why"></div>
-		<a href="/last_eat_entry?id={{ item.id }}" data-role="button">
-			<strong>{{ item.restaurant_name }} in {{ item.title }}</strong>
-			<div class="my_last_eats"></div>
-			
-			<div class="restaurant_photo"><img src="{{ item.filename['url'] }}"></div>
-		</a>
-		{%- endfor %}
+		<div class='newsfeed'>
+			<div  class='loading' style='text-align:center;'>Loading . . . .</div>
+		</div>
 		
 		{% if user != None %}
 			{% include "add_button.html" %}
@@ -41,3 +35,67 @@
 </div>
 
 {% endblock %}
+
+{% block scripts %}
+<script>
+	var LATITUDE = undefined;
+	var LONGITUDE = undefined;
+	
+	$(document).ready(function(){
+		// Try W3C Geolocation (Preferred)
+		if(navigator.geolocation) {
+			browserSupportFlag = true;
+			navigator.geolocation.getCurrentPosition(function(position) {
+				initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+				
+				LATITUDE = position.coords.latitude;
+				LONGITUDE = position.coords.longitude;
+				
+				if ({{ user.friends|length }} > 0){
+					get_newsfeed('friends');
+				}
+				else {
+					get_newsfeed('all');
+				}
+				
+			}, function() { handleNoGeolocation(browserSupportFlag); });
+		}
+		// Browser doesn't support Geolocation
+		else {
+			browserSupportFlag = false;
+			handleNoGeolocation(browserSupportFlag);
+		}
+	});
+	
+	function handleNoGeolocation(errorFlag) {
+		if (errorFlag) {
+			console.log('Error: The Geolocation service failed.');}
+		else {
+			console.log('Error: Your browser doesn\'t support geolocation.');}
+			
+		get_newsfeed();
+	}
+	
+	var offset = 0;
+	var endScroll = 0;
+	var lastType = '';
+	function get_newsfeed(){
+		if (endScroll == 0){
+			$.ajax({
+				url: 'city',
+				type: "post",
+				data: {'city': "{{ city }}",'lat': LATITUDE, 'lng': LONGITUDE},
+				success: function(value) {
+					$('.newsfeed .loading').remove();
+					$('.newsfeed').append(value);
+					if (value == "\n"){
+						$('.newsfeed').append("<div style='text-align:center;'>Woops nothing was found!</div>");
+					}
+				}
+			});
+		}
+	}
+</script>
+
+{% endblock %}
+

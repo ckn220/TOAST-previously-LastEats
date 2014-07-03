@@ -38,6 +38,8 @@ function delete_comment(thisObject, id){
 
 ajaxOut = 0;
 function saveIdea(thisObject, id){
+	var items = $('.restaurant_photo_bottom[num='+ id +'] .saveicon').add('.icon_container[num='+ id +'] .saveicon');
+	
 	if (ajaxOut == 0){
 		ajaxOut = 1;
 		$.ajax({
@@ -48,12 +50,12 @@ function saveIdea(thisObject, id){
 				console.log(value);
 				ajaxOut = 0;
 				if(value == 'ADDED'){
-					$(thisObject).removeClass('save');
-					$(thisObject).addClass('saved');
+					items.removeClass('save');
+					items.addClass('saved');
 				}
 				else{
-					$(thisObject).removeClass('saved');
-					$(thisObject).addClass('save');
+					items.removeClass('saved');
+					items.addClass('save');
 				}
 			}
 		});
@@ -61,6 +63,8 @@ function saveIdea(thisObject, id){
 }
 
 function loveIdea(thisObject, id){
+	var items = $('.restaurant_photo_bottom[num='+ id +'] .loveicon').add('.icon_container[num='+ id +'] .loveicon');
+	
 	if (ajaxOut == 0){
 		ajaxOut = 1;
 		$.ajax({
@@ -71,13 +75,13 @@ function loveIdea(thisObject, id){
 				console.log(value);
 				ajaxOut = 0;
 				if(value == 'ADDED'){
-					$(thisObject).removeClass('love');
-					$(thisObject).addClass('loved');
+					items.removeClass('love');
+					items.addClass('loved');
 					$('.likeCount').html(parseInt($('.likeCount').html()) + 1);
 				}
 				else {
-					$(thisObject).removeClass('loved');
-					$(thisObject).addClass('love');
+					items.removeClass('loved');
+					items.addClass('love');
 					$('.likeCount').html(parseInt($('.likeCount').html()) - 1);
 				}
 			}

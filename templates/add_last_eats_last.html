@@ -54,10 +54,19 @@ function delayStart(){
 			</div>
 		
 		{% endif %}
+		
+		<div class='image-preview-container'>
+			<div  class='loading' style='text-align:center; display:none;'>Loading . . . .</div>
+			<img class='image' src="" id='image-preview' style='display:none;width:100%;' />
+		<br>
+		</div>
+		
 		<br>
 		<p style='display: block;text-align: center;padding: 5px;'>or upload your own image</h3>
 		
 		<input class='picture-file-input' type='file' name='picture' />
+		<br>
+		
 		
 		<div class="form_next"><input type='submit' data-role="button" style="background: #grey; color: black;" value='Submit Last Eats' /></div>
 		</form>
@@ -111,6 +120,11 @@ $(document).on('pageinit', function(event){
 		swipePhoto();
 	});
 	$('.photo_slider img').on('dragstart', function(event) { event.preventDefault(); });
+	
+	$(".picture-file-input").change(function(){
+    	readURL(this);
+	});
+	
 });
 
 function swipePhoto(dir){
@@ -155,6 +169,24 @@ function swipePhoto(dir){
 			},200);
 		}, 10);
 	}
+}
+
+function readURL(input) {
+	
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+		
+		$('.photo_slider').hide();
+		$('.image-preview-container .loading').show();
+		
+        reader.onload = function (e) {
+            $('.image-preview-container #image-preview').attr('src', e.target.result);
+            $('.image-preview-container #image-preview').show();
+            $('.image-preview-container .loading').hide();
+        }
+		
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
 </script>

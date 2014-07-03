@@ -35,7 +35,7 @@ function delayStart(){
 	{% include "header_small.html" %}
 	
 	
-	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='padding-top:0px;'>
 		
 		<div class='mobileContent'>
 			<div class='topPhoto'>
@@ -71,7 +71,7 @@ function delayStart(){
 					{% endif  %}
 						
 						<a style='background:rgba(255,255,255,.5);' class='ideaHover' href="last_eat_entry?id={{ item.id }}">
-							<div class='ideaHoverInner' style='font-size: 1.4em;font-weight: normal;'>
+							<div class='ideaHoverInner' style='font-size: 1.2em;font-weight: normal;'>
 								<img src='{{ friends[item.userid].picture }}' />
 								<br><br>
 								<div class='name'><b>{{ item.restaurant_name }}</b></div>
@@ -84,9 +84,9 @@ function delayStart(){
 				<div style='border: 40px solid transparent;border-right: 25px solid white;height: 0px;width: 0px;position:absolute;left:-25px;top:50%;z-index:20;'></div>
 				<div style='border: 40px solid transparent;border-left: 25px solid white;height: 0px;width: 0px;position:absolute;right:-25px;top:50%;z-index:20;'></div>
 			</div>
-			<br><br>
 			
-			
+			<div style='background:#efefef;'>
+			<br><br><br><br>
 			<h1 style='font-size:2em;font-weight:normal;'>Your reccomendations count.</h1>
 			<h2 style='font-weight:normal;'>Help spread the word.</h2>
 			<br>
@@ -94,6 +94,7 @@ function delayStart(){
 			<a href='https://www.facebook.com/sharer/sharer.php?src=sp&u=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='static/img/facebookIcon.png' /></a>
 			<a href='https://twitter.com/intent/tweet?text=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='static/img/twitterIcon.png' /></a>
 			<br><br><br><br>
+			</div>
 			
 			<div class='bottomPhoto' style='text-align:center;'>
 				<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
@@ -132,7 +133,7 @@ function delayStart(){
 				<a class='ideaItem' href="last_eat_entry?id={{ item.id }}">
 					<img class='ideaImage' src='{{ item.filename['url'] }}' />
 					<div style='background:rgba(255,255,255,.5);' class='ideaHover'>
-					<div class='ideaHoverInner' style='font-size: 1.4em;font-weight: normal;'>
+					<div class='ideaHoverInner' style='font-size: 1.2em;font-weight: normal;'>
 						<img src='{{ friends[item.userid].picture }}' />
 						<br>
 						<div class='name'><b>{{ item.restaurant_name }}</b></div>
@@ -140,9 +141,9 @@ function delayStart(){
 					</div></div>
 				</a>
 			{%- endfor %}
-			<br><br>
 			
-			
+			<div style='background:#efefef;'>
+			<br><br><br><br>
 			<h1 style='font-size:2em;font-weight:normal;'>Your reccomendations count.</h1>
 			<h2 style='font-weight:normal;'>Help spread the word.</h2>
 			<br>
@@ -150,6 +151,7 @@ function delayStart(){
 			<a href='https://www.facebook.com/sharer/sharer.php?src=sp&u=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='static/img/facebookIcon.png' /></a>
 			<a href='https://twitter.com/intent/tweet?text=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='static/img/twitterIcon.png' /></a>
 			<br><br><br><br>
+			</div>
 			
 			<div class='bottomPhoto' style='text-align:center;'>
 				<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
@@ -158,8 +160,9 @@ function delayStart(){
 				<a href="/city?name={{ locationIdea.title }}" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats <br>in {{ locationIdea.title }}</a>
 				<br><br><br><br><br><br><br>
 			</div>
-			<br><br><br>
-			<div>
+			
+			<div style='background:#efefef;'>
+				<br><br><br>
 				<h1 style='display:inline-block;font-size:3em;font-weight:normal;vertical-align:top;padding-right:15px;'>Hungry yet?</h1>
 				<a href='/newsfeed'><img id="login" src='static/img/fbook.jpg' style='margin-top:10px;height:40px;'/></a>
 				<!--<img id="login" onclick="FB.login()" src='static/img/fbook.jpg' style='margin-top:10px;height:40px;'/><br>-->
@@ -177,14 +180,20 @@ function delayStart(){
 		</div>
 	</div><!-- /page -->
 	
-	<div class='cover' style='position:absolute;width:100%;height:100%;top:0px;left:0px;background:rgba(255,255,255,.5);display:none;'>
-		<div style='position:relative;margin:100px auto;max-width:680px;height:150px;background:white;padding:60px;text-align:center;border:2px solid #aaa;'>
+	<div class='footer' style='background:#c5c5c5;text-align:center;width:100%;'>
+		<br><br>
+		<a href='mailto:lasteats@gmail.com'>Contact Us</a>
+		<br><br>
+	</div>
+	
+	<div class='cover' style='position:absolute;width:100%;height:100%;top:0px;left:0px;background:rgba(255,255,255,.5);display:none;text-align:center;'>
+		<div style='position:relative;margin:100px 0px;display:inline-block;background:white;padding:60px;text-align:center;border:2px solid #aaa;'>
 			<div class='close' onclick='closeCover()'>x</div>
 			<div style='display:inline-block;vertical-align:top;'>
-				<a href='/newsfeed'><img id="login" src='static/img/fbook.jpg' /></a>
+				<a href='/newsfeed'><img id="login" src='static/img/fbook.jpg' style='height:40px;' /></a>
 				<!--<img id="login" onclick="FB.login()" src='static/img/fbook.jpg' />-->
-			</div>
-			<div style='display:inline-block;vertical-align:top;'><img id="login" src='static/img/twitter.jpg' style='opacity:.3;' /><div>Coming Soon!</div></div>
+			</div><br><br>
+			<div style='display:inline-block;vertical-align:top;'><img id="login" src='static/img/twitter.jpg' style='opacity:.3;height:40px;' /><div>Coming Soon!</div></div>
 		</div>
 	</div>
 	
@@ -228,7 +237,7 @@ function delayStart(){
 			var old = $('.photo_slider .ideaItem.active');
 			old.css('left', '-100%');
 			old.removeClass('active');
-			var next = old.next();
+			var next = old.next('.photo_slider .ideaItem');
 			if (next.length == 0){
 				next = $('.photo_slider .ideaItem').first();}
 			next.show();
@@ -247,7 +256,7 @@ function delayStart(){
 			var old = $('.photo_slider .ideaItem.active');
 			old.css('left', '100%');
 			old.removeClass('active');
-			var next = old.prev();
+			var next = old.prev('');
 			if (next.length == 0){
 				next = $('.photo_slider .ideaItem').last();}
 			next.css('left','-100%');

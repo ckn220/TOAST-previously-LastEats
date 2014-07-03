@@ -290,7 +290,7 @@ def last_eat_entry():
 		c.save()
 		
 		friendid = models.Idea.objects(id = id).only('userid').first()
-		if friendid == user.userid:
+		if friendid != user.userid:
 			friend = models.User.objects(userid = friendid.userid).only('notify_count').first()
 			friend.notify_count += 1
 			friend.save()
@@ -476,7 +476,6 @@ def friend_profile():
 
 @app.route("/city_filter", methods=['GET'])
 def city_filter():
-	#cities = {}
 	ordered_cities = []
 	city_count = {}
 	cities = {}
@@ -486,10 +485,9 @@ def city_filter():
 		ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
 	else:
 		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')
-
+	
 	for idea in ideas:
 		if idea.full_city not in cities:
-			#cities[idea.title] = []
 			cities[idea.full_city] = ','.join(idea.full_city.split(',')[:2])
 			
 			ordered_cities.append(idea.full_city)
@@ -498,30 +496,63 @@ def city_filter():
 			else:
 				city_count[idea.full_city] = models.Idea.objects(full_city = idea.full_city, complete = 1).count()
 			
-		#cities[idea.title].append(idea)
+		
 	ordered_cities.sort()
 	templateData = {'user': user,
-				#'filter': cities,
 				'list': ordered_cities,
 				'count': city_count,
 				'cities': cities}
 	return render_template("filter.html", **templateData)
 
-@app.route("/city", methods=['GET'])
+@app.route("/city", methods=['GET', 'POST'])
 def city():
-	city = request.args['name']
-	user = None
-	if 'userid' in request.cookies:
-		user = models.User.objects(userid = request.cookies['userid']).first()
-		ideas = models.Idea.objects(userid__in = user.friends, title = city, complete = 1).order_by('-timestamp')
+	
+	if request.method == "POST":
+		user = None
+		city = request.form.get('city')
+		
+		if 'userid' in request.cookies:
+			user = models.User.objects(userid = request.cookies['userid']).first()
+			ideas = models.Idea.objects(userid__in = user.friends, title = city, complete = 1).order_by('-timestamp')
+		else:
+			ideas = models.Idea.objects(title = city, complete = 1).order_by('-timestamp')
+		
+		idea_list = {}
+		friend_list = []
+		idea_id_list = []
+		for idea in ideas:
+			idea_list[idea.id] = idea
+			idea_id_list.append(idea.id)
+			friend_list.append(idea.userid)
+		
+		comments = {}
+		for row in models.Comment.objects(ideaid__in = idea_id_list):
+			if row.ideaid not in comments:
+				comments[row.ideaid] = []
+			comments[row.ideaid].append(row)
+			friend_list.append(row.userid)
+		
+		friends = {}
+		for row in models.User.objects(userid__in = friend_list):
+			friends[row.userid] = row
+		
+		templateData = {'user': user,
+					'friends': friends,
+					'city': city,
+					'ideas': idea_list,
+					'ideaIds': idea_id_list,
+					'comments': comments}
+		return render_template("newsfeed_content.html", **templateData)
+		
 	else:
-		ideas = models.Idea.objects(title = city, complete = 1).order_by('-timestamp')
-	
-	templateData = {'user': user,
-				'city': city,
-				'ideas': ideas}
-	return render_template("city.html", **templateData)
-	
+		user = None
+		if 'userid' in request.cookies:
+			user = models.User.objects(userid = request.cookies['userid']).first()
+		
+		city = request.args['name']
+		templateData = {'user': user, 'city': city}
+		return render_template("city.html", **templateData)
+		
 
 @app.route("/price_filter", methods=['GET'])
 def price_filter():
@@ -841,7 +872,7 @@ def add_last_eats_last():
 
 
 def get_instagram_id(idea, lat, lng):
-	url = 'https://api.foursquare.com/v2/venues/search?ll='+str(lat)+','+str(lng)+'&query='+idea.restaurant_name+'&client_id='+FOURSQUARE_CLIENT_ID+'&client_secret='+FOURSQUARE_CLIENT_SECRET+'&v=20120609'
+	url = 'https://api.foursquare.com/v2/venues/search?ll='+str(lat)+','+str(lng)+'&query='+idea.restaurant_name+'&client_id='+FOURSQUARE_CLIENT_ID+'&client_secret='+FOURSQUARE_CLIENT_SECRET+'&v=20130609'
 	response = requests.request("GET",url)
 	data = json.loads(response.text)
 	
@@ -990,6 +1021,28 @@ def ipToLatLng(ip):
 	
 	return [data['lat'], data['lng']]
 	
+
+def userRequests(userid):
+	user = models.User.objects(userid = userid).first()
+	count = 0
+	
+	count += models.Request.objects(friends = request.cookies['userid']).count()
+	
+	ids = []
+	for row in models.Request.objects(userid = request.cookies['userid']).only('id'):
+		ids.append(str(row.id))
+	
+	count += models.Idea.objects(request_id__in = ids, seen = 0).count()
+	
+	if count > 0:
+		return '(' + str(count) + ')'
+	else:
+		return ''
+
+
+
+app.jinja_env.globals.update(userRequests=userRequests)
+
 #Here is the psuedo code that needs to be translated into python
 
 # var allUsers = request.get('users')

@@ -49,8 +49,8 @@
 			navigator.geolocation.getCurrentPosition(function(position) {
 				initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
 				
-				LATITUDE = initialLocation.k;
-				LONGITUDE = initialLocation.A;
+				LATITUDE = position.coords.latitude;
+				LONGITUDE = position.coords.longitude;
 				
 				get_newsfeed('saved');
 				
