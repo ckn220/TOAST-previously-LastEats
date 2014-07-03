@@ -948,10 +948,6 @@ def get_instagram_photo(idea):
 
 def checkCookies(request, path):
 	if 'fbook_auth' in request.cookies and 'userid' not in request.cookies:
-		resp = make_response(redirect(path))
-		resp.set_cookie('userid', '12202109')
-		return resp
-	
 		graph = facebook.GraphAPI(request.cookies['fbook_auth'])
 		
 		try:
@@ -971,10 +967,6 @@ def checkCookies(request, path):
 		return None
 	
 	elif 'fbook_auth_old' in request.cookies:
-		resp = make_response(redirect(path))
-		resp.set_cookie('userid', '12202109')
-		return resp
-		
 		graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
 		try:
 			me = graph.get_object('me')
@@ -989,9 +981,6 @@ def checkCookies(request, path):
 			return resp
 		
 	else:
-		resp = make_response(redirect(path))
-		resp.set_cookie('userid', '12202109')
-		return resp
 		return redirect('/')
 
 		
