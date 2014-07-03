@@ -1090,6 +1090,8 @@ def _jinja2_filter_datetime(date, fmt=None):
 # start the webserver
 
 
+mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
+
 if __name__ == "__main__":
 	# unittest.main()	#FB Test
 	port = int(PORT) # locally PORT 5000, Heroku will assign its own port

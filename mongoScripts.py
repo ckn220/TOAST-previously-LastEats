@@ -3,6 +3,14 @@ import urllib2
 
 import facebook
 
+def runAll(appId, secret):
+    #addFriends(appId, secret)
+    #addSeen()
+    #convertFilename()
+    #convertTitle()
+    #convertLocation()
+    pass
+
 def fixUsers():
     for user in models.User.objects():
         c = models.UserFriends(userid = user.userid, all_friends = user.all_friends)
@@ -55,6 +63,9 @@ def addFriends(appId, secret):
         for id in f['data']:
             all_friends.append({'id': id['id'], 'name': id['name'], 'picture': id['picture']['data']['url']})
         
-        user.all_friends = all_friends
-        user.save()
-    
+        c = models.UserFriends(userid = user.userid, all_friends = all_friends)
+        c.save()
+
+
+
+

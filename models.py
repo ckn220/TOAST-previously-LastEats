@@ -31,7 +31,9 @@ class Idea(Document):
 	full_city = mongoengine.StringField()
 	restaurant_name = mongoengine.StringField(required=True)
 	
-	point = mongoengine.PointField(required=True)
+	latitude = mongoengine.StringField()
+	longitude = mongoengine.StringField()
+	point = mongoengine.PointField()#required=True)
 	cost = mongoengine.IntField()
 	
 	likes = mongoengine.ListField(default=[])
