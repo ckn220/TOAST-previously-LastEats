@@ -83,7 +83,11 @@ def index():
 	if 'x-forwarded-for' in request.headers:
 		ip = request.headers['x-forwarded-for']
 	
-	[lat, lng] = ipToLatLng(ip)
+	lat = None
+	try:
+		[lat, lng] = ipToLatLng(ip)
+	except:
+		print 'IP ERROR'
 	if lat:
 		locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1).first()
 	else:
