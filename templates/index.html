@@ -166,7 +166,7 @@ function delayStart(){
 			<div style='background:#efefef;'>
 				<br><br><br>
 				<h1 style='display:inline-block;font-size:3em;font-weight:normal;vertical-align:top;padding-right:15px;'>Hungry yet?</h1>
-				<img id="login" onclick="FB.login()" src='static/img/fbook.jpg' style='margin-top:10px;height:40px;'/><br>
+				<img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='static/img/fbook.jpg' style='margin-top:10px;height:40px;'/><br>
 				<br><br><br>
 			</div>
 			
@@ -175,7 +175,7 @@ function delayStart(){
 					<div style='margin:4px;padding:4px;display:inline-block;'><img src='{{ item.picture }}' style='width:50px;border-radius:50px;'><a href='/?userid={{ item.userid }}'>{{ item.user_name }} {{ item.user_last_name }}</a></div>
 				{%- endfor %}
 			{% else %}
-				<div style='text-align:center;'><img id="login" onclick="FB.login()" src='static/img/fbook.jpg' /></div>
+				<div style='text-align:center;'><img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='static/img/fbook.jpg' /></div>
 			{% endif %}
 			
 		</div>
@@ -191,7 +191,7 @@ function delayStart(){
 		<div style='position:relative;margin:100px 0px;display:inline-block;background:white;padding:60px;text-align:center;border:2px solid #aaa;'>
 			<div class='close' onclick='closeCover()'>x</div>
 			<div style='display:inline-block;vertical-align:top;'>
-				<img id="login" onclick="FB.login()" src='static/img/fbook.jpg' style='height:40px;' />
+				<img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='static/img/fbook.jpg' style='height:40px;' />
 			</div><br><br>
 			<div style='display:inline-block;vertical-align:top;'><img id="login" src='static/img/twitter.jpg' style='opacity:.3;height:40px;' /><div>Coming Soon!</div></div>
 		</div>
