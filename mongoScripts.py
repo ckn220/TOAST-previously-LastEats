@@ -4,11 +4,11 @@ import urllib2
 import facebook
 
 def runAll(appId, secret):
-    #addFriends(appId, secret)
-    #addSeen()
-    #convertFilename()
-    #convertTitle()
-    #convertLocation()
+#     addFriends(appId, secret)
+#     addSeen()
+#     convertFilename()
+#     convertTitle()
+#     convertLocation()
     pass
 
 def fixUsers():
@@ -57,6 +57,7 @@ def addFriends(appId, secret):
 #         pass
     
         graph = facebook.GraphAPI(str(appId) + '|' + str(secret))
+        #me = graph.get_objects([user.userid])
         f = graph.get_connections(user.userid, connection_name = 'friends?fields=name,picture')
         
         all_friends = []

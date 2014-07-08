@@ -80,6 +80,7 @@ class User(Document):
 	user_name = mongoengine.StringField()
 	user_last_name = mongoengine.StringField()
 	
+	email = mongoengine.StringField()
 	picture = mongoengine.StringField()
 	
 	saves = mongoengine.ListField(default=[])

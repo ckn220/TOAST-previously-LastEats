@@ -90,6 +90,7 @@ class GraphAPI(object):
         # invalid, we raise an exception.
         # """
         args["ids"] = ",".join(ids)
+        args['scope'] = 'email'
         return self.request("", args)
 
     def get_connections(self, id, connection_name, **args):
