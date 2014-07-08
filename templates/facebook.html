@@ -41,7 +41,7 @@
       // The same caveats as above apply to the FB.login() call here.
       FB.login(function(response) {}, {scope: 'email'});
     }
-  });
+  }, { scope: 'email' });
   };
 
   // Load the SDK asynchronously
