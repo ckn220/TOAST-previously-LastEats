@@ -559,7 +559,7 @@ def city():
 		templateData ['ideaIds'] = idea_id_list
 		s += render_template("newsfeed_content.html", **templateData)
 		
-		return render_template("newsfeed_content.html", **templateData)
+		return s
 		
 	else:
 		user = None
