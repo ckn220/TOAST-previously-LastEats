@@ -515,22 +515,36 @@ def city():
 		user = None
 		city = request.form.get('city')
 		
-		if 'userid' in request.cookies:
-			user = models.User.objects(userid = request.cookies['userid']).first()
-			ideas = models.Idea.objects(userid__in = user.friends, title = city, complete = 1).order_by('-timestamp')
-		else:
-			ideas = models.Idea.objects(title = city, complete = 1).order_by('-timestamp')
-		
+		ideas = models.Idea.objects(title = city, complete = 1).order_by('-timestamp')
 		idea_list = {}
 		friend_list = []
 		idea_id_list = []
-		for idea in ideas:
-			idea_list[idea.id] = idea
-			idea_id_list.append(idea.id)
-			friend_list.append(idea.userid)
+		idea_id_friend_list = []
+		idea_id_full = []
+		
+		if 'userid' in request.cookies:
+			user = models.User.objects(userid = request.cookies['userid']).first()
+			ideas = models.Idea.objects(userid__in = user.friends, title = city, complete = 1).order_by('-timestamp')
+			
+			for idea in ideas:
+				if idea.userid in user.friends:
+					idea_id_friend_list.append(idea.id)
+				else:
+					idea_id_list.append(idea.id)
+					
+				idea_id_full.append(idea.id)
+				idea_list[idea.id] = idea
+				friend_list.append(idea.userid)
+		else:
+			for idea in ideas:
+				idea_list[idea.id] = idea
+				idea_id_list.append(idea.id)
+				idea_id_full.append(idea.id)
+				friend_list.append(idea.userid)
+			
 		
 		comments = {}
-		for row in models.Comment.objects(ideaid__in = idea_id_list):
+		for row in models.Comment.objects(ideaid__in = idea_id_full):
 			if row.ideaid not in comments:
 				comments[row.ideaid] = []
 			comments[row.ideaid].append(row)
@@ -546,7 +560,12 @@ def city():
 					'ideas': idea_list,
 					'ideaIds': idea_id_list,
 					'comments': comments}
-		return render_template("newsfeed_content.html", **templateData)
+		s = render_template("newsfeed_content.html", **templateData)
+		
+		templateData ['ideaIds'] = idea_id_friend_list
+		
+		s += render_template("newsfeed_content.html", **templateData)
+		return s
 		
 	else:
 		user = None
@@ -1083,7 +1102,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 # start the webserver
 
 
-mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
+#mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
 #mongoScripts.addFriends(FACEBOOK_APP_ID, FACEBOOK_SECRET)
 
 if __name__ == "__main__":

@@ -57,7 +57,10 @@ def addFriends(appId, secret):
 #         pass
     
         graph = facebook.GraphAPI(str(appId) + '|' + str(secret))
-        #me = graph.get_objects([user.userid])
+        me = graph.get_objects([user.userid])
+        user.email = me[user.userid]['email']
+        user.save()
+        
         f = graph.get_connections(user.userid, connection_name = 'friends?fields=name,picture')
         
         all_friends = []
