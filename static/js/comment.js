@@ -77,12 +77,12 @@ function loveIdea(thisObject, id){
 				if(value == 'ADDED'){
 					items.removeClass('love');
 					items.addClass('loved');
-					$('.likeCount').html(parseInt($('.likeCount').html()) + 1);
+					$('.restaurant_photo_bottom[num='+ id +'] .likeCount').html(parseInt($('.restaurant_photo_bottom[num='+ id +'] .likeCount').html()) + 1);
 				}
 				else {
 					items.removeClass('loved');
 					items.addClass('love');
-					$('.likeCount').html(parseInt($('.likeCount').html()) - 1);
+					$('.restaurant_photo_bottom[num='+ id +'] .likeCount').html(parseInt($('.restaurant_photo_bottom[num='+ id +'] .likeCount').html()) - 1);
 				}
 			}
 		});
