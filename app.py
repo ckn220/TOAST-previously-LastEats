@@ -553,11 +553,11 @@ def city():
 					'friends': friends,
 					'city': city,
 					'ideas': idea_list,
-					'ideaIds': idea_id_list,
+					'ideaIds': idea_id_friend_list,
 					'comments': comments}
 		s = render_template("newsfeed_content.html", **templateData)
 		
-		templateData ['ideaIds'] = idea_id_friend_list
+		templateData ['ideaIds'] = idea_id_list
 		
 		s += render_template("newsfeed_content.html", **templateData)
 		return s
