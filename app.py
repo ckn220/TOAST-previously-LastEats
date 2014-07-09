@@ -486,21 +486,16 @@ def city_filter():
 	user = None
 	if 'userid' in request.cookies:
 		user = models.User.objects(userid = request.cookies['userid']).first()
-		ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
-	else:
-		ideas = models.Idea.objects(complete = 1).order_by('-timestamp')
+
+	ideas = models.Idea.objects(complete = 1).order_by('-timestamp')
 	
 	for idea in ideas:
 		if idea.full_city not in cities:
 			cities[idea.full_city] = ','.join(idea.full_city.split(',')[:2])
 			
 			ordered_cities.append(idea.full_city)
-			if 'userid' in request.cookies:
-				city_count[idea.full_city] = models.Idea.objects(userid__in = user.friends, full_city = idea.full_city, complete = 1).count()
-			else:
-				city_count[idea.full_city] = models.Idea.objects(full_city = idea.full_city, complete = 1).count()
+			city_count[idea.full_city] = models.Idea.objects(full_city = idea.full_city, complete = 1).count()
 			
-		
 	ordered_cities.sort()
 	templateData = {'user': user,
 				'list': ordered_cities,
