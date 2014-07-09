@@ -519,7 +519,6 @@ def city():
 		
 		if 'userid' in request.cookies:
 			user = models.User.objects(userid = request.cookies['userid']).first()
-			ideas = models.Idea.objects(userid__in = user.friends, title = city, complete = 1).order_by('-timestamp')
 			
 			for idea in ideas:
 				if idea.userid in user.friends:
@@ -553,12 +552,12 @@ def city():
 					'friends': friends,
 					'city': city,
 					'ideas': idea_list,
-					'ideaIds': idea_id_full,
+					'ideaIds': idea_id_friend_list,
 					'comments': comments}
 		
-# 		s = render_template("newsfeed_content.html", **templateData)
-# 		templateData ['ideaIds'] = idea_id_list
-# 		s += render_template("newsfeed_content.html", **templateData)
+		s = render_template("newsfeed_content.html", **templateData)
+		templateData ['ideaIds'] = idea_id_list
+		s += render_template("newsfeed_content.html", **templateData)
 		
 		return render_template("newsfeed_content.html", **templateData)
 		
