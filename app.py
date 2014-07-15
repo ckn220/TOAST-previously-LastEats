@@ -490,11 +490,12 @@ def city_filter():
 	ideas = models.Idea.objects(complete = 1).order_by('-timestamp')
 	
 	for idea in ideas:
-		if idea.full_city not in cities:
-			cities[idea.full_city] = ','.join(idea.full_city.split(',')[:2])
+		display_city = ','.join(idea.full_city.split(',')[:2])
+		if display_city not in cities:
+			cities[display_city] = display_city
 			
-			ordered_cities.append(idea.full_city)
-			city_count[idea.full_city] = models.Idea.objects(full_city = idea.full_city, complete = 1).count()
+			ordered_cities.append(display_city)
+			city_count[display_city] = models.Idea.objects(full_city__contains = display_city, complete = 1).count()
 			
 	ordered_cities.sort()
 	templateData = {'user': user,
@@ -510,7 +511,7 @@ def city():
 		user = None
 		city = request.form.get('city')
 		
-		ideas = models.Idea.objects(title = city, complete = 1).order_by('-timestamp')
+		ideas = models.Idea.objects(full_city__contains = city, complete = 1).order_by('-timestamp')
 		idea_list = {}
 		friend_list = []
 		idea_id_list = []
