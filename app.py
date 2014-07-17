@@ -748,12 +748,12 @@ def answered():
 @app.route("/add_last_eats", methods=['GET','POST'])
 def add_last_eats():
 	if request.method == "POST":
-		full_city = request.form.get('city')
+		full_city = request.form.get('city').replace(' City','').replace(' city','')
 		city = full_city.split(',')[0]
 		
 		checkCity = None
 		if 'userId' in request.cookies:
-			checkCity = models.Idea.objects(userid = request.cookies['userid'], title = city, complete = 1).first()
+			checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = full_city, complete = 1).first()
 			
 		warned = request.form.get('warned')
 		
@@ -906,7 +906,10 @@ def add_last_eats_last():
 				x = models.User.objects(userid = me['id']).count()
 				if x == 0:
 					addUser(request.form.get('fbook_auth'))
-					
+				else:
+					checkCity = models.Idea.objects(userid = me['id'], full_city = idea.full_city, complete = 1).first()
+					if checkCity:
+						checkCity.delete()
 				idea.complete = 1
 				idea.userid = me['id']
 				idea.save()
@@ -922,7 +925,11 @@ def add_last_eats_last():
 				
 		else:
 			if not idea.userid:
+				checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = idea.full_city, complete = 1).first()
+				if checkCity:
+					checkCity.delete()
 				idea.userid = request.cookies['userid']
+				
 			idea.complete = 1
 			idea.save()
 			
