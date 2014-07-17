@@ -775,7 +775,7 @@ def add_last_eats():
 			
 			if 'requestid' in request.form:
 				req = models.Request.objects(id = request.form.get('requestid')).first()
-				if req and 'userid' in request.cookie and request.cookies['userid'] in req.friends:
+				if req and 'userid' in request.cookies and request.cookies['userid'] in req.friends:
 					idea.request_id = request.form.get('requestid')
 					idea.seen = 0
 					
