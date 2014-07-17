@@ -77,8 +77,7 @@ function delayStart(){
 				<img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='/static/img/fbook.jpg' style='height:40px;' />
 				</div>
 				
-				<div id="submit" class="ui-btn ui-input-btn ui-corner-all ui-shadow" style='display:none;'>Submit Last Eats
-					<input type="submit" data-role="button" style="background: #grey; color: black;" value="Submit Last Eats"></div>
+				<div id="submit" style='display:none;'><input type="submit" data-role="button" style="background: #grey; color: black;" value="Submit Last Eats"></div>
 			{% else %}
 				<input type='submit' data-role="button" style="background: #grey; color: black;" value='Submit Last Eats' /></div>
 			{%endif%}
