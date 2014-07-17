@@ -12,10 +12,9 @@ function add_comment(id){
 	var comment = $('.guest_book[num='+ id +'] textarea').val();
 	
 	$.ajax({
-		url: 'last_eat_entry',
+		url: 'last_eat_entry/'+id,
 		type: "post",
-		data: {'comment': comment,
-				'id': id},
+		data: {'comment': comment},
 		success: function(value) {
 			console.log(value);
 			$('.guest_book[num='+ id +'] textarea').val('');
@@ -26,9 +25,8 @@ function add_comment(id){
 
 function delete_comment(thisObject, id){
 	$.ajax({
-		url: 'last_eat_entry',
+		url: 'last_eat_entry/'+id,
 		type: "delete",
-		data: {'id': id},
 		success: function(value) {
 			$(thisObject).parent().remove();
 		}

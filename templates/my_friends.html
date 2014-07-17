@@ -18,7 +18,7 @@
 		
 		<div class='current'>
 			{% for item in friends -%}
-			<a href="/friend_profile?friendid={{ item.userid }}" title="Friend Profile" class="my_friends">
+			<a href="/friend_profile/{{ item.userid }}" title="Friend Profile" class="my_friends">
 				<img src="{{ item.picture }}" height="50" width="50">
 				<h2>{{ item.user_name }} {{ item.user_last_name }}</h2>
 			</a>

@@ -61,9 +61,9 @@
 	
 	function get_newsfeed(lat, lng){
 		$.ajax({
-			url: '/friend_profile',
+			url: '/friend_profile/{{ friend.userid }}',
 			type: "post",
-			data: {'lat': lat, 'lng': lng, 'friendid': {{ friend.userid }}},
+			data: {'lat': lat, 'lng': lng},
 			success: function(value) {
 				$('.newsfeed').html('');
 				$('.newsfeed').append(value);

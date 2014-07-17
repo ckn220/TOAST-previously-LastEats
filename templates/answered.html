@@ -25,7 +25,7 @@
 				<h2>Request for {{ item.title }}</h2>
 				
 				{% for row in ideas[requestIds[loop.index0]] -%}
-				<a href="/last_eat_entry?id={{ row.id }}">
+				<a href="/last_eat_entry/{{ row.id }}">
 					{{ friends[row.userid].user_name }} would eat at {{ row.restaurant_name }}
 				</a>
 				{%- endfor %}

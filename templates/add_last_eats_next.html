@@ -39,7 +39,13 @@
 		</fieldset> -->
 		
 		<div id="map_canvas"></div>
-		{% include "sidebars.html" %}
+		
+		{% if user %}
+			{% include "sidebars.html" %}
+		{% else %}
+			{% include "sidebars_small.html" %}
+		{% endif %}
+		
 	</div><!-- /panel -->
 </div>
 
@@ -83,7 +89,7 @@ function limitText(limitField) {
 
 </script>
 
-<script src="static/js/mapquest.js"></script>
+<script src="/static/js/mapquest.js"></script>
 
 {% endblock %}
 

@@ -24,7 +24,8 @@ function delayStart(){
 }
 </script>
 
-<script src="static/js/mapquest.js"></script>
+<script src="/static/js/mapquest.js"></script>
+{% include "facebook.html" %}
 
 <div data-role="page" class="jqm-demos" data-quicklinks="false">
 	{% include "header.html" %}
@@ -68,7 +69,19 @@ function delayStart(){
 		<br>
 		
 		
-		<div class="form_next"><input type='submit' data-role="button" style="background: #grey; color: black;" value='Submit Last Eats' /></div>
+		<div class="form_next">
+			{% if not currentuser %}
+				<input type='hidden' name='fbook_auth' />
+				<div class='fbook_auth_wall'>
+				<div>Please sign up to submit your Lasteat!</div>
+				<img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='/static/img/fbook.jpg' style='height:40px;' />
+				</div>
+				
+				<div id="submit" class="ui-btn ui-input-btn ui-corner-all ui-shadow" style='display:none;'>Submit Last Eats
+					<input type="submit" data-role="button" style="background: #grey; color: black;" value="Submit Last Eats"></div>
+			{% else %}
+				<input type='submit' data-role="button" style="background: #grey; color: black;" value='Submit Last Eats' /></div>
+			{%endif%}
 		</form>
 		
 		<div class='progressBar'>
@@ -80,7 +93,11 @@ function delayStart(){
 		
 		<div id="map_canvas"></div> 
 		
-		{% include "sidebars.html" %}
+		{% if user %}
+			{% include "sidebars.html" %}
+		{% else %}
+			{% include "sidebars_small.html" %}
+		{% endif %}
 	
 	</div>
 

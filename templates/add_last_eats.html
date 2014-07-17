@@ -11,7 +11,11 @@
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 	
 		</br>
+		{% if user %}
 		<div class="user_photo"><img src="{{ user.picture }}" height="125" width="125"></div>
+		{% else %}
+		<div class="user_photo"><img src="/static/assets/img/new_user.png" height="125" width="125"></div>
+		{% endif %}
 		
 		<div class="user_restaurant">
 			<strong><p>Add Your Last Eats</p></strong>
@@ -26,6 +30,7 @@
 		
 		</br>
 		<p>I'd go to:</p>
+		<div class='error_message2' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
 		<div id="geocode">
 			<input id="address" class="controls" type="text" placeholder="Enter a Restaurant" value="">
 			<input type="hidden" id="addressName" name="addressName" />
@@ -65,7 +70,11 @@
 		
 		<div id="map_canvas"></div> 
 		
-		{% include "sidebars.html" %}
+		{% if user %}
+			{% include "sidebars.html" %}
+		{% else %}
+			{% include "sidebars_small.html" %}
+		{% endif %}
 	
 	</div>
 </div>
@@ -87,8 +96,12 @@ function moveOn(){
 	if ($('.error_message').css('display') != 'none'){
 		warned = true;}
 	
-	$('.form_next a').html('Loading . . . ');
-	if (ajax_loading == 0){
+	if (addressName == '' || addressLat == '' || addressLng == ''){
+		$('.error_message2').html("Sorry we couldn't find that restaurant");
+		$('.error_message2').show();
+	}
+	else if (ajax_loading == 0){
+		$('.form_next a').html('Loading . . . ');
 		ajax_loading = 1;
 		$.ajax({
 			url: 'add_last_eats',
@@ -111,6 +124,10 @@ function moveOn(){
 				else{
 					window.location = "/add_last_eats_next?id="+value.id;
 				}
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr.responseText);
+				$('.form_next a').html('Woops we hit an error!');
 			}
 		});
 	}
@@ -130,7 +147,7 @@ var reqId = undefined;
 
 </script>
 
-<script src="static/js/mapquest.js"></script>
+<script src="/static/js/mapquest.js"></script>
 
 {% endblock %}
 

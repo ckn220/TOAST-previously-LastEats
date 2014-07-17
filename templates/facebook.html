@@ -53,6 +53,14 @@
     console.log('Welcome!  Fetching your information.... ');
     facebookInfo = FB.getAuthResponse();
     $.cookie('fbook_auth', facebookInfo['accessToken'], { expires: 60, path: '/' });
+    
+    {% if extrastep %}
+	$('input[name=fbook_auth]').val(facebookInfo['accessToken']);
+	$('.fbook_auth_wall').hide();
+	$('#submit').show();
+    	
+    {% else %}
     window.location = '/newsfeed';
+    {% endif %}
   }
 </script>

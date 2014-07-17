@@ -2,7 +2,7 @@
 
 {% for item in ideas -%}
 	<div class='entry'>
-		<a href="/last_eat_entry?id={{ item.id }}" class='ui-link ui-btn ui-shadow ui-corner-all' data-role="button">
+		<a href="/last_eat_entry/{{ item.id }}" class='ui-link ui-btn ui-shadow ui-corner-all' data-role="button">
 			<div class="user_choice_why">
 				<div class="centered" style='padding-bottom:10px;'><h2 style='display:inline-block;'>{{ item.restaurant_name }} in {{ item.title }}</h2></div>
 			</div>

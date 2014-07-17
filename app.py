@@ -144,7 +144,7 @@ def newsfeed():
 	else:
 		x = models.User.objects(userid = request.cookies['userid']).count()
 		if x == 0:
-			addUser(request)
+			addUser(request.cookies['fbook_auth_old'])
 			
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
@@ -226,6 +226,13 @@ def get_newsfeed(request, path, type = None):
 		else:
 			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[offset:20+offset]
 	
+	templateData = newsfeedData(ideas, lat, lng)
+	templateData['user'] = user
+	templateData['current_user'] = current_user
+	
+	return render_template("newsfeed_content.html", **templateData)
+
+def newsfeedData(ideas, lat = None, lng = None):
 	idea_list = {}
 	idea_id_list = []
 	friend_list = []
@@ -247,16 +254,13 @@ def get_newsfeed(request, path, type = None):
 	for row in models.User.objects(userid__in = friend_list):
 		friends[row.userid] = row
 		
-	templateData = {'ideas': idea_list,
-				'ideaIds' : idea_id_list,
-				'friends': friends,
-				'user': user,
-				'current_user': current_user,
-				'comments': comments}
-	return render_template("newsfeed_content.html", **templateData)
-	
-def addUser(request):
-	graph = facebook.GraphAPI(request.cookies['fbook_auth_old'])
+	return {'ideas': idea_list,
+			'ideaIds' : idea_id_list,
+			'friends': friends,
+			'comments': comments}
+
+def addUser(auth):
+	graph = facebook.GraphAPI(auth)
 	me = graph.get_object('me')
 	f = graph.get_connections(me['id'], connection_name = 'friends?fields=installed,name,picture')
 	friends = []
@@ -278,17 +282,31 @@ def addUser(request):
 	for friendUser in models.User.objects(userid__in = friends):
 		friendUser.friends.append(user.userid)
 		friendUser.save()
+
+@app.route("/last_eat_entry", methods=['GET'])
+def old_last_eat_entry():
+	if 'id' not in request.args:
+		if 'userid' in request.cookies:
+			return redirect('/newsfeed')
+		else:
+			return redirect('/browse')
 	
-@app.route("/last_eat_entry", methods=['GET','POST','DELETE'])
-def last_eat_entry():
-		
+	return redirect('/last_eat_entry/'+request.args['id'])
+											
+@app.route("/last_eat_entry/<id>", methods=['GET','POST','DELETE'])
+def last_eat_entry(id):
+	if not models.Idea.objects(id = id, complete = 1).first():
+		if 'userid' in request.cookies:
+			return redirect('/newsfeed')
+		else:
+			return redirect('/browse')
+	
 	if request.method == "POST":
 		cookie_check = checkCookies(request, "/last_eat_entry")
 		if cookie_check != None:
 			return cookie_check
 		
 		user = models.User.objects(userid = request.cookies['userid']).first()
-		id = request.form.get('id')
 		comment = request.form.get('comment')
 		c = models.Comment(userid = user.userid, ideaid = id, seen = 0, comment_string = comment)
 		c.save()
@@ -309,13 +327,6 @@ def last_eat_entry():
 		return ''
 		
 	else:
-		if 'id' not in request.args:
-			if 'userid' in request.cookies:
-				return redirect('/newsfeed')
-			else:
-				return redirect('/browse')
-			
-		id = request.args['id']
 		idea = models.Idea.objects(id = id, complete = 1).first()
 		#idea = get_instagram_photo(idea)
 		idea.save()
@@ -453,25 +464,40 @@ def my_friends():
 				'fid':fid}
 	return render_template("my_friends.html", **templateData)
 
-@app.route("/friend_profile", methods=['GET','POST'])
-def friend_profile():
-	#cookie_check = checkCookies(request, '/friend_profile')
-	#if cookie_check != None:
-	#	return cookie_check
+@app.route("/friend_profile/<id>", methods=['GET','POST'])
+def friend_profile(id):
+	
+	if not models.User.objects(userid = id).first():
+		return redirect('my_friends')
 	
 	if request.method == "POST":
-		id = request.form.get('friendid')
+		user = None
+		current_user = None
+		if 'userid' in request.cookies:
+			current_user = request.cookies['userid']
+			user = models.User.objects(userid = request.cookies['userid']).first()
+			
 		friend = models.User.objects(userid = id).first()
-		lat = float(request.form.get('lat'))
-		lng = float(request.form.get('lng'))
-	
-		ideas = models.Idea.objects(userid = friend.userid, point__near=[lng, lat], complete = 1)[:20]
+		lat = None
+		lng = None
+		try:
+			lat = float(request.form.get('lat'))
+			lng = float(request.form.get('lng'))
+		except:
+			pass
 		
-		templateData = {'ideas': ideas[:20]}
-		return render_template("friend_profile_content.html", **templateData)
+		ideas = models.Idea.objects(userid = friend.userid, point__near=[lng, lat], complete = 1)
+		idea_list = {}
+		idea_id_list = []
+		friend_list = []
+		
+		templateData = newsfeedData(ideas, lat, lng)
+		templateData['current_user'] = current_user
+		templateData['user'] = user
+		
+		return render_template("newsfeed_content.html", **templateData)
 
 	else:
-		id = request.args['friendid']
 		friend = models.User.objects(userid = id).first()
 		templateData = {'friend': friend}
 		
@@ -721,14 +747,14 @@ def answered():
 	
 @app.route("/add_last_eats", methods=['GET','POST'])
 def add_last_eats():
-	cookie_check = checkCookies(request, '/add_last_eats')
-	if cookie_check != None:
-		return cookie_check
-	
 	if request.method == "POST":
 		full_city = request.form.get('city')
 		city = full_city.split(',')[0]
-		checkCity = models.Idea.objects(userid = request.cookies['userid'], title = city, complete = 1).first()
+		
+		checkCity = None
+		if 'userId' in request.cookies:
+			checkCity = models.Idea.objects(userid = request.cookies['userid'], title = city, complete = 1).first()
+			
 		warned = request.form.get('warned')
 		
 		if not checkCity or warned == 'true':
@@ -736,15 +762,20 @@ def add_last_eats():
 				checkCity.delete()
 			lat = float(request.form.get('addressLat'))
 			lng = float(request.form.get('addressLng'))
+			
+			userid = ''
+			if 'userid' in request.cookies:
+				userid = request.cookies['userid']
+				
 			idea = models.Idea(title = city, full_city = full_city, restaurant_name = request.form.get('addressName'),
-							point = [lng, lat], userid = request.cookies['userid'])
+							point = [lng, lat], userid = userid)
 			#cost = request.form.get('cost'), 
 			
 			idea = get_instagram_id(idea, lat, lng)
 			
 			if 'requestid' in request.form:
 				req = models.Request.objects(id = request.form.get('requestid')).first()
-				if req and request.cookies['userid'] in req.friends:
+				if req and 'userid' in request.cookie and request.cookies['userid'] in req.friends:
 					idea.request_id = request.form.get('requestid')
 					idea.seen = 0
 					
@@ -770,16 +801,16 @@ def add_last_eats():
 		if 'requestid' in request.args:
 			req = models.Request.objects(id = request.args['requestid']).first()
 		
-		user = models.User.objects(userid = request.cookies['userid']).first()
+		user = None
+		if 'userid' in request.cookies:
+			user = models.User.objects(userid = request.cookies['userid']).first()
+			
 		templateData = {'user': user,
 					'req': req}
 		return render_template("add_last_eats.html", **templateData)
 
 @app.route("/add_last_eats_next", methods=['GET','POST'])
 def add_last_eats_next():
-	cookie_check = checkCookies(request, '/add_last_eats_next')
-	if cookie_check != None:
-		return cookie_check
 	
 	if request.method == "POST":
 		id = request.form.get('id')
@@ -797,10 +828,6 @@ def add_last_eats_next():
 
 @app.route("/add_last_eats_next_next", methods=['GET','POST'])
 def add_last_eats_next_next():
-	cookie_check = checkCookies(request, '/add_last_eats_next_next')
-	if cookie_check != None:
-		return cookie_check
-	
 	if request.method == "POST":
 		id = request.form.get('id')
 		idea = models.Idea.objects(id = id).first()
@@ -817,10 +844,6 @@ def add_last_eats_next_next():
 	
 @app.route("/add_last_eats_last", methods=['GET','POST'])
 def add_last_eats_last():
-	cookie_check = checkCookies(request, '/add_last_eats_last')
-	if cookie_check != None:
-		return cookie_check
-	
 	if request.method == "POST":
 		image_suc = False
 		id = request.form.get('id')
@@ -874,18 +897,51 @@ def add_last_eats_last():
 			creator = request.form.get('creator')
 			id = request.form.get('id')
 			idea.filename = {'url':request.form.get('image'), 'creator':creator, 'id':id}
-			
-		idea.complete = 1
-		idea.save()
 		
-		resp = make_response(redirect('/profile'))
-		return resp
+		
+		if 'userid' not in request.cookies:
+			if 'fbook_auth' in request.form:
+				graph = facebook.GraphAPI(request.form.get('fbook_auth'))
+				me = graph.get_object('me')
+				x = models.User.objects(userid = me['id']).count()
+				if x == 0:
+					addUser(request.form.get('fbook_auth'))
+					
+				idea.complete = 1
+				idea.userid = me['id']
+				idea.save()
+				
+				resp = make_response(redirect('/profile'))
+				resp.set_cookie('fbook_auth_old', request.cookies['fbook_auth'])
+				resp.set_cookie('fbook_auth', '', expires=0)
+				resp.set_cookie('userid', me['id'])
+				return resp
+				
+			else:
+				return redirect('')
+				
+		else:
+			if not idea.userid:
+				idea.userid = request.cookies['userid']
+			idea.complete = 1
+			idea.save()
+			
+			resp = make_response(redirect('/profile'))
+			return resp
 	
 	else:
+		extrastep = True
+		currentuser = None
+		if 'userid' in request.cookies:
+			currentuser = request.cookies['userid']
+			
 		id = request.args['id']
 		idea = models.Idea.objects(id = id).first()
 		templateData = {'id':id,
-						'idea': idea}
+						'idea': idea,
+						'currentuser':currentuser,
+						'extrastep':extrastep,
+						'fbookId' : FACEBOOK_APP_ID,}
 		return render_template("add_last_eats_last.html", **templateData)
 
 

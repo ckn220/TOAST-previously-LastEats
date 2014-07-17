@@ -5,7 +5,7 @@
 
 {% block body %}
 
-<script src="static/js/mapquest.js"></script>
+<script src="/static/js/mapquest.js"></script>
 
 <div data-role="page" class="jqm-demos" data-quicklinks="false">
 	{% include "header.html" %}
@@ -32,7 +32,11 @@
 		
 		<div id="map_canvas"></div> 
 		
-		{% include "sidebars.html" %}
+		{% if user %}
+			{% include "sidebars.html" %}
+		{% else %}
+			{% include "sidebars_small.html" %}
+		{% endif %}
 	
 	</div>
 
