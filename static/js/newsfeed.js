@@ -39,10 +39,10 @@ function get_newsfeed(type){
 					ajaxOut = 0;
 					$('.newsfeed .loading').remove();
 					$('.newsfeed').append(value);
-					if (value == "\n"){
+					if (value.indexOf("endscroll") > -1){
 						endScroll = 1;
 						if (offset == 0){
-							$('.newsfeed').append("<div style='text-align:center;'>Woops nothing was found!</div>");
+							$('.newsfeed').append(value);
 						}
 					}
 					offset += 20;
