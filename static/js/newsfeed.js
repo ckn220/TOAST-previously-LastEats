@@ -38,12 +38,14 @@ function get_newsfeed(type){
 				success: function(value) {
 					ajaxOut = 0;
 					$('.newsfeed .loading').remove();
-					$('.newsfeed').append(value);
 					if (value.indexOf("endscroll") > -1){
 						endScroll = 1;
 						if (offset == 0){
 							$('.newsfeed').append(value);
 						}
+					}
+					else {
+						$('.newsfeed').append(value);
 					}
 					offset += 20;
 				}
