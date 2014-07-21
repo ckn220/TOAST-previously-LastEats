@@ -147,8 +147,10 @@ def newsfeed():
 			addUser(request.cookies['fbook_auth_old'])
 			
 		user = models.User.objects(userid = request.cookies['userid']).first()
+		user.last_visited = datetime.datetime.now()
+		user.save()
 		
-		if (datetime.datetime.now() - user.last_visited).days > 7:
+		if (datetime.datetime.now() - user.picture_update).days > 7:
 			user = update_user(user)
 			
 		templateData = {'user': user}
@@ -271,8 +273,13 @@ def addUser(auth):
 			friends.append(id['id'])
 	
 	picture = graph.get_profile(me['id'])['data']['url']
+	
+	email = ''
+	if 'email' in me:
+		email = me['email']
+		
 	user = models.User(userid = me['id'], user_name = me['first_name'], user_last_name = me['last_name'], date_joined = datetime.datetime.now(), 
-					last_visited = datetime.datetime.now(), friends = friends, picture = picture)
+					last_visited = datetime.datetime.now(), friends = friends, picture = picture, email = email)
 	user.save()
 	
 	userFriends = models.UserFriends(userid = me['id'], all_friends = all_friends)
@@ -1161,7 +1168,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
-#mongoScripts.addFriends(FACEBOOK_APP_ID, FACEBOOK_SECRET)
+#mongoScripts.pictureAdd()
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test

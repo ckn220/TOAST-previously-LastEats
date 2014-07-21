@@ -95,6 +95,7 @@ class User(Document):
 
 	date_joined = mongoengine.DateTimeField(default=datetime.now())
 	last_visited = mongoengine.DateTimeField(default=datetime.now())
+	picture_update = mongoengine.DateTimeField(default=datetime.now())
 
 	#empty array structure 
 	friends = mongoengine.ListField()

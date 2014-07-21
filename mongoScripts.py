@@ -55,7 +55,7 @@ def addFriends(appId, secret):
 #         response = urllib2.urlopen(url)
 #         a = response.geturl()
 #         pass
-    
+        
         graph = facebook.GraphAPI(str(appId) + '|' + str(secret))
         me = graph.get_objects([user.userid])
         user.email = me[user.userid]['email']
@@ -71,5 +71,12 @@ def addFriends(appId, secret):
         c.save()
 
 
-
-
+def pictureAdd():
+    for user in models.User.objects():
+        
+        user.picture_update = user.last_visited
+        
+        user.save()
+        
+        
+        
