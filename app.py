@@ -761,9 +761,9 @@ def add_last_eats():
 		city = full_city.split(',')[0]
 		
 		checkCity = None
-		if 'userId' in request.cookies:
+		if 'userid' in request.cookies:
 			checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = full_city, complete = 1).first()
-			
+		
 		warned = request.form.get('warned')
 		
 		if not checkCity or warned == 'true':
