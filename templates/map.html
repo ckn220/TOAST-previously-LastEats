@@ -1,0 +1,58 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %}
+
+{% block body %}
+	
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% if current_user != None %}
+		{% include "header.html" %}
+	{% else %}
+		{% include "header_med.html" %}
+	{% endif %}
+		
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+		
+		{% if current_user != None %}
+			{% include "sidebars.html" %}
+		{% else %}
+			{% include "sidebars_small.html" %}
+		{% endif %}
+		
+		<div class="container_16"></div>
+		<article class="grid_16"></article>
+		<div class="item rounded dark">
+			<div id="map_canvas" class="map rounded" style='height:700px;' ></div>
+			<div id='multimap'></div>
+		</div>
+		
+		</br>
+	</div>
+</div><!-- /page -->
+
+{% endblock %}
+
+{% block scripts %}
+	
+	<script src="/static/js/mapquest.js"></script>
+	
+	<script>
+	function collectNearby(lat, lng){
+		$.ajax({
+			url: 'map',
+			type: "post",
+			data: {'lat': LATITUDE, 'lng': LONGITUDE},
+			success: function(value) {
+				console.log(value);
+				for (var i = 0; i < value.data.length; i++){
+					createMarker(value.data[i].lat, value.data[i].lng, value.data[i].title, value.data[i].link);
+				}
+			}
+		});
+	}
+	</script>
+	
+{% endblock %}
+
+

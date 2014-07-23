@@ -9,11 +9,28 @@ var autocomplete = undefined;
 //google maps
 
 function initialize() {
+	if(navigator.geolocation) {
+		browserSupportFlag = true;
+		navigator.geolocation.getCurrentPosition(function(position) {
+			initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+			LATITUDE = position.coords.latitude;
+			LONGITUDE = position.coords.longitude;
+			
+			if ($('#multimap').length > 0){
+				var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
+				codeLatLng(LATITUDE, LONGITUDE);
+				collectNearby(LATITUDE, LONGITUDE);
+			}
+			
+		}, function() {});
+	}
+	
 	geocoder = new google.maps.Geocoder();
 	
+	var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
+	
 	if ($('.map_data.lat').length > 0){
-		var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
-		codeLatLng();
+		codeLatLng(parseFloat($('.map_data.lat').html()), lng = parseFloat($('.map_data.lng').html()));
 	}
 	
 	var input2 = document.getElementById('textinput-4');
@@ -87,9 +104,7 @@ function codeAddress() {
 	});
 }
 
-function codeLatLng() {
-    var lat = parseFloat($('.map_data.lat').html());
-	var lng = parseFloat($('.map_data.lng').html());
+function codeLatLng(lat, lng) {
     var latlng = new google.maps.LatLng(lat, lng);
     geocoder.geocode({'latLng': latlng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
@@ -120,34 +135,23 @@ function openInfoWindow (content, latLng, map) {
 	}
 	infoWindow = createInfoWindow(content, latLng);
 	infoWindow.open(map);
-}    
+}
 
-function createMarker(lat,lng,titleText, bodyText, restaurant_name, restaurant_href) {
-	console.log('createMarker');  
+function createMarker(lat,lng, restaurant_name, restaurant_href) {
+	console.log('createMarker');
 	// create google lat lng object
-	var latLng = new google.maps.LatLng(String(lat), String(lng));
-	console.log(latLng);
+	var latlng = new google.maps.LatLng(lat, lng);
 	
-	var marker = new google.maps.Marker({
-	position: latLng,
-		map: map, 
-		// title: titleText,
-		// restaurant_name: restaurant_name,
-		// bodyText: bodyText,
-	});
-	console.log("here");
-	
-	allMarkers.push(marker);
-	console.log("also here");  
-	
-	google.maps.event.addListener(marker, 'click', function(event) {
-		var latLng = event.latLng;
-		restaurant_name = '<a href="/ideas/' + restaurant_href + '">' + restaurant_name || '' + '</a>';  //if body text is true run it, otherwise display string
-		openInfoWindow(restaurant_name, latLng, map);
-	});  
-	
-	return marker; 
-	console.log("even here");
+    geocoder.geocode({'latLng': latlng}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[1]) {
+        	$('#map_canvas').gmap('addMarker', { 'position': latlng } ).click(function() {
+                $('#map_canvas').gmap('openInfoWindow', {'content': '<a href="'+restaurant_href+'">'+restaurant_name+'</a>'}, this);
+            });
+      } else {
+        alert("Geocoder failed due to: " + status);
+      }
+    }});
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

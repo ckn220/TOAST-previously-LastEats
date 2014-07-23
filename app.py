@@ -511,7 +511,29 @@ def friend_profile(id):
 		
 		return render_template("friend_profile.html", **templateData)
 
-
+@app.route("/map", methods=['GET', 'POST'])
+def map():
+	
+	if request.method == "POST":
+		lat = None
+		try:
+			lat = float(request.form.get('lat'))
+			lng = float(request.form.get('lng'))
+		except:
+			print 'LAT LNG FAIL!!!'
+		
+		data = []
+		for row in models.Idea.objects(point__near=[lng, lat], complete = 1)[:10]:
+			data.append({'lat':row.latitude, 'lng':row.longitude, 
+						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
+			
+		return jsonify(**{'data':data})
+		
+	else:
+		templateData = {}
+		return render_template("map.html", **templateData)
+	
+	
 @app.route("/city_filter", methods=['GET'])
 def city_filter():
 	ordered_cities = []
