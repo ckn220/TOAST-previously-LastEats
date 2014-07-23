@@ -56,27 +56,28 @@ def addFriends(appId, secret):
 #         a = response.geturl()
 #         pass
         
-        graph = facebook.GraphAPI(str(appId) + '|' + str(secret))
-        me = graph.get_objects([user.userid])
-        user.email = me[user.userid]['email']
-        user.save()
-        
-        f = graph.get_connections(user.userid, connection_name = 'friends?fields=name,picture')
-        
-        all_friends = []
-        for id in f['data']:
-            all_friends.append({'id': id['id'], 'name': id['name'], 'picture': id['picture']['data']['url']})
-        
-        c = models.UserFriends(userid = user.userid, all_friends = all_friends)
-        c.save()
+        if not hasattr(user, 'email') or user.email == None:
+            graph = facebook.GraphAPI(str(appId) + '|' + str(secret))
+            me = graph.get_objects([user.userid])
+            
+            try:
+                if user.userid in me and 'email' in me[user.userid]:
+                    print me[user.userid]['email']
+                    user.email = me[user.userid]['email']
+                    user.save()
+            except:
+                pass
+#         f = graph.get_connections(user.userid, connection_name = 'friends?fields=name,picture')
+#         
+#         all_friends = []
+#         for id in f['data']:
+#             all_friends.append({'id': id['id'], 'name': id['name'], 'picture': id['picture']['data']['url']})
+#         
+#         c = models.UserFriends(userid = user.userid, all_friends = all_friends)
+#         c.save()
 
 
-def pictureAdd():
-    for user in models.User.objects():
-        
-        user.picture_update = user.last_visited
-        
-        user.save()
+
         
         
         

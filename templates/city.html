@@ -87,9 +87,11 @@
 				data: {'city': "{{ city }}",'lat': LATITUDE, 'lng': LONGITUDE},
 				success: function(value) {
 					$('.newsfeed .loading').remove();
-					$('.newsfeed').append(value);
-					if (value == "\n"){
+					if (value.indexOf("endscroll") > -1){
 						$('.newsfeed').append("<div style='text-align:center;'>Woops nothing was found!</div>");
+					}
+					else {
+						$('.newsfeed').append(value);
 					}
 				}
 			});

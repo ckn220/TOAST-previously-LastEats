@@ -286,7 +286,11 @@ body {position: relative;}
 #map_canvas {
 	max-height: 250px;
 }
+
+.mobile-hide {display: none;}
+
 @media (min-width: 60em) {
+	.mobile-hide {display: block;}
 	
 	.main-content {
 		margin: 0px auto;

@@ -25,33 +25,34 @@
 			{%- endfor %}
 		</div>
 		
-		<p>INVITE TO LAST EATS</p>
-		
-		<div class='all'>
-			{% for item in all_friends -%}
-				{% if item['id'] not in fid %}
-					<div id='{{item['id']}}' class="my_friends">
+		<div class='mobile-hide'>
+			<p>INVITE TO LAST EATS</p>
+			
+			<div class='all'>
+				{% for item in all_friends -%}
+					{% if item['id'] not in fid %}
+						<div id='{{item['id']}}' class="my_friends">
+							<img src="{{ item['picture'] }}" height="50" width="50">
+							
+							<a href="http://www.facebook.com/dialog/send?app_id=238836302966820&to={{item['id']}}&link=http://beta.lasteats.com&redirect_uri=http://beta.lasteats.com" target='_blank'
+								style='float:right;margin:10px;padding:10px;'>Invite</a>
+							<h2>{{ item['name'] }}</h2>
+						</div>
+					{% endif %}
+				{%- endfor %}
+				{% for item in all_friends_hidden -%}
+					{% if item['id'] not in fid %}
+					<div id='{{item['id']}}' class="my_friends" style='display:none;'>
 						<img src="{{ item['picture'] }}" height="50" width="50">
 						
 						<a href="http://www.facebook.com/dialog/send?app_id=238836302966820&to={{item['id']}}&link=http://beta.lasteats.com&redirect_uri=http://beta.lasteats.com" target='_blank'
 							style='float:right;margin:10px;padding:10px;'>Invite</a>
 						<h2>{{ item['name'] }}</h2>
 					</div>
-				{% endif %}
-			{%- endfor %}
-			{% for item in all_friends_hidden -%}
-				{% if item['id'] not in fid %}
-				<div id='{{item['id']}}' class="my_friends" style='display:none;'>
-					<img src="{{ item['picture'] }}" height="50" width="50">
-					
-					<a href="http://www.facebook.com/dialog/send?app_id=238836302966820&to={{item['id']}}&link=http://beta.lasteats.com&redirect_uri=http://beta.lasteats.com" target='_blank'
-						style='float:right;margin:10px;padding:10px;'>Invite</a>
-					<h2>{{ item['name'] }}</h2>
-				</div>
-				{% endif %}
-			{%- endfor %}
+					{% endif %}
+				{%- endfor %}
+			</div>
 		</div>
-		
 		
 		{% include "add_button.html" %}
 		

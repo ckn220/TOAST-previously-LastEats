@@ -84,14 +84,15 @@ def index():
 		ip = request.headers['x-forwarded-for']
 	
 	lat = None
-# 	try:
-# 		[lat, lng] = ipToLatLng(ip)
-# 	except:
-# 		print 'IP ERROR'
+	try:
+		[lat, lng] = ipToLatLng(ip)
+	except:
+		print 'IP ERROR'
+		
 	if lat:
 		locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1).first()
 	else:
-		locationIdea = models.Idea.objects(complete = 1).first()
+		locationIdea = models.Idea.objects(complete = 1, full_city = 'New York, NY').first()
 		
 	
 	ideas = []
@@ -1090,13 +1091,13 @@ def calcDist(lat1, lng1, lat2, lng2):
 
 def ipToLatLng(ip):
 	
-	url = 'http://www.iptolatlng.com/?ip='+ ip
+	url = 'http://freegeoip.net/json/'+ ip
 	
-	response = requests.request("GET",url)
+	response = requests.request("GET",url, timeout=0.5)
 	
 	data = json.loads(response.text) 
 	
-	return [data['lat'], data['lng']]
+	return [data['latitude'], data['longitude']]
 	
 
 def userRequests(userid):
@@ -1117,37 +1118,7 @@ def userRequests(userid):
 		return ''
 
 
-
 app.jinja_env.globals.update(userRequests=userRequests)
-
-#Here is the psuedo code that needs to be translated into python
-
-# var allUsers = request.get('users')
-
-# var lastEaters = [];
-
-# for(user in users){
-# 	mongodb.findOne({ fbId: user.faId }, function(user){
-# 		if(!err)
-# 			lastEaters.push(user)
-# 	});
-# }
-# 	 response.send(lastEaters)
-
-
-@app.route('/recent_submissions', methods=['POST', 'GET'])
-def recent_submissions():
-    # error = None
-    # if request.method == 'POST':
-    #     if valid_login(request.form['username'],
-    #                    request.form['password']):
-    #         return log_the_user_in(request.form['username'])
-    #     else:
-    #         error = 'Invalid username/password'
-    # # the code below is executed if the request method
-    # # was GET or the credentials were invalid
-    return render_template('recent_submissions.html')
-
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -1168,7 +1139,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
-#mongoScripts.pictureAdd()
+#mongoScripts.addFriends(FACEBOOK_APP_ID, FACEBOOK_SECRET)
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test
