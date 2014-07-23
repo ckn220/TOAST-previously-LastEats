@@ -88,7 +88,10 @@
 				success: function(value) {
 					$('.newsfeed .loading').remove();
 					if (value.indexOf("endscroll") > -1){
-						$('.newsfeed').append("<div style='text-align:center;'>Woops nothing was found!</div>");
+						endScroll = 1;
+						if (offset == 0){
+							$('.newsfeed').append(value);
+						}
 					}
 					else {
 						$('.newsfeed').append(value);

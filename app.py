@@ -589,8 +589,9 @@ def city():
 					'ideas': idea_list,
 					'ideaIds': idea_id_friend_list,
 					'comments': comments}
-		
-		s = render_template("newsfeed_content.html", **templateData)
+		s = ''
+		if len(idea_id_friend_list) > 0:
+			s = render_template("newsfeed_content.html", **templateData)
 		templateData ['ideaIds'] = idea_id_list
 		s += render_template("newsfeed_content.html", **templateData)
 		
