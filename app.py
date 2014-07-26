@@ -195,6 +195,7 @@ def get_newsfeed(request, path, type = None):
 		offset = int(request.form.get('offset'))
 	
 	lat = None
+	lng = None
 	try:
 		lat = float(request.form.get('lat'))
 		lng = float(request.form.get('lng'))
@@ -426,10 +427,18 @@ def profile():
 		return cookie_check
 	
 	if request.method == "POST":
-		lat = float(request.form.get('lat'))
-		lng = float(request.form.get('lng'))
+		lat = None
+		lng = None
+		try:
+			lat = float(request.form.get('lat'))
+			lng = float(request.form.get('lng'))
+		except:
+			print 'LAT LNG FAIL!!!'
 		
-		ideas = models.Idea.objects(userid = request.cookies['userid'], point__near=[lng, lat], complete = 1)
+		if lat:
+			ideas = models.Idea.objects(userid = request.cookies['userid'], point__near=[lng, lat], complete = 1)
+		else:
+			ideas = models.Idea.objects(userid = request.cookies['userid'], complete = 1)
 		
 		templateData = {'ideas': ideas}
 		return render_template("profile_content.html", **templateData)
