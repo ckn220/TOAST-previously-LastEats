@@ -559,54 +559,42 @@ def city():
 		user = None
 		city = request.form.get('city')
 		
-		ideas = models.Idea.objects(full_city__contains = city, complete = 1).order_by('-timestamp')
-		idea_list = {}
-		friend_list = []
-		idea_id_list = []
-		idea_id_friend_list = []
-		idea_id_full = []
 		
+		
+		lat = None
+		lng = None
+		try:
+			lat = float(request.form.get('lat'))
+			lng = float(request.form.get('lng'))
+		except:
+			print 'LAT LNG FAIL!!!'
+		
+		s = ''
 		if 'userid' in request.cookies:
 			user = models.User.objects(userid = request.cookies['userid']).first()
+			if lat:
+				ideas = models.Idea.objects(userid__in = user.friends, full_city__contains = city, complete = 1, point__near=[lng, lat])
+			else:
+				ideas = models.Idea.objects(userid__in = user.friends, full_city__contains = city, complete = 1).order_by('-timestamp')
+			templateData = newsfeedData(ideas, lat, lng)
+			templateData['user'] = user
+			templateData['city'] = city
+			if len(ideas) > 0:
+				s = render_template("newsfeed_content.html", **templateData)
 			
-			for idea in ideas:
-				if idea.userid in user.friends:
-					idea_id_friend_list.append(idea.id)
-				else:
-					idea_id_list.append(idea.id)
-					
-				idea_id_full.append(idea.id)
-				idea_list[idea.id] = idea
-				friend_list.append(idea.userid)
+			if lat:
+				ideas = models.Idea.objects(userid__nin = user.friends, full_city__contains = city, complete = 1, point__near=[lng, lat])
+			else:
+				ideas = models.Idea.objects(userid__nin = user.friends, full_city__contains = city, complete = 1).order_by('-timestamp')
 		else:
-			for idea in ideas:
-				idea_list[idea.id] = idea
-				idea_id_list.append(idea.id)
-				idea_id_full.append(idea.id)
-				friend_list.append(idea.userid)
-			
+			if lat:
+				ideas = models.Idea.objects(full_city__contains = city, complete = 1, point__near=[lng, lat])
+			else:
+				ideas = models.Idea.objects(full_city__contains = city, complete = 1).order_by('-timestamp')
 		
-		comments = {}
-		for row in models.Comment.objects(ideaid__in = idea_id_full):
-			if row.ideaid not in comments:
-				comments[row.ideaid] = []
-			comments[row.ideaid].append(row)
-			friend_list.append(row.userid)
-		
-		friends = {}
-		for row in models.User.objects(userid__in = friend_list):
-			friends[row.userid] = row
-		
-		templateData = {'user': user,
-					'friends': friends,
-					'city': city,
-					'ideas': idea_list,
-					'ideaIds': idea_id_friend_list,
-					'comments': comments}
-		s = ''
-		if len(idea_id_friend_list) > 0:
-			s = render_template("newsfeed_content.html", **templateData)
-		templateData ['ideaIds'] = idea_id_list
+		templateData = newsfeedData(ideas, lat, lng)
+		templateData['user'] = user
+		templateData['city'] = city
 		s += render_template("newsfeed_content.html", **templateData)
 		
 		return s
@@ -619,7 +607,7 @@ def city():
 		city = request.args['name']
 		templateData = {'user': user, 'city': city}
 		return render_template("city.html", **templateData)
-		
+
 
 @app.route("/price_filter", methods=['GET'])
 def price_filter():
