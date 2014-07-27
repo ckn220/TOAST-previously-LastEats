@@ -15,15 +15,16 @@ function html5Geoloc(returnFunc){
 	if(navigator.geolocation) {
 		browserSupportFlag = true;
 		navigator.geolocation.getCurrentPosition(function(position) {
-			initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-			
 			LATITUDE = position.coords.latitude;
 			LONGITUDE = position.coords.longitude;
 			
 			returnFunc();
 			
-		}, function() { handleNoGeolocation(browserSupportFlag, returnFunc); },
-		{timeout:2000, enableHighAccuracy: true});
+		}, function (err) { 
+			console.log('GEOLOCATION ERROR(' + err.code + '): ' + err.message);
+			handleNoGeolocation(browserSupportFlag, returnFunc); 
+		},
+		{enableHighAccuracy: true, timeout:2000});
 	}
 	// Browser doesn't support Geolocation
 	else {
@@ -33,11 +34,29 @@ function html5Geoloc(returnFunc){
 }
 function handleNoGeolocation(errorFlag, returnFunc) {
 	if (errorFlag) {
-		console.log('Error: The Geolocation service failed.');}
-	else {
-		console.log('Error: Your browser doesn\'t support geolocation.');}
+		console.log('Error: The Geolocation service failed.');
 		
-	returnFunc();
+		$.ajax({
+			url: 'http://freegeoip.net/json/',
+			type: "get",
+			success: function(value) {
+				console.log(value);
+				LATITUDE = value.latitude;
+				LONGITUDE = value.longitude;
+				
+				returnFunc();
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr.responseText);
+				returnFunc();
+			}
+		});
+		}
+	else {
+		console.log('Error: Your browser doesn\'t support geolocation.');
+		returnFunc();
+	}
+		
 }
 
 
