@@ -12,7 +12,7 @@ function add_comment(id){
 	var comment = $('.guest_book[num='+ id +'] textarea').val();
 	
 	$.ajax({
-		url: 'last_eat_entry/'+id,
+		url: '/last_eat_entry/'+id,
 		type: "post",
 		data: {'comment': comment},
 		success: function(value) {
@@ -25,7 +25,7 @@ function add_comment(id){
 
 function delete_comment(thisObject, id){
 	$.ajax({
-		url: 'last_eat_entry/'+id,
+		url: '/last_eat_entry/'+id,
 		type: "delete",
 		success: function(value) {
 			$(thisObject).parent().remove();
@@ -41,7 +41,7 @@ function saveIdea(thisObject, id){
 	if (ajaxOut == 0){
 		ajaxOut = 1;
 		$.ajax({
-			url: 'save_idea',
+			url: '/save_idea',
 			type: "post",
 			data: {'id': id},
 			success: function(value) {
@@ -66,7 +66,7 @@ function loveIdea(thisObject, id){
 	if (ajaxOut == 0){
 		ajaxOut = 1;
 		$.ajax({
-			url: 'love_idea',
+			url: '/love_idea',
 			type: "post",
 			data: {'id': id},
 			success: function(value) {

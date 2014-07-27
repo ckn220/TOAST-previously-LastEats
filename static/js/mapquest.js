@@ -6,6 +6,42 @@ var myMarker;
 var infoWindow;
 var autocomplete = undefined;
 
+//html5 geolocation
+var LATITUDE = undefined;
+var LONGITUDE = undefined;
+
+function html5Geoloc(returnFunc){
+	//Try W3C Geolocation (Preferred)
+	if(navigator.geolocation) {
+		browserSupportFlag = true;
+		navigator.geolocation.getCurrentPosition(function(position) {
+			initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
+			
+			LATITUDE = position.coords.latitude;
+			LONGITUDE = position.coords.longitude;
+			
+			returnFunc();
+			
+		}, function() { handleNoGeolocation(browserSupportFlag, returnFunc); },
+		{timeout:2000, enableHighAccuracy: true});
+	}
+	// Browser doesn't support Geolocation
+	else {
+		browserSupportFlag = false;
+		handleNoGeolocation(browserSupportFlag, returnFunc);
+	}
+}
+function handleNoGeolocation(errorFlag, returnFunc) {
+	if (errorFlag) {
+		console.log('Error: The Geolocation service failed.');}
+	else {
+		console.log('Error: Your browser doesn\'t support geolocation.');}
+		
+	returnFunc();
+}
+
+
+
 //google maps
 
 function initialize() {

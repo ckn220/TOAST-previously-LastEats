@@ -195,6 +195,7 @@ def get_newsfeed(request, path, type = None):
 		offset = int(request.form.get('offset'))
 	
 	lat = None
+	lng = None
 	try:
 		lat = float(request.form.get('lat'))
 		lng = float(request.form.get('lng'))
@@ -213,6 +214,8 @@ def get_newsfeed(request, path, type = None):
 	if path == 'newsfeed' and type != 'all':
 		if type == 'saved':
 			ideas = models.Idea.objects(id__in = user.saves, complete = 1)[offset:20+offset]
+		elif type == 'new':
+			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[offset:20+offset]
 		elif type == 'hot':
 			if lat:
 				ideas = models.Idea.objects(like_count__gte = 4, point__near=[lng, lat], complete = 1)[offset:20+offset]
@@ -426,10 +429,18 @@ def profile():
 		return cookie_check
 	
 	if request.method == "POST":
-		lat = float(request.form.get('lat'))
-		lng = float(request.form.get('lng'))
+		lat = None
+		lng = None
+		try:
+			lat = float(request.form.get('lat'))
+			lng = float(request.form.get('lng'))
+		except:
+			print 'LAT LNG FAIL!!!'
 		
-		ideas = models.Idea.objects(userid = request.cookies['userid'], point__near=[lng, lat], complete = 1)
+		if lat:
+			ideas = models.Idea.objects(userid = request.cookies['userid'], point__near=[lng, lat], complete = 1)
+		else:
+			ideas = models.Idea.objects(userid = request.cookies['userid'], complete = 1)
 		
 		templateData = {'ideas': ideas}
 		return render_template("profile_content.html", **templateData)
@@ -494,7 +505,10 @@ def friend_profile(id):
 		except:
 			pass
 		
-		ideas = models.Idea.objects(userid = friend.userid, point__near=[lng, lat], complete = 1)
+		if lat:
+			ideas = models.Idea.objects(userid = friend.userid, point__near=[lng, lat], complete = 1)
+		else:
+			ideas = models.Idea.objects(userid = friend.userid, complete = 1)
 		idea_list = {}
 		idea_id_list = []
 		friend_list = []
@@ -790,9 +804,9 @@ def add_last_eats():
 		city = full_city.split(',')[0]
 		
 		checkCity = None
-		if 'userId' in request.cookies:
+		if 'userid' in request.cookies:
 			checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = full_city, complete = 1).first()
-			
+		
 		warned = request.form.get('warned')
 		
 		if not checkCity or warned == 'true':
