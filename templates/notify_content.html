@@ -1,4 +1,9 @@
 
+{% if requestIdeas|length == 0 and open_requests|length == 0 and comments|length == 0 %}
+<li class='notifyItem' data-filtertext="buttons button markup buttonmarkup method anchor link button element">
+	<div style='padding-top: 10px;'>No new notifications</div>
+</li>
+{% else %}
 
 {% for item in requestIdeas -%}
 
@@ -35,3 +40,5 @@
 </li>
 
 {%- endfor %}
+
+{% endif %}

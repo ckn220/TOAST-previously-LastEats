@@ -32,31 +32,13 @@
 
 
 {% block scripts %}
+<script src="/static/js/mapquest.js"></script>
 <script>
 	$(document).ready(function(){
-		// Try W3C Geolocation (Preferred)
-		if(navigator.geolocation) {
-			browserSupportFlag = true;
-			navigator.geolocation.getCurrentPosition(function(position) {
-				initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-				get_newsfeed(position.coords.latitude, position.coords.longitude);
-				
-			}, function() { handleNoGeolocation(browserSupportFlag); });
-		}
-		// Browser doesn't support Geolocation
-		else {
-			browserSupportFlag = false;
-			handleNoGeolocation(browserSupportFlag);
-		}
+		html5Geoloc(loadedGeo)
 	});
-	
-	function handleNoGeolocation(errorFlag) {
-		if (errorFlag) {
-			console.log('Error: The Geolocation service failed.');}
-		else {
-			console.log('Error: Your browser doesn\'t support geolocation.');}
-			
-		get_newsfeed();
+	function loadedGeo(){
+		get_newsfeed(LATITUDE, LONGITUDE);
 	}
 	
 	function get_newsfeed(lat, lng){
