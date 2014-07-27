@@ -18,7 +18,7 @@ function initialize() {
 			
 			if ($('#multimap').length > 0){
 				var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
-				codeLatLng(LATITUDE, LONGITUDE);
+				codeLatLng(LATITUDE, LONGITUDE,{'url':'/static/img/bluedot.png','size': new google.maps.Size(20, 20),' anchor': new google.maps.Point(10, 10)},'Your Location');
 				collectNearby(LATITUDE, LONGITUDE);
 			}
 			
@@ -104,15 +104,24 @@ function codeAddress() {
 	});
 }
 
-function codeLatLng(lat, lng) {
+function codeLatLng(lat, lng, icon, content) {
     var latlng = new google.maps.LatLng(lat, lng);
+    
+    var marker = { 'position': latlng, 'content': content}
+    if (icon){
+    	marker.icon = icon;
+    }
+    
+    
     geocoder.geocode({'latLng': latlng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
+        	if (marker.content){var content = marker.content;}
+    	    else {var content = '<a href="http://maps.google.com/maps?q='+results[0].formatted_address.replace('&','%26')+'" target="_blank">'+results[0].formatted_address+'</a>';}
         	$('#map_canvas').gmap('get','map').setZoom(13);
         	$('#map_canvas').gmap('get','map').setCenter(latlng);
-        	$('#map_canvas').gmap('addMarker', { 'position': latlng } ).click(function() {
-                $('#map_canvas').gmap('openInfoWindow', {'content': '<a href="http://maps.google.com/maps?q='+results[0].formatted_address.replace('&','%26')+'" target="_blank">'+results[0].formatted_address+'</a>'}, this);
+        	$('#map_canvas').gmap('addMarker', marker ).click(function() {
+                $('#map_canvas').gmap('openInfoWindow', {'content': content}, this);
             });
       } else {
         alert("Geocoder failed due to: " + status);
@@ -137,21 +146,19 @@ function openInfoWindow (content, latLng, map) {
 	infoWindow.open(map);
 }
 
-function createMarker(lat,lng, restaurant_name, restaurant_href) {
-	console.log('createMarker');
+function createMarker(lat,lng, restaurant_name, restaurant_href, icon) {
 	// create google lat lng object
 	var latlng = new google.maps.LatLng(lat, lng);
 	
-    geocoder.geocode({'latLng': latlng}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        if (results[1]) {
-        	$('#map_canvas').gmap('addMarker', { 'position': latlng } ).click(function() {
-                $('#map_canvas').gmap('openInfoWindow', {'content': '<a href="'+restaurant_href+'">'+restaurant_name+'</a>'}, this);
-            });
-      } else {
-        alert("Geocoder failed due to: " + status);
-      }
-    }});
+	var marker = { 'position': latlng};
+	if (icon){
+		marker.icon = icon;
+	}
+	
+	console.log('createMarker');
+	$('#map_canvas').gmap('addMarker', marker ).click(function() {
+        $('#map_canvas').gmap('openInfoWindow', {'content': '<a href="'+restaurant_href+'">'+restaurant_name+'</a>'}, this);
+    });
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

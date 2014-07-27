@@ -522,12 +522,19 @@ def map():
 		except:
 			print 'LAT LNG FAIL!!!'
 		
+		user = models.User.objects(userid = request.cookies['userid']).first()
+		
+		friends = []
+		for row in models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1):
+			friends.append({'lat':row.latitude, 'lng':row.longitude, 
+						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
+			
 		data = []
-		for row in models.Idea.objects(point__near=[lng, lat], complete = 1)[:10]:
+		for row in models.Idea.objects(userid__nin = user.friends, point__near=[lng, lat], complete = 1):
 			data.append({'lat':row.latitude, 'lng':row.longitude, 
 						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
 			
-		return jsonify(**{'data':data})
+		return jsonify(**{'data':data, 'friends':friends})
 		
 	else:
 		templateData = {}
