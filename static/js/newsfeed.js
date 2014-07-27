@@ -32,7 +32,7 @@ function get_newsfeed(type){
 		
 		if (endScroll == 0){
 			$.ajax({
-				url: 'newsfeed',
+				url: '/newsfeed',
 				type: "post",
 				data: {'lat': LATITUDE, 'lng': LONGITUDE, 'type' : type, 'offset' : offset},
 				success: function(value) {

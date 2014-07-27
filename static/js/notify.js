@@ -8,7 +8,7 @@ function getNotifications(){
 		$('.icon.notify .userNotifyCount').remove();
 		
 		$.ajax({
-			url: 'notify_content',
+			url: '/notify_content',
 			type: "post",
 			data: {'userid': userid},
 			success: function(value) {
