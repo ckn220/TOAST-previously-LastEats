@@ -505,7 +505,10 @@ def friend_profile(id):
 		except:
 			pass
 		
-		ideas = models.Idea.objects(userid = friend.userid, point__near=[lng, lat], complete = 1)
+		if lat:
+			ideas = models.Idea.objects(userid = friend.userid, point__near=[lng, lat], complete = 1)
+		else:
+			ideas = models.Idea.objects(userid = friend.userid, complete = 1)
 		idea_list = {}
 		idea_id_list = []
 		friend_list = []
