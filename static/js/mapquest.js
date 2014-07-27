@@ -23,7 +23,7 @@ function html5Geoloc(returnFunc){
 			returnFunc();
 			
 		}, function() { handleNoGeolocation(browserSupportFlag, returnFunc); },
-		{timeout:2000, enableHighAccuracy: true});
+		{enableHighAccuracy: true});
 	}
 	// Browser doesn't support Geolocation
 	else {
