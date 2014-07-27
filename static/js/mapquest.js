@@ -24,7 +24,7 @@ function html5Geoloc(returnFunc){
 			console.log('GEOLOCATION ERROR(' + err.code + '): ' + err.message);
 			handleNoGeolocation(browserSupportFlag, returnFunc); 
 		},
-		{enableHighAccuracy: true, timeout:3000});
+		{enableHighAccuracy: true, timeout:2000});
 	}
 	// Browser doesn't support Geolocation
 	else {
