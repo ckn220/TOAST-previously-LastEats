@@ -837,8 +837,12 @@ def add_last_eats_next():
 		return jsonify(**d)
 	
 	else:
+		user = None
+		if 'userid' in request.cookies:
+			user = models.User.objects(userid = request.cookies['userid']).first()
+			
 		id = request.args['id']
-		templateData = {'id':id}
+		templateData = {'user': user,'id':id}
 		return render_template("add_last_eats_next.html", **templateData)
 
 @app.route("/add_last_eats_next_next", methods=['GET','POST'])
@@ -853,8 +857,12 @@ def add_last_eats_next_next():
 		return jsonify(**d)
 	
 	else:
+		user = None
+		if 'userid' in request.cookies:
+			user = models.User.objects(userid = request.cookies['userid']).first()
+			
 		id = request.args['id']
-		templateData = {'id':id}
+		templateData = {'user': user, 'id':id}
 		return render_template("add_last_eats_next_next.html", **templateData)
 	
 @app.route("/add_last_eats_last", methods=['GET','POST'])
