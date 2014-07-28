@@ -27,6 +27,10 @@ from StringIO import StringIO
 import facebook
 import mongoScripts
 
+import sys
+reload(sys)  # Reload does the trick!
+sys.setdefaultencoding('UTF8')
+
 ## Environment Variables
 MONGOLAB_URI = os.environ['MONGOLAB_URI']
 FACEBOOK_APP_ID = os.environ['FACEBOOK_APP_ID']
