@@ -958,7 +958,7 @@ def add_last_eats_last():
 				idea.userid = me['id']
 				idea.save()
 				
-				resp = make_response(redirect('/profile'))
+				resp = make_response(redirect('/last_eat_entry/'+str(idea.id)))
 				resp.set_cookie('fbook_auth_old', request.cookies['fbook_auth'])
 				resp.set_cookie('fbook_auth', '', expires=0)
 				resp.set_cookie('userid', me['id'])
@@ -978,7 +978,7 @@ def add_last_eats_last():
 			idea.complete = 1
 			idea.save()
 			
-			resp = make_response(redirect('/profile'))
+			resp = make_response(redirect('/last_eat_entry/'+str(idea.id)))
 			return resp
 	
 	else:
@@ -1176,7 +1176,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
-mongoScripts.addEmail(FACEBOOK_APP_ID, FACEBOOK_SECRET)
+#mongoScripts.addEmail(FACEBOOK_APP_ID, FACEBOOK_SECRET)
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test
