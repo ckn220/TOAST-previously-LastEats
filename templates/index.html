@@ -174,15 +174,16 @@ function delayStart(){
 				<br><br><br>
 			</div>
 			
-			{% if users != None %}
-				{% for item in users -%}
-					<div style='margin:4px;padding:4px;display:inline-block;'><img src='{{ item.picture }}' style='width:50px;border-radius:50px;'><a href='/?userid={{ item.userid }}'>{{ item.user_name }} {{ item.user_last_name }}</a></div>
-				{%- endfor %}
-			{% else %}
-				<div style='text-align:center;'><img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='/static/img/fbook.jpg' /></div>
-			{% endif %}
-			
 		</div>
+		
+		{% if users != None %}
+			{% for item in users -%}
+				<div style='margin:4px;padding:4px;display:inline-block;'><img src='{{ item.picture }}' style='width:50px;border-radius:50px;'><a href='/?userid={{ item.userid }}'>{{ item.user_name }} {{ item.user_last_name }}</a></div>
+			{%- endfor %}
+		{% else %}
+			<div style='text-align:center;'><img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='/static/img/fbook.jpg' /></div>
+		{% endif %}
+		
 	</div><!-- /page -->
 	
 	<div class='footer' style='background:#c5c5c5;text-align:center;width:100%;'>
