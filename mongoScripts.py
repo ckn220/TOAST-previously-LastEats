@@ -47,37 +47,65 @@ def convertLocation():
         
         idea.point = [float(idea.longitude), float(idea.latitude)]
         idea.save()
-        
+
+def addDeleted():
+    for idea in models.Idea.objects(complete = 1):
+        idea.deleted = 1
+        idea.save()
+    for idea in models.Idea.objects(complete = 1):
+        idea.deleted = 0
+        idea.save()
+
 def addFriends(appId, secret):
     for user in models.User.objects():
         
-#         url = 'https://graph.facebook.com/oauth/access_token?client_id='+ str(appId) +'&client_secret='+ str(secret) +'&grant_type=client_credentials'
-#         response = urllib2.urlopen(url)
-#         a = response.geturl()
-#         pass
+        url = 'https://graph.facebook.com/oauth/access_token?client_id='+ str(appId) +'&client_secret='+ str(secret) +'&grant_type=client_credentials'
+        response = urllib2.urlopen(url)
+        a = response.geturl()
+        pass
         
-        if not hasattr(user, 'email') or user.email == None:
-            graph = facebook.GraphAPI(str(appId) + '|' + str(secret))
-            me = graph.get_objects([user.userid])
+        f = graph.get_connections(user.userid, connection_name = 'friends?fields=name,picture')
+        
+        all_friends = []
+        for id in f['data']:
+            all_friends.append({'id': id['id'], 'name': id['name'], 'picture': id['picture']['data']['url']})
+        
+        c = models.UserFriends(userid = user.userid, all_friends = all_friends)
+        c.save()
+
+
+def addEmail(appId, secret):
+#     for user in models.User.objects():
+#         if not hasattr(user, 'email') or user.email == None:
+#             graph = facebook.GraphAPI(str(appId) + '|' + str(secret))
+#             me = graph.get_objects([user.userid])
+#             
+#             try:
+#                 if user.userid in me and 'email' in me[user.userid]:
+#                     print me[user.userid]['email']
+#                     user.email = me[user.userid]['email']
+#                     user.save()
+#             except:
+#                 pass
+    
+    f = open('emails.csv')
+    for row in f: 
+        data = row.replace('\n','').split(',')
+        names = data[0].split(' ',1)
+        
+        user = models.User.objects(user_name = names[0], user_last_name = names[1]).first()
+        
+        if not user:
+            print 'NO USER BY NAME ' + str(names)
             
-            try:
-                if user.userid in me and 'email' in me[user.userid]:
-                    print me[user.userid]['email']
-                    user.email = me[user.userid]['email']
-                    user.save()
-            except:
-                pass
-#         f = graph.get_connections(user.userid, connection_name = 'friends?fields=name,picture')
-#         
-#         all_friends = []
-#         for id in f['data']:
-#             all_friends.append({'id': id['id'], 'name': id['name'], 'picture': id['picture']['data']['url']})
-#         
-#         c = models.UserFriends(userid = user.userid, all_friends = all_friends)
-#         c.save()
-
-
-
-        
+        else:
+            if not hasattr(user, 'email') or user.email == None:
+                print 'New Email'
+                user.email = data[1]
+                user.save()
+            else:
+                print 'Already has email ' + str(user.email)
+                print 'New Data = ' +str(data)
+        print user
         
         

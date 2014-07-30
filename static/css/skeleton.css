@@ -283,7 +283,7 @@ body {position: relative;}
 }
 
 
-#map_canvas {
+.smallmap #map_canvas {
 	max-height: 250px;
 }
 

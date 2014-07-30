@@ -90,14 +90,14 @@ def index():
 		print 'IP ERROR'
 		
 	if lat:
-		locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1).first()
+		locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0).first()
 	else:
-		locationIdea = models.Idea.objects(complete = 1, full_city = 'New York, NY').first()
+		locationIdea = models.Idea.objects(complete = 1, deleted = 0, full_city = 'New York, NY').first()
 		
 	
 	ideas = []
 	friendIds = []
-	for item in models.Idea.objects(complete = 1).order_by('-timestamp')[:8]:
+	for item in models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:8]:
 		item.display_city = ','.join(item.full_city.split(',')[:2])
 		ideas.append(item)
 		friendIds.append(item.userid)
@@ -106,7 +106,7 @@ def index():
 	for friend in models.User.objects(userid__in = friendIds).only('picture','userid'):
 		friends[friend.userid] = friend
 	
-	if request.base_url == 'http://lasteats-dev.herokuapp.com/' or request.base_url == 'http://localhost:5000/':
+	if request.base_url == 'http://lasteats-dev.herokuapp.com/' or request.base_url == 'http://localhost:5000/' or request.base_url == 'http://192.168.1.2:5000/':
 		if 'userid' in request.args:
 			resp = make_response(redirect('/newsfeed'))
 			resp.set_cookie('userid', request.args['userid'])
@@ -213,24 +213,24 @@ def get_newsfeed(request, path, type = None):
 		
 	if path == 'newsfeed' and type != 'all':
 		if type == 'saved':
-			ideas = models.Idea.objects(id__in = user.saves, complete = 1)[offset:20+offset]
+			ideas = models.Idea.objects(id__in = user.saves, complete = 1, deleted = 0)[offset:20+offset]
 		elif type == 'new':
-			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[offset:20+offset]
+			ideas = models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[offset:20+offset]
 		elif type == 'hot':
 			if lat:
-				ideas = models.Idea.objects(like_count__gte = 4, point__near=[lng, lat], complete = 1)[offset:20+offset]
+				ideas = models.Idea.objects(like_count__gte = 4, point__near=[lng, lat], complete = 1, deleted = 0)[offset:20+offset]
 			else:
-				ideas = models.Idea.objects(like_count__gte = 4, complete = 1)[offset:20+offset]
+				ideas = models.Idea.objects(like_count__gte = 4, complete = 1, deleted = 0)[offset:20+offset]
 		elif lat:
-			ideas = models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1)[offset:20+offset]
+			ideas = models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0)[offset:20+offset]
 		else:
-			ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')[offset:20+offset]
+			ideas = models.Idea.objects(userid__in = user.friends, complete = 1, deleted = 0).order_by('-timestamp')[offset:20+offset]
 			
 	else:
 		if lat:
-			ideas = models.Idea.objects(point__near=[lng, lat], complete = 1)[offset:20+offset]
+			ideas = models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0)[offset:20+offset]
 		else:
-			ideas = models.Idea.objects(complete = 1).order_by('-timestamp')[offset:20+offset]
+			ideas = models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[offset:20+offset]
 	
 	templateData = newsfeedData(ideas, lat, lng)
 	templateData['user'] = user
@@ -306,7 +306,7 @@ def old_last_eat_entry():
 											
 @app.route("/last_eat_entry/<id>", methods=['GET','POST','DELETE'])
 def last_eat_entry(id):
-	if not models.Idea.objects(id = id, complete = 1).first():
+	if not models.Idea.objects(id = id, complete = 1, deleted = 0).first():
 		if 'userid' in request.cookies:
 			return redirect('/newsfeed')
 		else:
@@ -333,12 +333,13 @@ def last_eat_entry(id):
 	
 	elif request.method == "DELETE":
 		id = request.form.get('id')
-		idea = models.Comment.objects(id = id)
-		idea.delete()
+		idea = models.Comment.objects(id = id).first()
+		idea.deleted = 1
+		idea.save()
 		return ''
 		
 	else:
-		idea = models.Idea.objects(id = id, complete = 1).first()
+		idea = models.Idea.objects(id = id, complete = 1, deleted = 0).first()
 		#idea = get_instagram_photo(idea)
 		idea.save()
 		
@@ -438,23 +439,24 @@ def profile():
 			print 'LAT LNG FAIL!!!'
 		
 		if lat:
-			ideas = models.Idea.objects(userid = request.cookies['userid'], point__near=[lng, lat], complete = 1)
+			ideas = models.Idea.objects(userid = request.cookies['userid'], point__near=[lng, lat], complete = 1, deleted = 0)
 		else:
-			ideas = models.Idea.objects(userid = request.cookies['userid'], complete = 1)
+			ideas = models.Idea.objects(userid = request.cookies['userid'], complete = 1, deleted = 0)
 		
 		templateData = {'ideas': ideas}
 		return render_template("profile_content.html", **templateData)
 	
 	elif request.method == "DELETE":
 		id = request.form.get('id')
-		idea = models.Idea.objects(id = id)
-		idea.delete()
+		idea = models.Idea.objects(id = id).first()
+		idea.deleted = 1
+		idea.save()
 		
 		return ''
 		
 	else:
 		user = models.User.objects(userid = request.cookies['userid']).first()
-		ideas = models.Idea.objects(userid = user.userid, complete = 1).order_by('-timestamp')
+		ideas = models.Idea.objects(userid = user.userid, complete = 1, deleted = 0).order_by('-timestamp')
 		
 		templateData = {'user': user,
 						'ideas': ideas}
@@ -506,9 +508,9 @@ def friend_profile(id):
 			pass
 		
 		if lat:
-			ideas = models.Idea.objects(userid = friend.userid, point__near=[lng, lat], complete = 1)
+			ideas = models.Idea.objects(userid = friend.userid, point__near=[lng, lat], complete = 1, deleted = 0)
 		else:
-			ideas = models.Idea.objects(userid = friend.userid, complete = 1)
+			ideas = models.Idea.objects(userid = friend.userid, complete = 1, deleted = 0)
 		idea_list = {}
 		idea_id_list = []
 		friend_list = []
@@ -539,12 +541,12 @@ def map():
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
 		friends = []
-		for row in models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1):
+		for row in models.Idea.objects(userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0):
 			friends.append({'lat':row.latitude, 'lng':row.longitude, 
 						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
 			
 		data = []
-		for row in models.Idea.objects(userid__nin = user.friends, point__near=[lng, lat], complete = 1):
+		for row in models.Idea.objects(userid__nin = user.friends, point__near=[lng, lat], complete = 1, deleted = 0):
 			data.append({'lat':row.latitude, 'lng':row.longitude, 
 						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
 			
@@ -564,7 +566,7 @@ def city_filter():
 	if 'userid' in request.cookies:
 		user = models.User.objects(userid = request.cookies['userid']).first()
 
-	ideas = models.Idea.objects(complete = 1).order_by('-timestamp')
+	ideas = models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')
 	
 	for idea in ideas:
 		display_city = ','.join(idea.full_city.split(',')[:2])
@@ -572,7 +574,7 @@ def city_filter():
 			cities[display_city] = display_city
 			
 			ordered_cities.append(display_city)
-			city_count[display_city] = models.Idea.objects(full_city__contains = display_city, complete = 1).count()
+			city_count[display_city] = models.Idea.objects(full_city__contains = display_city, complete = 1, deleted = 0).count()
 			
 	ordered_cities.sort()
 	templateData = {'user': user,
@@ -602,9 +604,9 @@ def city():
 		if 'userid' in request.cookies:
 			user = models.User.objects(userid = request.cookies['userid']).first()
 			if lat:
-				ideas = models.Idea.objects(userid__in = user.friends, full_city__contains = city, complete = 1, point__near=[lng, lat])
+				ideas = models.Idea.objects(userid__in = user.friends, full_city__contains = city, complete = 1, deleted = 0, point__near=[lng, lat])
 			else:
-				ideas = models.Idea.objects(userid__in = user.friends, full_city__contains = city, complete = 1).order_by('-timestamp')
+				ideas = models.Idea.objects(userid__in = user.friends, full_city__contains = city, complete = 1, deleted = 0).order_by('-timestamp')
 			templateData = newsfeedData(ideas, lat, lng)
 			templateData['user'] = user
 			templateData['city'] = city
@@ -612,14 +614,14 @@ def city():
 				s = render_template("newsfeed_content.html", **templateData)
 			
 			if lat:
-				ideas = models.Idea.objects(userid__nin = user.friends, full_city__contains = city, complete = 1, point__near=[lng, lat])
+				ideas = models.Idea.objects(userid__nin = user.friends, full_city__contains = city, complete = 1, deleted = 0, point__near=[lng, lat])
 			else:
-				ideas = models.Idea.objects(userid__nin = user.friends, full_city__contains = city, complete = 1).order_by('-timestamp')
+				ideas = models.Idea.objects(userid__nin = user.friends, full_city__contains = city, complete = 1, deleted = 0).order_by('-timestamp')
 		else:
 			if lat:
-				ideas = models.Idea.objects(full_city__contains = city, complete = 1, point__near=[lng, lat])
+				ideas = models.Idea.objects(full_city__contains = city, complete = 1, deleted = 0, point__near=[lng, lat])
 			else:
-				ideas = models.Idea.objects(full_city__contains = city, complete = 1).order_by('-timestamp')
+				ideas = models.Idea.objects(full_city__contains = city, complete = 1, deleted = 0).order_by('-timestamp')
 		
 		templateData = newsfeedData(ideas, lat, lng)
 		templateData['user'] = user
@@ -644,7 +646,7 @@ def price_filter():
 	ordered_prices = [1,2,3,4]
 	display_prices = {1:'$',2:'$$',3:'$$$',4:'$$$$'}
 	user = models.User.objects(userid = request.cookies['userid']).first()
-	ideas = models.Idea.objects(userid__in = user.friends, complete = 1).order_by('-timestamp')
+	ideas = models.Idea.objects(userid__in = user.friends, complete = 1, deleted = 0).order_by('-timestamp')
 	friends = {}
 	for row in models.User.objects(userid__in = user.friends):
 		friends[row.userid] = row
@@ -793,13 +795,14 @@ def add_last_eats():
 		
 		checkCity = None
 		if 'userid' in request.cookies:
-			checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = full_city, complete = 1).first()
+			checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = full_city, complete = 1, deleted = 0).first()
 		
 		warned = request.form.get('warned')
 		
 		if not checkCity or warned == 'true':
 			if checkCity:
-				checkCity.delete()
+				checkCity.deleted = 1
+				checkCity.save()
 			lat = float(request.form.get('addressLat'))
 			lng = float(request.form.get('addressLng'))
 			
@@ -947,9 +950,10 @@ def add_last_eats_last():
 				if x == 0:
 					addUser(request.form.get('fbook_auth'))
 				else:
-					checkCity = models.Idea.objects(userid = me['id'], full_city = idea.full_city, complete = 1).first()
+					checkCity = models.Idea.objects(userid = me['id'], full_city = idea.full_city, complete = 1, deleted = 0).first()
 					if checkCity:
-						checkCity.delete()
+						checkCity.deleted = 1
+						checkCity.save()
 				idea.complete = 1
 				idea.userid = me['id']
 				idea.save()
@@ -965,9 +969,10 @@ def add_last_eats_last():
 				
 		else:
 			if not idea.userid:
-				checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = idea.full_city, complete = 1).first()
+				checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = idea.full_city, complete = 1, deleted = 0).first()
 				if checkCity:
-					checkCity.delete()
+					checkCity.deleted = 1
+					checkCity.save()
 				idea.userid = request.cookies['userid']
 				
 			idea.complete = 1
@@ -1171,7 +1176,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
-#mongoScripts.addFriends(FACEBOOK_APP_ID, FACEBOOK_SECRET)
+mongoScripts.addEmail(FACEBOOK_APP_ID, FACEBOOK_SECRET)
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test

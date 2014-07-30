@@ -25,7 +25,9 @@ class Comment(Document):
 
 class Idea(Document):
 	userid = mongoengine.StringField()
+	
 	complete = mongoengine.IntField(required=True, default=0)
+	deleted = mongoengine.IntField(required=True, default=0)
 	
 	title = mongoengine.StringField(required=True)
 	full_city = mongoengine.StringField()

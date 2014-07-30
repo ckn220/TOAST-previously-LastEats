@@ -64,21 +64,13 @@ function handleNoGeolocation(errorFlag, returnFunc) {
 //google maps
 
 function initialize() {
-	if(navigator.geolocation) {
-		browserSupportFlag = true;
-		navigator.geolocation.getCurrentPosition(function(position) {
-			initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-			LATITUDE = position.coords.latitude;
-			LONGITUDE = position.coords.longitude;
-			
-			if ($('#multimap').length > 0){
-				var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
-				codeLatLng(LATITUDE, LONGITUDE,{'url':'/static/img/bluedot.png','size': new google.maps.Size(20, 20),' anchor': new google.maps.Point(10, 10)},'Your Location');
-				collectNearby(LATITUDE, LONGITUDE);
-			}
-			
-		}, function() {});
-	}
+	html5Geoloc(function(){
+		if ($('#multimap').length > 0){
+			var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
+			codeLatLng(LATITUDE, LONGITUDE,{'url':'/static/img/bluedot.png','size': new google.maps.Size(20, 20),' anchor': new google.maps.Point(10, 10)},'Your Location');
+			collectNearby(LATITUDE, LONGITUDE);
+		}
+	});
 	
 	geocoder = new google.maps.Geocoder();
 	
