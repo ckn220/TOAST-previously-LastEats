@@ -551,7 +551,9 @@ def map():
 		return jsonify(**{'data':data, 'friends':friends})
 		
 	else:
-		templateData = {}
+		if 'userid' in request.cookies:
+			user = request.cookies['userid']
+		templateData = {'current_user': user}
 		return render_template("map.html", **templateData)
 	
 	
