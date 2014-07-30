@@ -553,7 +553,9 @@ def map():
 	else:
 		if 'userid' in request.cookies:
 			user = request.cookies['userid']
-		templateData = {'current_user': user}
+			templateData = {'current_user': user}
+		else:
+			templateData = {}
 		return render_template("map.html", **templateData)
 	
 	
