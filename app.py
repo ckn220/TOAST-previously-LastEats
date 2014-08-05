@@ -341,7 +341,6 @@ def last_eat_entry(id):
 	else:
 		idea = models.Idea.objects(id = id, complete = 1, deleted = 0).first()
 		#idea = get_instagram_photo(idea)
-		idea.save()
 		
 		comments = models.Comment.objects(ideaid = str(idea.id))
 		friends = {}
@@ -377,6 +376,11 @@ def last_eat_entry(id):
 					end += 'am'
 				days[i] += end + '  '
 				
+		tags = {}
+		for row in models.Tag.objects(ideaid = idea.id):
+			if row.type not in tags:
+				tags[row.type] = []
+			tags[row.type].append(row)
 		
 		templateData = {'current_user': current_user,
 					'idea' : idea,
@@ -385,7 +389,8 @@ def last_eat_entry(id):
 					'friend': friend,
 					'friends': friends,
 					'comments': comments,
-					'days': days}
+					'days': days,
+					'tags':tags}
 		
 		return render_template("last_eat_entry.html", **templateData)
 
@@ -1176,7 +1181,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
-#mongoScripts.addEmail(FACEBOOK_APP_ID, FACEBOOK_SECRET)
+#mongoScripts.addTags()
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test
@@ -1185,4 +1190,3 @@ if __name__ == "__main__":
 	
 	
 
-	

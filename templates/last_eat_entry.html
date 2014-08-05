@@ -30,6 +30,16 @@
 			<strong>{{ idea.restaurant_name }}</strong>
 		</div><!-- /demo-html -->
 		
+		<div class='tagCont'>
+			{% for key in tags %}
+				{% if key in ['Great for','Price','Type'] %}
+				{% for tag in tags[key] %}
+					<div class='tag'>{{ tag.text }}</div>
+				{% endfor %}
+				{%endif%}
+			{% endfor %}
+		</div>
+		
 		{% if current_user != None %}
 		<table class='icon_container' num="{{ idea.id }}" ><tr>
 			<td width='33%'><a class='icon commentIcon' href='#guest_book'></a></td>
@@ -136,6 +146,19 @@
 				{% endif %}
 			{% endfor %}
 
+		</div>
+		
+		<div>
+			<h1>Other Info:</h1>
+			<div class='tagCont'>
+				{% for key in tags %}
+					{% if key not in ['Great for','Price','Type'] %}
+					{% for tag in tags[key] %}
+						<div class='tag'>{{ tag.text }}</div>
+					{% endfor %}
+					{%endif%}
+				{% endfor %}
+			</div>
 		</div>
 		</br>
 	</div>

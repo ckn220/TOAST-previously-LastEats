@@ -109,3 +109,39 @@ def addEmail(appId, secret):
         print user
         
         
+tagDict = ['Great for:','Vibe:','Attire:','Perks:','Price:','Type:','\n']
+def find_between( s, first, last ):
+    try:
+        start = s.index( first ) + len( first )
+        end = s.index( last, start )
+        return s[start:end]
+    except ValueError:
+        return ""
+def addTags():
+    f = open('tags.csv')
+    for row in f:
+        data = row.split('"')
+        if len(data) == 3:
+            id = data[2].replace(',http://beta.lasteats.com/last_eat_entry/','').replace('\n','')
+            print id
+            
+            for i in range(len(tagDict)-1):
+                print tagDict[i]
+                text = find_between(data[1] + '\n',tagDict[i],tagDict[i+1]).lstrip().rstrip().split(',')
+                
+                print text
+                for item in text:
+                    if item != '' and not models.Tag.objects(ideaid = id, type = tagDict[i].replace(':',''), text = item).first():
+                        
+                        tag = models.Tag(ideaid = id, type = tagDict[i].replace(':',''), text = item)
+                        tag.save()
+                        pass           
+            print ''
+        
+        
+        
+        
+        
+        
+        
+

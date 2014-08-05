@@ -287,6 +287,18 @@ body {position: relative;}
 	max-height: 250px;
 }
 
+
+.tagCont {
+	
+}
+.tagCont .tag {
+	display: inline-block;
+	border: thin solid black;
+	font-weight: bold;
+	padding: 2px 12px;
+	margin: 6px 3px;
+}
+
 .mobile-hide {display: none;}
 
 @media (min-width: 60em) {

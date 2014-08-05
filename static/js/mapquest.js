@@ -146,7 +146,7 @@ function codeAddress() {
 			$("#latitude").val(results[0].geometry.location.lat());
 		}
 		else {
-			alert('Geocode was not successful for the following reason: ' + status);
+			console.log('Geocode was not successful for the following reason: ' + status);
 		}
 	});
 }
@@ -171,7 +171,7 @@ function codeLatLng(lat, lng, icon, content) {
                 $('#map_canvas').gmap('openInfoWindow', {'content': content}, this);
             });
       } else {
-        alert("Geocoder failed due to: " + status);
+        console.log("Geocoder failed due to: " + status);
       }
     }});
 }
