@@ -236,6 +236,9 @@ def get_newsfeed(request, path, type = None):
 	templateData['user'] = user
 	templateData['current_user'] = current_user
 	
+	if type == 'new' and lat:
+		templateData['ideaIds'] = sorted(templateData['ideaIds'], key=lambda x: float(templateData['ideas'][x].distance))
+		
 	return render_template("newsfeed_content.html", **templateData)
 
 def newsfeedData(ideas, lat = None, lng = None):
