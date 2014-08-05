@@ -66,7 +66,7 @@ function handleNoGeolocation(errorFlag, returnFunc) {
 function initialize() {
 	html5Geoloc(function(){
 		if ($('#multimap').length > 0){
-			var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
+			var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'center':new google.maps.LatLng(LATITUDE, LONGITUDE),'callback': function() {}});
 			codeLatLng(LATITUDE, LONGITUDE,{'url':'/static/img/bluedot.png','size': new google.maps.Size(20, 20),' anchor': new google.maps.Point(10, 10)},'Your Location');
 			collectNearby(LATITUDE, LONGITUDE);
 		}
