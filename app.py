@@ -499,6 +499,8 @@ def friend_profile(id):
 	if not models.User.objects(userid = id).first():
 		return redirect('my_friends')
 	
+	friend = models.User.objects(userid = id).first()
+	
 	if request.method == "POST":
 		user = None
 		current_user = None
@@ -526,11 +528,11 @@ def friend_profile(id):
 		templateData = newsfeedData(ideas, lat, lng)
 		templateData['current_user'] = current_user
 		templateData['user'] = user
+		templateData['friend'] = friend
 		
 		return render_template("newsfeed_content.html", **templateData)
 
 	else:
-		friend = models.User.objects(userid = id).first()
 		templateData = {'friend': friend}
 		
 		return render_template("friend_profile.html", **templateData)

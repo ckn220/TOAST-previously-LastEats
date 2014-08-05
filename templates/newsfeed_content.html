@@ -1,6 +1,10 @@
 
 {% if ideaIds|length == 0 %}
+	{% if friend %}
+	<div class='endscroll' style='text-align:center;'>{{ friend.user_name }} doesn't have any Last Eats yet!"</div>
+	{% else %}
 	<div class='endscroll' style='text-align:center;'>Woops nothing was found!</div>
+	{% endif %}
 {% endif %}
 
 {% for id in ideaIds -%}
@@ -43,7 +47,7 @@
 	</div>
 	<br>
 		
-	{% if current_user != None %}
+	{% if current_user and current_user != None %}
 	<div class='comments' num='{{ id }}'>
 	{% for comment in comments[id] -%}
 		<div class="comment entry">
