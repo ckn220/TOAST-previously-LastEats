@@ -59,8 +59,6 @@ function handleNoGeolocation(errorFlag, returnFunc) {
 		
 }
 
-
-
 //google maps
 
 function initialize() {
@@ -73,9 +71,9 @@ function initialize() {
 	});
 	
 	geocoder = new google.maps.Geocoder();
-	
-	var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
-	
+	if ($('#multimap').length == 0){
+		var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
+	}
 	if ($('.map_data.lat').length > 0){
 		codeLatLng(parseFloat($('.map_data.lat').html()), lng = parseFloat($('.map_data.lng').html()));
 	}
