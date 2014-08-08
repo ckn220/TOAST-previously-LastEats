@@ -45,6 +45,9 @@
 			data: {'lat': LATITUDE, 'lng': LONGITUDE},
 			success: function(value) {
 				console.log(value);
+				for (var i = 0; i < value.votes.length; i++){
+					createMarker(value.votes[i].lat, value.votes[i].lng, value.votes[i].title, value.votes[i].link, {'url':'http://maps.google.com/mapfiles/ms/icons/red-dot.png'});
+				}
 				for (var i = 0; i < value.friends.length; i++){
 					createMarker(value.friends[i].lat, value.friends[i].lng, value.friends[i].title, value.friends[i].link, {'url':'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'});
 				}
