@@ -158,9 +158,22 @@ def newsfeed():
 		return render_template("newsfeed.html", **templateData)
 
 def update_user(user):
-	graph = facebook.GraphAPI()
+	graph = facebook.GraphAPI(str(FACEBOOK_APP_ID) + '|' + str(FACEBOOK_SECRET))
 	user.picture = graph.get_profile(user.userid)['data']['url']
-	user.last_visited = datetime.datetime.now()
+	user.picture_update = datetime.datetime.now()
+	
+	f = graph.get_connections(str(user.userid), connection_name = 'friends?fields=installed,name,picture')
+	friends = []
+	all_friends = []
+	for id in f['data']:
+		all_friends.append({'id': id['id'], 'name': id['name'], 'picture': id['picture']['data']['url']})
+		if 'installed' in id:
+			friends.append(id['id'])
+	
+	userFriends = models.UserFriends.objects(userid = user.userid).first()
+	userFriends.all_friends = all_friends
+	userFriends.save()
+	
 	user.save()
 	
 	return user
