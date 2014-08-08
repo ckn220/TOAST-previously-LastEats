@@ -1,0 +1,85 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+{% endblock %} 
+
+{% block body %}
+
+<script src="/static/js/mapquest.js"></script>
+
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% include "header.html" %}
+	
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+		
+		{% for row in tagSets %}
+		<div>
+			<h1>{{row}}</h1>
+			<div data-role="fieldcontain">
+				<fieldset data-role="controlgroup">
+		{% for text in tagSets[row] %}
+				<input type="checkbox" name="{{row}}" id="{{ text }}" value='{{text}}' class="custom" />
+				<label for="{{ text }}">
+					<span style='font-weight:normal;'>{{ text }}</span>
+				</label>
+		{% endfor %}
+				</fieldset>
+			</div>
+		</div>
+		<input type="hidden" id="id" name="id" value="{{ id }}"/>
+		
+		{% endfor %}
+		
+		<div class="form_next"><a onclick='moveOn()' data-role="button" style="background: #grey; color: black;">Now select a photo!</a></div>
+		
+		<div class='progressBar'>
+			<div class='progress active'></div>
+			<div class='progress active'></div>
+			<div class='progress active'></div>
+			<div class='progress active'></div>
+			<div class='progress'></div>
+		</div>
+		
+		<div id="map_canvas"></div> 
+		
+		{% if user %}
+			{% include "sidebars.html" %}
+		{% else %}
+			{% include "sidebars_small.html" %}
+		{% endif %}
+	
+	</div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+function moveOn(){
+	
+	var id = $('#id').val();
+	
+	var tags = {};
+	$('input[type=checkbox]:checked').each(function(){
+		console.log($(this).attr('name'));
+		if (!($(this).attr('name') in tags)){
+			tags[$(this).attr('name')] = new Array();
+		}
+		tags[$(this).attr('name')].push($(this).attr('value'));
+	});
+	$.ajax({
+		url: 'add_last_eats_tags',
+		type: "post",
+		data: {'tags': tags, 'id': id},
+		success: function(value) {
+			window.location = "/add_last_eats_last?id="+value.id;
+		}
+	});
+}
+
+</script>
+
+{% endblock %}

@@ -139,7 +139,15 @@ def addTags():
             print ''
         
         
+def getFullTagList():
+    tagComp = {}
+    for row in models.Tag.objects():
+        if row.type not in tagComp:
+            tagComp[row.type] = set([])
+            
+        tagComp[row.type].add(row.text)
         
+    print tagComp
         
         
         
