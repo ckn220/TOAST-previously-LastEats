@@ -109,7 +109,7 @@ def addEmail(appId, secret):
         print user
         
         
-tagDict = ['Great for:','Vibe:','Attire:','Perks:','Price:','Type:','\n']
+tagDict = ['Great for:','Vibe:','Attire:','Perks:','Price:','Diet:','Type:','\n']
 def find_between( s, first, last ):
     try:
         start = s.index( first ) + len( first )
@@ -131,9 +131,9 @@ def addTags():
                 
                 print text
                 for item in text:
-                    if item != '' and not models.Tag.objects(ideaid = id, type = tagDict[i].replace(':',''), text = item).first():
+                    if item != '' and not models.Tag.objects(ideaid = id, type = tagDict[i].replace(':',''), text = item.lstrip().rstrip()).first():
                         
-                        tag = models.Tag(ideaid = id, type = tagDict[i].replace(':',''), text = item)
+                        tag = models.Tag(ideaid = id, type = tagDict[i].replace(':',''), text = item.lstrip().rstrip())
                         tag.save()
                         pass           
             print ''
