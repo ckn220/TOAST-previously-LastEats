@@ -17,7 +17,16 @@
 	{% endif %}
 		
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
-		</br>
+		
+		{% if first %}
+		<div class='submission' style='background:yellow;padding:10px 0px;font-size:16px;'>
+			<a onclick='$(this).parent().remove();' style='float: right;cursor: pointer;padding: 7px 14px;
+				background: white;margin: 5px;border-radius: 30px;border: thin solid black;'>X</a>
+			Thanks for your submission! Your Last Eats has been saved.<br>
+			<a href=''>Add Another</a> or <a href=''>browse</a>
+		</div>
+		<br>
+		{%endif%}
 		
 		<div class="user_photo"><img src="{{ friend.picture  }}" height="125" width="125"></div>
 		<div class="user_choice"><p><strong>{{ friend.user_name }} {{ friend.user_last_name }}</strong></p></div>

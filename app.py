@@ -398,6 +398,10 @@ def last_eat_entry(id):
 				tags[row.type] = []
 			tags[row.type].append(row)
 		
+		first = False
+		if 'first' in request.args:
+			first = request.args.get('first')
+		
 		templateData = {'current_user': current_user,
 					'idea' : idea,
 					'idea_id' : str(idea.id),
@@ -406,7 +410,8 @@ def last_eat_entry(id):
 					'friends': friends,
 					'comments': comments,
 					'days': days,
-					'tags':tags}
+					'tags':tags,
+					'first':first}
 		
 		return render_template("last_eat_entry.html", **templateData)
 
@@ -1015,7 +1020,7 @@ def add_last_eats_last():
 				idea.userid = me['id']
 				idea.save()
 				
-				resp = make_response(redirect('/last_eat_entry/'+str(idea.id)))
+				resp = make_response(redirect('/last_eat_entry/'+str(idea.id)+'?first=true'))
 				resp.set_cookie('fbook_auth_old', request.cookies['fbook_auth'])
 				resp.set_cookie('fbook_auth', '', expires=0)
 				resp.set_cookie('userid', me['id'])
@@ -1035,7 +1040,7 @@ def add_last_eats_last():
 			idea.complete = 1
 			idea.save()
 			
-			resp = make_response(redirect('/last_eat_entry/'+str(idea.id)))
+			resp = make_response(redirect('/last_eat_entry/'+str(idea.id)+'?first=true'))
 			return resp
 	
 	else:
