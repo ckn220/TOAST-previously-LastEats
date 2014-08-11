@@ -1,6 +1,7 @@
 {% extends "skeleton.html" %}
 
 {% block style %}
+
 {% endblock %}
 
 {% block body %}
@@ -12,7 +13,7 @@
 		{% include "header_med.html" %}
 	{% endif %}
 		
-	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='max-width:none;'>
 		
 		{% if current_user != None %}
 			{% include "sidebars.html" %}

@@ -42,9 +42,12 @@
 		<div class='tagCont'>
 			{% for key in tags %}
 				{% if key in ['Great for','Price','Type'] %}
+				<div class='tag'>
+					{{key}}:
 				{% for tag in tags[key] %}
-					<div class='tag'>{{ tag.text }}</div>
+					{%if loop.index > 1%},{%endif%}{{ tag.text }}
 				{% endfor %}
+				</div>
 				{%endif%}
 			{% endfor %}
 		</div>
@@ -162,9 +165,12 @@
 			<div class='tagCont'>
 				{% for key in tags %}
 					{% if key not in ['Great for','Price','Type'] %}
+					<div class='tag'>
+					{{key}}:
 					{% for tag in tags[key] %}
-						<div class='tag'>{{ tag.text }}</div>
+						{%if loop.index > 1%},{%endif%}{{ tag.text }}
 					{% endfor %}
+					</div>
 					{%endif%}
 				{% endfor %}
 			</div>

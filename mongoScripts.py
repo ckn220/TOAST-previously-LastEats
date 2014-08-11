@@ -115,7 +115,8 @@ def find_between( s, first, last ):
         start = s.index( first ) + len( first )
         end = s.index( last, start )
         return s[start:end]
-    except ValueError:
+    except ValueError as e:
+        print e
         return ""
 def addTags():
     f = open('tags.csv')
@@ -127,10 +128,15 @@ def addTags():
             
             for i in range(len(tagDict)-1):
                 print tagDict[i]
-                text = find_between(data[1] + '\n',tagDict[i],tagDict[i+1]).lstrip().rstrip().split(',')
+                if tagDict[i+1] in data[1] +'\n':
+                    text = find_between(data[1] + '\n',tagDict[i],tagDict[i+1]).lstrip().rstrip().split(',')
+                else:
+                    text = find_between(data[1] + '\n',tagDict[i],tagDict[i+2]).lstrip().rstrip().split(',')
                 
                 print text
                 for item in text:
+                    if id == '53cdbbe1a40335000270686a':
+                        pass
                     if item != '' and not models.Tag.objects(ideaid = id, type = tagDict[i].replace(':',''), text = item.lstrip().rstrip()).first():
                         
                         tag = models.Tag(ideaid = id, type = tagDict[i].replace(':',''), text = item.lstrip().rstrip())
