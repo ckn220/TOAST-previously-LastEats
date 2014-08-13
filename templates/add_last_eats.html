@@ -25,6 +25,10 @@
 		<label for="textinput-4" class="ui-hidden-accessible">Text Input:</label>
 		<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
 		<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="">
+		
+		<div class='specialInput' style='display:none;'>
+		<input type="text" name="textinput-5" id="textinput-5" placeholder="Enter a City" value="" >
+		</div>
 		<input type="hidden" id="cityLat" name="cityLat" />
 		<input type="hidden" id="cityLng" name="cityLng" />
 		
@@ -53,6 +57,8 @@
 		</fieldset>
 		-->
 		</br>
+		
+		<p>Couldn't find your city? <a onclick='$(".specialInput").show();$("#textinput-4").parent().hide();$(this).parent().html("Please try your city again.")' style='cursor:pointer;'>Try this</a></p>
 		
 		<div class="form_next"><a data-role="button" style="background: #grey; color: black;" onclick='moveOn()'>Tell us more!</a></div>
 		

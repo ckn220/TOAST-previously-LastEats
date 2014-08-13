@@ -99,6 +99,24 @@ function initialize() {
 	        }
 	    });
 	}
+	var input3 = document.getElementById('textinput-5');
+	if (input3){
+		var autocomplete3 = new google.maps.places.Autocomplete(input3, {});
+		google.maps.event.addListener(autocomplete3, 'place_changed', function () {
+			var place = autocomplete3.getPlace();
+			document.getElementById('cityLat').value = place.geometry.location.lat();
+	        document.getElementById('cityLng').value = place.geometry.location.lng();
+	        if (autocomplete){
+		        var lati = place.geometry.location.lat();
+		        var long = place.geometry.location.lng();
+		        var s = new google.maps.LatLng(lati,long);
+		        var n = new google.maps.LatLng(lati,long);
+		        
+		        var boundary = new google.maps.LatLngBounds(s,n);
+		        autocomplete.setBounds(boundary);
+	        }
+	    });
+	}
 	
 	var input = document.getElementById('address');
 	if(input){
@@ -109,12 +127,12 @@ function initialize() {
 	        document.getElementById('addressLat').value = place.geometry.location.lat();
 	        document.getElementById('addressLng').value = place.geometry.location.lng();
 	    });
-	    if (req){
+	    /*if (req){
         	var s = new google.maps.LatLng(req.lati,req.long);
 	        var n = new google.maps.LatLng(req.lati,req.long);
 	        var boundary = new google.maps.LatLngBounds(s,n);
 	        autocomplete.setBounds(boundary);
-        }
+        }*/
 		//autocomplete.bindTo('bounds', map);
 	}
 }
