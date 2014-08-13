@@ -43,138 +43,125 @@ function delayStart(){
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='padding-top:0px;'>
 		
-		<div class='mobileContent'>
-			<div class='topPhoto'>
-				<br><br><br>
-				<img src="/static/assets/img/CURRENT_LOGO_WHITE.png" onclick='openCover()' height="125" width="125" style=''>
-				<br><br><br>
+		<div class='hiddenSlider transition' style='background:#f95d64;color:white;text-shadow:none;position:relative;overflow:hidden;height:0px;'>
+			<div class='hiddenSliderCont'>
+					<div><br></div>
 				
-				<h2 class='backgroundText' style='padding:10px 30px;'>
-					Find <b>the best meals</b> chosen by <br><b>your friends</b> for cities all <b>over the world.</b>
-				</h2>
+				<div style='color: #f95d64;font-size: 2em;background: white;position: absolute;right: 10px;top: 10px;
+								padding: 0px 9px;border-radius: 100px;cursor:pointer;' onclick='$(this).parent().parent().height("0px")'>&#10006;</div>
 				
-				<div style=''>
-					<a data-role="button" class="button"  onclick='openCover()' style='border:none;'>Join Last Eats</a>
+				<div class='col-sm-4' style='width:24%;margin:4%;display:inline-block;vertical-align: top;'>
+					<img src='/static/img/top1.png' />
+					<h5>That one special place</h5>
+					<div>Last Eats is a place to showcase your favorite meal in a city -- the one place
+						that you love most right now. Add as many cities as you want!</div>
 				</div>
+				
+				<div class='col-sm-4' style='width:24%;margin:4%;display:inline-block;vertical-align: top;'>
+					<img src='/static/img/top2.png' />
+					<h5>Friends helping friends find great food</h5>
+					<div>Word of mouth recommendations from the people you know and trust the most.
+						If you only had time for one meal, where would you go?</div>
+				</div>
+				
+				<div class='col-sm-4' style='width:24%;margin:4%;display:inline-block;vertical-align: top;'>
+					<img src='/static/img/top3.png' />
+					<h5>Restaurants change and so can you</h5>
+					<div>Just like with your Facebook profile photo, nothing is set in stone.  Share the places you love the most right now
+						and change them whenever you like.</div>
+				</div>
+				
 				<br><br>
-			</div>
-			
-			<div style='width:100%;clear:both;'></div>
-			<br><br>
-			
-			<h1 style='font-size:2em;font-weight:normal;'>Recent Last Eats Declarations</h1>
-			<h2 style='font-weight:normal;'>The best, most recently added restaurants</h2>
-			<br><br>
-			
-			<div class='photo_slider' style='position:relative;'>
-				{% for item in ideas -%}
-					{% if loop.index0 == 0 %}
-					<div class='ideaItem transition' style='left:0%;'>
-						<img class='ideaImage' src='{{ item.filename['url'] }}' onload='startSlider();' />
-					{% else %}
-					<div class='ideaItem transition'>
-						<img class='ideaImage' src='{{ item.filename['url'] }}' />
-					{% endif  %}
-						
-						<a style='background:rgba(255,255,255,.5);' class='ideaHover' href="last_eat_entry/{{ item.id }}">
-							<div class='ideaHoverInner' style='font-size: 1.2em;font-weight: normal;'>
-								<img src='{{ friends[item.userid].picture }}' />
-								<br><br>
-								<div class='name'><b>{{ item.restaurant_name }}</b></div>
-								<div class='city'>{{ item.display_city }}</div>
-							</div>
-						</a>
-					</div>
-				{%- endfor %}
-			
-				<div style='border: 40px solid transparent;border-right: 25px solid white;height: 0px;width: 0px;position:absolute;left:-25px;top:50%;z-index:20;'></div>
-				<div style='border: 40px solid transparent;border-left: 25px solid white;height: 0px;width: 0px;position:absolute;right:-25px;top:50%;z-index:20;'></div>
-			</div>
-			
-			<div style='background:#efefef;'>
-			<br><br><br><br>
-			<h1 style='font-size:2em;font-weight:normal;'>Your recommendations count.</h1>
-			<h2 style='font-weight:normal;'>Help spread the word.</h2>
-			<br>
-			
-			<a href='https://www.facebook.com/sharer/sharer.php?src=sp&u=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='/static/img/facebookIcon.png' /></a>
-			<a href='https://twitter.com/intent/tweet?text=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='/static/img/twitterIcon.png' /></a>
-			<br><br><br><br>
-			</div>
-			
-			<div class='bottomPhoto' style='text-align:center;'>
-				<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-				<h2 class='backgroundText' style='padding:10px 30px;'>
-					If you only had time for one great meal in<br> {{ locationIdea.title }}, where would you go?</h2><br><br><br>
-				<a href="/city?name={{ locationIdea.title }}" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats <br>in {{ locationIdea.title }}</a>
-				<br><br><br><br><br>
 			</div>
 		</div>
 		
 		
-		<div class='desktopContent'>
-			<div class='topPhoto'>
-				<br><br><br>
-				<img src="/static/assets/img/CURRENT_LOGO_WHITE.png" onclick='openCover()' height="125" width="125" style=''>
-				<br><br><br>
-				
-				<h2 class='backgroundText'>
-					Find <b>the best meals</b> chosen by <br><b>your friends</b> for cities all <b>over the world.</b>
-				</h2>
-				
-				<div style=''>
-					<a data-role="button" class="button"  onclick='openCover()' style='border:none;'>Join Last Eats</a>
-				</div>
-				<br><br>
+		
+		<div class='topPhoto'>
+			<br><br><br>
+			<img src="/static/assets/img/CURRENT_LOGO_WHITE.png" onclick='openCover()' height="125" width="125" style=''>
+			<br><br><br>
+			
+			<h2 class='backgroundText' style='padding:10px 30px;'>
+				Find <b>the best meals</b> chosen by <br><b>your friends</b> for cities all <b>over the world.</b>
+			</h2>
+			
+			<div style=''>
+				<a data-role="button" class="button"  onclick='openCover()' style='border:none;'>Join Last Eats</a>
+				<a style='display: inline-block;margin: 5px 0px 5px 20px;padding: 15px;' 
+					data-role="button" onclick='$(".hiddenSlider").height($(".hiddenSliderCont").height())' style='border:none;'>How It Works</a>
 			</div>
-			
-			
-			<div style='width:100%;clear:both;'></div>
 			<br><br>
-			
-			<h1 style='font-size:2em;font-weight:normal;'>Recent Last Eats Declarations</h1>
-			<h2 style='font-weight:normal;'>The best, most recently added restaurants</h2>
-			<br><br>
+		</div>
+		
+		<div style='width:100%;clear:both;'></div>
+		<br><br>
+		
+		<h1 style='font-size:2em;font-weight:normal;'>Recent Last Eats Declarations</h1>
+		<h2 style='font-weight:normal;'>The best, most recently added restaurants</h2>
+		<br><br>
+		
+		<div class='mobileContent'>
+		<div class='photo_slider' style='position:relative;'>
+			{% for item in ideas -%}
+				{% if loop.index0 == 0 %}
+				<div class='ideaItem transition' style='left:0%;'>
+					<img class='ideaImage' src='{{ item.filename['url'] }}' onload='startSlider();' />
+				{% else %}
+				<div class='ideaItem transition'>
+					<img class='ideaImage' src='{{ item.filename['url'] }}' />
+				{% endif  %}
+					
+					<a style='background:rgba(255,255,255,.5);' class='ideaHover' href="last_eat_entry/{{ item.id }}">
+						<div class='ideaHoverInner' style='font-size: 1.2em;font-weight: normal;'>
+							<img src='{{ friends[item.userid].picture }}' />
+							<br><br>
+							<div class='name'><b>{{ item.restaurant_name }}</b></div>
+							<div class='city'>{{ item.display_city }}</div>
+						</div>
+					</a>
+				</div>
+			{%- endfor %}
+			<div style='border: 40px solid transparent;border-right: 25px solid white;height: 0px;width: 0px;position:absolute;left:-25px;top:50%;z-index:20;'></div>
+			<div style='border: 40px solid transparent;border-left: 25px solid white;height: 0px;width: 0px;position:absolute;right:-25px;top:50%;z-index:20;'></div>
+		</div></div>
+		
+		<div class='desktopContent'>
 			{% for item in ideas -%}
 				<a class='ideaItem' href="last_eat_entry/{{ item.id }}">
 					<img class='ideaImage' src='{{ item.filename['url'] }}' />
+					
 					<div style='background:rgba(255,255,255,.5);' class='ideaHover'>
-					<div class='ideaHoverInner' style='font-size: 1.2em;font-weight: normal;'>
-						<img src='{{ friends[item.userid].picture }}' />
-						<br>
-						<div class='name'><b>{{ item.restaurant_name }}</b></div>
-						<div class='city'>{{ item.display_city }}</div>
-					</div></div>
+						<div class='ideaHoverInner' style='font-size: 1.2em;font-weight: normal;'>
+							<img src='{{ friends[item.userid].picture }}' />
+							<br><br>
+							<div class='name'><b>{{ item.restaurant_name }}</b></div>
+							<div class='city'>{{ item.display_city }}</div>
+						</div>
+					</div>
 				</a>
 			{%- endfor %}
-			
-			<div style='background:#efefef;'>
-			<br><br><br><br>
-			<h1 style='font-size:2em;font-weight:normal;'>Your recommendations count.</h1>
-			<h2 style='font-weight:normal;'>Help spread the word.</h2>
-			<br>
-			
-			<a href='https://www.facebook.com/sharer/sharer.php?src=sp&u=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='/static/img/facebookIcon.png' /></a>
-			<a href='https://twitter.com/intent/tweet?text=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='/static/img/twitterIcon.png' /></a>
-			<br><br><br><br>
-			</div>
-			
-			<div class='bottomPhoto' style='text-align:center;'>
-				<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-				<h2 class='backgroundText'>
-					If you only had time for one great meal in<br> {{ locationIdea.title }}, where would you go?</h2><br><br><br>
-				<a href="/city?name={{ locationIdea.title }}" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats <br>in {{ locationIdea.title }}</a>
-				<br><br><br><br><br><br><br>
-			</div>
-			
-			<div style='background:#efefef;'>
-				<br><br><br>
-				<h1 style='display:inline-block;font-size:3em;font-weight:normal;vertical-align:top;padding-right:15px;'>Hungry yet?</h1>
-				<img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='/static/img/fbook.jpg' style='margin-top:10px;height:40px;'/><br>
-				<br><br><br>
-			</div>
-			
 		</div>
+		
+		<div style='background:#efefef;'>
+		<br><br><br><br>
+		<h1 style='font-size:2em;font-weight:normal;'>Your recommendations count.</h1>
+		<h2 style='font-weight:normal;'>Help spread the word.</h2>
+		<br>
+		
+		<a href='https://www.facebook.com/sharer/sharer.php?src=sp&u=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='/static/img/facebookIcon.png' /></a>
+		<a href='https://twitter.com/intent/tweet?text=http://beta.lasteats.com/'><img style='width:60px;padding:10px;' src='/static/img/twitterIcon.png' /></a>
+		<br><br><br><br>
+		</div>
+		
+		<div class='bottomPhoto' style='text-align:center;'>
+			<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			<h2 class='backgroundText' style='padding:10px 30px;'>
+				If you only had time for one great meal in<br> {{ locationIdea.title }}, where would you go?</h2><br><br><br>
+			<a href="/city?name={{ locationIdea.title }}" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats <br>in {{ locationIdea.title }}</a>
+			<br><br><br><br><br>
+		</div>
+
 		
 		{% if users != None %}
 			{% for item in users -%}

@@ -175,7 +175,7 @@ body {position: relative;}
 	text-shadow: none;
 }
 
-.ui-page-theme-a .desktopContent .button.ui-btn, .ui-page-theme-a  .mobileContent .button.ui-btn{
+.ui-page-theme-a .button.ui-btn{
 	display: inline-block;
 	background: #fc5d61; 
 	color: #fdb65d !important;
