@@ -32,6 +32,7 @@ function delayStart(){
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		<form action="add_last_eats_last" method="post" enctype='multipart/form-data' encoding='multipart/form-data'>
+			<input type="hidden" id="id" name="id" value="{{ id }}"/>
 		{% if idea.filenames|length == 0 %}
 			<p>No images were found for this location :(</p>
 		{% else %}
@@ -50,8 +51,6 @@ function delayStart(){
 					{% endif %}
 				{% endfor %}
 				</div>
-				
-				<input type="hidden" id="id" name="id" value="{{ id }}"/>
 			</div>
 		
 		{% endif %}
