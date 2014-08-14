@@ -127,12 +127,12 @@ function initialize() {
 	        document.getElementById('addressLat').value = place.geometry.location.lat();
 	        document.getElementById('addressLng').value = place.geometry.location.lng();
 	    });
-	    /*if (req){
+	    if (typeof req != 'undefined'){
         	var s = new google.maps.LatLng(req.lati,req.long);
 	        var n = new google.maps.LatLng(req.lati,req.long);
 	        var boundary = new google.maps.LatLngBounds(s,n);
 	        autocomplete.setBounds(boundary);
-        }*/
+        }
 		//autocomplete.bindTo('bounds', map);
 	}
 }

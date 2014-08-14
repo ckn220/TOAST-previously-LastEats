@@ -319,7 +319,24 @@ body {position: relative;}
 	}
 }
 
+.col-sm-4 {
+	width:24%;
+	margin:4%;
+	display:inline-block;
+	vertical-align: top;
+}
+@media (max-width: 60em) {
 
+	.col-sm-4 {
+		display:block;
+		width:auto;
+		position: absolute;
+		left: 100%;
+	}
+	.col-sm-4.active {
+	}
+
+}
 .ui-content {
 	padding:0;
 }

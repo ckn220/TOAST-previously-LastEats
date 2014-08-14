@@ -41,7 +41,7 @@ function delayStart(){
 	{% include "header_small.html" %}
 	
 	
-	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='padding-top:0px;'>
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='padding-top:0px;text-align:center;'>
 		
 		<div class='hiddenSlider transition' style='background:#f95d64;color:white;text-shadow:none;position:relative;overflow:hidden;height:0px;'>
 			<div class='hiddenSliderCont'>
@@ -50,32 +50,36 @@ function delayStart(){
 				<div style='color: #f95d64;font-size: 2em;background: white;position: absolute;right: 10px;top: 10px;
 								padding: 0px 9px;border-radius: 100px;cursor:pointer;' onclick='$(this).parent().parent().height("0px")'>&#10006;</div>
 				
-				<div class='col-sm-4' style='width:24%;margin:4%;display:inline-block;vertical-align: top;'>
+				<div class='col-sm-4 transition active' num='1' style='left:0%;'>
 					<img src='/static/img/top1.png' />
 					<h5>That one special place</h5>
 					<div>Last Eats is a place to showcase your favorite meal in a city -- the one place
 						that you love most right now. Add as many cities as you want!</div>
 				</div>
 				
-				<div class='col-sm-4' style='width:24%;margin:4%;display:inline-block;vertical-align: top;'>
+				<div class='col-sm-4 transition' num='2'>
 					<img src='/static/img/top2.png' />
 					<h5>Friends helping friends find great food</h5>
 					<div>Word of mouth recommendations from the people you know and trust the most.
 						If you only had time for one meal, where would you go?</div>
 				</div>
 				
-				<div class='col-sm-4' style='width:24%;margin:4%;display:inline-block;vertical-align: top;'>
+				<div class='col-sm-4 transition' num='3'>
 					<img src='/static/img/top3.png' />
 					<h5>Restaurants change and so can you</h5>
 					<div>Just like with your Facebook profile photo, nothing is set in stone.  Share the places you love the most right now
 						and change them whenever you like.</div>
 				</div>
 				
+				
+				<div class='mobileContent'>
+					<div style='border: 40px solid transparent;border-right: 25px solid white;height: 0px;width: 0px;position:absolute;left:-25px;top:50%;z-index:20;'></div>
+					<div style='border: 40px solid transparent;border-left: 25px solid white;height: 0px;width: 0px;position:absolute;right:-25px;top:50%;z-index:20;'></div>
+				</div>
 				<br><br>
 			</div>
+		
 		</div>
-		
-		
 		
 		<div class='topPhoto'>
 			<br><br><br>
@@ -89,12 +93,38 @@ function delayStart(){
 			<div style=''>
 				<a data-role="button" class="button"  onclick='openCover()' style='border:none;'>Join Last Eats</a>
 				<a style='display: inline-block;margin: 5px 0px 5px 20px;padding: 15px;' 
-					data-role="button" onclick='$(".hiddenSlider").height($(".hiddenSliderCont").height())' style='border:none;'>How It Works</a>
+					data-role="button" onclick='$(".hiddenSlider").height($(".hiddenSliderCont .col-sm-4").height()+78)' style='border:none;'>How It Works</a>
 			</div>
 			<br><br>
 		</div>
 		
 		<div style='width:100%;clear:both;'></div>
+		
+		<div style='background:#8f8f8f;text-align:left;padding:0px 20px;'><br>
+			<div class='desktopContent'>
+			<div style='display:inline-block;width:60%;vertical-align:top;'>
+				<h1 style='color:white;text-align:left;text-shadow:none;'>Browse the best food</h1>
+				<a href='/browse' data-role="button" style='display: inline-block;'>Near Me</a>
+				<a href='/city_filter' data-role="button" style='display: inline-block;'>By City</a>
+				<a onclick='openCover()' data-role="button" style='display: inline-block;'>By Map</a>
+				<a onclick='openCover()' data-role="button" style='display: inline-block;'>By Friends</a>
+			</div>
+			<div style='display:inline-block;width:35%;vertical-align:top;'>
+				<h1 style='color:white;text-align:left;text-shadow:none;'>Add Last Eats</h1>
+				<a data-role="button" style='display: inline-block;'>Add Your Favorites</a>
+				
+			</div>
+			</div>
+			<div class='mobileContent'>
+				<h1 style='color:white;text-shadow:none;text-align:center;'>Browse the best food</h1>
+				<a href='/browse' data-role="button" style='margin:10px 10%;'>Near Me</a>
+				<a href='/city_filter' data-role="button" style='margin:10px 10%;'>By City</a>
+				<a onclick='openCover()' data-role="button" style='margin:10px 10%;'>By Map</a>
+				<a onclick='openCover()' data-role="button" style='margin:10px 10%;'>By Friends</a>
+				<br><br>
+			</div>
+		</div>
+			
 		<br><br>
 		
 		<h1 style='font-size:2em;font-weight:normal;'>Recent Last Eats Declarations</h1>
@@ -154,11 +184,33 @@ function delayStart(){
 		<br><br><br><br>
 		</div>
 		
-		<div class='bottomPhoto' style='text-align:center;'>
-			<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-			<h2 class='backgroundText' style='padding:10px 30px;'>
+		<div class='bottomPhoto' style='text-align:center;padding:0px 60px;text-align:left;'>
+			<br><br><br><br><br><br><br><br><br><br><br><br>
+			
+			<h2 class='backgroundText' >If I only had time for one meal in:</h2>
+			<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
+			<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="">
+			<input type="hidden" id="cityLat" name="cityLat" />
+			<input type="hidden" id="cityLng" name="cityLng" />
+			
+			</br>
+			<h2 class='backgroundText' >I'd go to:</h2>
+			<div class='error_message2' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
+			<div id="geocode">
+				<input id="address" class="controls" type="text" placeholder="Enter a Restaurant" value="">
+				<input type="hidden" id="addressName" name="addressName" />
+				<input type="hidden" id="addressLat" name="addressLat" />
+				<input type="hidden" id="addressLng" name="addressLng" />
+			</div> 
+			
+			<input type="hidden" value="Drop your pin" onclick="codeAddress()">
+			<div class="form_next"><a data-role="button" style="background: #grey; color: black;" onclick='moveOn()'>Add Your Last Eats</a></div>
+			
+			<!-- <h2 class='backgroundText' style='padding:10px 30px;'>
 				If you only had time for one great meal in<br> {{ locationIdea.title }}, where would you go?</h2><br><br><br>
 			<a href="/city?name={{ locationIdea.title }}" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats <br>in {{ locationIdea.title }}</a>
+			-->
+			
 			<br><br><br><br><br>
 		</div>
 
@@ -221,6 +273,15 @@ function delayStart(){
 		$('.ideaItem').on('click',function(){
 	        $(this).children('.ideaHover').show();
 	    });
+	    
+	    
+	    $(".hiddenSlider").swipeleft(function() {
+			swipeCol(1);
+		});
+		
+		$(".hiddenSlider").swiperight(function() {
+			swipeCol(-1);
+		});
 	});
 	
 	function swipePhoto(dir){
@@ -264,8 +325,105 @@ function delayStart(){
 			}, 10);
 		}
 	}
-	
+	function swipeCol(dir){
+		
+		if (dir == 1){
+			var old = $('.hiddenSlider .col-sm-4.active');
+			old.css('left', '-300%');
+			old.removeClass('active');
+			var next = old.next('.hiddenSlider .col-sm-4');
+			if (next.length == 0){
+				next = $('.hiddenSlider .col-sm-4').first();}
+			next.show();
+			
+			setTimeout(function(){
+				next.css('left','0%');
+				next.addClass('active');
+				setTimeout(function(){
+					old.css('left','100%');
+					old.hide();
+				},200);
+			}, 10);
+		}
+		else {
+			var old = $('.hiddenSlider .col-sm-4.active');
+			old.css('left', '100%');
+			old.removeClass('active');
+			var next = old.prev('');
+			if (next.length == 0){
+				next = $('.hiddenSlider .col-sm-4').last();}
+			next.css('left','-300%');
+			next.show();
+			
+			setTimeout(function(){
+				next.css('left','0%');
+				next.addClass('active');
+				setTimeout(function(){
+					old.hide();
+				},200);
+			}, 10);
+		}
+	}
 </script>
+
+<script>
+var ajax_loading = 0;
+function moveOn(){
+	
+	var city = $('#textinput-4').val();
+	var addressName = $('#addressName').val();
+	var addressLat = $('#addressLat').val();
+	var addressLng = $('#addressLng').val();
+	var cost = $('input[name=cost]:checked').val();
+	var warned = false;
+	if ($('.error_message').css('display') != 'none'){
+		warned = true;}
+	
+	if (addressName == '' || addressLat == '' || addressLng == ''){
+		$('.error_message2').html("Sorry we couldn't find that restaurant");
+		$('.error_message2').show();
+	}
+	else if (ajax_loading == 0){
+		$('.form_next a').html('Loading . . . ');
+		ajax_loading = 1;
+		$.ajax({
+			url: 'add_last_eats',
+			type: "post",
+			data: {'city': city,
+					'addressName': addressName,
+					'addressLat': addressLat,
+					'addressLng': addressLng,
+					'cost': cost,
+					'requestid': reqId,
+					'warned': warned},
+			success: function(value) {
+				ajax_loading = 0;
+				console.log(value);
+				if('error' in value && $('.error_message').css('display') == 'none'){
+					$('.error_message').html(value.error);
+					$('.error_message').show();
+					$('.form_next a').html('Tell us more!');
+				}
+				else{
+					window.location = "/add_last_eats_next?id="+value.id;
+				}
+			},
+			error: function(xhr, status, error) {
+				console.log(xhr.responseText);
+				$('.form_next a').html('Woops we hit an error!');
+			}
+		});
+	}
+	
+}
+
+var req = {'lati': {{ locationIdea.point.coordinates[1] }},'long': {{ locationIdea.point.coordinates[0] }}};
+var reqId = "{{ locationIdea.id }}";
+$("#textinput-4").val("{{ locationIdea.full_city }}");
+
+</script>
+
+<script src="/static/js/mapquest.js"></script>
 {% endblock %}
 
 
