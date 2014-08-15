@@ -43,10 +43,7 @@
 			{% for key in tags %}
 				{% if key in ['Great for','Price','Type'] %}
 				<div class='tag'>
-					{{key}}:
-				{% for tag in tags[key] %}
-					{%if loop.index > 1%},{%endif%}{{ tag.text }}
-				{% endfor %}
+					{{key}}: {% for tag in tags[key] %}{%if loop.index > 1%}, {%endif%}{{ tag.text }}{% endfor %}
 				</div>
 				{%endif%}
 			{% endfor %}
@@ -166,10 +163,7 @@
 				{% for key in tags %}
 					{% if key not in ['Great for','Price','Type'] %}
 					<div class='tag'>
-					{{key}}:
-					{% for tag in tags[key] %}
-						{%if loop.index > 1%},{%endif%}{{ tag.text }}
-					{% endfor %}
+					{{key}}: {% for tag in tags[key] %}{%if loop.index > 1%}, {%endif%}{{ tag.text }}{% endfor %}
 					</div>
 					{%endif%}
 				{% endfor %}

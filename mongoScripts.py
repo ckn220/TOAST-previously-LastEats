@@ -156,6 +156,32 @@ def getFullTagList():
     print tagComp
         
         
-        
-        
+def fixTags():
+    for tag in models.Tag.objects(type = 'Great for'):
+        tag.text = tag.text.strip()
+        tag.save()
+        if len(tag.text.split('+')) > 1:
+            data = tag.text.split('+')
+            print data
+            
+            tag.text = data[0].strip()
+            tag.save()
+            tag2 = models.Tag(ideaid = tag.ideaid, type = 'Great for', text = data[1].strip())
+            tag2.save()
+        elif len(tag.text.split('/')) > 1:
+            data = tag.text.split('/')
+            print data
+            
+            tag.text = data[0].strip()
+            tag.save()
+            tag2 = models.Tag(ideaid = tag.ideaid, type = 'Great for', text = data[1].strip())
+            tag2.save()
+        elif len(tag.text.split('&')) > 1:
+            data = tag.text.split('&')
+            print data
+            
+            tag.text = data[0].strip()
+            tag.save()
+            tag2 = models.Tag(ideaid = tag.ideaid, type = 'Great for', text = data[1].strip())
+            tag2.save()
 
