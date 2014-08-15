@@ -321,9 +321,20 @@ body {position: relative;}
 
 .col-sm-4 {
 	width:24%;
-	margin:4%;
+	padding:4%;
 	display:inline-block;
 	vertical-align: top;
+}
+.hiddenDot {
+	height:14px;
+	width:14px;
+	background: white;
+	border-radius: 40px;
+	display: inline-block;
+	margin: 20px 5px;
+}
+.hiddenDot.active {
+	background: grey;
 }
 @media (max-width: 60em) {
 

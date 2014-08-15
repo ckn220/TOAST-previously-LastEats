@@ -570,19 +570,25 @@ def map():
 		
 		votes = []
 		for row in models.Idea.objects(like_count__gt = 1, complete = 1, deleted = 0):
-			votes.append({'lat':row.latitude, 'lng':row.longitude, 
+			if not row.point['coordinates'][1]: 
+				print row.id
+			votes.append({'lat':row.point['coordinates'][1], 'lng':row.point['coordinates'][0], 
 						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
 		
 		friends = []
 		for row in models.Idea.objects(like_count__lt = 2, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0):
-			friends.append({'lat':row.latitude, 'lng':row.longitude, 
+			if not row.point['coordinates'][1]: 
+				print row.id
+			friends.append({'lat':row.point['coordinates'][1], 'lng':row.point['coordinates'][0], 
 						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
 			
 		data = []
 		for row in models.Idea.objects(like_count__lt = 2, userid__nin = user.friends, point__near=[lng, lat], complete = 1, deleted = 0):
-			data.append({'lat':row.latitude, 'lng':row.longitude, 
+			if not row.point['coordinates'][1]: 
+				print row.id
+			data.append({'lat':row.point['coordinates'][1], 'lng':row.point['coordinates'][0], 
 						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
-			
+		
 		return jsonify(**{'data':data, 'friends':friends, 'votes':votes})
 		
 	else:
@@ -1249,5 +1255,3 @@ if __name__ == "__main__":
 	port = int(PORT) # locally PORT 5000, Heroku will assign its own port
 	app.run(host='0.0.0.0', port=port, debug = True, use_reloader = False)
 	
-	
-
