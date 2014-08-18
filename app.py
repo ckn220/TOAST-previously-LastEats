@@ -1110,7 +1110,6 @@ def get_instagram_id(idea, lat, lng):
 		i += 1
 	
 	if len(instagram_ids) > 0:
-		print 'INSTAGRAM IDS FOR ' +idea.restaurant_name + ' ' + str(instagram_ids)
 		for row in instagram_ids:
 			idea.filenames = []
 			idea.instagram_id = row

@@ -40,7 +40,7 @@ function delayStart(){
 			<input type='hidden' id='image' name='image' value='{{ idea.filenames[0]["url"] }}' />
 			<p style='display: block;text-align: center;padding: 5px;'><b>Swipe</b> or <b>click</b> to find a photo you love!</p> 
 			<br>
-			<div class="restaurant_photo">
+			<div class="restaurant_photo" style='position: relative;'>
 				<div class='photo_slider transition'>
 				
 				{% for img in idea.filenames %}
@@ -50,7 +50,10 @@ function delayStart(){
 						<img class='transition image' src="{{ img['url'] }}" />
 					{% endif %}
 				{% endfor %}
+				
 				</div>
+				<div class='arrowLeft' onclick='swipePhoto(-1)'></div>
+				<div class='arrowRight' onclick='swipePhoto(1)'></div>
 			</div>
 		
 		{% endif %}
@@ -132,7 +135,7 @@ $(document).on('pageinit', function(event){
 	});
 	
 	$(".photo_slider").click(function() {
-		swipePhoto();
+		swipePhoto(1);
 	});
 	$('.photo_slider img').on('dragstart', function(event) { event.preventDefault(); });
 	

@@ -348,6 +348,26 @@ body {position: relative;}
 	}
 
 }
+
+.arrowLeft, .arrowRight {
+	border: 30px solid transparent;
+	height: 0px;
+	width: 0px;
+	position:absolute;
+	top:50%;
+	z-index:20;
+}
+.arrowLeft {
+	left:-20px;
+	border-right: 20px solid white;
+}
+.arrowRight {
+	right:-20px;
+	border-left: 20px solid white;
+}
+
+
+
 .ui-content {
 	padding:0;
 }

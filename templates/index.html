@@ -89,8 +89,8 @@ function delayStart(){
 				
 				
 				<div class='mobileContent'>
-					<div style='border: 30px solid transparent;border-right: 20px solid white;height: 0px;width: 0px;position:absolute;left:-20px;top:30%;z-index:20;'></div>
-					<div style='border: 30px solid transparent;border-left: 20px solid white;height: 0px;width: 0px;position:absolute;right:-20px;top:30%;z-index:20;'></div>
+					<div class='arrowLeft' style='top:30%;' onclick='swipeCol(-1)'></div>
+					<div class='arrowRight' style='top:30%;' onclick='swipeCol(1)'></div>
 				</div>
 				<br><br>
 			</div>
@@ -107,7 +107,7 @@ function delayStart(){
 			</h2>
 			
 			<div style=''>
-				<a data-role="button" class="button"  onclick='openCover()' style='border:none;'>Join Last Eats</a>
+				<a data-role="button" class="button"  onclick='openCover()' style='border:none;'>Join Last Eats</a><br>
 				<a style='display: inline-block;margin: 5px 0px;padding: 5px 15px;width: 158px;background: rgba(0,0,0,.4);
 								color: white !important;margin-bottom: 15px;text-shadow: none;' 
 					data-role="button" onclick='$(".hiddenSlider").height($(".hiddenSliderCont .col-sm-4").height()+parseInt($(".hiddenSliderCont .col-sm-4").css("padding-top"))*2+38)' style='border:none;'>How It Works</a>
@@ -171,8 +171,8 @@ function delayStart(){
 					</a>
 				</div>
 			{%- endfor %}
-			<div style='border: 40px solid transparent;border-right: 25px solid white;height: 0px;width: 0px;position:absolute;left:-25px;top:50%;z-index:20;'></div>
-			<div style='border: 40px solid transparent;border-left: 25px solid white;height: 0px;width: 0px;position:absolute;right:-25px;top:50%;z-index:20;'></div>
+			<div class='arrowLeft' onclick='swipePhoto(-1)'></div>
+			<div class='arrowRight' onclick='swipePhoto(1)'></div>
 		</div></div>
 		
 		<div class='desktopContent'>
