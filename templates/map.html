@@ -118,7 +118,7 @@
 					'friends':'http://maps.google.com/mapfiles/ms/icons/green-dot.png'}
 				clearIdeas();
 				for (var i = 0; i < value.data.length; i++){
-					createMarker(value.data[i].lat, value.data[i].lng, value.data[i].title, '/last_eats_entry/'+value.data[i].id, {'url':icon[value.data[i].type]});
+					createMarker(value.data[i].lat, value.data[i].lng, value.data[i].title, '/last_eat_entry/'+value.data[i].id, {'url':icon[value.data[i].type]});
 					addIdea(value.data[i]);
 				}
 				$('.ideaCont .idea').height($('.ideaCont .idea').width());
@@ -130,7 +130,7 @@
 		$('.ideaCont').html('');
 	}
 	function addIdea(data){
-		s = "<a class='idea' href='/last_eats_entry/'"+data.id+"' style='background: url("+data.photo+");background-size: cover;'><h2 class='ideaTitle'>"+data.title+"</h2></a>";
+		s = "<a class='idea' href='/last_eat_entry/"+data.id+"' style='background: url("+data.photo+");background-size: cover;'><h2 class='ideaTitle'>"+data.title+"</h2></a>";
 		$('.ideaCont').append(s);
 	}
 	
