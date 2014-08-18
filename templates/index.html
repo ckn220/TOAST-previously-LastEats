@@ -175,7 +175,7 @@ function delayStart(){
 			<div class='arrowRight' onclick='swipePhoto(1)'></div>
 		</div></div>
 		
-		<div class='desktopContent' style='display:inline-block;width:50%;'>
+		<div class='desktopContent'>
 			{% for item in ideas -%}
 				<a class='ideaItem' href="last_eat_entry/{{ item.id }}">
 					<img class='ideaImage' src='{{ item.filename['url'] }}' />
