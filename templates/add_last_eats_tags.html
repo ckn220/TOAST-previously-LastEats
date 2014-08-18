@@ -17,12 +17,12 @@
 			<h1>{{row}}</h1>
 			<div data-role="fieldcontain">
 				<fieldset data-role="controlgroup">
-		{% for text in tagSets[row] %}
+				{% for text in tagSets[row] %}
 				<input type="checkbox" name="{{row}}" id="{{ text }}" value='{{text}}' class="custom" />
 				<label for="{{ text }}">
 					<span style='font-weight:normal;'>{{ text }}</span>
 				</label>
-		{% endfor %}
+				{% endfor %}
 				</fieldset>
 			</div>
 		</div>

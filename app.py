@@ -559,6 +559,10 @@ def friend_profile(id):
 def map():
 	
 	if request.method == "POST":
+		type = request.form.get('type','')
+		filter = request.form.get('filter','')
+		price = request.form.get('price','')
+		
 		lat = None
 		try:
 			lat = float(request.form.get('lat'))
@@ -568,31 +572,45 @@ def map():
 		
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
-		votes = []
-		for row in models.Idea.objects(like_count__gt = 1, complete = 1, deleted = 0):
-			if not row.point['coordinates'][1]: 
-				print row.id
-			votes.append({'lat':row.point['coordinates'][1], 'lng':row.point['coordinates'][0], 
-						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
+		ideas = []
+		if 'Multiple Reccomendations' in filter or filter == '':
+			for row in models.Idea.objects(like_count__gt = 1, complete = 1, deleted = 0).all():
+				row.type = 'votes'
+				ideas.append(row)
+		if 'Friends' in filter or filter == '':
+			for row in models.Idea.objects(like_count__lt = 2, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
+				row.type = 'friends'
+				ideas.append(row)
+		if 'Newest' in filter or filter == '':
+			for row in models.Idea.objects(like_count__lt = 2, userid__nin = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
+				row.type = 'new'
+				ideas.append(row)
 		
-		friends = []
-		for row in models.Idea.objects(like_count__lt = 2, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0):
-			if not row.point['coordinates'][1]: 
-				print row.id
-			friends.append({'lat':row.point['coordinates'][1], 'lng':row.point['coordinates'][0], 
-						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
-			
 		data = []
-		for row in models.Idea.objects(like_count__lt = 2, userid__nin = user.friends, point__near=[lng, lat], complete = 1, deleted = 0):
-			if not row.point['coordinates'][1]: 
-				print row.id
+		for row in ideas:
 			data.append({'lat':row.point['coordinates'][1], 'lng':row.point['coordinates'][0], 
-						'title':row.restaurant_name, 'link':'/last_eat_entry/' + str(row.id)})
+						'title':row.restaurant_name, 'id':str(row.id),
+						'photo':row.filename['url'], 'type':row.type})
 		
-		return jsonify(**{'data':data, 'friends':friends, 'votes':votes})
+		if type != '':
+			data = [x for x in data if models.Tag.objects(text = type, type = 'Type', ideaid = x['id']).first()]
+		if price != '':
+			data = [x for x in data if models.Tag.objects(text = price, type = 'Price', ideaid = x['id']).first()]
+			
+		return jsonify(**{'data':data})
 		
 	else:
-		templateData = {}
+		type = request.args.get('type','')
+		filter = request.args.get('filter','')
+		price = request.args.get('price','')
+		
+		types = [u'Caribbean', u'Vietnamese', u'Middle Eastern', u'Brunch/American', u'Everything', u'Pub', 
+				u'Brewery', u'Pizza', u'Japanese/Sushi', u'Latin', u'Deli', u'Dessert', u'American/Pub', 
+				u'Southern', u'French', u'Thai', u'Tapas', u'Cuban', u'Seafood', u'Breweries', u'Greek', 
+				u'American', u'Steakhouse', u'BBQ', u'Italian', u'Mexican', u'Sushi', u'Mediterranean', 
+				u'Japanese', u'Diet: Vegitarian', u'Delis', u'Breweries/Pub', u'Asian', u'Spanish', u'Breakfast']
+		types.sort()
+		templateData = {'types':types, 'type':type,'filter':filter, 'price':price}
 		return render_template("map.html", **templateData)
 	
 	

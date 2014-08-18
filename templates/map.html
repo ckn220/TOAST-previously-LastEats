@@ -1,7 +1,26 @@
 {% extends "skeleton.html" %}
 
 {% block style %}
-
+<style>
+.ui-checkbox {
+	display: inline-block;
+}
+.ui-controlgroup-vertical .ui-btn.ui-first-child, .ui-controlgroup-controls .ui-btn.ui-corner-all {
+	border-radius:.3125em;
+	border-bottom-width: 1px;
+}
+.idea {
+	display:inline-block;
+	width:28%;
+	margin:2%;
+	vertical-align: top;
+}
+.idea .ideaTitle {
+	background: rgba(255,255,255,.6);
+	padding: 10px;
+	text-align: center;
+}
+</style>
 {% endblock %}
 
 {% block body %}
@@ -23,9 +42,57 @@
 		
 		<div class="container_16"></div>
 		<article class="grid_16"></article>
-		<div class="item rounded dark">
-			<div id="map_canvas" class="map rounded" style='height:700px;' ></div>
-			<div id='multimap'></div>
+		
+		<div style='text-align:left;'>
+			<div class="item rounded dark desktopHalf">
+				<div id="map_canvas" class="map rounded" style='height:700px;' ></div>
+				<div id='multimap'></div>
+			</div>
+			<div class='desktopContent' style='width: 45%;display: inline-block;vertical-align: top;padding:2%;height:640px;overflow:auto;'>
+				<div>
+					<h2>Filter By {{filter}}</h2>
+					<div data-role="fieldcontain">
+						<fieldset data-role="controlgroup">
+						{% for text in ['Friends','Newest','Multiple Reccomendations'] %}
+						<input type="checkbox" name="filter" id="{{ text }}" value='{{text}}' class="custom" {%if text in filter%}checked=checked{%endif%}/>
+						<label for="{{ text }}">
+							<span style='font-weight:normal;'>{{ text }}</span>
+						</label>
+						{% endfor %}
+						</fieldset>
+					</div>
+				</div>
+				
+				<div>
+					<h2>Price</h2>
+					<div data-role="fieldcontain">
+						<fieldset data-role="controlgroup">
+						{% for text in ['Pricey','Bang for the Buck'] %}
+						<input type="checkbox" name="price" id="{{ text }}" value='{{text}}' class="custom" {%if text in price%}checked=checked{%endif%}/>
+						<label for="{{ text }}">
+							<span style='font-weight:normal;'>{{ text }}</span>
+						</label>
+						{% endfor %}
+						</fieldset>
+					</div>
+				</div>
+				
+				<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;'>
+					<select name="select-choice-1" id="select-choice-1">
+						<option value="" >Type of Food</option>
+						{% for row in types %}
+						<option value="{{row}}" {%if row == type%}selected{%endif%}>{{row}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				
+				<a data-role='button' onclick='mapSearch()' style='display:inline-block;margin-top: 18px;'>Best/Closest Recommendations</a>
+				
+				
+				<div class='ideaCont'>
+				</div>
+				
+			</div>
 		</div>
 		
 		</br>
@@ -43,20 +110,46 @@
 		$.ajax({
 			url: 'map',
 			type: "post",
-			data: {'lat': LATITUDE, 'lng': LONGITUDE},
+			data: {'lat': LATITUDE, 'lng': LONGITUDE, 'filter':'{{filter}}','price':'{{price}}','type':'{{type}}'},
 			success: function(value) {
 				console.log(value);
-				for (var i = 0; i < value.votes.length; i++){
-					createMarker(value.votes[i].lat, value.votes[i].lng, value.votes[i].title, value.votes[i].link, {'url':'http://maps.google.com/mapfiles/ms/icons/red-dot.png'});
-				}
-				for (var i = 0; i < value.friends.length; i++){
-					createMarker(value.friends[i].lat, value.friends[i].lng, value.friends[i].title, value.friends[i].link, {'url':'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'});
-				}
+				var icon = {'votes':'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+					'new':'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+					'friends':'http://maps.google.com/mapfiles/ms/icons/green-dot.png'}
+				clearIdeas();
 				for (var i = 0; i < value.data.length; i++){
-					createMarker(value.data[i].lat, value.data[i].lng, value.data[i].title, value.data[i].link, {'url':'http://maps.google.com/mapfiles/ms/icons/green-dot.png'});
+					createMarker(value.data[i].lat, value.data[i].lng, value.data[i].title, '/last_eats_entry/'+value.data[i].id, {'url':icon[value.data[i].type]});
+					addIdea(value.data[i]);
 				}
+				$('.ideaCont .idea').height($('.ideaCont .idea').width());
 			}
 		});
+	}
+	
+	function clearIdeas(){
+		$('.ideaCont').html('');
+	}
+	function addIdea(data){
+		s = "<a class='idea' href='/last_eats_entry/'"+data.id+"' style='background: url("+data.photo+");background-size: cover;'><h2 class='ideaTitle'>"+data.title+"</h2></a>";
+		$('.ideaCont').append(s);
+	}
+	
+	function mapSearch(){
+		var filter = ''
+		$('input[name=filter]').each(function(){
+			if ($(this).is(':checked')){
+				filter += $(this).val();
+			}
+		});
+		var price = ''
+		$('input[name=price]').each(function(){
+			if ($(this).is(':checked')){
+				price += $(this).val();
+			}
+		});
+		var type = $('select#select-choice-1').val();
+		
+		location = '/map?filter='+filter+'&price='+price+'&type='+type;
 	}
 	</script>
 	

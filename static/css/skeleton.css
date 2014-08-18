@@ -317,6 +317,10 @@ body {position: relative;}
 	#map_canvas {
 		max-height: none;
 	}
+	.desktopHalf {
+		width:50%;
+		display: inline-block;
+	}
 }
 
 .col-sm-4 {
