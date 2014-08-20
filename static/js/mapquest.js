@@ -64,7 +64,7 @@ function handleNoGeolocation(errorFlag, returnFunc) {
 function initialize() {
 	html5Geoloc(function(){
 		if ($('#multimap').length > 0){
-			var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'center':new google.maps.LatLng(LATITUDE, LONGITUDE),'callback': function() {}});
+			$('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'center':new google.maps.LatLng(LATITUDE, LONGITUDE),'callback': function() {}});
 			codeLatLng(LATITUDE, LONGITUDE,{'url':'/static/img/bluedot.png','size': new google.maps.Size(20, 20),' anchor': new google.maps.Point(10, 10)},'Your Location');
 			collectNearby(LATITUDE, LONGITUDE);
 		}
@@ -219,9 +219,9 @@ function createMarker(lat,lng, restaurant_name, restaurant_href, icon) {
 	}
 	
 	console.log('createMarker');
-	$('#map_canvas').gmap('addMarker', marker ).click(function() {
+	mapPins.push($('#map_canvas').gmap('addMarker', marker ).click(function() {
         $('#map_canvas').gmap('openInfoWindow', {'content': '<a href="'+restaurant_href+'">'+restaurant_name+'</a>'}, this);
-    });
+    }));
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

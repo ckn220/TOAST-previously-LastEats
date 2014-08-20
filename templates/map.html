@@ -2,6 +2,7 @@
 
 {% block style %}
 <style>
+body { overflow:hidden;}
 .ui-checkbox {
 	display: inline-block;
 }
@@ -19,6 +20,10 @@
 	background: rgba(255,255,255,.6);
 	padding: 10px;
 	text-align: center;
+}
+.ui-controlgroup-controls  .ui-checkbox {
+	min-width: 23%;
+	margin: 0px 1%;
 }
 </style>
 {% endblock %}
@@ -48,14 +53,16 @@
 				<div id="map_canvas" class="map rounded" style='height:700px;' ></div>
 				<div id='multimap'></div>
 			</div>
-			<div class='desktopContent' style='width: 45%;display: inline-block;vertical-align: top;padding:2%;height:640px;overflow:auto;'>
+			<div class='desktopContent mapInfo' style='width: 45%;display: inline-block;vertical-align: top;padding:2%;height:640px;overflow:auto;'>
 				<div>
 					<h2>Filter By {{filter}}</h2>
 					<div data-role="fieldcontain">
 						<fieldset data-role="controlgroup">
+						{% set colors = ['http://maps.google.com/mapfiles/ms/icons/green-dot.png','http://maps.google.com/mapfiles/ms/icons/blue-dot.png','http://maps.google.com/mapfiles/ms/icons/red-dot.png'] %}
 						{% for text in ['Friends','Newest','Multiple Reccomendations'] %}
 						<input type="checkbox" name="filter" id="{{ text }}" value='{{text}}' class="custom" {%if text in filter%}checked=checked{%endif%}/>
 						<label for="{{ text }}">
+							<img style='height: 20px;' src='{{colors[loop.index0]}}' />
 							<span style='font-weight:normal;'>{{ text }}</span>
 						</label>
 						{% endfor %}
@@ -86,7 +93,7 @@
 					</select>
 				</div>
 				
-				<a data-role='button' onclick='mapSearch()' style='display:inline-block;margin-top: 18px;'>Best/Closest Recommendations</a>
+				<a class='firstRec' data-role='button' style='display:inline-block;margin-top: 18px;'>Best/Closest Recommendations</a>
 				
 				
 				<div class='ideaCont'>
@@ -106,6 +113,34 @@
 	<script src="/static/js/mapquest.js"></script>
 	
 	<script>
+	
+	$(document).ready(function(){
+		$('.mapInfo').height(parseInt($(window).height()) - 89 - parseInt($(window).width())*.04);
+		$('#map_canvas').height(parseInt($(window).height()) - 89);
+		
+		$( window ).resize(function() {
+			$('.mapInfo').height(parseInt($(window).height()) - 89 - parseInt($(window).width())*.04);
+			$('#map_canvas').height(parseInt($(window).height()) - 89);
+		});
+		
+		$('input[type=checkbox][name=filter]').change(function(){mapSearch();});
+		$('input[type=checkbox][name=price]').change(function(){mapSearch();});
+		$('select[name=select-choice-1]').change(function(){mapSearch();});
+		
+		$('body').on('mouseenter','.idea',function(){setCenter(this);});
+	});
+	
+	var mapPins = new Array();
+	
+	function setCenter(thisObject){
+		var id = $(thisObject).attr('id');
+		for (var i = 0; i < mapPins.length; i++){
+			if (mapPins[i].id == id){
+				$('#map_canvas').gmap('get','map').setCenter(mapPins[i][0].position);
+			}
+		}
+	}
+	
 	function collectNearby(lat, lng){
 		$.ajax({
 			url: 'map',
@@ -113,15 +148,21 @@
 			data: {'lat': LATITUDE, 'lng': LONGITUDE, 'filter':'{{filter}}','price':'{{price}}','type':'{{type}}'},
 			success: function(value) {
 				console.log(value);
-				var icon = {'votes':'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-					'new':'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-					'friends':'http://maps.google.com/mapfiles/ms/icons/green-dot.png'}
+				var icon = {'Multiple Reccomendations':'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+					'Newest':'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+					'Friends':'http://maps.google.com/mapfiles/ms/icons/green-dot.png'}
 				clearIdeas();
 				for (var i = 0; i < value.data.length; i++){
-					createMarker(value.data[i].lat, value.data[i].lng, value.data[i].title, '/last_eat_entry/'+value.data[i].id, {'url':icon[value.data[i].type]});
+					createMarker(value.data[i].lat, value.data[i].lng, value.data[i].title, '/last_eat_entry/'+value.data[i].id, {'url':icon[value.data[i].filter]});
 					addIdea(value.data[i]);
+					mapPins[mapPins.length-1].filter = value.data[i].filter;
+					mapPins[mapPins.length-1].price = value.data[i].price;
+					mapPins[mapPins.length-1].type = value.data[i].type;
+					mapPins[mapPins.length-1].id = value.data[i].id;
 				}
 				$('.ideaCont .idea').height($('.ideaCont .idea').width());
+				
+				$('.firstRec').attr('href',$('.idea[class!="idea hidden"]').eq(0).attr('href'));
 			}
 		});
 	}
@@ -130,7 +171,8 @@
 		$('.ideaCont').html('');
 	}
 	function addIdea(data){
-		s = "<a class='idea' href='/last_eat_entry/"+data.id+"' style='background: url("+data.photo+");background-size: cover;'><h2 class='ideaTitle'>"+data.title+"</h2></a>";
+		s = "<a id='"+data.id+"' class='idea' href='/last_eat_entry/"+data.id+"' style='background: url("+data.photo+");background-size: cover;'>";
+		s += "<h2 class='ideaTitle' style='position: relative;padding-left: 30px;'><img src='"+data.user+"' style='width: 35px;position: absolute;top: 3px;left: 3px;border-radius: 100px;float: left;'/>"+data.title+"</h2></a>";
 		$('.ideaCont').append(s);
 	}
 	
@@ -149,8 +191,37 @@
 		});
 		var type = $('select#select-choice-1').val();
 		
-		location = '/map?filter='+filter+'&price='+price+'&type='+type;
+		for (var i = 0; i < mapPins.length; i++ ){
+			if (filter != '' && (filter.indexOf(mapPins[i].filter) == -1 || mapPins[i].filter == '')){
+				mapPins[i][0].setVisible(false);
+				$('#'+mapPins[i].id).hide();
+				$('#'+mapPins[i].id).addClass('hidden');
+			}
+			else if (type != '' && (type.indexOf(mapPins[i].type) == -1 || mapPins[i].type == '')){
+				mapPins[i][0].setVisible(false);
+				$('#'+mapPins[i].id).hide();
+				$('#'+mapPins[i].id).addClass('hidden');
+			}
+			else if (price != '' && (price.indexOf(mapPins[i].price) == -1 || mapPins[i].price == '')){
+				mapPins[i][0].setVisible(false);
+				$('#'+mapPins[i].id).hide();
+				$('#'+mapPins[i].id).addClass('hidden');
+			}
+			else {
+				mapPins[i][0].setVisible(true);
+				$('#'+mapPins[i].id).show();
+				$('#'+mapPins[i].id).removeClass('hidden');
+			}
+			$('.firstRec').attr('href',$('.idea[class!="idea hidden"]').eq(0).attr('href'));
+		}
 	}
+	
+	function hidePins(){
+		for (var i = 0; i < mapPins.length; i++ ){
+			mapPins[i][0].setVisible(true);
+		}
+	}
+	
 	</script>
 	
 {% endblock %}
