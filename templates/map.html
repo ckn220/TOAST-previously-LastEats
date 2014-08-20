@@ -141,9 +141,7 @@ body { overflow:hidden;}
 				for (var i = 0; i < value.data.length; i++){
 					createMarker(value.data[i].lat, value.data[i].lng, value.data[i].title, '/last_eat_entry/'+value.data[i].id, {'url':icon[value.data[i].type]});
 					addIdea(value.data[i]);
-					mapPins[mapPins.length-1].filter = value.data[i].filter;
-					mapPins[mapPins.length-1].price = value.data[i].price;
-					mapPins[mapPins.length-1].type = value.data[i].type;
+					
 				}
 				$('.ideaCont .idea').height($('.ideaCont .idea').width());
 			}
@@ -174,24 +172,13 @@ body { overflow:hidden;}
 		});
 		var type = $('select#select-choice-1').val();
 		
-		for (var i = 0; i < mapPins.length; i++ ){
-			if (filter != '' && filter.indexOf(mapPins.filter) != -1){
-				mapPins[i][0].setVisible(false);
-			}
-			else if (type != '' && type.indexOf(mapPins.type) != -1){
-				mapPins[i][0].setVisible(false);
-			}
-			else if (type != '' && price.indexOf(mapPins.price) != -1){
-				mapPins[i][0].setVisible(false);
-			}
-			else {
-				mapPins[i][0].setVisible(true);
-			}
-		}
+		location = '/map?filter='+filter+'&price='+price+'&type='+type;
 	}
 	
 	function hidePins(){
-		
+		for (var i = 0; i < mapPins.length; i++ ){
+			mapPins[i][0].setVisible(true);
+		}
 	}
 	</script>
 	

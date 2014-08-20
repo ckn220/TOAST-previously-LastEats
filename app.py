@@ -570,36 +570,34 @@ def map():
 		
 		ideas = []
 		for row in models.Idea.objects(like_count__gt = 1, complete = 1, deleted = 0).all():
-			row.filter = 'votes'
+			row.type = 'votes'
 			ideas.append(row)
 		for row in models.Idea.objects(like_count__lt = 2, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
-			row.filter = 'friends'
+			row.type = 'friends'
 			ideas.append(row)
 		for row in models.Idea.objects(like_count__lt = 2, userid__nin = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
-			row.filter = 'new'
+			row.type = 'new'
 			ideas.append(row)
 		
 		friendids = set([])
-		ideaids = []
 		photos = {}
-		tags = {}
 		for row in ideas:
 			friendids.add(row.userid)
-			ideaids.append(str(row.id))
-		for row in  models.User.objects(userid__in = list(friendids)).only('picture','userid'):
+		friends = models.User.objects(userid__in = list(friendids)).only('picture','userid')
+		for row in friends:
 			photos[row.userid] = row.picture
-		for row in models.Tag.objects(type__in = ['Type','Price'], ideaid__in = ideaids):
-			if row.ideaid not in tags:
-				tags[row.ideaid] = {}
-			tags[row.ideaid][row.type] = row.text
-		
+			
 		data = []
 		for row in ideas:
 			data.append({'lat':row.point['coordinates'][1], 'lng':row.point['coordinates'][0], 
 						'title':row.restaurant_name, 'id':str(row.id),
-						'photo':row.filename['url'], 'filter':row.filter, 'user':photos[row.userid],
-						'type': tags.get(row.id,{}).get('Type',''), 'price': tags.get(row.id,{}).get('Price','')})
-
+						'photo':row.filename['url'], 'type':row.type, 'user':photos[row.userid]})
+		
+# 		if type != '':
+# 			data = [x for x in data if models.Tag.objects(text = type, type = 'Type', ideaid = x['id']).first()]
+# 		if price != '':
+# 			data = [x for x in data if models.Tag.objects(text = price, type = 'Price', ideaid = x['id']).first()]
+			
 		return jsonify(**{'data':data})
 		
 	else:
