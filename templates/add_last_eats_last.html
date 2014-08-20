@@ -38,7 +38,7 @@ function delayStart(){
 		{% else %}
 		
 			<input type='hidden' id='image' name='image' value='{{ idea.filenames[0]["url"] }}' />
-			<h1 style='display: block;text-align: center;padding: 5px;'><b>Swipe</b> or <b>click</b> to find a photo you love!</h1> 
+			<p style='display: block;text-align: center;padding: 5px;'><b>Swipe</b> or <b>click</b> to find a photo you love!</p> 
 			<br>
 			<div class="restaurant_photo" style='position: relative;'>
 				<div class='photo_slider transition'>
@@ -65,7 +65,7 @@ function delayStart(){
 		</div>
 		
 		<br>
-		<h1 style='display: block;text-align: center;padding: 5px;'>or upload your own image</h1>
+		<p style='display: block;text-align: center;padding: 5px;'>or upload your own image</h3>
 		
 		<input class='picture-file-input' type='file' name='picture' />
 		<br>
@@ -86,7 +86,6 @@ function delayStart(){
 		</form>
 		
 		<div class='progressBar'>
-			<div class='progress active'></div>
 			<div class='progress active'></div>
 			<div class='progress active'></div>
 			<div class='progress active'></div>
