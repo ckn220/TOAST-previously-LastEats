@@ -559,6 +559,10 @@ def friend_profile(id):
 def map():
 	
 	if request.method == "POST":
+		type = request.form.get('type','')
+		filter = request.form.get('filter','')
+		price = request.form.get('price','')
+		
 		lat = None
 		try:
 			lat = float(request.form.get('lat'))
@@ -569,34 +573,29 @@ def map():
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
 		ideas = []
-		for row in models.Idea.objects(like_count__gt = 1, complete = 1, deleted = 0).all():
-			row.type = 'votes'
-			ideas.append(row)
-		for row in models.Idea.objects(like_count__lt = 2, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
-			row.type = 'friends'
-			ideas.append(row)
-		for row in models.Idea.objects(like_count__lt = 2, userid__nin = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
-			row.type = 'new'
-			ideas.append(row)
+		if 'Multiple Reccomendations' in filter or filter == '':
+			for row in models.Idea.objects(like_count__gt = 1, complete = 1, deleted = 0).all():
+				row.type = 'votes'
+				ideas.append(row)
+		if 'Friends' in filter or filter == '':
+			for row in models.Idea.objects(like_count__lt = 2, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
+				row.type = 'friends'
+				ideas.append(row)
+		if 'Newest' in filter or filter == '':
+			for row in models.Idea.objects(like_count__lt = 2, userid__nin = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
+				row.type = 'new'
+				ideas.append(row)
 		
-		friendids = set([])
-		photos = {}
-		for row in ideas:
-			friendids.add(row.userid)
-		friends = models.User.objects(userid__in = list(friendids)).only('picture','userid')
-		for row in friends:
-			photos[row.userid] = row.picture
-			
 		data = []
 		for row in ideas:
 			data.append({'lat':row.point['coordinates'][1], 'lng':row.point['coordinates'][0], 
 						'title':row.restaurant_name, 'id':str(row.id),
-						'photo':row.filename['url'], 'type':row.type, 'user':photos[row.userid]})
+						'photo':row.filename['url'], 'type':row.type})
 		
-# 		if type != '':
-# 			data = [x for x in data if models.Tag.objects(text = type, type = 'Type', ideaid = x['id']).first()]
-# 		if price != '':
-# 			data = [x for x in data if models.Tag.objects(text = price, type = 'Price', ideaid = x['id']).first()]
+		if type != '':
+			data = [x for x in data if models.Tag.objects(text = type, type = 'Type', ideaid = x['id']).first()]
+		if price != '':
+			data = [x for x in data if models.Tag.objects(text = price, type = 'Price', ideaid = x['id']).first()]
 			
 		return jsonify(**{'data':data})
 		
