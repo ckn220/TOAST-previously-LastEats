@@ -574,6 +574,8 @@ def map():
 			currentCity = models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0).only('full_city').first().full_city
 			currentCity = ','.join(currentCity.full_city.split(',')[:2])
 		except:
+			currentCity = models.Idea.objects(complete = 1, deleted = 0, full_city = 'New York, NY').first()
+			currentCity = ','.join(currentCity.full_city.split(',')[:2])
 			print 'LAT LNG FAIL!!!'
 		
 		user = models.User.objects(userid = request.cookies['userid']).first()
