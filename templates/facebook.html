@@ -60,7 +60,7 @@
 	$('#submit').show();
     	
     {% else %}
-    window.location = '/newsfeed';
+    window.location = $('input[name="url"]').val();
     {% endif %}
   }
 </script>
