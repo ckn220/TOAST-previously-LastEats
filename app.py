@@ -560,18 +560,26 @@ def map():
 	
 	if request.method == "POST":
 		lat = None
+		currentCity = None
 		try:
 			lat = float(request.form.get('lat'))
 			lng = float(request.form.get('lng'))
+			currentCity = models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0).only('full_city').first().full_city
+			currentCity = ','.join(currentCity.full_city.split(',')[:2])
 		except:
 			print 'LAT LNG FAIL!!!'
 		
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
 		ideas = []
-		for row in models.Idea.objects(like_count__gt = 1, point__near=[lng, lat], complete = 1, deleted = 0).all():
-			row.filter = 'Multiple Reccomendations'
-			ideas.append(row)
+		names = []
+		for row in models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0).all():
+			if row.restaurant_name in names:
+				row.filter = 'Multiple Reccomendations'
+				ideas.append(row)
+			else:
+				names.append(row.restaurant_name)
+			
 		for row in models.Idea.objects(like_count__lt = 2, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
 			row.filter = 'Friends'
 			ideas.append(row)
@@ -598,9 +606,10 @@ def map():
 			data.append({'lat':row.point['coordinates'][1], 'lng':row.point['coordinates'][0], 
 						'title':row.restaurant_name, 'id':str(row.id),
 						'photo':row.filename['url'], 'filter':row.filter, 'user':photos[row.userid],
-						'type': tags.get(row.id,{}).get('Type',''), 'price': tags.get(row.id,{}).get('Price','')})
+						'type': tags.get(row.id,{}).get('Type',''), 'price': tags.get(row.id,{}).get('Price',''),
+						'city': ','.join(row.full_city.split(',')[:2])})
 		
-		return jsonify(**{'data':data})
+		return jsonify(**{'data':data, 'currentCity':currentCity})
 		
 	else:
 		type = request.args.get('type','')
@@ -613,7 +622,14 @@ def map():
 				u'American', u'Steakhouse', u'BBQ', u'Italian', u'Mexican', u'Sushi', u'Mediterranean', 
 				u'Japanese', u'Diet: Vegitarian', u'Delis', u'Breweries/Pub', u'Asian', u'Spanish', u'Breakfast']
 		types.sort()
-		templateData = {'types':types, 'type':type,'filter':filter, 'price':price}
+		
+		cities = set([])
+		for row in models.Idea.objects(complete = 1, deleted = 0).only('full_city').all():
+			cities.add(','.join(row.full_city.split(',')[:2]))
+			
+		cities = list(cities)
+		cities.sort()
+		templateData = {'types':types, 'type':type,'filter':filter, 'price':price, 'cities':cities}
 		return render_template("map.html", **templateData)
 	
 	
@@ -649,8 +665,6 @@ def city():
 	if request.method == "POST":
 		user = None
 		city = request.form.get('city')
-		
-		
 		
 		lat = None
 		lng = None
