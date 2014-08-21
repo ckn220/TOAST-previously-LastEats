@@ -569,7 +569,7 @@ def map():
 		user = models.User.objects(userid = request.cookies['userid']).first()
 		
 		ideas = []
-		for row in models.Idea.objects(like_count__gt = 1, complete = 1, deleted = 0).all():
+		for row in models.Idea.objects(like_count__gt = 1, point__near=[lng, lat], complete = 1, deleted = 0).all():
 			row.filter = 'Multiple Reccomendations'
 			ideas.append(row)
 		for row in models.Idea.objects(like_count__lt = 2, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
