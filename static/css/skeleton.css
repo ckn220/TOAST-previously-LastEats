@@ -321,6 +321,10 @@ body {position: relative;}
 		width:50%;
 		display: inline-block;
 	}
+	
+	.mapInfo {
+		width: 45%;
+	}
 }
 
 .col-sm-4 {
@@ -350,7 +354,16 @@ body {position: relative;}
 	}
 	.col-sm-4.active {
 	}
-
+	
+	.mapInfo {
+		width: 96%;
+		position: fixed;
+		top: 100%;
+		background: white;
+	}
+	.mapInfo .ideaCont {
+		display:none;
+	}
 }
 
 .arrowLeft, .arrowRight {

@@ -49,13 +49,16 @@ body { overflow:hidden;}
 		<article class="grid_16"></article>
 		
 		<div style='text-align:left;'>
-			<div class="item rounded dark desktopHalf">
+			<div class="item rounded dark desktopHalf" style='position:relative;'>
+				<div class='mobileContent'>
+					<a data-role='button' style='position:fixed;bottom: 10px;left:25%;width:50%;padding:10px 0px;z-index:10;' onclick='openOptions()'>Filters</a>
+				</div>
 				<div id="map_canvas" class="map rounded" style='height:700px;' ></div>
 				<div id='multimap'></div>
 			</div>
-			<div class='desktopContent mapInfo' style='width: 45%;display: inline-block;vertical-align: top;padding:2%;height:640px;overflow:auto;'>
+			<div class='mapInfo transition' style='display: inline-block;vertical-align: top;padding:2%;height:640px;overflow:auto;z-index: 15;'>
 				
-				<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;'>
+				<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;'>
 					<select name="select-choice-2" id="select-choice-2">
 						<option value="" >City</option>
 						{% for row in cities %}
@@ -94,7 +97,7 @@ body { overflow:hidden;}
 					</div>
 				</div>
 				
-				<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;'>
+				<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;'>
 					<select name="select-choice-1" id="select-choice-1">
 						<option value="" >Type of Food</option>
 						{% for row in types %}
@@ -108,6 +111,9 @@ body { overflow:hidden;}
 				<div class='ideaCont'>
 				</div>
 				
+				<div class='mobileContent'>
+					<a data-role='button' style='' onclick='closeOptions()'>Apply Filters</a>
+				</div>
 			</div>
 		</div>
 		
@@ -124,12 +130,12 @@ body { overflow:hidden;}
 	<script>
 	
 	$(document).ready(function(){
-		$('.mapInfo').height(parseInt($(window).height()) - 89 - parseInt($(window).width())*.04);
-		$('#map_canvas').height(parseInt($(window).height()) - 89);
+		$('.mapInfo').height(parseInt($(window).height()) - 53 - parseInt($(window).width())*.04);
+		$('#map_canvas').height(parseInt($(window).height()) - 53);
 		
 		$( window ).resize(function() {
-			$('.mapInfo').height(parseInt($(window).height()) - 89 - parseInt($(window).width())*.04);
-			$('#map_canvas').height(parseInt($(window).height()) - 89);
+			$('.mapInfo').height(parseInt($(window).height()) - 53 - parseInt($(window).width())*.04);
+			$('#map_canvas').height(parseInt($(window).height()) - 53);
 		});
 		
 		$('input[type=checkbox][name=filter]').change(function(){mapSearch();});
@@ -260,6 +266,13 @@ body { overflow:hidden;}
 		}
 	}
 	
+	function openOptions(){
+		$('.mapInfo').css('top','51px');	
+	}
+	function closeOptions(){
+		$('.mapInfo').css('top','100%');
+		
+	}
 	</script>
 	
 {% endblock %}
