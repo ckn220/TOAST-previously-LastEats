@@ -17,18 +17,37 @@
 	{% endif %}
 		
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
-		</br>
+		
+		{% if first %}
+		<div class='submission' style='background:yellow;padding:10px 0px;font-size:16px;'>
+			<a onclick='$(this).parent().remove();' style='float: right;cursor: pointer;padding: 7px 14px;
+				background: white;margin: 5px;border-radius: 30px;border: thin solid black;'>X</a>
+			Thanks for your submission! Your Last Eats has been saved.<br>
+			<a href='/add_last_eats'>Add Another</a> or <a href='/newsfeed'>browse</a>
+		</div>
+		<br>
+		{%endif%}
 		
 		<div class="user_photo"><img src="{{ friend.picture  }}" height="125" width="125"></div>
 		<div class="user_choice"><p><strong>{{ friend.user_name }} {{ friend.user_last_name }}</strong></p></div>
 		
 		<div class="user_choice">
-			<p>If I only had time for one meal in <strong>{{ idea.title }}</strong>, I'd go to:</p>
+			<p>If I only had time for one meal in <strong>{{ idea.full_city.replace(', United States','') }}</strong>, I'd go to:</p>
 		</div>
 		
 		<div class="user_restaurant">
 			<strong>{{ idea.restaurant_name }}</strong>
 		</div><!-- /demo-html -->
+		
+		<div class='tagCont'>
+			{% for key in tags %}
+				{% if key in ['Great for','Price','Type'] %}
+				<div class='tag'>
+					{{key}}: {% for tag in tags[key] %}{%if loop.index > 1%}, {%endif%}{{ tag.text }}{% endfor %}
+				</div>
+				{%endif%}
+			{% endfor %}
+		</div>
 		
 		{% if current_user != None %}
 		<table class='icon_container' num="{{ idea.id }}" ><tr>
@@ -116,7 +135,7 @@
 		
 		<div class="container_16"></div>
 		<article class="grid_16"></article>
-		<div class="item rounded dark">
+		<div class="item rounded dark smallmap">
 			<div class='map_data lat' style='display:none;'>{{ idea.point.coordinates[1] }}</div>
 			<div class='map_data lng' style='display:none;'>{{ idea.point.coordinates[0] }}</div>
 			
@@ -136,6 +155,19 @@
 				{% endif %}
 			{% endfor %}
 
+		</div>
+		
+		<div>
+			<h1>Other Info:</h1>
+			<div class='tagCont'>
+				{% for key in tags %}
+					{% if key not in ['Great for','Price','Type'] %}
+					<div class='tag'>
+					{{key}}: {% for tag in tags[key] %}{%if loop.index > 1%}, {%endif%}{{ tag.text }}{% endfor %}
+					</div>
+					{%endif%}
+				{% endfor %}
+			</div>
 		</div>
 		</br>
 	</div>

@@ -90,8 +90,7 @@ body {position: relative;}
 	background: #d44;
 	border: 2px #999 solid;
 	color: white;
-	height: 45px;
-	width: 45px;
+	width: 40px;
 	font-size: 2.2em;
 	border-radius: 75px;
 	text-align:center;
@@ -175,7 +174,7 @@ body {position: relative;}
 	text-shadow: none;
 }
 
-.ui-page-theme-a .desktopContent .button.ui-btn, .ui-page-theme-a  .mobileContent .button.ui-btn{
+.ui-page-theme-a .button.ui-btn{
 	display: inline-block;
 	background: #fc5d61; 
 	color: #fdb65d !important;
@@ -283,8 +282,20 @@ body {position: relative;}
 }
 
 
-#map_canvas {
+.smallmap #map_canvas {
 	max-height: 250px;
+}
+
+
+.tagCont {
+	
+}
+.tagCont .tag {
+	display: inline-block;
+	border: thin solid black;
+	font-weight: bold;
+	padding: 2px 12px;
+	margin: 6px 3px;
 }
 
 .mobile-hide {display: none;}
@@ -305,7 +316,72 @@ body {position: relative;}
 	#map_canvas {
 		max-height: none;
 	}
+	.desktopHalf {
+		width:50%;
+		display: inline-block;
+	}
+	
+	.mapInfo {
+		width: 45%;
+	}
 }
+
+.col-sm-4 {
+	width:24%;
+	padding:4%;
+	display:inline-block;
+	vertical-align: top;
+}
+.hiddenDot {
+	height:14px;
+	width:14px;
+	background: white;
+	border-radius: 40px;
+	display: inline-block;
+	margin: 20px 5px;
+}
+.hiddenDot.active {
+	background: grey;
+}
+@media (max-width: 60em) {
+
+	.col-sm-4 {
+		display:block;
+		width:auto;
+		position: absolute;
+		left: 100%;
+	}
+	.col-sm-4.active {
+	}
+	
+	.mapInfo {
+		width: 96%;
+		position: fixed;
+		top: 100%;
+		background: white;
+	}
+	.mapInfo .ideaCont {
+		display:none;
+	}
+}
+
+.arrowLeft, .arrowRight {
+	border: 30px solid transparent;
+	height: 0px;
+	width: 0px;
+	position:absolute;
+	top:50%;
+	z-index:20;
+}
+.arrowLeft {
+	left:-20px;
+	border-right: 20px solid white;
+}
+.arrowRight {
+	right:-20px;
+	border-left: 20px solid white;
+}
+
 
 
 .ui-content {
@@ -575,7 +651,7 @@ a {
 
 .user_photo {
 	text-align: center;
-	margin-top: -47px;
+	/*margin-top: -47px;*/
 }
 
 .restaurant_photo {

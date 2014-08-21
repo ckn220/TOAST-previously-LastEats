@@ -59,16 +59,23 @@ function handleNoGeolocation(errorFlag, returnFunc) {
 		
 }
 
-
-
 //google maps
 
 function initialize() {
-	geocoder = new google.maps.Geocoder();
+	html5Geoloc(function(){
+		if ($('#multimap').length > 0){
+			$('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'center':new google.maps.LatLng(LATITUDE, LONGITUDE),'callback': function() {}});
+			codeLatLng(LATITUDE, LONGITUDE,{'url':'/static/img/bluedot.png','size': new google.maps.Size(20, 20),' anchor': new google.maps.Point(10, 10)},'Your Location');
+			collectNearby(LATITUDE, LONGITUDE);
+		}
+	});
 	
-	if ($('.map_data.lat').length > 0){
+	geocoder = new google.maps.Geocoder();
+	if ($('#multimap').length == 0){
 		var map = $('#map_canvas').gmap({'disableDefaultUI':true, 'mapTypeId':google.maps.MapTypeId.ROADMAP, 'callback': function() {}});
-		codeLatLng();
+	}
+	if ($('.map_data.lat').length > 0){
+		codeLatLng(parseFloat($('.map_data.lat').html()), lng = parseFloat($('.map_data.lng').html()));
 	}
 	
 	var input2 = document.getElementById('textinput-4');
@@ -92,6 +99,24 @@ function initialize() {
 	        }
 	    });
 	}
+	var input3 = document.getElementById('textinput-5');
+	if (input3){
+		var autocomplete3 = new google.maps.places.Autocomplete(input3, {});
+		google.maps.event.addListener(autocomplete3, 'place_changed', function () {
+			var place = autocomplete3.getPlace();
+			document.getElementById('cityLat').value = place.geometry.location.lat();
+	        document.getElementById('cityLng').value = place.geometry.location.lng();
+	        if (autocomplete){
+		        var lati = place.geometry.location.lat();
+		        var long = place.geometry.location.lng();
+		        var s = new google.maps.LatLng(lati,long);
+		        var n = new google.maps.LatLng(lati,long);
+		        
+		        var boundary = new google.maps.LatLngBounds(s,n);
+		        autocomplete.setBounds(boundary);
+	        }
+	    });
+	}
 	
 	var input = document.getElementById('address');
 	if(input){
@@ -102,7 +127,7 @@ function initialize() {
 	        document.getElementById('addressLat').value = place.geometry.location.lat();
 	        document.getElementById('addressLng').value = place.geometry.location.lng();
 	    });
-	    if (req){
+	    if (typeof req != 'undefined'){
         	var s = new google.maps.LatLng(req.lati,req.long);
 	        var n = new google.maps.LatLng(req.lati,req.long);
 	        var boundary = new google.maps.LatLngBounds(s,n);
@@ -137,25 +162,32 @@ function codeAddress() {
 			$("#latitude").val(results[0].geometry.location.lat());
 		}
 		else {
-			alert('Geocode was not successful for the following reason: ' + status);
+			console.log('Geocode was not successful for the following reason: ' + status);
 		}
 	});
 }
 
-function codeLatLng() {
-    var lat = parseFloat($('.map_data.lat').html());
-	var lng = parseFloat($('.map_data.lng').html());
+function codeLatLng(lat, lng, icon, content) {
     var latlng = new google.maps.LatLng(lat, lng);
+    
+    var marker = { 'position': latlng, 'content': content}
+    if (icon){
+    	marker.icon = icon;
+    }
+    
+    
     geocoder.geocode({'latLng': latlng}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[1]) {
+        	if (marker.content){var content = marker.content;}
+    	    else {var content = '<a href="http://maps.google.com/maps?q='+results[0].formatted_address.replace('&','%26')+'" target="_blank">'+results[0].formatted_address+'</a>';}
         	$('#map_canvas').gmap('get','map').setZoom(13);
         	$('#map_canvas').gmap('get','map').setCenter(latlng);
-        	$('#map_canvas').gmap('addMarker', { 'position': latlng } ).click(function() {
-                $('#map_canvas').gmap('openInfoWindow', {'content': '<a href="http://maps.google.com/maps?q='+results[0].formatted_address.replace('&','%26')+'" target="_blank">'+results[0].formatted_address+'</a>'}, this);
+        	$('#map_canvas').gmap('addMarker', marker ).click(function() {
+                $('#map_canvas').gmap('openInfoWindow', {'content': content}, this);
             });
       } else {
-        alert("Geocoder failed due to: " + status);
+        console.log("Geocoder failed due to: " + status);
       }
     }});
 }
@@ -175,34 +207,21 @@ function openInfoWindow (content, latLng, map) {
 	}
 	infoWindow = createInfoWindow(content, latLng);
 	infoWindow.open(map);
-}    
+}
 
-function createMarker(lat,lng,titleText, bodyText, restaurant_name, restaurant_href) {
-	console.log('createMarker');  
+function createMarker(lat,lng, restaurant_name, restaurant_href, icon) {
 	// create google lat lng object
-	var latLng = new google.maps.LatLng(String(lat), String(lng));
-	console.log(latLng);
+	var latlng = new google.maps.LatLng(lat, lng);
 	
-	var marker = new google.maps.Marker({
-	position: latLng,
-		map: map, 
-		// title: titleText,
-		// restaurant_name: restaurant_name,
-		// bodyText: bodyText,
-	});
-	console.log("here");
+	var marker = { 'position': latlng};
+	if (icon){
+		marker.icon = icon;
+	}
 	
-	allMarkers.push(marker);
-	console.log("also here");  
-	
-	google.maps.event.addListener(marker, 'click', function(event) {
-		var latLng = event.latLng;
-		restaurant_name = '<a href="/ideas/' + restaurant_href + '">' + restaurant_name || '' + '</a>';  //if body text is true run it, otherwise display string
-		openInfoWindow(restaurant_name, latLng, map);
-	});  
-	
-	return marker; 
-	console.log("even here");
+	console.log('createMarker');
+	mapPins.push($('#map_canvas').gmap('addMarker', marker ).click(function() {
+        $('#map_canvas').gmap('openInfoWindow', {'content': '<a href="'+restaurant_href+'">'+restaurant_name+'</a>'}, this);
+    }));
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

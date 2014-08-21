@@ -32,6 +32,7 @@ function delayStart(){
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		<form action="add_last_eats_last" method="post" enctype='multipart/form-data' encoding='multipart/form-data'>
+			<input type="hidden" id="id" name="id" value="{{ id }}"/>
 		{% if idea.filenames|length == 0 %}
 			<p>No images were found for this location :(</p>
 		{% else %}
@@ -39,7 +40,7 @@ function delayStart(){
 			<input type='hidden' id='image' name='image' value='{{ idea.filenames[0]["url"] }}' />
 			<h1 style='display: block;text-align: center;padding: 5px;'><b>Swipe</b> or <b>click</b> to find a photo you love!</h1> 
 			<br>
-			<div class="restaurant_photo">
+			<div class="restaurant_photo" style='position: relative;'>
 				<div class='photo_slider transition'>
 				
 				{% for img in idea.filenames %}
@@ -49,9 +50,10 @@ function delayStart(){
 						<img class='transition image' src="{{ img['url'] }}" />
 					{% endif %}
 				{% endfor %}
-				</div>
 				
-				<input type="hidden" id="id" name="id" value="{{ id }}"/>
+				</div>
+				<div class='arrowLeft' onclick='swipePhoto(-1)'></div>
+				<div class='arrowRight' onclick='swipePhoto(1)'></div>
 			</div>
 		
 		{% endif %}
@@ -84,6 +86,7 @@ function delayStart(){
 		</form>
 		
 		<div class='progressBar'>
+			<div class='progress active'></div>
 			<div class='progress active'></div>
 			<div class='progress active'></div>
 			<div class='progress active'></div>
@@ -133,7 +136,7 @@ $(document).on('pageinit', function(event){
 	});
 	
 	$(".photo_slider").click(function() {
-		swipePhoto();
+		swipePhoto(1);
 	});
 	$('.photo_slider img').on('dragstart', function(event) { event.preventDefault(); });
 	

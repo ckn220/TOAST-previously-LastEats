@@ -21,12 +21,13 @@
 			<p>Characters Remaining: <span class='char_counter'>140</span></p>
 		</div>
 		
-		<div class="form_next"><a onclick='moveOn()' data-role="button" style="background: #grey; color: black;">Now select a photo!</a></div>
+		<div class="form_next"><a onclick='moveOn()' data-role="button" style="background: #grey; color: black;">Lets add a few Tags!</a></div>
 		
 		<div class='progressBar'>
 			<div class='progress active'></div>
 			<div class='progress active'></div>
 			<div class='progress active'></div>
+			<div class='progress'></div>
 			<div class='progress'></div>
 		</div>
 		
@@ -63,7 +64,7 @@ function moveOn(){
 			type: "post",
 			data: {'order': order, 'id': id},
 			success: function(value) {
-				window.location = "/add_last_eats_last?id="+value.id;
+				window.location = "/add_last_eats_tags?id="+value.id;
 			}
 		});
 	}

@@ -1,0 +1,290 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+<style>
+body { overflow:hidden;}
+.ui-checkbox {
+	display: inline-block;
+}
+.ui-controlgroup-vertical .ui-btn.ui-first-child, .ui-controlgroup-controls .ui-btn.ui-corner-all {
+	border-radius:.3125em;
+	border-bottom-width: 1px;
+}
+.idea {
+	display:inline-block;
+	width:28%;
+	margin:2%;
+	vertical-align: top;
+}
+.idea .ideaTitle {
+	background: rgba(255,255,255,.6);
+	padding: 10px;
+	text-align: center;
+}
+.ui-controlgroup-controls  .ui-checkbox {
+	min-width: 23%;
+	margin: 0px 1%;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+	
+<div data-role="page" class="jqm-demos" data-quicklinks="false">
+	{% if current_user != None %}
+		{% include "header.html" %}
+	{% else %}
+		{% include "header_med.html" %}
+	{% endif %}
+		
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='max-width:none;padding-top:0px;'>
+		
+		{% if current_user != None %}
+			{% include "sidebars.html" %}
+		{% else %}
+			{% include "sidebars_small.html" %}
+		{% endif %}
+		
+		<div class="container_16"></div>
+		<article class="grid_16"></article>
+		
+		<div style='text-align:left;'>
+			<div class="item rounded dark desktopHalf" style='position:relative;'>
+				<div class='mobileContent'>
+					<a data-role='button' style='position:fixed;bottom: 10px;left:25%;width:50%;padding:10px 0px;z-index:10;' onclick='openOptions()'>Filters</a>
+				</div>
+				<div id="map_canvas" class="map rounded" style='height:700px;' ></div>
+				<div id='multimap'></div>
+			</div>
+			<div class='mapInfo transition' style='display: inline-block;vertical-align: top;padding:2%;height:640px;overflow:auto;z-index: 15;'>
+				
+				<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;'>
+					<select name="select-choice-2" id="select-choice-2">
+						<option value="" >City</option>
+						{% for row in cities %}
+						<option value="{{row}}" {%if row == 0 %}selected{%endif%}>{{row}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				
+				<div>
+					<h2>Filter By {{filter}}</h2>
+					<div data-role="fieldcontain">
+						<fieldset data-role="controlgroup">
+						{% set colors = ['http://maps.google.com/mapfiles/ms/icons/green-dot.png','http://maps.google.com/mapfiles/ms/icons/blue-dot.png','http://maps.google.com/mapfiles/ms/icons/red-dot.png'] %}
+						{% for text in ['Friends','Newest','Multiple Reccomendations'] %}
+						<input type="checkbox" name="filter" id="{{ text }}" value='{{text}}' class="custom" {%if text in filter%}checked=checked{%endif%}/>
+						<label for="{{ text }}">
+							<img style='height: 20px;' src='{{colors[loop.index0]}}' />
+							<span style='font-weight:normal;'>{{ text }}</span>
+						</label>
+						{% endfor %}
+						</fieldset>
+					</div>
+				</div>
+				
+				<div>
+					<h2>Price</h2>
+					<div data-role="fieldcontain">
+						<fieldset data-role="controlgroup">
+						{% for text in ['Pricey','Bang for the Buck'] %}
+						<input type="checkbox" name="price" id="{{ text }}" value='{{text}}' class="custom" {%if text in price%}checked=checked{%endif%}/>
+						<label for="{{ text }}">
+							<span style='font-weight:normal;'>{{ text }}</span>
+						</label>
+						{% endfor %}
+						</fieldset>
+					</div>
+				</div>
+				
+				<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;'>
+					<select name="select-choice-1" id="select-choice-1">
+						<option value="" >Type of Food</option>
+						{% for row in types %}
+						<option value="{{row}}" {%if row == type%}selected{%endif%}>{{row}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				
+				<!--<a class='firstRec' data-role='button' style='display:inline-block;margin-top: 18px;'>Best/Closest Recommendations</a>-->
+				
+				<div class='ideaCont'>
+				</div>
+				
+				<div class='mobileContent'>
+					<div class='delete-entry' style='right: 5px;top: 5px;border: 1px #999 solid;' onclick='closeOptions()'>X</div>
+					<a data-role='button' style='' onclick='closeOptions()'>Apply Filters</a>
+				</div>
+			</div>
+		</div>
+		
+		</br>
+	</div>
+</div><!-- /page -->
+
+{% endblock %}
+
+{% block scripts %}
+	
+	<script src="/static/js/mapquest.js"></script>
+	
+	<script>
+	
+	$(document).ready(function(){
+		$('.mapInfo').height(parseInt($(window).height()) - 53 - parseInt($(window).width())*.04);
+		$('#map_canvas').height(parseInt($(window).height()) - 53);
+		
+		$( window ).resize(function() {
+			$('.mapInfo').height(parseInt($(window).height()) - 53 - parseInt($(window).width())*.04);
+			$('#map_canvas').height(parseInt($(window).height()) - 53);
+		});
+		
+		$('input[type=checkbox][name=filter]').change(function(){mapSearch();});
+		$('input[type=checkbox][name=price]').change(function(){mapSearch();});
+		$('select[name=select-choice-1]').change(function(){mapSearch();});
+		
+		$('select[name=select-choice-2]').change(function(){mapSearch();setFirstCenter()});
+		
+		/*$('body').on('mouseenter','.idea',function(){setCenter(this);});*/
+	});
+	
+	var mapPins = new Array();
+	
+	function setFirstCenter(thisObject){
+		var id = $('.idea[class!="idea hidden"]').eq(0).attr('id');
+		for (var i = 0; i < mapPins.length; i++){
+			if (mapPins[i].id == id){
+				$('#map_canvas').gmap('get','map').setCenter(mapPins[i][0].position);
+			}
+		}
+	}
+	
+	function setCenter(thisObject){
+		var id = $(thisObject).attr('id');
+		for (var i = 0; i < mapPins.length; i++){
+			if (mapPins[i].id == id){
+				$('#map_canvas').gmap('get','map').setCenter(mapPins[i][0].position);
+			}
+		}
+	}
+	
+	function collectNearby(lat, lng){
+		$.ajax({
+			url: 'map',
+			type: "post",
+			data: {'lat': LATITUDE, 'lng': LONGITUDE, 'filter':'{{filter}}','price':'{{price}}','type':'{{type}}'},
+			success: function(value) {
+				console.log(value);
+				var icon = {'Multiple Reccomendations':'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+					'Newest':'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+					'Friends':'http://maps.google.com/mapfiles/ms/icons/green-dot.png'}
+				clearIdeas();
+				for (var i = 0; i < value.data.length; i++){
+					createMarker(value.data[i].lat, value.data[i].lng, value.data[i].title, '/last_eat_entry/'+value.data[i].id, {'url':icon[value.data[i].filter]});
+					addIdea(value.data[i]);
+					mapPins[mapPins.length-1].filter = value.data[i].filter;
+					mapPins[mapPins.length-1].price = value.data[i].price;
+					mapPins[mapPins.length-1].type = value.data[i].type;
+					mapPins[mapPins.length-1].id = value.data[i].id;
+					mapPins[mapPins.length-1].city = value.data[i].city;
+				}
+				$('.ideaCont .idea').height($('.ideaCont .idea').width());
+				
+				$('#select-choice-2').val(value.currentCity);
+				$('#select-choice-2').parent().children('span').html(value.currentCity);
+				mapSearch();
+				
+				$('.firstRec').attr('href',$('.idea[class!="idea hidden"]').eq(0).attr('href'));
+			}
+		});
+	}
+	
+	function clearIdeas(){
+		$('.ideaCont').html('');
+	}
+	function addIdea(data){
+		s = "<a id='"+data.id+"' class='idea' href='/last_eat_entry/"+data.id+"' style='background: url("+data.photo+");background-size: cover;'>";
+		s += "<h2 class='ideaTitle' style='position: relative;padding-left: 30px;'><img src='"+data.user+"' style='width: 35px;position: absolute;top: 3px;left: 3px;border-radius: 100px;float: left;'/>"+data.title+"</h2></a>";
+		$('.ideaCont').append(s);
+	}
+	
+	function mapSearch(){
+		var filter = ''
+		$('input[name=filter]').each(function(){
+			if ($(this).is(':checked')){
+				filter += $(this).val();
+			}
+		});
+		var price = ''
+		$('input[name=price]').each(function(){
+			if ($(this).is(':checked')){
+				price += $(this).val();
+			}
+		});
+		var type = $('select#select-choice-1').val();
+		var city = $('select#select-choice-2').val();
+		
+		$('.idea').hide();
+		$('.idea').addClass('hidden');
+		var types = '';
+		for (var i = 0; i < mapPins.length; i++ ){
+			if (filter != '' && (filter.indexOf(mapPins[i].filter) == -1 || mapPins[i].filter == '')){
+				mapPins[i][0].setVisible(false);
+				$('#'+mapPins[i].id).hide();
+				$('#'+mapPins[i].id).addClass('hidden');
+			}
+			else if (city != '' && (city.indexOf(mapPins[i].city) == -1 || mapPins[i].city == '')){
+				mapPins[i][0].setVisible(false);
+				$('#'+mapPins[i].id).hide();
+				$('#'+mapPins[i].id).addClass('hidden');
+			}
+			
+			else if (price != '' && (price.indexOf(mapPins[i].price) == -1 || mapPins[i].price == '')){
+				mapPins[i][0].setVisible(false);
+				$('#'+mapPins[i].id).hide();
+				$('#'+mapPins[i].id).addClass('hidden');
+			}
+			else {
+				if (types.indexOf(mapPins[i].type) == -1){
+					types += mapPins[i].type;
+				}
+				
+				if (type != '' && (type.indexOf(mapPins[i].type) == -1 || mapPins[i].type == '')){
+					mapPins[i][0].setVisible(false);
+					$('#'+mapPins[i].id).hide();
+					$('#'+mapPins[i].id).addClass('hidden');
+				}
+				else {
+					mapPins[i][0].setVisible(true);
+					$('#'+mapPins[i].id).show();
+					$('#'+mapPins[i].id).removeClass('hidden');
+				}
+			}
+		}
+		$('#select-choice-1 option').show();
+		$('#select-choice-1 option').each(function(){
+			if (types.indexOf($(this).val()) == -1){
+				$(this).hide();
+			}
+		});
+		$('.firstRec').attr('href',$('.idea[class!="idea hidden"]').eq(0).attr('href'));
+	}
+	
+	function hidePins(){
+		for (var i = 0; i < mapPins.length; i++ ){
+			mapPins[i][0].setVisible(true);
+		}
+	}
+	
+	function openOptions(){
+		$('.mapInfo').css('top','51px');	
+	}
+	function closeOptions(){
+		$('.mapInfo').css('top','100%');
+		
+	}
+	</script>
+	
+{% endblock %}
+
+

@@ -12,6 +12,13 @@ from flask.ext.mongoengine.wtf.orm import validators
 from datetime import datetime
 
 
+class Tag(Document):
+	
+	ideaid = mongoengine.fields.ObjectIdField()
+	type = mongoengine.StringField()
+	text = mongoengine.StringField()
+	
+
 class Comment(Document):
 	
 	userid = mongoengine.StringField()
@@ -25,7 +32,9 @@ class Comment(Document):
 
 class Idea(Document):
 	userid = mongoengine.StringField()
+	
 	complete = mongoengine.IntField(required=True, default=0)
+	deleted = mongoengine.IntField(required=True, default=0)
 	
 	title = mongoengine.StringField(required=True)
 	full_city = mongoengine.StringField()
