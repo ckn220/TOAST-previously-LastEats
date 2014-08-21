@@ -143,12 +143,21 @@ body { overflow:hidden;}
 		$('input[type=checkbox][name=price]').change(function(){mapSearch();});
 		$('select[name=select-choice-1]').change(function(){mapSearch();});
 		
-		$('select[name=select-choice-2]').change(function(){mapSearch();});
+		$('select[name=select-choice-2]').change(function(){mapSearch();setFirstCenter()});
 		
 		/*$('body').on('mouseenter','.idea',function(){setCenter(this);});*/
 	});
 	
 	var mapPins = new Array();
+	
+	function setFirstCenter(thisObject){
+		var id = $('.idea[class!="idea hidden"]').eq(0).attr('id');
+		for (var i = 0; i < mapPins.length; i++){
+			if (mapPins[i].id == id){
+				$('#map_canvas').gmap('get','map').setCenter(mapPins[i][0].position);
+			}
+		}
+	}
 	
 	function setCenter(thisObject){
 		var id = $(thisObject).attr('id');

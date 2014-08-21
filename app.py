@@ -1282,7 +1282,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
-mongoScripts.fixTags()
+#mongoScripts.fixTags()
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test

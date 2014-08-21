@@ -157,6 +157,11 @@ def getFullTagList():
         
         
 def fixTags():
+    for tag in models.Tag.objects(type = 'Price', text = 'Bang for Buck'):
+        tag.text = 'Bang for the Buck'
+        tag.save()
+        
+        
     for tag in models.Tag.objects(type = 'Great for'):
         tag.text = tag.text.strip()
         tag.save()
