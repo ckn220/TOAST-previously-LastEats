@@ -98,7 +98,7 @@ function delayStart(){
 		
 		<div class='topPhoto'>
 			<br><br><br>
-			<img src="/static/assets/img/CURRENT_LOGO_WHITE.png" onclick='openCover()' height="125" width="125" style=''>
+			<img src="/static/assets/img/CURRENT_LOGO_WHITE.png" onclick='openCover("/newsfeed")' height="125" width="125" style=''>
 			<br><br><br>
 			
 			<h2 class='backgroundText' style='padding:10px 30px;'>
@@ -106,7 +106,7 @@ function delayStart(){
 			</h2>
 			
 			<div style=''>
-				<a data-role="button" class="button"  onclick='openCover()' style='border:none;'>Join Last Eats</a><br>
+				<a data-role="button" class="button"  onclick='openCover("/newsfeed")' style='border:none;'>Join Last Eats</a><br>
 				<a style='display: inline-block;margin: 5px 0px;padding: 5px 15px;width: 158px;background: rgba(0,0,0,.4);
 								color: white !important;margin-bottom: 15px;text-shadow: none;' 
 					data-role="button" onclick='$(".hiddenSlider").height($(".hiddenSliderCont .col-sm-4").height()+parseInt($(".hiddenSliderCont .col-sm-4").css("padding-top"))*2+38)' style='border:none;'>How It Works</a>
@@ -122,8 +122,8 @@ function delayStart(){
 				<h1 style='color:white;text-align:left;text-shadow:none;'>Browse the best food</h1>
 				<a href='/browse' data-role="button" style='display: inline-block;'>Near Me</a>
 				<a href='/city_filter' data-role="button" style='display: inline-block;'>By City</a>
-				<a onclick='openCover()' data-role="button" style='display: inline-block;'>By Map</a>
-				<a onclick='openCover()' data-role="button" style='display: inline-block;'>By Friends</a>
+				<a onclick='openCover("/map")' data-role="button" style='display: inline-block;'>By Map</a>
+				<a onclick='openCover("/my_friends")' data-role="button" style='display: inline-block;'>By Friends</a>
 			</div>
 			<div style='display:inline-block;width:35%;vertical-align:top;'>
 				<h1 style='color:white;text-align:left;text-shadow:none;'>Add Last Eats</h1>
@@ -135,8 +135,8 @@ function delayStart(){
 				<h1 style='color:white;text-shadow:none;text-align:center;'>Browse the best food</h1>
 				<a href='/browse' data-role="button" style='margin:10px auto;width: 158px;'>Near Me</a>
 				<a href='/city_filter' data-role="button" style='margin:10px auto;width: 158px;'>By City</a>
-				<a onclick='openCover()' data-role="button" style='margin:10px auto;width: 158px;'>By Map</a>
-				<a onclick='openCover()' data-role="button" style='margin:10px auto;width: 158px;'>By Friends</a>
+				<a onclick='openCover("/map")' data-role="button" style='margin:10px auto;width: 158px;'>By Map</a>
+				<a onclick='openCover("/my_friends")' data-role="button" style='margin:10px auto;width: 158px;'>By Friends</a>
 				<br><br>
 			</div>
 			<br><br>
@@ -254,6 +254,7 @@ function delayStart(){
 			<div class='close' onclick='closeCover()'>x</div>
 			<div style='display:inline-block;vertical-align:top;'>
 				<img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='/static/img/fbook.jpg' style='height:40px;' />
+				<input type='hidden' name='url' value='/newsfeed' />
 			</div><br><br>
 			<div style='display:inline-block;vertical-align:top;'><img id="login" src='/static/img/twitter.jpg' style='opacity:.3;height:40px;' /><div>Coming Soon!</div></div>
 		</div>
@@ -272,8 +273,10 @@ function delayStart(){
 	function closeCover(){
 		$('.cover').hide();
 	}
-	function openCover(){
+	function openCover(url){
 		$('.cover').show();
+		$('input[name="url"]').val(url);
+		
 	}
 	
 	
