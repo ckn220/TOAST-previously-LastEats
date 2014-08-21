@@ -262,9 +262,11 @@ body { overflow:hidden;}
 			}
 		}
 		$('#select-choice-1 option').show();
+		$('#select-choice-1 option').removeAttr('disabled');
 		$('#select-choice-1 option').each(function(){
 			if (types.indexOf($(this).val()) == -1){
 				$(this).hide();
+				$(this).attr('disabled','disabled');
 			}
 		});
 		$('.firstRec').attr('href',$('.idea[class!="idea hidden"]').eq(0).attr('href'));
