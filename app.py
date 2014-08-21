@@ -573,14 +573,16 @@ def map():
 		
 		ideas = []
 		names = []
+		ids = []
 		for row in models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0).all():
 			if row.restaurant_name in names:
 				row.filter = 'Multiple Reccomendations'
 				ideas.append(row)
+				ids.append(row.id)
 			else:
 				names.append(row.restaurant_name)
 			
-		for row in models.Idea.objects(like_count__lt = 2, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
+		for row in models.Idea.objects(id__nin = ids, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
 			row.filter = 'Friends'
 			ideas.append(row)
 		for row in models.Idea.objects(like_count__lt = 2, userid__nin = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
