@@ -561,7 +561,7 @@ def friend_profile(id):
 
 @app.route("/map", methods=['GET', 'POST'])
 def map():
-	cookie_check = checkCookies(request, '/newsfeed')
+	cookie_check = checkCookies(request, '/map')
 	if cookie_check != None:
 		return cookie_check
 	
