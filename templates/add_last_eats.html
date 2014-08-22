@@ -58,7 +58,7 @@
 		-->
 		</br>
 		
-		<p>Couldn't find your city? <a onclick='$(".specialInput").show();$("#textinput-4").parent().hide();$(this).parent().html("Please try your city again.")' style='cursor:pointer;'>Try this</a></p>
+		<p>Couldn't find your city? <a onclick='$(".specialInput").show();$("#textinput-4").remove ();$(this).parent().html("Please try your city again.")' style='cursor:pointer;'>Try this</a></p>
 		
 		<div class="form_next"><a data-role="button" style="background: #grey; color: black;" onclick='moveOn()'>Tell us more!</a></div>
 		
@@ -94,7 +94,12 @@
 var ajax_loading = 0;
 function moveOn(){
 	
-	var city = $('#textinput-4').val();
+	if ($('#textinput-4').length > 0){
+		var city = $('#textinput-4').val();
+	}
+	else {
+		var city = $('#textinput-5').val();
+	}
 	var addressName = $('#addressName').val();
 	var addressLat = $('#addressLat').val();
 	var addressLng = $('#addressLng').val();
