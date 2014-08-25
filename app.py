@@ -980,13 +980,16 @@ def add_last_eats_next_next():
 
 @app.route("/add_last_eats_tags", methods=['GET','POST'])
 def add_last_eats_tags():
-	tagSets = {u'Vibe': set([u'Trendy', u'Hip', u'Upscale', u'Laid Back', u'Intimate']), 
-		u'Price': set([u'Bang for the Buck', u'Pricey']), 
-		u'Great for': set([u'Lunch', u'Breakfast', u'Brunch', u'Dinner', u'Dessert']), 
-		u'Diet': set([u'Gluten Free Options','Vegitarian']), 
-		u'Perks': set([u'Full Bar', u'Kid Friendly', u'Groups']), 
-		u'Attire': set([u'Casual', u'Formal']), 
-		u'Type': set([u'Caribbean', u'Vietnamese', u'Middle Eastern', u'Brunch/American', u'Everything', u'Pub', u'Brewery', u'Pizza', u'Japanese/Sushi', u'Latin', u'Deli', u'Dessert', u'American/Pub', u'Southern', u'French', u'Thai', u'Tapas', u'Cuban', u'Seafood', u'Breweries', u'Greek', u'American', u'Steakhouse', u'BBQ', u'Italian', u'Mexican', u'Sushi', u'Mediterranean', u'Japanese', u'Diet: Vegitarian', u'Delis', u'Breweries/Pub', u'Asian', u'Spanish', u'Breakfast'])}
+	tagSets = {u'Vibe': set([u'Trendy', u'Hip', u'Upscale', u'Laid Back', u'Intimate']),
+		u'Price': set([u'Bang for the Buck', u'Pricey']),
+		u'Great for': set([u'Lunch', u'Breakfast', u'Brunch', u'Dinner', u'Dessert']),
+		u'Diet': set([u'Gluten Free Options','Vegetarian Options']),
+		u'Perks': set([u'Full Bar', u'Kid Friendly', u'Groups']),
+		u'Attire': set([u'Casual', u'Formal']),
+		u'Type': set([u'Indian',u'Caribbean', u'Vietnamese', u'Middle Eastern', u'Brunch/American', u'Everything', u'Pub', u'Brewery', 
+					u'Pizza', u'Japanese/Sushi', u'Latin', u'Deli', u'Dessert', u'American/Pub', u'Southern', u'French', u'Thai', u'Tapas', 
+					u'Cuban', u'Seafood', u'Breweries', u'Greek', u'American', u'Steakhouse', u'BBQ', u'Italian', u'Mexican', u'Sushi', 
+					u'Mediterranean', u'Japanese', u'Diet: Vegitarian', u'Delis', u'Breweries/Pub', u'Asian', u'Spanish', u'Breakfast'])}
 	
 	tagList = list(tagSets['Type'])
 	tagList.sort()
