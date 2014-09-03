@@ -419,6 +419,16 @@ def last_eat_entry(id):
 		
 		return render_template("last_eat_entry.html", **templateData)
 
+@app.route("/removetag/<id>/<type>/<text>/", methods=['DELETE'])
+def remove_tag(id, type, text):
+	if request.method == "DELETE":
+		tag = models.Tag.objects(ideaid = id, type = type, text = text).first()
+		if tag:
+			tag.delete()
+			return 'Success'
+	return 'Fail'
+
+
 @app.route("/love_idea", methods=['POST','DELETE'])
 def love_idea():
 	if request.method == "POST":
@@ -1002,8 +1012,9 @@ def add_last_eats_tags():
 		for row in tagSets:
 			print request.form.getlist(row)
 			for text in request.form.getlist('tags['+row+'][]'):
-				tag = models.Tag(ideaid = id, type = row, text = text)
-				tag.save()
+				if not models.Tag.objects(ideaid = id, type = row, text = text).first():
+					tag = models.Tag(ideaid = id, type = row, text = text)
+					tag.save()
 		idea.save()
 		
 		d = {'id' : str(idea.id)}
@@ -1304,7 +1315,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
-#mongoScripts.fixTags()
+#mongoScripts.cleanAllFriends()
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test

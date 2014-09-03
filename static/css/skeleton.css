@@ -290,12 +290,27 @@ body {position: relative;}
 .tagCont {
 	
 }
-.tagCont .tag {
+.tagCont .tags {
 	display: inline-block;
 	border: thin solid black;
 	font-weight: bold;
 	padding: 2px 12px;
 	margin: 6px 3px;
+}
+
+.tagCont .tag {
+	display:inline-block;
+}
+.tagCont .tag:hover .removetag {
+	display:inline-block;
+}
+.tagCont .tag .removetag {
+	display:none;
+	border-radius: 50px;
+	padding: 0px 6px;
+	background: rgba(215, 0, 0, 0.49);
+	text-shadow: none;
+	cursor: pointer;
 }
 
 .mobile-hide {display: none;}

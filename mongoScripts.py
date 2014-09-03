@@ -190,3 +190,19 @@ def fixTags():
             tag2 = models.Tag(ideaid = tag.ideaid, type = 'Great for', text = data[1].strip())
             tag2.save()
 
+
+def cleanAllFriends():
+    for user in models.User.objects():
+        count = 0
+        
+        for allfriends in models.UserFriends.objects(userid = user.userid):
+            if count > 0:
+                allfriends.delete()
+            else:
+                count += 1
+        
+        
+        
+        
+        
+        
