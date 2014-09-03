@@ -86,3 +86,17 @@ function loveIdea(thisObject, id){
 		});
 	}
 }
+
+function removetag(thisObject, id, type, text){
+	var url = '/removetag/'+ id +'/'+ type + '/' + text + '/';
+	url = url.replace(' ', '%20');
+	
+	$.ajax({
+		url: url,
+		type: "DELETE",
+		data: {},
+		success: function(value) {
+			$(thisObject).parent().remove();
+		}
+	});
+}
