@@ -169,7 +169,13 @@
 				{% for key in tags %}
 					{% if key not in ['Great for','Price','Type'] %}
 					<div class='tag'>
-					{{key}}: {% for tag in tags[key] %}{%if loop.index > 1%}, {%endif%}{{ tag.text }}{% endfor %}
+					{{key}}: {% for tag in tags[key] %}{%if loop.index > 1%}, {%endif%}
+						<div class='tag'>{{ tag.text }} 
+							{% if user.userid == idea.userid %}
+							<div class='removetag' onclick='removetag(this,"{{idea.id}}","{{key}}","{{tag.text}}")'>x</div>
+							{% endif %}
+						</div>
+					{% endfor %}
 					</div>
 					{%endif%}
 				{% endfor %}
