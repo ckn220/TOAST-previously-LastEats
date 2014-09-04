@@ -168,7 +168,7 @@
 			<div class='tagCont'>
 				{% for key in tags %}
 					{% if key not in ['Great for','Price','Type'] %}
-					<div class='tag'>
+					<div class='tags'>
 					{{key}}: {% for tag in tags[key] %}{%if loop.index > 1%}, {%endif%}
 						<div class='tag'>{{ tag.text }} 
 							{% if user.userid == idea.userid %}
