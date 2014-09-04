@@ -380,19 +380,25 @@ def last_eat_entry(id):
 		days = ['Mon: ','Tue: ','Wed: ','Thur: ','Fri: ','Sat: ','Sun: ']
 		for i in range(len(idea.hours)):
 			for j in range(len(idea.hours[i])):
-				start = str(int(idea.hours[i][j]['start']) % 1200)
-				start = start[:-2] + ':' + start[-2:]
-				if int(idea.hours[i][j]['start']) /1200 > 1:
+				if idea.hours[i][j]['start'] == '+0000': idea.hours[i][j]['start'] = '2400'
+				if int(idea.hours[i][j]['start']) > 1200:
+					start = str(int(idea.hours[i][j]['start']) - 1200)
+					start = start[:-2] + ':' + start[-2:]
 					start += 'pm'
 				else:
+					start = idea.hours[i][j]['start']
+					start = start[:-2] + ':' + start[-2:]
 					start += 'am'
 				days[i] += start + ' - '
 				
-				end = str(int(idea.hours[i][j]['end']) % 1200)
-				end = end[:-2] + ':' + end[-2:]
-				if int(idea.hours[i][j]['end']) /1200 > 1:
+				if idea.hours[i][j]['end'] == '+0000': idea.hours[i][j]['end'] = '2400'
+				if int(idea.hours[i][j]['end']) > 1200:
+					end = str(int(idea.hours[i][j]['end']) - 1200)
+					end = end[:-2] + ':' + end[-2:]
 					end += 'pm'
 				else:
+					end = idea.hours[i][j]['end']
+					end = end[:-2] + ':' + end[-2:]
 					end += 'am'
 				days[i] += end + '  '
 				
