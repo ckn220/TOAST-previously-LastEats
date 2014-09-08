@@ -79,7 +79,7 @@
 						'cityLng': cityLng},
 				success: function(value) {
 					console.log(value);
-					window.location = "/answered";
+					window.location = "/answered?first=" + city.split(',')[0];
 				}
 			});
 		}
