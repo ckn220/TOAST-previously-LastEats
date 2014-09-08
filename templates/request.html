@@ -104,7 +104,10 @@
 			var i = 0;
 			$('.my_friends').hide();
 			$('.my_friends').each(function(){
-				if($(this).children('.ui-checkbox').children('label').children('span').html().toLowerCase().indexOf(s) > -1){
+				if($(this).children('.ui-checkbox').children('input').is(':checked')){
+					$(this).show();
+				}
+				else if($(this).children('.ui-checkbox').children('label').children('span').html().toLowerCase().indexOf(s) > -1){
 					$(this).show();
 				}
 			});
