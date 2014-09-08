@@ -315,7 +315,12 @@ body {position: relative;}
 
 .mobile-hide {display: none;}
 
+.jqm-demos .jqm-content { 
+	padding-top: 0px;}
 @media (min-width: 60em) {
+	.jqm-demos .jqm-content { 
+	padding-top: 3em;}
+	
 	.mobile-hide {display: block;}
 	
 	.main-content {
