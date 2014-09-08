@@ -844,8 +844,8 @@ def le_requests():
 		
 	else:
 		user = models.User.objects(userid = request.cookies['userid']).first()
-		friends = models.User.objects(userid__in = user.friends)
-	
+		friends = models.User.objects(userid__in = user.friends).order_by('user_name')
+		
 		templateData = {'user': user,
 				'friends': friends}
 		return render_template("request.html", **templateData)

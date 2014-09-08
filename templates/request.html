@@ -21,15 +21,20 @@
 		<input type="hidden" id="cityLng" name="cityLng" />
 		
 		<p>Who are you asking?</p>
+		
+		<input type="search" name="search" id="search-basic" value="" placeholder='Search' autocomplete="off"/>
+		
 		<div data-role="fieldcontain">
 			<fieldset data-role="controlgroup">
 				
 			{% for item in friends -%}
+			<div class="my_friends">
 				<input type="checkbox" name="friends" id="{{ item.userid }}" class="custom" />
 				<label for="{{ item.userid }}">
 					<img src="{{ item.picture }}" height="30" width="30" style='border-radius:20px;'>
-					<span style='font-weight:normal;'>{{ item.user_name }} {{ item.user_last_name }}</span>
+					<span style='font-weight:normal;display:inline-block;padding-top:10px;'>{{ item.user_name }} {{ item.user_last_name }}</span>
 				</label>
+			</div>
 			{%- endfor %}
 			
 			</fieldset>
@@ -81,7 +86,29 @@
 		
 	}
 	</script>
+	
 	<script src="/static/js/mapquest.js"></script>
 	
+	<script>
+		$(document).on('pageinit', function(event){
+			$('.ui-input-clear').click(function(){
+				search();
+			});
+			$('#search-basic').keyup(function(){
+				search();
+			});
+		});
+		
+		function search(){
+			var s = $('#search-basic').val().toLowerCase();
+			var i = 0;
+			$('.my_friends').hide();
+			$('.my_friends').each(function(){
+				if($(this).children('.ui-checkbox').children('label').children('span').html().toLowerCase().indexOf(s) > -1){
+					$(this).show();
+				}
+			});
+		}
+	</script>
 {% endblock %}
 
