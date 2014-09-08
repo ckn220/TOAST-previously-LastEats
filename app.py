@@ -880,11 +880,16 @@ def answered():
 	for row in models.User.objects(userid__in = friend_ids):
 		friends[row.userid] = row
 	
+	first = False
+	if 'first' in request.args:
+		first = request.args.get('first')
+	
 	templateData = {'open_requests':open_requests,
 			'requests': r,
 			'requestIds': ids,
 			'friends': friends,
-			'ideas': ideas}
+			'ideas': ideas,
+			'first': first}
 	return render_template("answered.html", **templateData)
 	
 	

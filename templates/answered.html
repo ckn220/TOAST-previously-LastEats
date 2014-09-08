@@ -10,6 +10,16 @@
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		
+		{% if first %}
+		<div class='submission' style='background:yellow;padding:10px 0px;font-size:16px;'>
+			<a onclick='$(this).parent().remove();' style='float: right;cursor: pointer;padding: 7px 14px;
+				background: white;margin: 5px;border-radius: 30px;border: thin solid black;'>X</a>
+			Thanks! Your Last Eats request for {{first}} has been sent. <br>
+			<a href='/le_requests'>Request Another Last Eats</a> or <a href='/newsfeed'>Browse</a>
+		</div>
+		<br>
+		{%endif%}
+		
 		<div class='my_friends_header'><h2>Requests for you</h2></div>
 		{% for item in open_requests -%}
 			<a href="/add_last_eats?requestid={{ item.id }}" class="my_friends">
