@@ -305,6 +305,9 @@ body { overflow:hidden;}
 		$('.idea').hide();
 		$('.idea').addClass('hidden');
 		var types = '';
+		var meals = '';
+		var vibes = '';
+		
 		for (var i = 0; i < mapPins.length; i++ ){
 			if (filter != '' && (filter.indexOf(mapPins[i].filter) == -1 || mapPins[i].filter == '')){
 				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
@@ -325,8 +328,10 @@ body { overflow:hidden;}
 				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
 			
 			else {
-				if (types.indexOf(mapPins[i].type) == -1){
-					types += mapPins[i].type;}
+				if (types.indexOf(mapPins[i].type) == -1){types += mapPins[i].type;}
+				
+				if (meals.indexOf(mapPins[i].meal) == -1){meals += mapPins[i].meal;}
+				if (vibes.indexOf(mapPins[i].vibe) == -1){vibes += mapPins[i].vibe;}
 				
 				if (type != '' && (type.indexOf(mapPins[i].type) == -1 || mapPins[i].type == '')){
 					mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
@@ -334,14 +339,19 @@ body { overflow:hidden;}
 					mapPins[i][0].setVisible(true);$('#'+mapPins[i].id).show();$('#'+mapPins[i].id).removeClass('hidden');}
 			}
 		}
-		$('#select-choice-1 option').show();
-		$('#select-choice-1 option').removeAttr('disabled');
+		
+		$('#select-choice-1 option').show();$('#select-choice-1 option').removeAttr('disabled');
 		$('#select-choice-1 option').each(function(){
-			if (types.indexOf($(this).val()) == -1){
-				$(this).hide();
-				$(this).attr('disabled','disabled');
-			}
-		});
+			if (types.indexOf($(this).val()) == -1){$(this).hide();$(this).attr('disabled','disabled');}});
+		
+		$('#select-choice-3 option').show();$('#select-choice-3 option').removeAttr('disabled');
+		$('#select-choice-3 option').each(function(){
+			if (meals.indexOf($(this).val()) == -1){$(this).hide();$(this).attr('disabled','disabled');}});
+		
+		$('#select-choice-4 option').show();$('#select-choice-4 option').removeAttr('disabled');
+		$('#select-choice-4 option').each(function(){
+			if (vibes.indexOf($(this).val()) == -1){$(this).hide();$(this).attr('disabled','disabled');}});
+		
 		$('.firstRec').attr('href',$('.idea[class!="idea hidden"]').eq(0).attr('href'));
 	}
 	
