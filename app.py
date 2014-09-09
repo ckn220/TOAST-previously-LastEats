@@ -627,13 +627,21 @@ def map():
 			if row.ideaid not in tags:
 				tags[row.ideaid] = {}
 			tags[row.ideaid][row.type] = row.text
-			
+					
 		data = []
 		for row in ideas:
 			data.append({'lat':row.point['coordinates'][1], 'lng':row.point['coordinates'][0], 
 						'title':row.restaurant_name, 'id':str(row.id),
 						'photo':row.filename['url'], 'filter':row.filter, 'user':photos[row.userid],
-						'type': tags.get(row.id,{}).get('Type',''), 'price': tags.get(row.id,{}).get('Price',''),
+						'type': tags.get(row.id,{}).get('Type',''), 
+						'price': tags.get(row.id,{}).get('Price',''),
+						
+						'meal': tags.get(row.id,{}).get('Great for',''),
+						'vibe': tags.get(row.id,{}).get('Vibe',''),
+						'attire': tags.get(row.id,{}).get('Attire',''),
+						'diet': tags.get(row.id,{}).get('Diet',''),
+						'perks': tags.get(row.id,{}).get('Perks',''),
+						
 						'city': ','.join(row.full_city.split(',')[:2])})
 		
 		return jsonify(**{'data':data, 'currentCity':currentCity})
@@ -897,6 +905,11 @@ def answered():
 def add_last_eats():
 	if request.method == "POST":
 		full_city = request.form.get('city').replace(' City','').replace(' city','')
+		if full_city.startswith('Brooklyn'):
+			full_city = 'Brooklyn, NY, United States'
+		elif full_city.startswith('Queens'):
+			full_city = 'Queens, NY, United States'
+			
 		city = full_city.split(',')[0]
 		
 		checkCity = None
