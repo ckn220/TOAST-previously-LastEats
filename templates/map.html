@@ -51,69 +51,138 @@ body { overflow:hidden;}
 		<div style='text-align:left;'>
 			<div class="item rounded dark desktopHalf" style='position:relative;'>
 				<div class='mobileContent'>
-					<a data-role='button' style='position:fixed;bottom: 10px;left:25%;width:50%;padding:10px 0px;z-index:10;' onclick='openOptions()'>Filters</a>
+					<a data-role='button' class='mobileFilter' style='position:fixed;bottom: 10px;left:25%;width:50%;padding:10px 0px;z-index:10;' onclick='openOptions()'>Filters</a>
 				</div>
 				<div id="map_canvas" class="map rounded" style='height:700px;' ></div>
 				<div id='multimap'></div>
 			</div>
-			<div class='mapInfo transition' style='display: inline-block;vertical-align: top;padding:2%;height:640px;overflow:auto;z-index: 15;'>
-				
-				<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;'>
-					<select name="select-choice-2" id="select-choice-2">
-						<option value="" >City</option>
-						{% for row in cities %}
-						<option value="{{row}}" {%if row == 0 %}selected{%endif%}>{{row}}</option>
-						{% endfor %}
-					</select>
-				</div>
-				
-				<div>
-					<h2>Filter By {{filter}}</h2>
-					<div data-role="fieldcontain">
-						<fieldset data-role="controlgroup">
-						{% set colors = ['http://maps.google.com/mapfiles/ms/icons/green-dot.png','http://maps.google.com/mapfiles/ms/icons/blue-dot.png','http://maps.google.com/mapfiles/ms/icons/red-dot.png'] %}
-						{% for text in ['Friends','Newest','Multiple Reccomendations'] %}
-						<input type="checkbox" name="filter" id="{{ text }}" value='{{text}}' class="custom" {%if text in filter%}checked=checked{%endif%}/>
-						<label for="{{ text }}">
-							<img style='height: 20px;' src='{{colors[loop.index0]}}' />
-							<span style='font-weight:normal;'>{{ text }}</span>
-						</label>
-						{% endfor %}
-						</fieldset>
+			<div class='mapInfo transition' style=''>
+				<div class='optionsCont' style='padding: 0px 4% 0px 4%;'>
+					<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;padding-right:10px;'>
+						<select name="select-choice-2" id="select-choice-2">
+							<option value="" >City</option>
+							{% for row in cities %}
+							<option value="{{row}}" {%if row == 0 %}selected{%endif%}>{{row}}</option>
+							{% endfor %}
+						</select>
 					</div>
-				</div>
-				
-				<div>
-					<h2>Price</h2>
-					<div data-role="fieldcontain">
-						<fieldset data-role="controlgroup">
-						{% for text in ['Pricey','Bang for the Buck'] %}
-						<input type="checkbox" name="price" id="{{ text }}" value='{{text}}' class="custom" {%if text in price%}checked=checked{%endif%}/>
-						<label for="{{ text }}">
-							<span style='font-weight:normal;'>{{ text }}</span>
-						</label>
-						{% endfor %}
-						</fieldset>
+					
+					<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;'>
+						<select name="select-choice-1" id="select-choice-1">
+							<option value="" >Type of Food</option>
+							{% for row in types %}
+							<option value="{{row}}" {%if row == type%}selected{%endif%}>{{row}}</option>
+							{% endfor %}
+						</select>
 					</div>
+					
+					<div>
+						<h2>Filter By {{filter}}</h2>
+						<div data-role="fieldcontain">
+							<fieldset data-role="controlgroup">
+							{% set colors = ['http://maps.google.com/mapfiles/ms/icons/green-dot.png','http://maps.google.com/mapfiles/ms/icons/blue-dot.png','http://maps.google.com/mapfiles/ms/icons/red-dot.png'] %}
+							{% for text in ['Friends','Newest','Multiple Reccomendations'] %}
+							<input type="checkbox" name="filter" id="{{ text }}" value='{{text}}' class="custom" {%if text in filter%}checked=checked{%endif%}/>
+							<label for="{{ text }}">
+								<img style='height: 20px;' src='{{colors[loop.index0]}}' />
+								<span style='font-weight:normal;'>{{ text }}</span>
+							</label>
+							{% endfor %}
+							</fieldset>
+						</div>
+					</div>
+					
+					<div>
+						<h2>Price</h2>
+						<div data-role="fieldcontain">
+							<fieldset data-role="controlgroup">
+							{% for text in ['Pricey','Bang for the Buck'] %}
+							<input type="checkbox" name="price" id="{{ text }}" value='{{text}}' class="custom" {%if text in price%}checked=checked{%endif%}/>
+							<label for="{{ text }}">
+								<span style='font-weight:normal;'>{{ text }}</span>
+							</label>
+							{% endfor %}
+							</fieldset>
+						</div>
+					</div>
+					
+					<div class='hiddenOptionsOverview desktopContent'>
+						<a class="ui-link ui-btn ui-shadow ui-corner-all" style='display:inline-block;' onclick='openExtraOptions()'>More Options</a>
+						<br><br>
+					</div>
+					<div class='hiddenOptions transition desktopContent' style='display:none;height:0px;overflow:hidden;'><div class='hiddenOptionsHeight'>
+						<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;padding-right:10px;'>
+							<select name="select-choice-3" id="select-choice-3">
+								<option value="" >Type of Meal</option>
+								{% for row in ['Lunch','Breakfast','Brunch','Dinner','Dessert'] %}
+								<option value="{{row}}" {%if row == type%}selected{%endif%}>{{row}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;'>
+							<select name="select-choice-4" id="select-choice-4">
+								<option value="" >Vibe</option>
+								{% for row in ['Trendy','Hip','Upscale','Laid Back','Intimate'] %}
+								<option value="{{row}}" {%if row == type%}selected{%endif%}>{{row}}</option>
+								{% endfor %}
+							</select>
+						</div>
+						
+						<div>
+							<h2>Attire</h2>
+							<div data-role="fieldcontain">
+								<fieldset data-role="controlgroup">
+								{% for text in ['Casual','Formal'] %}
+								<input type="checkbox" name="attire" id="{{ text }}" value='{{text}}' class="custom" {%if text in price%}checked=checked{%endif%}/>
+								<label for="{{ text }}">
+									<span style='font-weight:normal;'>{{ text }}</span>
+								</label>
+								{% endfor %}
+								</fieldset>
+							</div>
+						</div>
+						
+						<div>
+							<h2>Diet</h2>
+							<div data-role="fieldcontain">
+								<fieldset data-role="controlgroup">
+								{% for text in ['Gluten Free Options','Vegetarian Options'] %}
+								<input type="checkbox" name="diet" id="{{ text }}" value='{{text}}' class="custom" {%if text in price%}checked=checked{%endif%}/>
+								<label for="{{ text }}">
+									<span style='font-weight:normal;'>{{ text }}</span>
+								</label>
+								{% endfor %}
+								</fieldset>
+							</div>
+						</div>
+						
+						<div>
+							<h2>Perks</h2>
+							<div data-role="fieldcontain">
+								<fieldset data-role="controlgroup">
+								{% for text in ['Full Bar','Kid Friendly','Groups'] %}
+								<input type="checkbox" name="perks" id="{{ text }}" value='{{text}}' class="custom" {%if text in price%}checked=checked{%endif%}/>
+								<label for="{{ text }}">
+									<span style='font-weight:normal;'>{{ text }}</span>
+								</label>
+								{% endfor %}
+								</fieldset>
+							</div>
+						</div>
+						
+						<br><br>
+						<a data-role='button' class="button" style='display:block;' onclick='closeExtraOptions()'>Show Restaurants</a>
+					</div></div>
+					
 				</div>
-				
-				<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;'>
-					<select name="select-choice-1" id="select-choice-1">
-						<option value="" >Type of Food</option>
-						{% for row in types %}
-						<option value="{{row}}" {%if row == type%}selected{%endif%}>{{row}}</option>
-						{% endfor %}
-					</select>
-				</div>
-				
 				<!--<a class='firstRec' data-role='button' style='display:inline-block;margin-top: 18px;'>Best/Closest Recommendations</a>-->
 				
-				<div class='ideaCont'>
+				<div class='ideaCont' style='background:#ccc;text-align: center;'>
 				</div>
 				
 				<div class='mobileContent'>
 					<div class='delete-entry' style='right: 5px;top: 5px;border: 1px #999 solid;' onclick='closeOptions()'>X</div>
-					<a data-role='button' class="button" style='display:block;' onclick='closeOptions()'>Apply Filters</a>
+					<a data-role='button' class="button" style='display:block;margin:0px 4% 0px 4%;' onclick='closeOptions()'>Apply Filters</a>
 				</div>
 			</div>
 		</div>
@@ -131,11 +200,11 @@ body { overflow:hidden;}
 	<script>
 	
 	$(document).ready(function(){
-		$('.mapInfo').height(parseInt($(window).height()) - 53 - parseInt($(window).width())*.04);
+		$('.mapInfo').height(parseInt($(window).height()) - 53);
 		$('#map_canvas').height(parseInt($(window).height()) - 53);
 		
 		$( window ).resize(function() {
-			$('.mapInfo').height(parseInt($(window).height()) - 53 - parseInt($(window).width())*.04);
+			$('.mapInfo').height(parseInt($(window).height()) - 53);
 			$('#map_canvas').height(parseInt($(window).height()) - 53);
 		});
 		
@@ -187,6 +256,13 @@ body { overflow:hidden;}
 					mapPins[mapPins.length-1].type = value.data[i].type;
 					mapPins[mapPins.length-1].id = value.data[i].id;
 					mapPins[mapPins.length-1].city = value.data[i].city;
+					
+					mapPins[mapPins.length-1].meal = value.data[i].meal;
+					mapPins[mapPins.length-1].vibe = value.data[i].vibe;
+					mapPins[mapPins.length-1].attire = value.data[i].attire;
+					mapPins[mapPins.length-1].diet = value.data[i].diet;
+					mapPins[mapPins.length-1].perks = value.data[i].perks;
+					
 				}
 				$('.ideaCont .idea').height($('.ideaCont .idea').width());
 				
@@ -209,56 +285,53 @@ body { overflow:hidden;}
 	}
 	
 	function mapSearch(){
-		var filter = ''
-		$('input[name=filter]').each(function(){
-			if ($(this).is(':checked')){
-				filter += $(this).val();
-			}
-		});
-		var price = ''
-		$('input[name=price]').each(function(){
-			if ($(this).is(':checked')){
-				price += $(this).val();
-			}
-		});
+		var filter = '';
+		$('input[name=filter]').each(function(){if ($(this).is(':checked')){filter += $(this).val();}});
+		var price = '';
+		$('input[name=price]').each(function(){if ($(this).is(':checked')){price += $(this).val();}});
 		var type = $('select#select-choice-1').val();
 		var city = $('select#select-choice-2').val();
+		
+		var meal = $('select#select-choice-3').val();
+		var vibe = $('select#select-choice-4').val();
+		
+		var attire = '';
+		$('input[name=attire]').each(function(){if ($(this).is(':checked')){attire += $(this).val();}});
+		var diet = '';
+		$('input[name=diet]').each(function(){if ($(this).is(':checked')){diet += $(this).val();}});
+		var perks = '';
+		$('input[name=perks]').each(function(){if ($(this).is(':checked')){perks += $(this).val();}});
 		
 		$('.idea').hide();
 		$('.idea').addClass('hidden');
 		var types = '';
 		for (var i = 0; i < mapPins.length; i++ ){
 			if (filter != '' && (filter.indexOf(mapPins[i].filter) == -1 || mapPins[i].filter == '')){
-				mapPins[i][0].setVisible(false);
-				$('#'+mapPins[i].id).hide();
-				$('#'+mapPins[i].id).addClass('hidden');
-			}
+				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
 			else if (city != '' && (city.indexOf(mapPins[i].city) == -1 || mapPins[i].city == '')){
-				mapPins[i][0].setVisible(false);
-				$('#'+mapPins[i].id).hide();
-				$('#'+mapPins[i].id).addClass('hidden');
-			}
-			
+				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
 			else if (price != '' && (price.indexOf(mapPins[i].price) == -1 || mapPins[i].price == '')){
-				mapPins[i][0].setVisible(false);
-				$('#'+mapPins[i].id).hide();
-				$('#'+mapPins[i].id).addClass('hidden');
-			}
+				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+			
+			else if (meal != '' && (meal.indexOf(mapPins[i].meal) == -1 || mapPins[i].meal == '')){
+				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+			else if (vibe != '' && (vibe.indexOf(mapPins[i].vibe) == -1 || mapPins[i].vibe == '')){
+				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+			else if (attire != '' && (attire.indexOf(mapPins[i].attire) == -1 || mapPins[i].attire == '')){
+				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+			else if (diet != '' && (diet.indexOf(mapPins[i].diet) == -1 || mapPins[i].diet == '')){
+				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+			else if (perks != '' && (perks.indexOf(mapPins[i].perks) == -1 || mapPins[i].perks == '')){
+				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+			
 			else {
 				if (types.indexOf(mapPins[i].type) == -1){
-					types += mapPins[i].type;
-				}
+					types += mapPins[i].type;}
 				
 				if (type != '' && (type.indexOf(mapPins[i].type) == -1 || mapPins[i].type == '')){
-					mapPins[i][0].setVisible(false);
-					$('#'+mapPins[i].id).hide();
-					$('#'+mapPins[i].id).addClass('hidden');
-				}
+					mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
 				else {
-					mapPins[i][0].setVisible(true);
-					$('#'+mapPins[i].id).show();
-					$('#'+mapPins[i].id).removeClass('hidden');
-				}
+					mapPins[i][0].setVisible(true);$('#'+mapPins[i].id).show();$('#'+mapPins[i].id).removeClass('hidden');}
 			}
 		}
 		$('#select-choice-1 option').show();
@@ -279,11 +352,34 @@ body { overflow:hidden;}
 	}
 	
 	function openOptions(){
-		$('.mapInfo').css('top','51px');	
+		$('.mapInfo').css('top','51px');
+		$('.mobileFilter').hide();
 	}
 	function closeOptions(){
 		$('.mapInfo').css('top','100%');
-		
+		$('.mobileFilter').show();
+	}
+	
+	function openExtraOptions(){
+		$('.hiddenOptions').height($('.hiddenOptionsOverview').height());
+		setTimeout(function(){
+			$('.hiddenOptionsOverview').hide();
+			$('.hiddenOptions').show();
+			setTimeout(function(){
+				$('.hiddenOptions').height($('.hiddenOptionsHeight').height());
+			},10);
+			setTimeout(function(){
+				$('.idea').hide();
+			},200);
+		},200);
+	}
+	function closeExtraOptions(){
+		$('.hiddenOptionsOverview').show();
+		$('.hiddenOptions').height(0);
+		mapSearch();
+		setTimeout(function(){
+			$('.hiddenOptions').hide();
+		},200);
 	}
 	</script>
 	

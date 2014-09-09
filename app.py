@@ -623,7 +623,7 @@ def map():
 			ideaids.append(str(row.id))
 		for row in  models.User.objects(userid__in = list(friendids)).only('picture','userid'):
 			photos[row.userid] = row.picture
-		for row in models.Tag.objects(type__in = ['Type','Price'], ideaid__in = ideaids):
+		for row in models.Tag.objects(type__in = ['Type','Price','Great for','Vibe','Attire','Diet','Perks'], ideaid__in = ideaids):
 			if row.ideaid not in tags:
 				tags[row.ideaid] = {}
 			tags[row.ideaid][row.type] = row.text
