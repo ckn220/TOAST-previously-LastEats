@@ -171,7 +171,7 @@ body { overflow:hidden;}
 						</div>
 						
 						<br><br>
-						<a data-role='button' class="button" style='display:block;' onclick='closeExtraOptions()'>Show Restaurants</a>
+						<a data-role='button' class="button" style='display:block;color: white !important;' onclick='closeExtraOptions()'>Show Restaurants</a>
 					</div></div>
 					
 				</div>
@@ -182,7 +182,7 @@ body { overflow:hidden;}
 				
 				<div class='mobileContent'>
 					<div class='delete-entry' style='right: 5px;top: 5px;border: 1px #999 solid;' onclick='closeOptions()'>X</div>
-					<a data-role='button' class="button" style='display:block;margin:0px 4% 0px 4%;' onclick='closeOptions()'>Apply Filters</a>
+					<a data-role='button' class="button" style='display:block;margin:0px 4% 0px 4%;color: white !important;' onclick='closeOptions()'>Apply Filters</a>
 				</div>
 			</div>
 		</div>
@@ -379,12 +379,13 @@ body { overflow:hidden;}
 				$('.hiddenOptions').height($('.hiddenOptionsHeight').height());
 			},10);
 			setTimeout(function(){
-				$('.idea').hide();
+				$('.ideaCont').hide();
 			},200);
 		},200);
 	}
 	function closeExtraOptions(){
 		$('.hiddenOptionsOverview').show();
+		$('.ideaCont').show();
 		$('.hiddenOptions').height(0);
 		mapSearch();
 		setTimeout(function(){
