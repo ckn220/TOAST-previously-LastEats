@@ -342,7 +342,13 @@ body {position: relative;}
 	}
 	
 	.mapInfo {
-		width: 45%;
+		width: 50%;
+		float: right;
+		display: inline-block;
+		vertical-align: top;
+		height:640px;
+		overflow:scroll;
+		z-index: 15;
 	}
 }
 
@@ -375,7 +381,7 @@ body {position: relative;}
 	}
 	
 	.mapInfo {
-		width: 96%;
+		width: 100%;
 		position: fixed;
 		top: 100%;
 		background: white;
