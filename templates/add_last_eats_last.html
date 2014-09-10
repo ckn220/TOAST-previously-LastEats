@@ -31,7 +31,7 @@ function delayStart(){
 	{% include "header.html" %}
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
-		<form action="add_last_eats_last" method="post" enctype='multipart/form-data' encoding='multipart/form-data'>
+		<form action="add_last_eats_last" method="post" enctype='multipart/form-data' encoding='multipart/form-data' onsubmit="return validateForm()">
 			<input type="hidden" id="id" name="id" value="{{ id }}"/>
 		{% if idea.filenames|length == 0 %}
 			<p>No images were found for this location :(</p>
@@ -70,6 +70,8 @@ function delayStart(){
 		<input class='picture-file-input' type='file' name='picture' />
 		<br>
 		
+		
+		<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
 		
 		<div class="form_next">
 			{% if not currentuser %}
@@ -206,6 +208,17 @@ function readURL(input) {
 		
         reader.readAsDataURL(input.files[0]);
     }
+}
+
+function validateForm(){
+	if ($('.picture-file-input').val() != '' || $('#image').length > 0){
+		return true;
+	}
+	else{
+		$('.error_message').html('Please add an image.');
+		$('.error_message').show();
+		return false;
+	}
 }
 
 </script>

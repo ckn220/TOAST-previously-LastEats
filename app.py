@@ -539,13 +539,13 @@ def friend_profile(id):
 	
 	friend = models.User.objects(userid = id).first()
 	
-	if request.method == "POST":
-		user = None
-		current_user = None
-		if 'userid' in request.cookies:
-			current_user = request.cookies['userid']
-			user = models.User.objects(userid = request.cookies['userid']).first()
+	user = None
+	current_user = None
+	if 'userid' in request.cookies:
+		current_user = request.cookies['userid']
+		user = models.User.objects(userid = request.cookies['userid']).first()
 			
+	if request.method == "POST":
 		friend = models.User.objects(userid = id).first()
 		lat = None
 		lng = None
@@ -1023,7 +1023,7 @@ def add_last_eats_tags():
 		u'Type': set([u'Indian',u'Caribbean', u'Vietnamese', u'Middle Eastern', u'Brunch/American', u'Everything', u'Pub', u'Brewery', 
 					u'Pizza', u'Japanese/Sushi', u'Latin', u'Deli', u'Dessert', u'American/Pub', u'Southern', u'French', u'Thai', u'Tapas', 
 					u'Cuban', u'Seafood', u'Breweries', u'Greek', u'American', u'Steakhouse', u'BBQ', u'Italian', u'Mexican', u'Sushi', 
-					u'Mediterranean', u'Japanese', u'Diet: Vegitarian', u'Delis', u'Breweries/Pub', u'Asian', u'Spanish', u'Breakfast'])}
+					u'Mediterranean', u'Japanese', u'Delis', u'Breweries/Pub', u'Asian', u'Spanish', u'Breakfast'])}
 	
 	tagList = list(tagSets['Type'])
 	tagList.sort()
