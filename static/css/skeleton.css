@@ -347,7 +347,7 @@ body {position: relative;}
 		display: inline-block;
 		vertical-align: top;
 		height:640px;
-		overflow:scroll;
+		overflow-y:scroll;
 		z-index: 15;
 	}
 }

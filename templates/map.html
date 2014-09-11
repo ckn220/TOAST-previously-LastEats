@@ -106,10 +106,10 @@ body { overflow:hidden;}
 						</div>
 					</div>
 					
-					<div class='hiddenOptionsOverview desktopContent' style='display:none;'>
+					<div class='hiddenOptionsOverview desktopContent'>
 						<a class="ui-link ui-btn ui-shadow ui-corner-all" style='display:inline-block;' onclick='openExtraOptions()'>More Options</a>
-						<br><br>
 					</div>
+					
 					<div class='hiddenOptions transition desktopContent' style='display:none;height:0px;overflow:hidden;'><div class='hiddenOptionsHeight'>
 						<div data-role="fieldcontain" style='display: inline-block;min-width: 250px;vertical-align:top;border:none;padding-right:10px;'>
 							<select name="select-choice-3" id="select-choice-3">
@@ -176,7 +176,7 @@ body { overflow:hidden;}
 					
 				</div>
 				<!--<a class='firstRec' data-role='button' style='display:inline-block;margin-top: 18px;'>Best/Closest Recommendations</a>-->
-				
+				<br><br>
 				<div class='ideaCont' style='background:#ccc;'>
 				</div>
 				
@@ -214,6 +214,7 @@ body { overflow:hidden;}
 		
 		$('select[name=select-choice-2]').change(function(){mapSearch();setFirstCenter()});
 		
+		$('body').on('click','.removeoption', function(){clearOption(this);});
 		/*$('body').on('mouseenter','.idea',function(){setCenter(this);});*/
 	});
 	
@@ -285,22 +286,21 @@ body { overflow:hidden;}
 	}
 	
 	function mapSearch(){
+		var type = $('select#select-choice-1').val();
+		var city = $('select#select-choice-2').val();
+		var meal = $('select#select-choice-3').val();
+		var vibe = $('select#select-choice-4').val();
+		
 		var filter = '';
 		$('input[name=filter]').each(function(){if ($(this).is(':checked')){filter += $(this).val();}});
 		var price = '';
 		$('input[name=price]').each(function(){if ($(this).is(':checked')){price += $(this).val();}});
-		var type = $('select#select-choice-1').val();
-		var city = $('select#select-choice-2').val();
-		
-		var meal = $('select#select-choice-3').val();
-		var vibe = $('select#select-choice-4').val();
-		
 		var attire = '';
-		$('input[name=attire]').each(function(){if ($(this).is(':checked')){attire += $(this).val();}});
+		$('input[name=attire]').each(function(){if ($(this).is(':checked')){attire += $(this).val() + ', ';}});
 		var diet = '';
-		$('input[name=diet]').each(function(){if ($(this).is(':checked')){diet += $(this).val();}});
+		$('input[name=diet]').each(function(){if ($(this).is(':checked')){diet += $(this).val() + ', ';}});
 		var perks = '';
-		$('input[name=perks]').each(function(){if ($(this).is(':checked')){perks += $(this).val();}});
+		$('input[name=perks]').each(function(){if ($(this).is(':checked')){perks += $(this).val() + ', ';}});
 		
 		$('.idea').hide();
 		$('.idea').addClass('hidden');
@@ -308,35 +308,48 @@ body { overflow:hidden;}
 		var meals = '';
 		var vibes = '';
 		
+		var filters = '';
+		var prices = '';
+		var attires = '';
+		var diets = '';
+		var perkss = '';
+		
 		for (var i = 0; i < mapPins.length; i++ ){
-			if (filter != '' && (filter.indexOf(mapPins[i].filter) == -1 || mapPins[i].filter == '')){
+			if (city != '' && (city.indexOf(mapPins[i].city) == -1 || mapPins[i].city == '')){
 				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
-			else if (city != '' && (city.indexOf(mapPins[i].city) == -1 || mapPins[i].city == '')){
-				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
-			else if (price != '' && (price.indexOf(mapPins[i].price) == -1 || mapPins[i].price == '')){
-				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
-			
-			else if (meal != '' && (meal.indexOf(mapPins[i].meal) == -1 || mapPins[i].meal == '')){
-				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
-			else if (vibe != '' && (vibe.indexOf(mapPins[i].vibe) == -1 || mapPins[i].vibe == '')){
-				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
-			else if (attire != '' && (attire.indexOf(mapPins[i].attire) == -1 || mapPins[i].attire == '')){
-				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
-			else if (diet != '' && (diet.indexOf(mapPins[i].diet) == -1 || mapPins[i].diet == '')){
-				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
-			else if (perks != '' && (perks.indexOf(mapPins[i].perks) == -1 || mapPins[i].perks == '')){
-				mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
-			
-			else {
-				if (types.indexOf(mapPins[i].type) == -1){types += mapPins[i].type;}
 				
+			else{
+				
+				if (types.indexOf(mapPins[i].type) == -1){types += mapPins[i].type;}
 				if (meals.indexOf(mapPins[i].meal) == -1){meals += mapPins[i].meal;}
 				if (vibes.indexOf(mapPins[i].vibe) == -1){vibes += mapPins[i].vibe;}
 				
-				if (type != '' && (type.indexOf(mapPins[i].type) == -1 || mapPins[i].type == '')){
+				if (filters.indexOf(mapPins[i].filter) == -1){filters += mapPins[i].filter;}
+				if (prices.indexOf(mapPins[i].price) == -1){prices += mapPins[i].price;}
+				if (attires.indexOf(mapPins[i].attire) == -1){attires += mapPins[i].attire;}
+				if (diets.indexOf(mapPins[i].diet) == -1){diets += mapPins[i].diet;}
+				if (perkss.indexOf(mapPins[i].perks) == -1){perkss += mapPins[i].perks;}
+				
+				if (filter != '' && (filter.indexOf(mapPins[i].filter) == -1 || mapPins[i].filter == '')){
+					mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+				else if (price != '' && (price.indexOf(mapPins[i].price) == -1 || mapPins[i].price == '')){
+					mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+				else if (meal != '' && (meal.indexOf(mapPins[i].meal) == -1 || mapPins[i].meal == '')){
+					mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+				else if (vibe != '' && (vibe.indexOf(mapPins[i].vibe) == -1 || mapPins[i].vibe == '')){
+					mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+				else if (attire != '' && (attire.indexOf(mapPins[i].attire) == -1 || mapPins[i].attire == '')){
+					mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+				else if (diet != '' && (diet.indexOf(mapPins[i].diet) == -1 || mapPins[i].diet == '')){
+					mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+				else if (perks != '' && (perks.indexOf(mapPins[i].perks) == -1 || mapPins[i].perks == '')){
 					mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
 				else {
-					mapPins[i][0].setVisible(true);$('#'+mapPins[i].id).show();$('#'+mapPins[i].id).removeClass('hidden');}
+					if (type != '' && (type.indexOf(mapPins[i].type) == -1 || mapPins[i].type == '')){
+						mapPins[i][0].setVisible(false);$('#'+mapPins[i].id).hide();$('#'+mapPins[i].id).addClass('hidden');}
+					else {
+						mapPins[i][0].setVisible(true);$('#'+mapPins[i].id).show();$('#'+mapPins[i].id).removeClass('hidden');}
+				}
 			}
 		}
 		
@@ -352,7 +365,35 @@ body { overflow:hidden;}
 		$('#select-choice-4 option').each(function(){
 			if (vibes.indexOf($(this).val()) == -1){$(this).hide();$(this).attr('disabled','disabled');}});
 		
+		
+		$("input[type='checkbox']").checkboxradio('enable');
+		$('input[name=filter]').each(function(){if (filters.indexOf($(this).val()) == -1){$(this).checkboxradio('disable');}});
+		$('input[name=price]').each(function(){if (prices.indexOf($(this).val()) == -1){$(this).checkboxradio('disable');}});
+		$('input[name=attire]').each(function(){if (attires.indexOf($(this).val()) == -1){$(this).checkboxradio('disable');}});
+		$('input[name=diet]').each(function(){if (diets.indexOf($(this).val()) == -1){$(this).checkboxradio('disable');}});
+		$('input[name=perks]').each(function(){if (perkss.indexOf($(this).val()) == -1){ $(this).checkboxradio('disable');}});
+		
 		$('.firstRec').attr('href',$('.idea[class!="idea hidden"]').eq(0).attr('href'));
+		
+		$('.hiddenOptionsOverview .removeoption').remove();
+		var s = '<a class="ui-link ui-btn ui-shadow ui-corner-all removeoption" style="display:inline-block;margin-left:10px;"';
+		if (meal != ''){$('.hiddenOptionsOverview').append(s + 'type="meal" >'+ meal + ' <b>X</b></a>');}
+		if (vibe != ''){$('.hiddenOptionsOverview').append(s + 'type="vibe" >'+ vibe + ' <b>X</b></a>');}
+		
+		if (attire != ''){$('.hiddenOptionsOverview').append(s + 'type="attire" >'+ attire.slice(0,-2) + ' <b>X</b></a>');}
+		if (diet != ''){$('.hiddenOptionsOverview').append(s + 'type="diet" >'+ diet.slice(0,-2) + ' <b>X</b></a>');}
+		if (perks != ''){$('.hiddenOptionsOverview').append(s + 'type="perks" >'+ perks.slice(0,-2) + ' <b>X</b></a>');}
+	}
+	
+	function clearOption(thisObject){
+		var type = $(thisObject).attr('type');
+		if ('meal' == type){$('#select-choice-3 option').eq(0).attr('selected', true).siblings('option').removeAttr('selected');$('#select-choice-3').selectmenu("refresh", true);}
+		else if ('vibe' == type){$('#select-choice-4 option').eq(0).attr('selected', true).siblings('option').removeAttr('selected');$('#select-choice-4').selectmenu("refresh", true);}
+		else{
+			$('input[name='+type+']').each(function(){$(this).attr("checked",false).checkboxradio("refresh");});
+		}
+		$(thisObject).remove();
+		mapSearch();
 	}
 	
 	function hidePins(){
