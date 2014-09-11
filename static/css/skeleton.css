@@ -370,7 +370,6 @@ body {position: relative;}
 	background: grey;
 }
 @media (max-width: 60em) {
-
 	.col-sm-4 {
 		display:block;
 		width:auto;
@@ -382,9 +381,10 @@ body {position: relative;}
 	
 	.mapInfo {
 		width: 100%;
-		position: fixed;
-		top: 100%;
 		background: white;
+		display: none;
+		position: relative;
+		height: auto !important;
 	}
 	.mapInfo .ideaCont {
 		display:none;

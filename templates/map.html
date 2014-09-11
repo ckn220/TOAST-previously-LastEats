@@ -49,7 +49,7 @@ body { overflow:hidden;}
 		<article class="grid_16"></article>
 		
 		<div style='text-align:left;'>
-			<div class="item rounded dark desktopHalf" style='position:relative;'>
+			<div class="item rounded dark desktopHalf transition" style='position:relative;overflow:hidden;'>
 				<div class='mobileContent'>
 					<a data-role='button' class='mobileFilter' style='position:fixed;bottom: 10px;left:25%;width:50%;padding:10px 0px;z-index:10;' onclick='openOptions()'>Filters</a>
 				</div>
@@ -203,10 +203,15 @@ body { overflow:hidden;}
 	$(document).ready(function(){
 		$('.mapInfo').height(parseInt($(window).height()) - 53);
 		$('#map_canvas').height(parseInt($(window).height()) - 53);
-		
+		$('.desktopHalf').height(parseInt($(window).height()) - 53);
 		$( window ).resize(function() {
-			$('.mapInfo').height(parseInt($(window).height()) - 53);
-			$('#map_canvas').height(parseInt($(window).height()) - 53);
+			if ($('.desktopContent').css('display') != 'none'){
+				$('.desktopHalf').height(parseInt($(window).height()) - 53);
+				$('#map_canvas').height(parseInt($(window).height()) - 53);
+				$('.mapInfo').height(parseInt($(window).height()) - 53);
+			}
+			
+			
 		});
 		
 		$('input[type=checkbox]').change(function(){mapSearch();});
@@ -368,7 +373,8 @@ body { overflow:hidden;}
 		
 		
 		$("input[type='checkbox']").checkboxradio('enable');
-		$('input[name=filter]').each(function(){if (filters.indexOf($(this).val()) == -1){$(this).checkboxradio('disable');}});
+		$('input[name=filter]').each(function(){if (filters.indexOf($(this).val()) == -1){
+			$(this).checkboxradio('disable');$(this).attr("checked",false).checkboxradio("refresh");}});
 		$('input[name=price]').each(function(){if (prices.indexOf($(this).val()) == -1){$(this).checkboxradio('disable');}});
 		$('input[name=attire]').each(function(){if (attires.indexOf($(this).val()) == -1){$(this).checkboxradio('disable');}});
 		$('input[name=diet]').each(function(){if (diets.indexOf($(this).val()) == -1){$(this).checkboxradio('disable');}});
@@ -404,12 +410,18 @@ body { overflow:hidden;}
 	}
 	
 	function openOptions(){
-		$('.mapInfo').css('top','51px');
 		$('.mobileFilter').hide();
+		$('.desktopHalf').height(0);
+		$('.mapInfo').show();
+		$('body').css('overflow','auto');
 	}
 	function closeOptions(){
-		$('.mapInfo').css('top','100%');
-		$('.mobileFilter').show();
+		$('.desktopHalf').height(parseInt($(window).height()) - 53);
+		$('body').css('overflow','hidden');
+		setTimeout(function(){
+			$('.mapInfo').hide();
+			$('.mobileFilter').show();
+		},200);
 	}
 	
 	function openExtraOptions(){
