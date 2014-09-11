@@ -303,16 +303,6 @@ body { overflow:hidden;}
 		var perks = '';
 		$('input[name=perks]').each(function(){if ($(this).is(':checked')){perks += $(this).val() + ', ';}});
 		
-		var meal = $('select#select-choice-3').val();
-		var vibe = $('select#select-choice-4').val();
-		
-		var attire = '';
-		$('input[name=attire]').each(function(){if ($(this).is(':checked')){attire += $(this).val();}});
-		var diet = '';
-		$('input[name=diet]').each(function(){if ($(this).is(':checked')){diet += $(this).val();}});
-		var perks = '';
-		$('input[name=perks]').each(function(){if ($(this).is(':checked')){perks += $(this).val();}});
-		
 		$('.idea').hide();
 		$('.idea').addClass('hidden');
 		
