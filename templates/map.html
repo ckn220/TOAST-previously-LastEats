@@ -209,9 +209,8 @@ body { overflow:hidden;}
 			$('#map_canvas').height(parseInt($(window).height()) - 53);
 		});
 		
-		$('input[type=checkbox][name=filter]').change(function(){mapSearch();});
-		$('input[type=checkbox][name=price]').change(function(){mapSearch();});
-		$('select[name=select-choice-1]').change(function(){mapSearch();});
+		$('input[type=checkbox]').change(function(){mapSearch();});
+		$('select').change(function(){mapSearch();});
 		
 		$('select[name=select-choice-2]').change(function(){mapSearch();setFirstCenter()});
 		
