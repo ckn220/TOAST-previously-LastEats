@@ -347,11 +347,7 @@ body {position: relative;}
 		display: inline-block;
 		vertical-align: top;
 		height:640px;
-<<<<<<< HEAD
 		overflow-y:scroll;
-=======
-		overflow:scroll;
->>>>>>> origin/master
 		z-index: 15;
 	}
 }
