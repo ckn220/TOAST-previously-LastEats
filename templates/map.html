@@ -377,13 +377,13 @@ body { overflow:hidden;}
 		$('.firstRec').attr('href',$('.idea[class!="idea hidden"]').eq(0).attr('href'));
 		
 		$('.hiddenOptionsOverview .removeoption').remove();
-		var s = '<a class="ui-link ui-btn ui-shadow ui-corner-all removeoption" style="display:inline-block;margin-left:10px;"';
-		if (meal != ''){$('.hiddenOptionsOverview').append(s + 'type="meal" >'+ meal + ' <b>X</b></a>');}
-		if (vibe != ''){$('.hiddenOptionsOverview').append(s + 'type="vibe" >'+ vibe + ' <b>X</b></a>');}
+		var s = '<a class="ui-link ui-btn ui-shadow ui-corner-all removeoption" style="display:inline-block;margin-left:10px;font-weight:normal;"';
+		if (meal != ''){$('.hiddenOptionsOverview').append(s + 'type="meal" >'+ meal + ' <b style="color:red;padding-left:5px;">X</b></a>');}
+		if (vibe != ''){$('.hiddenOptionsOverview').append(s + 'type="vibe" >'+ vibe + ' <b style="color:red;padding-left:5px;">X</b></a>');}
 		
-		if (attire != ''){$('.hiddenOptionsOverview').append(s + 'type="attire" >'+ attire.slice(0,-2) + ' <b>X</b></a>');}
-		if (diet != ''){$('.hiddenOptionsOverview').append(s + 'type="diet" >'+ diet.slice(0,-2) + ' <b>X</b></a>');}
-		if (perks != ''){$('.hiddenOptionsOverview').append(s + 'type="perks" >'+ perks.slice(0,-2) + ' <b>X</b></a>');}
+		if (attire != ''){$('.hiddenOptionsOverview').append(s + 'type="attire" >'+ attire.slice(0,-2) + ' <b style="color:red;padding-left:5px;">X</b></a>');}
+		if (diet != ''){$('.hiddenOptionsOverview').append(s + 'type="diet" >'+ diet.slice(0,-2) + ' <b style="color:red;padding-left:5px;">X</b></a>');}
+		if (perks != ''){$('.hiddenOptionsOverview').append(s + 'type="perks" >'+ perks.slice(0,-2) + ' <b style="color:red;padding-left:5px;">X</b></a>');}
 	}
 	
 	function clearOption(thisObject){
