@@ -610,7 +610,7 @@ def map():
 		for row in models.Idea.objects(id__nin = ids, userid__in = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
 			row.filter = 'Friends'
 			ideas.append(row)
-		for row in models.Idea.objects(like_count__lt = 2, userid__nin = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
+		for row in models.Idea.objects(id__nin = ids, userid__nin = user.friends, point__near=[lng, lat], complete = 1, deleted = 0).all():
 			row.filter = 'Newest'
 			ideas.append(row)
 		
@@ -1341,7 +1341,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
-#mongoScripts.cleanAllFriends()
+#mongoScripts.printEmails()
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test
