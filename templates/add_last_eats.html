@@ -113,7 +113,7 @@ function moveOn(){
 		$('.error_message2').html("Sorry we couldn't find that restaurant");
 		$('.error_message2').show();
 	}
-	else if (cityLat == ''){
+	else if ($('#cityLat').val() == ''){
 		$('.error_message').html("Sorry we couldn't find that city");
 		$('.error_message').show();
 	}
