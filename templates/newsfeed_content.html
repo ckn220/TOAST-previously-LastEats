@@ -7,8 +7,13 @@
 	{% endif %}
 {% endif %}
 
-{% for id in ideaIds -%}
-<div class='newsfeedItem' style='border:#ddd thin solid;border-radius:4px; margin-bottom:20px;'>
+{% for idSet in ideaIds|batch(3) -%}
+<div>
+{% for id in idSet %}
+<div class='newsfeedItem entry' style='border:#ddd thin solid;border-radius:4px; margin-bottom:20px;'>
+	{% if current_user != None and user.userid == ideas[id].userid %}
+		<div class='delete-entry transition' onclick='delete_entry(this, "{{ ideas[id].id }}")' >X</div>
+	{%endif%}
 	<a href="/last_eat_entry/{{ id }}" data-role="button" class="ui-link ui-btn ui-shadow ui-corner-all" role="button" style='border:none;box-shadow:none;padding:0px;background:none;'>
 		<div class="user_choice_why">
 			<img src="{{ friends[ideas[id].userid].picture }}">
@@ -75,5 +80,7 @@
 	<br>
 	{% endif %}
 </div>
-
+{%- endfor %}
+<div style='clear:both;'></div>
+</div>
 {%- endfor %}

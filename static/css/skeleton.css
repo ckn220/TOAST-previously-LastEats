@@ -94,6 +94,7 @@ body {position: relative;}
 
 .entry, .user_choice_why_answered {
 	position: relative;
+	overflow:hidden;
 }
 .entry:hover .delete-entry, .user_choice_why_answered:hover .delete-entry {
 	right: 0px;
@@ -105,10 +106,11 @@ body {position: relative;}
 	background: #d44;
 	border: 2px #999 solid;
 	color: white;
-	width: 40px;
+	width: 45px;
 	font-size: 2.2em;
 	border-radius: 75px;
 	text-align:center;
+	z-index: 10;
 }
 .delete-entry:hover {
 	cursor: pointer;

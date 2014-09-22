@@ -193,6 +193,18 @@ var reqId = undefined;
 
 {% endif %}
 
+function delete_entry(thisObject, id){
+	$.ajax({
+		url: 'profile',
+		type: "delete",
+		data: {'id': id},
+		success: function(value) {
+			$(thisObject).parent().remove();
+			window.location.reload();
+		}
+	});
+}
+
 </script>
 
 {% endblock %}
