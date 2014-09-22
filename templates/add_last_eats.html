@@ -105,12 +105,17 @@ function moveOn(){
 	var addressLng = $('#addressLng').val();
 	var cost = $('input[name=cost]:checked').val();
 	var warned = false;
+	
 	if ($('.error_message').css('display') != 'none'){
 		warned = true;}
 	
 	if (addressName == '' || addressLat == '' || addressLng == ''){
 		$('.error_message2').html("Sorry we couldn't find that restaurant");
 		$('.error_message2').show();
+	}
+	else if ($('#cityLat').val() == '' && reqId == undefined){
+		$('.error_message').html("Sorry we couldn't find that city");
+		$('.error_message').show();
 	}
 	else if (ajax_loading == 0){
 		$('.form_next a').html('Loading . . . ');

@@ -162,7 +162,7 @@ function delayStart(){
 				{% endif  %}
 					
 					<a style='background:rgba(255,255,255,.5);' class='ideaHover' href="last_eat_entry/{{ item.id }}">
-						<div class='ideaHoverInner' style='{%if item.restaurant_name|length<40%}font-size: 1.2em;{%endif%}font-weight: normal;'>
+						<div class='ideaHoverInner' style='{%if item.restaurant_name|length<32%}font-size: 1.2em;{%endif%}font-weight: normal;'>
 							<img src='{{ friends[item.userid].picture }}' />
 							<br><br>
 							<div class='name'><b>{{ item.restaurant_name }}</b></div>

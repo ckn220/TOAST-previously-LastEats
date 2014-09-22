@@ -204,5 +204,8 @@ def cleanAllFriends():
         
         
         
-        
+def printEmails():
+    for user in models.User.objects().only('email'):
+        if user.email and user.email != '':
+            print user.email + ',',
         
