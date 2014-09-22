@@ -8,15 +8,16 @@
 {% endif %}
 
 {% for id in ideaIds -%}
-<div style='border:#ddd thin solid;border-radius:4px; margin-bottom:20px;padding:0px 10px;'>
+<div class='newsfeedItem' style='border:#ddd thin solid;border-radius:4px; margin-bottom:20px;padding:0px 10px;'>
 	<a href="/last_eat_entry/{{ id }}" data-role="button" class="ui-link ui-btn ui-shadow ui-corner-all" role="button" style='border:none;box-shadow:none;padding:0px;background:none;'>
 		<div class="user_choice_why">
-			<img src="{{ friends[ideas[id].userid].picture }}" height="85" width="85">
-			<h2>{{ friends[ideas[id].userid].user_name }} just made <strong>{{ ideas[id].restaurant_name }}</strong> the Last Eats in {{ ideas[id].title }}</h2>
+			<img src="{{ friends[ideas[id].userid].picture }}">
+			
+			<div style='white-space: pre-wrap;font-weight: normal;'><span>If I only had time for one meal in <b>{{ ideas[id].full_city.replace(', United States','').replace(',USA','') }}</b> and I wanted <b>{{ideas[id].tag}}</b>, I'd go to <b>{{ideas[id].restaurant_name}}</b></span></div>
 			{% if ideas[id].distance %}
 				<h3 style='float:right;font-weight:normal;'>{{ ideas[id].distance }} miles</h3>
 			{% endif %}
-			
+			<div style='clear:both;'></div>
 		</div>
 		<div class="restaurant_photo">
 			<img src="{{ ideas[id].filename['url'] }}"><br>
@@ -25,9 +26,9 @@
 		
 	<div class="restaurant_photo_bottom" num="{{ id }}">
 		<div style='float:right;'>
-			<a href='https://www.facebook.com/dialog/feed?app_id=238836302966820&link=http://beta.lasteats.com/last_eat_entry/{{ id }}&redirect_uri=http://beta.lasteats.com/newsfeed'>
-			<img class='facebookIcon' src='/static/img/facebookIcon.png' style='width:44px;' /></a>
-			<a href='https://twitter.com/intent/tweet?text=http://beta.lasteats.com/last_eat_entry/{{ id }}' target='_blank'><img class='twitterIcon' src='/static/img/twitterIcon.png' style='width:44px;' /></a>
+			<a style='width:44px;display: inline-block;' href='https://www.facebook.com/dialog/feed?app_id=238836302966820&link=http://beta.lasteats.com/last_eat_entry/{{ id }}&redirect_uri=http://beta.lasteats.com/newsfeed'>
+			<img class='facebookIcon' src='/static/img/facebookIcon.png' style='width:100%;' /></a>
+			<a style='width:44px;display: inline-block;' href='https://twitter.com/intent/tweet?text=http://beta.lasteats.com/last_eat_entry/{{ id }}' target='_blank'><img class='twitterIcon' src='/static/img/twitterIcon.png' style='width:100%;' /></a>
 		</div>
 		
 		{% if user.userid in ideas[id].likes %}

@@ -5,6 +5,14 @@
 
 <meta name="Description" CONTENT="{{ friend.user_name }} {{ friend.user_last_name }} just made {{ idea.restaurant_name }} the Last Eats in {{ idea.title }}">
 
+
+<style>
+.main-content {
+	max-width: 600px;
+	margin: 0px auto;
+}
+
+</style>
 {% endblock %}
 
 {% block body %}
@@ -32,7 +40,7 @@
 		<div class="user_choice"><p><strong>{{ friend.user_name }} {{ friend.user_last_name }}</strong></p></div>
 		
 		<div class="user_choice">
-			<p>If I only had time for one meal in <strong>{{ idea.full_city.replace(', United States','').replace(',USA','') }}</strong>, I'd go to:</p>
+			<p>If I only had time for one meal in <strong>{{ idea.full_city.replace(', United States','').replace(',USA','') }}</strong> and I wanted <strong>{{idea.tag}}</strong>, I'd go to:</p>
 		</div>
 		
 		<div class="user_restaurant">
@@ -72,16 +80,20 @@
 		</tr></table>
 		{% endif %}
 		
+		{% if idea.idea %}
 		<div class="user_choice_why">
 			<h3>{{ idea.idea }}</h3>
 		</div>
-		
+		{% endif %}
+
+		{% if idea.order %}	
 		<div class="user_restaurant">
 			<h4>Order</h4>
 		</div><!-- /demo-html -->
 		<div class="user_choice_why">
 			<h3>{{ idea.order }}</h3>
 		</div><!-- /demo-html -->
+		{% endif %}
 		
 		<div class="restaurant_photo" style='text-align:left;'>
 			<img src="{{ idea.filename['url'] }}"><br>

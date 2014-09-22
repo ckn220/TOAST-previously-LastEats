@@ -150,7 +150,29 @@ def testfeed():
 	
 	ideas = models.Idea.objects(complete = 1, deleted = 0)
 	
+	thematic = ["to pre-game with friends",
+				"to celebrate",
+				"to focus and get shit done",
+				"to watch the game",
+				 "the perfect hangover breakfast",
+				"to relax and hang out",
+				"to impress my date",
+				"to cleanse and refuel"]
+	specific = ["the best burger",
+				"the best thai food",
+				"the best sandwich",
+				"the best burrito",
+				"the best pizza",
+				"the best vegan",
+				"the best vegetarian"]
+	
 	templateData = newsfeedData(ideas)
+	
+	templateData['thematic'] = thematic
+	templateData['specific'] = specific
+	
+	user = models.User.objects(userid = request.cookies['userid']).first()
+	templateData['user'] = user
 	return render_template("testfeed.html", **templateData)
 	
 @app.route("/newsfeed", methods=['GET','POST'])
@@ -919,6 +941,8 @@ def answered():
 @app.route("/add_last_eats", methods=['GET','POST'])
 def add_last_eats():
 	if request.method == "POST":
+		tag = request.form.get('tag')
+		
 		full_city = request.form.get('city').replace(' City','').replace(' city','')
 		if full_city.startswith('Brooklyn'):
 			full_city = 'Brooklyn, NY, United States'
@@ -929,9 +953,9 @@ def add_last_eats():
 		
 		checkCity = None
 		if 'userid' in request.cookies:
-			checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = full_city, complete = 1, deleted = 0).first()
+			checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = full_city, tag = tag, complete = 1, deleted = 0).first()
 			if not checkCity:
-				checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = ','.join(full_city.split(',')[:2]), complete = 1, deleted = 0).first()
+				checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = ','.join(full_city.split(',')[:2]), tag = tag, complete = 1, deleted = 0).first()
 		
 		warned = request.form.get('warned')
 		
@@ -946,7 +970,7 @@ def add_last_eats():
 			if 'userid' in request.cookies:
 				userid = request.cookies['userid']
 				
-			idea = models.Idea(title = city, full_city = full_city, restaurant_name = request.form.get('addressName'),
+			idea = models.Idea(title = city, full_city = full_city, tag = tag, restaurant_name = request.form.get('addressName'),
 							point = [lng, lat], userid = userid)
 			#cost = request.form.get('cost'), 
 			
@@ -965,7 +989,7 @@ def add_last_eats():
 					req.friends.remove(request.cookies['userid'])
 					req.save()
 					
-			
+			idea.complete = 1
 			idea.save()
 			if not idea.instagram_id:
 				print 'NO INSTAGRAM PHOTOS FOUND FOR IDEA ' + str(idea.id)

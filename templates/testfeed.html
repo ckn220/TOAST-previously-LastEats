@@ -20,6 +20,13 @@
 	display: inline-block;
 	vertical-align: top;
 }
+
+.newsfeedItem {
+	display: inline-block;
+	float: left;
+	width: 31%;
+	margin: 0px 1%;
+}
 </style>
 {% endblock %} 
 
@@ -32,23 +39,30 @@
 		
 		</br>
 		<div style='text-align:left;font-size:14px;'>
-			<div class="user_restaurant">
-				<strong><p>Add Your Last Eats</p></strong>
-			</div><!-- /demo-html -->
 			<div>
-				<div class='inline' style='padding-right:5px;padding-top: 11px;'>If I only had time for one meal in: </div>
 				<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
-				<div class='inline' ><input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="" style='width:222px;'></div>
+				<div class='inline' style='padding-right:5px;padding-top: 11px;'>If I only had time for one meal in: </div>
+				<div class='inline' ><input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="" style='width:230px;'></div>
 				<input type="hidden" id="cityLat" name="cityLat" />
 				<input type="hidden" id="cityLng" name="cityLng" />
 			</div>
 			
 			<div>
+				<div class='error_message3' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
 				<div class='inline' style='padding-right:5px;padding-top: 12px;'>and I wanted </div>
-				<div class='error_message2' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
 				<div class='inline'>
 					<select name="select-choice-1" id="select-choice-1">
-						<option value="standard">Cure a hangover</option>
+						<option value="">Choose a tag</option>
+						<optgroup label="Thematic:">
+							{% for row in thematic %}
+							<option value="{{row}}">{{row}}</option>
+							{%endfor%}
+						</optgroup>
+						<optgroup label='Specific:'>
+							{% for row in specific %}
+							<option value="{{row}}">{{row}}</option>
+							{% endfor %}
+						</optgroup>
 					</select>
 					
 					<input id="tag" class="controls" type="text" name='tag' placeholder="or make your own tag!" value="">
@@ -56,10 +70,10 @@
 			</div>
 			
 			<div>
-				<div class='inline' style='padding-right:5px;padding-top: 11px;'>I'd go to: </div>
 				<div class='error_message2' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
+				<div class='inline' style='padding-right:5px;padding-top: 11px;'>I'd go to: </div>
 				<div class='inline' id="geocode">
-					<input id="address" class="controls" type="text" placeholder="Enter a Restaurant" value="" style='width:376px;'>
+					<input id="address" class="controls" type="text" placeholder="Enter a Restaurant" value="" style='width:375px;'>
 					<input type="hidden" id="addressName" name="addressName" />
 					<input type="hidden" id="addressLat" name="addressLat" />
 					<input type="hidden" id="addressLng" name="addressLng" />
@@ -96,7 +110,11 @@ function moveOn(){
 	var addressName = $('#addressName').val();
 	var addressLat = $('#addressLat').val();
 	var addressLng = $('#addressLng').val();
-	var cost = $('input[name=cost]:checked').val();
+	var tag = $('input[name=tag]').val();
+	if (tag == ''){
+		tag = $('select[name=select-choice-1]').val();
+	}
+	
 	var warned = false;
 	if ($('.error_message').css('display') != 'none'){
 		warned = true;}
@@ -105,6 +123,11 @@ function moveOn(){
 		$('.error_message2').html("Sorry we couldn't find that restaurant");
 		$('.error_message2').show();
 	}
+	else if ($('#cityLat').val() == '' && reqId == undefined){
+		$('.error_message').html("Sorry we couldn't find that city");
+		$('.error_message').show();
+	}
+	
 	else if (ajax_loading == 0){
 		$('.form_next a').html('Loading . . . ');
 		ajax_loading = 1;
@@ -115,7 +138,7 @@ function moveOn(){
 					'addressName': addressName,
 					'addressLat': addressLat,
 					'addressLng': addressLng,
-					'cost': cost,
+					'tag': tag,
 					'requestid': reqId,
 					'warned': warned},
 			success: function(value) {
@@ -127,7 +150,7 @@ function moveOn(){
 					$('.form_next a').html('Tell us more!');
 				}
 				else{
-					window.location = "/add_last_eats_next?id="+value.id;
+					window.location.reload();
 				}
 			},
 			error: function(xhr, status, error) {

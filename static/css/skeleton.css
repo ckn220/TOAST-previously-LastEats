@@ -324,7 +324,9 @@ body {position: relative;}
 	.mobile-hide {display: block;}
 	
 	.main-content {
-		margin: 0px auto;
+		max-width:none;
+		
+		margin: 0px 10%;
 	}
 
 	.desktopContent {
@@ -574,8 +576,6 @@ a {
 
 
 .user_choice_why {
-
-	display: table;
 	width: 100%;
 	margin-bottom: 10px;
 
@@ -584,9 +584,8 @@ a {
 .user_choice_why img{
 	background: #fff;
 	display: inline-block;
-/*	padding: 0 5% 10% 4%;*/
-	display: table-cell;
-	vertical-align: middle;
+	max-width:85px;
+	width:20%;
 }
 
 .user_choice_why h2{
