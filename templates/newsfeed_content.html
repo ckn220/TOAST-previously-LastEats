@@ -8,7 +8,7 @@
 {% endif %}
 
 {% for id in ideaIds -%}
-<div class='newsfeedItem' style='border:#ddd thin solid;border-radius:4px; margin-bottom:20px;padding:0px 10px;'>
+<div class='newsfeedItem' style='border:#ddd thin solid;border-radius:4px; margin-bottom:20px;'>
 	<a href="/last_eat_entry/{{ id }}" data-role="button" class="ui-link ui-btn ui-shadow ui-corner-all" role="button" style='border:none;box-shadow:none;padding:0px;background:none;'>
 		<div class="user_choice_why">
 			<img src="{{ friends[ideas[id].userid].picture }}">
