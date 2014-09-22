@@ -13,7 +13,7 @@
 		<div class="user_choice_why">
 			<img src="{{ friends[ideas[id].userid].picture }}">
 			
-			<div style='white-space: pre-wrap;font-weight: normal;'><span>If I only had time for one meal in <b>{{ ideas[id].full_city.replace(', United States','').replace(',USA','') }}</b> and I wanted <b>{{ideas[id].tag}}</b>, I'd go to <b>{{ideas[id].restaurant_name}}</b></span></div>
+			<div style='white-space: pre-wrap;font-weight: normal;text-align:left;'><span>If I only had time for one meal in <b>{{ ideas[id].full_city.replace(', United States','').replace(',USA','') }}</b> and I wanted <b>{{ideas[id].tag}}</b>, I'd go to <b>{{ideas[id].restaurant_name}}</b></span></div>
 			{% if ideas[id].distance %}
 				<h3 style='float:right;font-weight:normal;'>{{ ideas[id].distance }} miles</h3>
 			{% endif %}
