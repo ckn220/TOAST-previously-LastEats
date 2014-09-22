@@ -971,7 +971,7 @@ def add_last_eats():
 				userid = request.cookies['userid']
 				
 			idea = models.Idea(title = city, full_city = full_city, tag = tag, restaurant_name = request.form.get('addressName'),
-							point = [lng, lat], userid = userid)
+							point = [lng, lat], userid = userid, timestamp = datetime.datetime.now())
 			#cost = request.form.get('cost'), 
 			
 			idea = get_instagram_id(idea, lat, lng)
