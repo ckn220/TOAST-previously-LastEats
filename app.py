@@ -80,7 +80,8 @@ def index():
 	# render the template
 	
 	if 'userid' in request.cookies:
-		resp = make_response(redirect('/newsfeed'))
+		#resp = make_response(redirect('/newsfeed'))
+		resp = make_response(redirect('/testfeed'))
 		return resp
 	
 	ip = ''
@@ -112,7 +113,9 @@ def index():
 	
 	if request.base_url == 'http://lasteats-dev.herokuapp.com/' or request.base_url == 'http://localhost:5000/' or request.base_url == 'http://192.168.1.2:5000/':
 		if 'userid' in request.args:
-			resp = make_response(redirect('/newsfeed'))
+			#resp = make_response(redirect('/newsfeed'))
+			resp = make_response(redirect('/testfeed'))
+			
 			resp.set_cookie('userid', request.args['userid'])
 			return resp
 		else:
@@ -138,6 +141,18 @@ def logout():
 	templateData = {}
 	return render_template("logout.html", **templateData)
 
+
+@app.route("/testfeed", methods=['GET','POST'])
+def testfeed():
+	cookie_check = checkCookies(request, '/testfeed')
+	if cookie_check != None:
+		return cookie_check
+	
+	ideas = models.Idea.objects(complete = 1, deleted = 0)
+	
+	templateData = newsfeedData(ideas)
+	return render_template("testfeed.html", **templateData)
+	
 @app.route("/newsfeed", methods=['GET','POST'])
 def newsfeed():
 	cookie_check = checkCookies(request, '/newsfeed')

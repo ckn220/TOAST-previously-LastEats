@@ -40,6 +40,8 @@ class Idea(Document):
 	full_city = mongoengine.StringField()
 	restaurant_name = mongoengine.StringField(required=True)
 	
+	tag = mongoengine.StringField(required = True)
+	
 	latitude = mongoengine.StringField()
 	longitude = mongoengine.StringField()
 	point = mongoengine.PointField()#required=True)

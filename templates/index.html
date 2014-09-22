@@ -42,7 +42,7 @@ function delayStart(){
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='padding-top:0px;text-align:center;'>
 		
-		<div class='hiddenSlider transition' style='background:#f95d64;color:white;text-shadow:none;position:relative;overflow:hidden;height:0px;'>
+		<!--<div class='hiddenSlider transition' style='background:#f95d64;color:white;text-shadow:none;position:relative;overflow:hidden;height:0px;'>
 			<div class='hiddenSliderCont'>
 					<div><br></div>
 				
@@ -224,26 +224,26 @@ function delayStart(){
 				
 				<input type="hidden" value="Drop your pin" onclick="codeAddress()">
 				<div class="form_next"><a data-role="button" style="background: #grey; color: black;" onclick='moveOn()'>Add Your Last Eats</a></div>
-		</div>
-			<!-- <h2 class='backgroundText' style='padding:10px 30px;'>
-				If you only had time for one great meal in<br> {{ locationIdea.title }}, where would you go?</h2><br><br><br>
-			<a href="/city?name={{ locationIdea.title }}" data-role="button" style="display: inline-block;background: #grey; color: black;width: 213px;margin: 5px 0px;">Browse Last Eats <br>in {{ locationIdea.title }}</a>
-			-->
-			
-			<br><br><br><br><br>
-		</div>
-
 		
-		{% if users != None %}
-			{% for item in users -%}
-				<div style='margin:4px;padding:4px;display:inline-block;'><img src='{{ item.picture }}' style='width:50px;border-radius:50px;'><a href='/?userid={{ item.userid }}'>{{ item.user_name }} {{ item.user_last_name }}</a></div>
-			{%- endfor %}
-		{% else %}
-			<div style='text-align:center;'><img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='/static/img/fbook.jpg' /></div>
-		{% endif %}
+			
+		</div>
+			
+			<br><br><br><br><br>-->
+			<h1>Choose a user:</h1>
+			{% if users != None %}
+				{% for item in users[:5] -%}
+					<a href='/?userid={{ item.userid }}' style='display:inline-block;'><div style='margin:4px;padding:4px;'>
+						<img src='{{ item.picture }}' style='width:50px;border-radius:50px;'>{{ item.user_name }} {{ item.user_last_name }}</div></a>
+				{%- endfor %}
+			{% else %}
+				<div style='text-align:center;'><img id="login" onclick="FB.login(function(response) {if (response.authResponse) {testAPI();}else {}}, { scope: 'email' });" src='/static/img/fbook.jpg' /></div>
+			{% endif %}
+		</div>
+		
 		
 	</div><!-- /page -->
 	
+	<!--
 	<div class='footer' style='background:#c5c5c5;text-align:center;width:100%;'>
 		<br><br>
 		<a href='mailto:colin@lasteats.com'>Contact Us</a>
@@ -260,6 +260,7 @@ function delayStart(){
 			<div style='display:inline-block;vertical-align:top;'><img id="login" src='/static/img/twitter.jpg' style='opacity:.3;height:40px;' /><div>Coming Soon!</div></div>
 		</div>
 	</div>
+	-->
 	
 </div><!-- /panel -->
 
@@ -438,11 +439,11 @@ function moveOn(){
 	}
 	
 }
-
+{#
 var req = {'lati': {{ locationIdea.point.coordinates[1] }},'long': {{ locationIdea.point.coordinates[0] }}};
 var reqId = "{{ locationIdea.id }}";
 $("#textinput-4").val("{{ locationIdea.full_city }}");
-
+#}
 </script>
 
 <script src="/static/js/mapquest.js"></script>
