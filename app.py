@@ -119,7 +119,7 @@ def index():
 			resp.set_cookie('userid', request.args['userid'])
 			return resp
 		else:
-			users = models.User.objects()
+			users = models.User.objects().order_by('-userid')
 			templateData = {'users': users,
 						'fbookId' : FACEBOOK_APP_ID,
 						'ideas': ideas,
