@@ -11,7 +11,21 @@
 	max-width: 600px;
 	margin: 0px auto;
 }
-
+.restaurant_photo {
+	position: relative;
+}
+.restaurant_photo .changeLink {
+	display: none;
+	position: absolute;
+	top:0px;
+	text-align:center;
+	background: rgba(255,255,255,.6);
+	font-size:18px;
+	padding:20px;
+}
+.restaurant_photo:hover .changeLink {
+	display: block;
+}
 </style>
 {% endblock %}
 
@@ -31,7 +45,7 @@
 			<a onclick='$(this).parent().remove();' style='float: right;cursor: pointer;padding: 7px 14px;
 				background: white;margin: 5px;border-radius: 30px;border: thin solid black;'>X</a>
 			Thanks for your submission! Your Last Eats has been saved.<br>
-			<a href='/add_last_eats'>Add Another</a> or <a href='/newsfeed'>browse</a>
+			<a href='/testfeed'>Add Another</a> or <a href='/testfeed'>browse</a>
 		</div>
 		<br>
 		{%endif%}
@@ -96,6 +110,9 @@
 		{% endif %}
 		
 		<div class="restaurant_photo" style='text-align:left;'>
+			{% if current_user != None and user.userid == idea.userid %}
+			<a href='/add_last_eats_last?id={{idea.id}}' class='changeLink'>Want to change your pic? Browse alternatives or upload your own here</a>
+			{%endif%}
 			<img src="{{ idea.filename['url'] }}"><br>
 		</div>
 		<div class="restaurant_photo_bottom" num="{{ idea.id }}" style='text-align:left;'>

@@ -106,6 +106,18 @@
 {% block scripts %}
 <script src="/static/js/mapquest.js"></script>
 <script>
+$(document).ready(function(){
+	$('#select-choice-1').change(function(){
+		if ($(this).val() == '' ){$('#tag').textinput('enable');}
+		else{$('#tag').textinput('disable');}
+	});
+	$('#tag').keyup(function(){
+		if ($(this).val() == '' ){$('#select-choice-1').selectmenu('enable');}
+		else{$('#select-choice-1').selectmenu('disable');}
+	});
+	
+});
+
 var ajax_loading = 0;
 function moveOn(){
 	
