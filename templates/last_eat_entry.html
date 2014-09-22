@@ -102,12 +102,13 @@
 			<img src="{{ idea.filename['url'] }}"><br>
 		</div>
 		<div class="restaurant_photo_bottom" num="{{ idea.id }}" style='text-align:left;'>
+			<!--
 			<div style='float:right;'>
 				<a href='https://www.facebook.com/dialog/feed?app_id=238836302966820&link=http://beta.lasteats.com/last_eat_entry/{{ idea.id }}&redirect_uri=http://beta.lasteats.com/newsfeed'>
 				<img class='facebookIcon' src='/static/img/facebookIcon.png' style='width:44px;' /></a>
 				<a href='https://twitter.com/intent/tweet?text=http://beta.lasteats.com/last_eat_entry/{{ idea.id }}' target='_blank'><img class='twitterIcon' src='/static/img/twitterIcon.png' style='width:44px;' /></a>
 			</div>
-			
+			-->
 			{% if user.userid in idea.likes %}
 				<div class='icon loveicon loved' onclick='loveIdea(this, "{{ idea.id }}")'></div>
 			{% else %}
