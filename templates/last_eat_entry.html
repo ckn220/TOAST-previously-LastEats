@@ -63,6 +63,20 @@
 			{% endfor %}
 		</div>
 		
+		{% if idea.idea %}
+		<div class="user_choice_why">
+			<h3>{{ idea.idea }}</h3>
+		</div>
+		{% endif %}
+
+		{% if idea.order %}	
+		<div class="user_choice">
+			<p>and I'd order <strong>{{ idea.order }}</strong></p>
+		</div><!-- /demo-html -->
+		{% endif %}
+		
+		<br>
+		
 		{% if current_user != None %}
 		<table class='icon_container' num="{{ idea.id }}" ><tr>
 			<td width='33%'><a class='icon commentIcon' href='#guest_book'></a></td>
@@ -78,21 +92,6 @@
 				<td width='33%'><div class='icon saveicon save' onclick='saveIdea(this, "{{ idea.id }}")'></div></td>
 			{% endif %}
 		</tr></table>
-		{% endif %}
-		
-		{% if idea.idea %}
-		<div class="user_choice_why">
-			<h3>{{ idea.idea }}</h3>
-		</div>
-		{% endif %}
-
-		{% if idea.order %}	
-		<div class="user_restaurant">
-			<h4>Order</h4>
-		</div><!-- /demo-html -->
-		<div class="user_choice_why">
-			<h3>{{ idea.order }}</h3>
-		</div><!-- /demo-html -->
 		{% endif %}
 		
 		<div class="restaurant_photo" style='text-align:left;'>
