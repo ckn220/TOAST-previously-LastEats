@@ -86,6 +86,12 @@
 				</div> 
 			</div>
 			
+			<div>
+				<div class='error_message4' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
+				<div class='inline' style='padding-right:5px;padding-top: 11px;'>and i'd order </div>
+				<div class='inline' ><input type="text" name="order" id="order" placeholder="" value="" style='width:300px;'></div>
+			</div>
+			
 			<div class="form_next"><a data-role="button" style="color: black;display:inline-block;" onclick='moveOn()'>Submit</a></div>
 		
 		</div>
@@ -131,6 +137,7 @@ function moveOn(){
 	var addressLat = $('#addressLat').val();
 	var addressLng = $('#addressLng').val();
 	var tag = $('input[name=tag]').val();
+	var tag = $('input[name=order]').val();
 	if (tag == ''){
 		tag = $('select[name=select-choice-1]').val();
 	}
@@ -159,6 +166,7 @@ function moveOn(){
 					'addressLat': addressLat,
 					'addressLng': addressLng,
 					'tag': tag,
+					'order': order,
 					'requestid': reqId,
 					'warned': warned},
 			success: function(value) {

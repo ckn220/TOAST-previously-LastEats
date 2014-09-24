@@ -942,6 +942,7 @@ def answered():
 def add_last_eats():
 	if request.method == "POST":
 		tag = request.form.get('tag')
+		order = request.form.get('order')
 		
 		full_city = request.form.get('city').replace(' City','').replace(' city','')
 		if full_city.startswith('Brooklyn'):
@@ -971,7 +972,7 @@ def add_last_eats():
 				userid = request.cookies['userid']
 				
 			idea = models.Idea(title = city, full_city = full_city, tag = tag, restaurant_name = request.form.get('addressName'),
-							point = [lng, lat], userid = userid, timestamp = datetime.datetime.now())
+							point = [lng, lat], userid = userid, timestamp = datetime.datetime.now(), order = order)
 			#cost = request.form.get('cost'), 
 			
 			idea = get_instagram_id(idea, lat, lng)
