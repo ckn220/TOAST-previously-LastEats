@@ -660,7 +660,12 @@ def map():
 		
 		cities = set([])
 		for row in models.Idea.objects(complete = 1, deleted = 0).only('full_city').all():
-			cities.add(','.join(row.full_city.split(',')[:2]))
+			
+			display_city = ','.join(row.full_city.split(',')[:2])
+			
+			if display_city not in cities:
+				city_count = models.Idea.objects(full_city__contains = display_city, complete = 1, deleted = 0).count()
+				cities.add(display_city + ' (' + str(city_count) + ')')
 			
 		cities = list(cities)
 		cities.sort()
