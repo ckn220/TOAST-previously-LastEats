@@ -599,7 +599,12 @@ def map():
 		ideas = []
 		names = []
 		ids = []
-		for row in models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0).all():
+		if lat:
+			ideaList = models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0).all()
+		else:
+			ideaList = models.Idea.objects(complete = 1, deleted = 0).all()
+			
+		for row in ideaList:
 			if row.restaurant_name in names:
 				row.filter = 'Multiple Reccomendations'
 				ideas.append(row)
