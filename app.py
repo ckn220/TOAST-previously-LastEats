@@ -582,7 +582,8 @@ def map():
 		return cookie_check
 	
 	if request.method == "POST":
-		lat = None
+		lat = 0
+		lng = 0
 		currentCity = None
 		try:
 			lat = float(request.form.get('lat'))
@@ -599,12 +600,8 @@ def map():
 		ideas = []
 		names = []
 		ids = []
-		if lat:
-			ideaList = models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0).all()
-		else:
-			ideaList = models.Idea.objects(complete = 1, deleted = 0).all()
 			
-		for row in ideaList:
+		for row in models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0).all():
 			if row.restaurant_name in names:
 				row.filter = 'Multiple Reccomendations'
 				ideas.append(row)
