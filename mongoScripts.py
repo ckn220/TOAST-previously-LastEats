@@ -2,6 +2,8 @@ import models
 import urllib2
 
 import facebook
+import requests
+import json
 
 def runAll(appId, secret):
 #     addFriends(appId, secret)
@@ -73,6 +75,36 @@ def addFriends(appId, secret):
         c = models.UserFriends(userid = user.userid, all_friends = all_friends)
         c.save()
 
+
+def googlePlace():
+    for idea in models.Idea.objects(complete = 1):
+        if idea.googleId == None:
+            url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
+            url += 'location=' + str(idea.point['coordinates'][1]) + ',' + str(idea.point['coordinates'][0]) + '&radius=50&types=food&name=' + idea.restaurant_name
+            url += '&key=AIzaSyA75SXaNNsVtJVayxlKtDAeF5ZBSVomrzM'
+            
+            response = requests.request("GET",url)
+            data = json.loads(response.text)
+            print data
+            
+            if len(data['results']) > 0:
+                idea.googleId = data['results'][0]['place_id']
+            else:
+                idea.googleId = 0
+        
+        if idea.website == None and idea.googleId != 0:
+            url = 'https://maps.googleapis.com/maps/api/place/details/json?placeid='+ idea.googleId +'&key=AIzaSyA75SXaNNsVtJVayxlKtDAeF5ZBSVomrzM'
+            response = requests.request("GET",url)
+            data2 = json.loads(response.text)
+            print data2
+            
+            if data2['status'] != 'INVALID_REQUEST':
+                idea.cost = data2['result'].get('price_level')
+                idea.hours = data2['result'].get('opening_hours',{}).get('periods')
+                idea.types = data2['result'].get('types')
+                idea.website = data2['result'].get('website')
+            
+            idea.save()
 
 def addEmail(appId, secret):
 #     for user in models.User.objects():

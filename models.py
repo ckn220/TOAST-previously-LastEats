@@ -33,6 +33,8 @@ class Comment(Document):
 class Idea(Document):
 	userid = mongoengine.StringField()
 	
+	googleId = mongoengine.StringField()
+	
 	complete = mongoengine.IntField(required=True, default=0)
 	deleted = mongoengine.IntField(required=True, default=0)
 	
@@ -40,7 +42,7 @@ class Idea(Document):
 	full_city = mongoengine.StringField()
 	restaurant_name = mongoengine.StringField(required=True)
 	
-	tag = mongoengine.StringField(required = True)
+	tag = mongoengine.StringField()
 	
 	latitude = mongoengine.StringField()
 	longitude = mongoengine.StringField()
@@ -69,6 +71,9 @@ class Idea(Document):
 	timestamp = mongoengine.DateTimeField(default = datetime.now(), required=True)
 	
 	hot = mongoengine.IntField()
+	
+	types = mongoengine.ListField()
+	website = mongoengine.StringField()
 	
 #photo_form = model_form(Idea)
 
