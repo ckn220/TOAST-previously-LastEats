@@ -415,29 +415,29 @@ def last_eat_entry(id):
 		friend = models.User.objects(userid = idea.userid).first()
 		
 		days = ['Mon: ','Tue: ','Wed: ','Thur: ','Fri: ','Sat: ','Sun: ']
-		for i in range(len(idea.hours)):
-			for j in range(len(idea.hours[i])):
-				if idea.hours[i][j]['start'] == '+0000': idea.hours[i][j]['start'] = '2400'
-				if int(idea.hours[i][j]['start']) > 1200:
-					start = str(int(idea.hours[i][j]['start']) - 1200)
-					start = start[:-2] + ':' + start[-2:]
-					start += 'pm'
-				else:
-					start = idea.hours[i][j]['start']
-					start = start[:-2] + ':' + start[-2:]
-					start += 'am'
-				days[i] += start + ' - '
-				
-				if idea.hours[i][j]['end'] == '+0000': idea.hours[i][j]['end'] = '2400'
-				if int(idea.hours[i][j]['end']) > 1200:
-					end = str(int(idea.hours[i][j]['end']) - 1200)
-					end = end[:-2] + ':' + end[-2:]
-					end += 'pm'
-				else:
-					end = idea.hours[i][j]['end']
-					end = end[:-2] + ':' + end[-2:]
-					end += 'am'
-				days[i] += end + '  '
+# 		for i in range(len(idea.hours)):
+# 			for j in range(len(idea.hours[i])):
+# 				if idea.hours[i][j]['start'] == '+0000': idea.hours[i][j]['start'] = '2400'
+# 				if int(idea.hours[i][j]['start']) > 1200:
+# 					start = str(int(idea.hours[i][j]['start']) - 1200)
+# 					start = start[:-2] + ':' + start[-2:]
+# 					start += 'pm'
+# 				else:
+# 					start = idea.hours[i][j]['start']
+# 					start = start[:-2] + ':' + start[-2:]
+# 					start += 'am'
+# 				days[i] += start + ' - '
+# 				
+# 				if idea.hours[i][j]['end'] == '+0000': idea.hours[i][j]['end'] = '2400'
+# 				if int(idea.hours[i][j]['end']) > 1200:
+# 					end = str(int(idea.hours[i][j]['end']) - 1200)
+# 					end = end[:-2] + ':' + end[-2:]
+# 					end += 'pm'
+# 				else:
+# 					end = idea.hours[i][j]['end']
+# 					end = end[:-2] + ':' + end[-2:]
+# 					end += 'am'
+# 				days[i] += end + '  '
 				
 		tags = {}
 		for row in models.Tag.objects(ideaid = idea.id):
@@ -1332,14 +1332,23 @@ def calcDist(lat1, lng1, lat2, lng2):
 
 
 def ipToLatLng(ip):
+	lat = 0
+	lng = 0
 	
-	url = 'http://freegeoip.net/json/'+ ip
-	
-	response = requests.request("GET",url, timeout=0.5)
-	
-	data = json.loads(response.text) 
-	
-	return [data['latitude'], data['longitude']]
+	try:
+		url = 'http://freegeoip.net/json/'+ ip
+		response = requests.request("GET",url, timeout=0.5)
+		data = json.loads(response.text)
+		lat, lng = data['latitude'], data['longitude']
+	except Exception as e:
+		print e
+		
+		url = 'http://ip-api.com/json/'+ ip
+		response = requests.request("GET",url, timeout=0.5)
+		data = json.loads(response.text)
+		lat, lng = data['lat'], data['lon']
+		
+	return [lat, lng]
 	
 
 def userRequests(userid):
@@ -1382,6 +1391,8 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
 #mongoScripts.googlePlace()
+
+#ipToLatLng('71.225.125.133')
 
 if __name__ == "__main__":
 	# unittest.main()	#FB Test

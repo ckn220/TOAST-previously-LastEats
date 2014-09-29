@@ -171,15 +171,7 @@
 			<div>{{ idea.address }}</div><br>
 			<div>Phone:  {{ idea.phone }}</div><br>
 			{% endif %}
-			<div style='display:none;'>
-				{% for day in idea.hours %}
-					{% if day|length > 0 %}
-					<div>
-						<span>{{ days[loop.index0] }}</span>
-					</div>
-					{% endif %}
-				{% endfor %}
-			</div>
+			
 		</div>
 		
 		<div>
