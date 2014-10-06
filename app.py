@@ -1390,7 +1390,7 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
-#mongoScripts.googlePlace()
+mongoScripts.googlePlace()
 
 #ipToLatLng('71.225.125.133')
 
