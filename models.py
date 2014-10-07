@@ -120,11 +120,14 @@ class Restaurant(Document):
 
 		if len(self.hours) > day:
 			try:
-				self.hours[day].get('open')
-				print int(hour)
-				print int(self.hours[day]['open']['time'])
-				if hour > int(self.hours[day]['open']['time']) and hour < int(self.hours[day]['close']['time']):
+				open = int(self.hours[day]['open']['time'])
+				close = int(self.hours[day]['close']['time'])
+				
+				if open < close and hour > open and hour < close:
 					return True
+				elif open > close and (hour > open or hour < close):
+					return True
+				
 			except Exception as e:
 				print e
 				

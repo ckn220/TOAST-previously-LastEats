@@ -95,10 +95,10 @@ def index():
 		print 'IP ERROR'
 		
 	if lat:
-		locationIdea = models.Idea.objects(point__near=[lng, lat], complete = 1, deleted = 0).first()
+		loc_res = models.Restaurant.objects(point__near=[lng, lat]).first()
 	else:
-		locationIdea = models.Idea.objects(complete = 1, deleted = 0, full_city = 'New York, NY').first()
-		
+		loc_res = models.Restaurant.objects(full_city__icontains = 'New York, NY').first()
+	locationIdea = models.Idea.objects(restaurant = loc_res.id, complete = 1, deleted = 0).first()
 	
 	ideas = []
 	friendIds = []

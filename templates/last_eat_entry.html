@@ -195,6 +195,11 @@
 			{% if idea.get_res().open_now() %}
 			<div><b>OPEN NOW!!!</b></div>
 			{% endif %}
+			<div><b>Hours:</b> 
+				{%for row in idea.get_res().hours %}
+					<div>open: {{row['open']['time']}}, close: {{row['close']['time']}}</div>
+				{%endfor%}
+			</div>
 			<!--<div><b>Cost:</b> {{idea.get_res().cost}}</div>
 			<div><b>Types:</b> {{idea.get_res().types}}</div>-->
 			<div><a href='{{idea.get_res().website}}' target="_blank">{{idea.get_res().website}}</a></div>
