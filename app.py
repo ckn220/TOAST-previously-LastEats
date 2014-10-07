@@ -148,7 +148,7 @@ def testfeed():
 	if cookie_check != None:
 		return cookie_check
 	
-	ideas = models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:20]
+	ideas = [i for i in models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:100] if i.get_res().open_now()][:20]
 	
 	thematic = ["to pre-game with friends",
 				"to celebrate",

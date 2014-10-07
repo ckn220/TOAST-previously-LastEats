@@ -17,10 +17,7 @@ from pytz import timezone
 def currentTime(zone):
 	fmt = "%Y-%m-%d %H:%M:%S %Z%z"
 	timezonelist = ['UTC','US/Pacific','Europe/Berlin']
-	
 	now_time = datetime.now(timezone(zone))
-	print now_time.strftime(fmt)
-	
 	return now_time
 
 
