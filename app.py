@@ -103,7 +103,7 @@ def index():
 	ideas = []
 	friendIds = []
 	for item in models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:8]:
-		item.display_city = ','.join(item.full_city.split(',')[:2])
+		item.display_city = ','.join(item.get_res().full_city.split(',')[:2])
 		ideas.append(item)
 		friendIds.append(item.userid)
 	
