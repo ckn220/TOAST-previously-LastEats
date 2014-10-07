@@ -197,7 +197,9 @@
 			{% endif %}
 			<div><b>Hours:</b> 
 				{%for row in idea.get_res().hours %}
+					{% if 'open' in row %}
 					<div>open: {{row['open']['time']}}, close: {{row['close']['time']}}</div>
+					{%endif%}
 				{%endfor%}
 			</div>
 			<!--<div><b>Cost:</b> {{idea.get_res().cost}}</div>
