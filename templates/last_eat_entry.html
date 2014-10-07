@@ -167,9 +167,9 @@
 		</div>
 		
 		<div class="ideaInfo" style='padding:10px;margin:5px;background:white;font-size:14px;text-align:left;'>
-			{% if idea.address %}
-			<div>{{ idea.address }}</div><br>
-			<div>Phone:  {{ idea.phone }}</div><br>
+			{% if idea.get_res().address %}
+			<div>{{ idea.get_res().address }}</div><br>
+			<div>Phone:  {{ idea.get_res().phone }}</div><br>
 			{% endif %}
 			
 		</div>
