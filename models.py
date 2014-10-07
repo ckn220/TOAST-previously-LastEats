@@ -12,6 +12,18 @@ from flask.ext.mongoengine.wtf.orm import validators
 from datetime import datetime
 
 
+from datetime import datetime
+from pytz import timezone
+def currentTime(zone):
+	fmt = "%Y-%m-%d %H:%M:%S %Z%z"
+	timezonelist = ['UTC','US/Pacific','Europe/Berlin']
+	
+	now_time = datetime.now(timezone(zone))
+	print now_time.strftime(fmt)
+	
+	return now_time
+
+
 class Tag(Document):
 	
 	ideaid = mongoengine.fields.ObjectIdField()
@@ -33,21 +45,26 @@ class Comment(Document):
 class Idea(Document):
 	userid = mongoengine.StringField()
 	
-	googleId = mongoengine.StringField()
+	restaurant = mongoengine.fields.ObjectIdField(required=True)
 	
 	complete = mongoengine.IntField(required=True, default=0)
 	deleted = mongoengine.IntField(required=True, default=0)
 	
-	title = mongoengine.StringField(required=True)
-	full_city = mongoengine.StringField()
-	restaurant_name = mongoengine.StringField(required=True)
+# 	googleId = mongoengine.StringField()
+# 	title = mongoengine.StringField(required=True)
+# 	full_city = mongoengine.StringField()
+# 	restaurant_name = mongoengine.StringField(required=True)
+# 	point = mongoengine.PointField()#required=True)
+# 	cost = mongoengine.IntField()
+# 	filenames = mongoengine.ListField()
+# 	phone = mongoengine.StringField()
+# 	hours = mongoengine.ListField()
+# 	address = mongoengine.StringField()
+# 	types = mongoengine.ListField()
+# 	website = mongoengine.StringField()
+#	instagram_id = mongoengine.StringField()
 	
 	tag = mongoengine.StringField()
-	
-	latitude = mongoengine.StringField()
-	longitude = mongoengine.StringField()
-	point = mongoengine.PointField()#required=True)
-	cost = mongoengine.IntField()
 	
 	likes = mongoengine.ListField(default=[])
 	like_count = mongoengine.IntField(default=0)
@@ -56,13 +73,8 @@ class Idea(Document):
 	order = mongoengine.StringField(verbose_name="What would you order?")
 	
 	slug = mongoengine.StringField()
-	instagram_id = mongoengine.StringField()
 	
 	filename = mongoengine.fields.DictField()
-	filenames = mongoengine.ListField()
-	phone = mongoengine.StringField()
-	hours = mongoengine.ListField()
-	address = mongoengine.StringField()
 	
 	request_id = mongoengine.StringField()
 	seen = mongoengine.IntField(default=0)
@@ -72,15 +84,52 @@ class Idea(Document):
 	
 	hot = mongoengine.IntField()
 	
+	def get_res(self):
+		return Restaurant.objects(id = self.restaurant).first()
+	
+
+class Restaurant(Document):
+	googleId = mongoengine.StringField()
+	
+	city = mongoengine.StringField(required=True)
+	full_city = mongoengine.StringField()
+	
+	name = mongoengine.StringField(required=True)
+	
+	latitude = mongoengine.StringField()
+	longitude = mongoengine.StringField()
+	point = mongoengine.PointField()#required=True)
+	cost = mongoengine.IntField()
+	
+	filenames = mongoengine.ListField()
+	instagram_id = mongoengine.StringField()
+	
+	phone = mongoengine.StringField()
+	hours = mongoengine.ListField()
+	address = mongoengine.StringField()
+	
 	types = mongoengine.ListField()
 	website = mongoengine.StringField()
 	
-#photo_form = model_form(Idea)
+	
+	def open_now(self):
+		now_time = currentTime('EST')
+		
+		day = int(now_time.strftime('%w'))
+		hour = int(now_time.strftime('%H%M'))
 
-
-#new for photo upload
-#class photo_upload_form(photo_form):
-#    fileupload = FileField('Upload an image file', validators=[])
+		if len(self.hours) > day:
+			try:
+				self.hours[day].get('open')
+				print int(hour)
+				print int(self.hours[day]['open']['time'])
+				if hour > int(self.hours[day]['open']['time']) and hour < int(self.hours[day]['close']['time']):
+					return True
+			except Exception as e:
+				print e
+				
+		return False
+	
 
 class Friend(mongoengine.EmbeddedDocument):
 	#you have to push things into the array. Google how

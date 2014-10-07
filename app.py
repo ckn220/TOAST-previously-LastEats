@@ -440,7 +440,7 @@ def last_eat_entry(id):
 # 				days[i] += end + '  '
 				
 		tags = {}
-		for row in models.Tag.objects(ideaid = idea.id):
+		for row in models.Tag.objects(ideaid = idea.get_res().id):
 			if row.type not in tags:
 				tags[row.type] = []
 			tags[row.type].append(row)
@@ -954,9 +954,10 @@ def add_last_eats():
 		
 		checkCity = None
 		if 'userid' in request.cookies:
-			checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = full_city, tag = tag, complete = 1, deleted = 0).first()
-			if not checkCity:
-				checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = ','.join(full_city.split(',')[:2]), tag = tag, complete = 1, deleted = 0).first()
+			res_ids = [item.id for item in models.Restaurant.objects(full_city = full_city).only('id')]
+			checkCity = models.Idea.objects(userid = request.cookies['userid'], restaurant__in = res_ids, tag = tag, complete = 1, deleted = 0).first()
+			#if not checkCity:
+			#	checkCity = models.Idea.objects(userid = request.cookies['userid'], full_city = ','.join(full_city.split(',')[:2]), tag = tag, complete = 1, deleted = 0).first()
 		
 		warned = request.form.get('warned')
 		
@@ -970,12 +971,22 @@ def add_last_eats():
 			userid = ''
 			if 'userid' in request.cookies:
 				userid = request.cookies['userid']
-				
-			idea = models.Idea(title = city, full_city = full_city, tag = tag, restaurant_name = request.form.get('addressName'),
-							point = [lng, lat], userid = userid, timestamp = datetime.datetime.now(), order = order)
-			#cost = request.form.get('cost'), 
 			
-			idea = get_instagram_id(idea, lat, lng)
+			
+			testRes = models.Restaurant.objects(full_city = full_city, name = request.form.get('addressName')).first()
+			if not testRes:
+				testRes = models.Restaurant(city = idea.title, full_city = idea.full_city,
+			        name = idea.restaurant_name, point = idea.point)
+				testRes = googlePlace(testRes)
+				if testRes.cost and not models.Tag.objects(ideaid = testRes.id, type = 'Price'):
+					if testRes.cost > 2:
+						tag = models.Tag(ideaid = testRes.id, type = 'Price', text = 'Pricey')
+					else:
+						tag = models.Tag(ideaid = testRes.id, type = 'Price', text = 'Bang for the Buck')
+					tag.save()
+				
+			idea = models.Idea(restaurant = testRes.id, tag = tag, userid = userid, timestamp = datetime.datetime.now(), order = order)
+			testRes = get_instagram_id(testRes, idea, lat, lng)
 			
 			if 'requestid' in request.form:
 				req = models.Request.objects(id = request.form.get('requestid')).first()
@@ -992,13 +1003,13 @@ def add_last_eats():
 					
 			idea.complete = 1
 			idea.save()
-			if not idea.instagram_id:
+			if not testRes.instagram_id:
 				print 'NO INSTAGRAM PHOTOS FOUND FOR IDEA ' + str(idea.id)
 			
 			d = {'id' : str(idea.id)}
 			return jsonify(**d)
 		else:
-			d = {'error' : 'You already have <b>'+checkCity.restaurant_name+'</b> as your Last Eats in <b>'+checkCity.title+'</b>.<br>If you continue it will overwrite your old entry.'}
+			d = {'error' : 'You already have <b>'+checkCity.get_res().name+'</b> as your Last Eats in <b>'+checkCity.get_res().city+'</b>.<br>If you continue it will overwrite your old entry.'}
 			return jsonify(**d)
 	else:
 		req = None
@@ -1203,8 +1214,8 @@ def add_last_eats_last():
 		return render_template("add_last_eats_last.html", **templateData)
 
 
-def get_instagram_id(idea, lat, lng):
-	url = 'https://api.foursquare.com/v2/venues/search?ll='+str(lat)+','+str(lng)+'&query='+idea.restaurant_name+'&client_id='+FOURSQUARE_CLIENT_ID+'&client_secret='+FOURSQUARE_CLIENT_SECRET+'&v=20130609'
+def get_instagram_id(res, idea, lat, lng):
+	url = 'https://api.foursquare.com/v2/venues/search?ll='+str(lat)+','+str(lng)+'&query='+res.name+'&client_id='+FOURSQUARE_CLIENT_ID+'&client_secret='+FOURSQUARE_CLIENT_SECRET+'&v=20130609'
 	response = requests.request("GET",url)
 	data = json.loads(response.text)
 	
@@ -1245,37 +1256,39 @@ def get_instagram_id(idea, lat, lng):
 	
 	if len(instagram_ids) > 0:
 		for row in instagram_ids:
-			idea.filenames = []
-			idea.instagram_id = row
-			idea = get_instagram_photo(idea)
-			if len(idea.filenames) > 0:
-				url = 'https://api.foursquare.com/v2/venues/' + idea.instagram_id + '/hours?client_id=' + FOURSQUARE_CLIENT_ID + '&client_secret=' + FOURSQUARE_CLIENT_SECRET + '&v=20120609'
+			res.filenames = []
+			res.instagram_id = row
+			res = get_instagram_photo(res, idea)
+			if len(res.filenames) > 0:
+				url = 'https://api.foursquare.com/v2/venues/' + res.instagram_id + '/hours?client_id=' + FOURSQUARE_CLIENT_ID + '&client_secret=' + FOURSQUARE_CLIENT_SECRET + '&v=20120609'
 				response = requests.request("GET",url)
 				data = json.loads(response.text)
 				
-				idea.phone = id_phones[idea.instagram_id]
-				idea.address = id_address[idea.instagram_id]
-				idea.hours = [[],[],[],[],[],[],[]]
-				if 'popular' in data['response'] and 'timeframes' in data['response']['popular']:
-					for row in data['response']['popular']['timeframes']:
-						for day in row['days']:
-							idea.hours[day-1] = row['open']
+				res.phone = id_phones[res.instagram_id]
+				res.address = id_address[res.instagram_id]
+# 				res.hours = [[],[],[],[],[],[],[]]
+# 				if 'popular' in data['response'] and 'timeframes' in data['response']['popular']:
+# 					for row in data['response']['popular']['timeframes']:
+# 						for day in row['days']:
+# 							idea.hours[day-1] = row['open']
 				
 				break
 			
-	return idea
+	return res
 	
-def get_instagram_photo(idea):
-	url = 'https://api.instagram.com/v1/locations/'+ idea.instagram_id +'/media/recent?access_token=' + INSTAGRAM_TOKEN + '&count=30'
+def get_instagram_photo(res, idea):
+	url = 'https://api.instagram.com/v1/locations/'+ res.instagram_id +'/media/recent?access_token=' + INSTAGRAM_TOKEN + '&count=30'
 	response = requests.request("GET",url)
 	data = json.loads(response.text)
 	if len(data['data']) > 0:
 		idea.filename = {'url':data['data'][0]['images']['standard_resolution']['url'],'id':data['data'][0]['user']['id'],'creator':data['data'][0]['user']['username']}
-		idea.filenames = []
+		res.filenames = []
 		for row in data['data']:
-			idea.filenames.append({'url':row['images']['standard_resolution']['url'],'id':row['user']['id'],'creator':row['user']['username']})
+			res.filenames.append({'url':row['images']['standard_resolution']['url'],'id':row['user']['id'],'creator':row['user']['username']})
 		
-	return idea
+		idea.save()
+		res.save()
+	return res
 
 def checkCookies(request, path):
 	if 'fbook_auth' in request.cookies and 'userid' not in request.cookies:
@@ -1351,6 +1364,37 @@ def ipToLatLng(ip):
 	return [lat, lng]
 	
 
+def googlePlace(res):
+	if res.googleId == None:
+		url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
+		url += 'location=' + str(res.point['coordinates'][1]) + ',' + str(res.point['coordinates'][0]) + '&radius=50&types=food&name=' + res.name
+		url += '&key=AIzaSyA75SXaNNsVtJVayxlKtDAeF5ZBSVomrzM'
+		
+		response = requests.request("GET",url)
+		data = json.loads(response.text)
+		print data
+		
+		if len(data['results']) > 0:
+			res.googleId = data['results'][0]['place_id']
+		else:
+			res.googleId = 0
+		res.save()
+		
+	if res.website == None and res.googleId != 0:
+		url = 'https://maps.googleapis.com/maps/api/place/details/json?placeid='+ res.googleId +'&key=AIzaSyA75SXaNNsVtJVayxlKtDAeF5ZBSVomrzM'
+		response = requests.request("GET",url)
+		data2 = json.loads(response.text)
+		print data2
+		
+		if data2['status'] != 'INVALID_REQUEST':
+			res.cost = data2['result'].get('price_level')
+			res.hours = data2['result'].get('opening_hours',{}).get('periods')
+			res.types = data2['result'].get('types')
+			res.website = data2['result'].get('website')
+		
+		res.save()
+	return res
+
 def userRequests(userid):
 	user = models.User.objects(userid = userid).first()
 	count = 0
@@ -1390,7 +1434,10 @@ def _jinja2_filter_datetime(date, fmt=None):
 
 
 #mongoScripts.runAll(FACEBOOK_APP_ID, FACEBOOK_SECRET)
-mongoScripts.googlePlace()
+#mongoScripts.googlePlace()
+#mongoScripts.createRestaurants()
+#mongoScripts.checkRestaurants()
+
 
 #ipToLatLng('71.225.125.133')
 

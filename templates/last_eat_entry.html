@@ -40,12 +40,12 @@
 		<div class="user_choice"><p><strong>{{ friend.user_name }} {{ friend.user_last_name }}</strong></p></div>
 		
 		<div class="user_choice">
-			<p>If I only had time for one meal in <strong>{{ idea.full_city.replace(', United States','').replace(',USA','') }}</strong> 
+			<p>If I only had time for one meal in <strong>{{ idea.get_res().full_city.replace(', United States','').replace(',USA','') }}</strong> 
 				{%if idea.tag%}and I wanted <strong>{{idea.tag}}</strong>, {%endif%}I'd go to:</p>
 		</div>
 		
 		<div class="user_restaurant">
-			<strong>{{ idea.restaurant_name }}</strong>
+			<strong>{{ idea.get_res().name }}</strong>
 		</div><!-- /demo-html -->
 		
 		
@@ -160,8 +160,8 @@
 		<div class="container_16"></div>
 		<article class="grid_16"></article>
 		<div class="item dark smallmap">
-			<div class='map_data lat' style='display:none;'>{{ idea.point.coordinates[1] }}</div>
-			<div class='map_data lng' style='display:none;'>{{ idea.point.coordinates[0] }}</div>
+			<div class='map_data lat' style='display:none;'>{{ idea.get_res().point.coordinates[1] }}</div>
+			<div class='map_data lng' style='display:none;'>{{ idea.get_res().point.coordinates[0] }}</div>
 			
 			<div id="map_canvas" class="map" ></div>
 		</div>
@@ -192,10 +192,12 @@
 				{% endfor %}
 			</div>
 			<div style='font-size:14px;'>
-			<div><b>Cost:</b> {{idea.cost}}</div>
-			<div><b>Hours:</b> {{idea.hours}}</div>
-			<div><b>Types:</b> {{idea.types}}</div>
-			<div><b>Website:</b> {{idea.website}}</div>
+			{% if idea.get_res().open_now() %}
+			<div><b>OPEN NOW!!!</b></div>
+			{% endif %}
+			<!--<div><b>Cost:</b> {{idea.get_res().cost}}</div>
+			<div><b>Types:</b> {{idea.get_res().types}}</div>-->
+			<div><a href='{{idea.get_res().website}}' target="_blank">{{idea.get_res().website}}</a></div>
 			</div>
 		</div>
 		</br>

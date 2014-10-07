@@ -13,12 +13,90 @@ def runAll(appId, secret):
 #     convertLocation()
     pass
 
+
+
+########   USERS  ################
+
 def fixUsers():
     for user in models.User.objects():
         c = models.UserFriends(userid = user.userid, all_friends = user.all_friends)
         c.save()
         user.all_friends = None
         user.save()
+
+
+def addFriends(appId, secret):
+    for user in models.User.objects():
+        
+        url = 'https://graph.facebook.com/oauth/access_token?client_id='+ str(appId) +'&client_secret='+ str(secret) +'&grant_type=client_credentials'
+        response = urllib2.urlopen(url)
+        a = response.geturl()
+        pass
+        
+        f = graph.get_connections(user.userid, connection_name = 'friends?fields=name,picture')
+        
+        all_friends = []
+        for id in f['data']:
+            all_friends.append({'id': id['id'], 'name': id['name'], 'picture': id['picture']['data']['url']})
+        
+        c = models.UserFriends(userid = user.userid, all_friends = all_friends)
+        c.save()
+
+
+def addEmail(appId, secret):
+#     for user in models.User.objects():
+#         if not hasattr(user, 'email') or user.email == None:
+#             graph = facebook.GraphAPI(str(appId) + '|' + str(secret))
+#             me = graph.get_objects([user.userid])
+#             
+#             try:
+#                 if user.userid in me and 'email' in me[user.userid]:
+#                     print me[user.userid]['email']
+#                     user.email = me[user.userid]['email']
+#                     user.save()
+#             except:
+#                 pass
+    
+    f = open('emails.csv')
+    for row in f: 
+        data = row.replace('\n','').split(',')
+        names = data[0].split(' ',1)
+        
+        user = models.User.objects(user_name = names[0], user_last_name = names[1]).first()
+        
+        if not user:
+            print 'NO USER BY NAME ' + str(names)
+            
+        else:
+            if not hasattr(user, 'email') or user.email == None:
+                print 'New Email'
+                user.email = data[1]
+                user.save()
+            else:
+                print 'Already has email ' + str(user.email)
+                print 'New Data = ' +str(data)
+        print user
+        
+def cleanAllFriends():
+    for user in models.User.objects():
+        count = 0
+        
+        for allfriends in models.UserFriends.objects(userid = user.userid):
+            if count > 0:
+                allfriends.delete()
+            else:
+                count += 1
+
+
+def printEmails():
+    for user in models.User.objects().only('email'):
+        if user.email and user.email != '':
+            print user.email + ',',
+        
+        
+        
+############   IDEAS    #####################
+
 
 def addSeen():
     for c in models.Comment.objects():
@@ -58,23 +136,6 @@ def addDeleted():
         idea.deleted = 0
         idea.save()
 
-def addFriends(appId, secret):
-    for user in models.User.objects():
-        
-        url = 'https://graph.facebook.com/oauth/access_token?client_id='+ str(appId) +'&client_secret='+ str(secret) +'&grant_type=client_credentials'
-        response = urllib2.urlopen(url)
-        a = response.geturl()
-        pass
-        
-        f = graph.get_connections(user.userid, connection_name = 'friends?fields=name,picture')
-        
-        all_friends = []
-        for id in f['data']:
-            all_friends.append({'id': id['id'], 'name': id['name'], 'picture': id['picture']['data']['url']})
-        
-        c = models.UserFriends(userid = user.userid, all_friends = all_friends)
-        c.save()
-
 
 def googlePlace():
     for idea in models.Idea.objects(complete = 1):
@@ -106,77 +167,67 @@ def googlePlace():
             
             idea.save()
 
-def addEmail(appId, secret):
-#     for user in models.User.objects():
-#         if not hasattr(user, 'email') or user.email == None:
-#             graph = facebook.GraphAPI(str(appId) + '|' + str(secret))
-#             me = graph.get_objects([user.userid])
-#             
-#             try:
-#                 if user.userid in me and 'email' in me[user.userid]:
-#                     print me[user.userid]['email']
-#                     user.email = me[user.userid]['email']
-#                     user.save()
-#             except:
-#                 pass
-    
-    f = open('emails.csv')
-    for row in f: 
-        data = row.replace('\n','').split(',')
-        names = data[0].split(' ',1)
+def createRestaurants():
+    for idea in models.Idea.objects(complete = 1):
         
-        user = models.User.objects(user_name = names[0], user_last_name = names[1]).first()
+        test = models.Restaurant.objects(full_city = idea.full_city, name = idea.restaurant_name).first()
         
-        if not user:
-            print 'NO USER BY NAME ' + str(names)
+        if not test:
             
-        else:
-            if not hasattr(user, 'email') or user.email == None:
-                print 'New Email'
-                user.email = data[1]
-                user.save()
+            r = models.Restaurant(city = idea.title, full_city = idea.full_city,
+                name = idea.restaurant_name, point = idea.point, filenames = idea.filenames, 
+                cost = getattr(idea,'cost'), phone = getattr(idea,'phone'),
+                googleId = getattr(idea,'googleId'), hours = getattr(idea,'hours'), 
+                address = getattr(idea,'address'), types = getattr(idea,'types'), 
+                website = getattr(idea,'website'))
+            
+            r.save()
+            idea.restaurant = r.id
+            idea.save()
+            
+        elif not idea.restaurant:
+            idea.restaurant = test.id
+            
+            idea.save()
+
+def checkRestaurants():
+    for res in models.Restaurant.objects():
+        if res.cost and not models.Tag.objects(ideaid = res.id, type = 'Price'):
+            if res.cost > 2:
+                tag = models.Tag(ideaid = res.id, type = 'Price', text = 'Pricey')
             else:
-                print 'Already has email ' + str(user.email)
-                print 'New Data = ' +str(data)
-        print user
-        
-        
-tagDict = ['Great for:','Vibe:','Attire:','Perks:','Price:','Diet:','Type:','\n']
-def find_between( s, first, last ):
-    try:
-        start = s.index( first ) + len( first )
-        end = s.index( last, start )
-        return s[start:end]
-    except ValueError as e:
-        print e
-        return ""
-def addTags():
-    f = open('tags.csv')
-    for row in f:
-        data = row.split('"')
-        if len(data) == 3:
-            id = data[2].replace(',http://beta.lasteats.com/last_eat_entry/','').replace('\n','')
-            print id
+                tag = models.Tag(ideaid = res.id, type = 'Price', text = 'Bang for the Buck')
+            tag.save()
+        #print res.open_now()
+#         if not res.instagram_id:
+#             res.instagram_id = models.Idea.objects(restaurant = res.id).first().instagram_id
+#             res.save()
             
-            for i in range(len(tagDict)-1):
-                print tagDict[i]
-                if tagDict[i+1] in data[1] +'\n':
-                    text = find_between(data[1] + '\n',tagDict[i],tagDict[i+1]).lstrip().rstrip().split(',')
-                else:
-                    text = find_between(data[1] + '\n',tagDict[i],tagDict[i+2]).lstrip().rstrip().split(',')
+        testCopy = models.Restaurant.objects(name = res.name, id__ne = res.id).first()
+        if testCopy:
+            if res.full_city.replace(', United States','') == testCopy.full_city:
+                for idea in models.Idea.objects(restaurant = testCopy.id):
+                    idea.restaurant = res.id
+                    idea.save()
+                    
+                testCopy.delete()
                 
-                print text
-                for item in text:
-                    if id == '53cdbbe1a40335000270686a':
-                        pass
-                    if item != '' and not models.Tag.objects(ideaid = id, type = tagDict[i].replace(':',''), text = item.lstrip().rstrip()).first():
-                        
-                        tag = models.Tag(ideaid = id, type = tagDict[i].replace(':',''), text = item.lstrip().rstrip())
-                        tag.save()
-                        pass           
+            print res.name
+            print res.full_city
+            
             print ''
-        
-        
+            print testCopy.name
+            print testCopy.full_city
+            
+            print ''
+            print ''
+
+
+
+
+
+##############  TAGS    ##################
+
 def getFullTagList():
     tagComp = {}
     for row in models.Tag.objects():
@@ -223,21 +274,39 @@ def fixTags():
             tag2.save()
 
 
-def cleanAllFriends():
-    for user in models.User.objects():
-        count = 0
-        
-        for allfriends in models.UserFriends.objects(userid = user.userid):
-            if count > 0:
-                allfriends.delete()
-            else:
-                count += 1
-        
-        
-        
-        
-def printEmails():
-    for user in models.User.objects().only('email'):
-        if user.email and user.email != '':
-            print user.email + ',',
-        
+
+tagDict = ['Great for:','Vibe:','Attire:','Perks:','Price:','Diet:','Type:','\n']
+def find_between( s, first, last ):
+    try:
+        start = s.index( first ) + len( first )
+        end = s.index( last, start )
+        return s[start:end]
+    except ValueError as e:
+        print e
+        return ""
+def addTags():
+    f = open('tags.csv')
+    for row in f:
+        data = row.split('"')
+        if len(data) == 3:
+            id = data[2].replace(',http://beta.lasteats.com/last_eat_entry/','').replace('\n','')
+            print id
+            
+            for i in range(len(tagDict)-1):
+                print tagDict[i]
+                if tagDict[i+1] in data[1] +'\n':
+                    text = find_between(data[1] + '\n',tagDict[i],tagDict[i+1]).lstrip().rstrip().split(',')
+                else:
+                    text = find_between(data[1] + '\n',tagDict[i],tagDict[i+2]).lstrip().rstrip().split(',')
+                
+                print text
+                for item in text:
+                    if id == '53cdbbe1a40335000270686a':
+                        pass
+                    if item != '' and not models.Tag.objects(ideaid = id, type = tagDict[i].replace(':',''), text = item.lstrip().rstrip()).first():
+                        
+                        tag = models.Tag(ideaid = id, type = tagDict[i].replace(':',''), text = item.lstrip().rstrip())
+                        tag.save()
+                        pass           
+            print ''
+            

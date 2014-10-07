@@ -33,17 +33,17 @@ function delayStart(){
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		<form action="add_last_eats_last" method="post" enctype='multipart/form-data' encoding='multipart/form-data' onsubmit="return validateForm()">
 			<input type="hidden" id="id" name="id" value="{{ id }}"/>
-		{% if idea.filenames|length == 0 %}
+		{% if idea.get_res().filenames|length == 0 %}
 			<p>No images were found for this location :(</p>
 		{% else %}
 		
-			<input type='hidden' id='image' name='image' value='{{ idea.filenames[0]["url"] }}' />
+			<input type='hidden' id='image' name='image' value='{{ idea.get_res().filenames[0]["url"] }}' />
 			<h1 style='display: block;text-align: center;padding: 5px;'><b>Swipe</b> or <b>click</b> to find a photo you love!</h1> 
 			<br>
 			<div class="restaurant_photo" style='position: relative;'>
 				<div class='photo_slider transition'>
 				
-				{% for img in idea.filenames %}
+				{% for img in idea.get_res().filenames %}
 					{% if loop.index == 1 %}
 						<img class='transition image' src="{{ img['url'] }}" style='left:0%;' onload='startSlider();' />
 					{% else %}
