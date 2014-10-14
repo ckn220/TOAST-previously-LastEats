@@ -33,6 +33,33 @@
 	margin: 0px 1%;
 	padding:0px .5%;
 }
+
+.ui-controlgroup-horizontal .ui-controlgroup-controls .ui-radio {width: auto;}
+
+.searchEats {display:none;}
+.searchEats .col {
+	display: inline-block;
+	width: 30%;
+	margin: 0px 1%;
+	padding: 0px .5%;
+}
+
+.searchDetail {
+	margin: 0px 1%;
+	padding: 20px .5%;
+	display:none;
+}
+.searchDetail .searchDetailItem {
+	display:inline-block;
+	padding:0px 20px 0px 0px;
+	vertical-align:top;
+	opacity: .6;
+	text-align:center;
+}
+.searchDetail .searchDetailItem:hover, .searchDetail .searchDetailItem.active {opacity: 1;cursor: pointer;}
+
+.searchType {opacity: .6;}
+.searchType:hover, .searchType.active {opacity: 1;cursor: pointer;}
 </style>
 {% endblock %} 
 
@@ -41,80 +68,118 @@
 <div data-role="page" class="jqm-demos mainScroller" data-quicklinks="false">
 	{% include "header.html" %}
 	
-	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='background:white;'>
 		</br>
-		<div style='text-align:left;font-size:14px;margin-bottom:30px;border-bottom:2px solid #ddd;'>
-			<h1>Add Last Eats</h1>
-			<div>
-				<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
-				<div class='inline' style='padding-right:5px;padding-top: 11px;'>If I only had time for one meal in: </div>
-				<div class='inline' >
-					<!--<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="" style='width:230px;'>-->
-					<input type="text" name="textinput-5" id="textinput-5" placeholder="Enter a City" value="" style='width:230px;'>
+		<div style='text-align:left;font-size:14px;margin-bottom:30px;'>
+			<div data-role="fieldcontain" style='margin: 0px 1%;padding: 0px .5%;'>
+				<fieldset data-role="controlgroup" data-type="horizontal" >
+				<input type="radio" name="radio-choice-2" id="radio-choice-21" value="add" checked="checked" />
+				<label for="radio-choice-21">Add Eats</label>
+				
+				<input type="radio" name="radio-choice-2" id="radio-choice-22" value="search"  />
+				<label for="radio-choice-22">Search Eats</label>
+				
+				</fieldset>
+			</div>
+			<br>
+			<div class='addEats' style='margin: 0px 1%;padding: 0px .5%;'>
+				<div>
+					<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
+					<div class='inline' style='padding-right:5px;padding-top: 11px;'>If I only had time for one meal in: </div>
+					<div class='inline' >
+						<!--<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="" style='width:230px;'>-->
+						<input type="text" name="textinput-5" id="textinput-5" placeholder="Enter a City" value="" style='width:230px;'>
+					</div>
+					<input type="hidden" id="cityLat" name="cityLat" />
+					<input type="hidden" id="cityLng" name="cityLng" />
 				</div>
-				<input type="hidden" id="cityLat" name="cityLat" />
-				<input type="hidden" id="cityLng" name="cityLng" />
+				
+				<div>
+					<div class='error_message3' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
+					<div class='inline' style='padding-right:5px;padding-top: 12px;'>and I wanted </div>
+					<div class='inline'>
+						<select name="select-choice-1" id="select-choice-1">
+							<option value="">Choose a tag</option>
+							<optgroup label="Thematic:">
+								{% for row in thematic %}
+								<option value="{{row}}">{{row}}</option>
+								{%endfor%}
+							</optgroup>
+							<optgroup label='Specific:'>
+								{% for row in specific %}
+								<option value="{{row}}">{{row}}</option>
+								{% endfor %}
+							</optgroup>
+						</select>
+						
+						<input id="tag" class="controls" type="text" name='tag' placeholder="or make your own tag!" value="">
+					</div> 
+				</div>
+				
+				<div>
+					<div class='error_message2' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
+					<div class='inline' style='padding-right:5px;padding-top: 11px;'>I'd go to: </div>
+					<div class='inline' id="geocode">
+						<input id="address" class="controls" type="text" placeholder="Enter a Restaurant" value="" style='width:375px;'>
+						<input type="hidden" id="addressName" name="addressName" />
+						<input type="hidden" id="addressLat" name="addressLat" />
+						<input type="hidden" id="addressLng" name="addressLng" />
+					</div> 
+				</div>
+				
+				<div>
+					<div class='error_message4' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
+					<div class='inline' style='padding-right:5px;padding-top: 11px;'>and I'd order </div>
+					<div class='inline' ><input type="text" name="order" id="order" placeholder="" value="" style='width:300px;'></div>
+				</div>
+				
+				<div class="form_next"><a data-role="button" style="color: white !important;background: #fc5d61;display:inline-block;text-shadow:none;" onclick='moveOn()'>Submit Your Eats!</a></div>
 			</div>
 			
-			<div>
-				<div class='error_message3' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
-				<div class='inline' style='padding-right:5px;padding-top: 12px;'>and I wanted </div>
-				<div class='inline'>
-					<select name="select-choice-1" id="select-choice-1">
-						<option value="">Choose a tag</option>
-						<optgroup label="Thematic:">
-							{% for row in thematic %}
-							<option value="{{row}}">{{row}}</option>
-							{%endfor%}
-						</optgroup>
-						<optgroup label='Specific:'>
-							{% for row in specific %}
-							<option value="{{row}}">{{row}}</option>
-							{% endfor %}
-						</optgroup>
-					</select>
-					
-					<input id="tag" class="controls" type="text" name='tag' placeholder="or make your own tag!" value="">
-				</div> 
+			<div class='searchEats'>
+				<div style='padding:20px 0px;'>
+					<div class='col' ><img class='searchType' onclick='showSearch("mood")' src='../static/img/search_cover_1.png' title='Mood Food' /></div>
+					<div class='col'><img class='searchType' onclick='showSearch("type")' src='../static/img/search_cover_2.png' title='Type of Food' /></div>
+					<div class='col'><img class='searchType' src='../static/img/search_cover_3.png' title='Near Me Now' /></div>
+				</div>
+				
+				<div num='1' class='searchDetail mood'>
+					<h1 style='padding:20px 0px;'>{{mood}}</h1>
+					{% for mood in moods %}
+					<div class='searchDetailItem' onclick="testQuery('{{mood['name']}}','')"><img src='../static/img/{{mood['img']}}' /> <h2>{{mood['name']}}</h2></div>
+					{% endfor %}
+				</div>
+				<div num='1' class='searchDetail type'>
+					<h1 style='padding:20px 0px;'>Filter by type of food</h1>
+					{% for type in types %}
+					<div class='searchDetailItem' onclick="testQuery('','{{type['name']}}')"><img src='../static/img/{{type['img']}}' /> <h2>{{type['name']}}</h2></div>
+					{% endfor %}
+				</div>
+				
+				<div num='1' class='searchDetail'></div>
 			</div>
-			
-			<div>
-				<div class='error_message2' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
-				<div class='inline' style='padding-right:5px;padding-top: 11px;'>I'd go to: </div>
-				<div class='inline' id="geocode">
-					<input id="address" class="controls" type="text" placeholder="Enter a Restaurant" value="" style='width:375px;'>
-					<input type="hidden" id="addressName" name="addressName" />
-					<input type="hidden" id="addressLat" name="addressLat" />
-					<input type="hidden" id="addressLng" name="addressLng" />
-				</div> 
-			</div>
-			
-			<div>
-				<div class='error_message4' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
-				<div class='inline' style='padding-right:5px;padding-top: 11px;'>and I'd order </div>
-				<div class='inline' ><input type="text" name="order" id="order" placeholder="" value="" style='width:300px;'></div>
-			</div>
-			
-			<div class="form_next"><a data-role="button" style="color: black;display:inline-block;" onclick='moveOn()'>Submit</a></div>
-		
 		</div>
-		
+	</div>
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		<div class='newsfeed' style='text-align:left;font-size:14px;'>
 			<h1>Recent Declarations</h1>
-			
+			<div class='ideaContent'>
 			{% include "newsfeed_content.html"%}
+			</div>
 			<div style='clear:both;'></div>
 		</div>
 		
 		{% include "sidebars.html" %}
-	</div>
 	
+	</div>
 </div><!-- /page -->
 {% endblock %}
 
 {% block scripts %}
 <script src="/static/js/mapquest.js"></script>
 <script>
+var CITY = '';
+
 $(document).ready(function(){
 	$('#select-choice-1').change(function(){
 		if ($(this).val() == '' ){$('#tag').textinput('enable');}
@@ -125,7 +190,26 @@ $(document).ready(function(){
 		else{$('#select-choice-1').selectmenu('disable');}
 	});
 	
+	$('input[name=radio-choice-2]').change(function(){
+		if ($(this).val() == 'search'){
+			$('.searchEats').show();
+			$('.addEats').hide();
+		}
+		else{
+			$('.searchEats').hide();
+			$('.addEats').show();
+		}
+	});
+	
 });
+
+function showSearch(type){
+	$('.searchDetail').hide();
+	$('.searchDetail.'+type).show();
+	
+	$('.searchType').removeClass('active');
+	$(thisObject).addClass('active');
+}
 
 var ajax_loading = 0;
 function moveOn(){
@@ -214,6 +298,20 @@ function delete_entry(thisObject, id){
 			window.location.reload();
 		}
 	});
+}
+
+function testQuery(mood,type){
+	$('.ideaContent').html('<h1>LOADING</h1>');
+	$.ajax({
+		url: 'testfeedquery',
+		type: "get",
+		data: {'mood': mood,'type':type,'city':CITY},
+		success: function(value) {
+			$('.ideaContent').html(value);
+		}
+	});
+	
+	ideaContent
 }
 
 </script>

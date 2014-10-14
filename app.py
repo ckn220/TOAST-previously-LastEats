@@ -71,6 +71,23 @@ app.logger.debug("Connecting to MongoLabs")
 db = MongoEngine(app) # connect MongoEngine with Flask App
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
+
+THEMATIC = ["to pre-game with friends",
+			"to celebrate",
+			"to focus and get shit done",
+			"to watch the game",
+			 "the perfect hangover breakfast",
+			"to relax and hang out",
+			"to impress my date",
+			"to cleanse and refuel"]
+SPECIFIC = ["the best burger",
+			"the best thai food",
+			"the best sandwich",
+			"the best burrito",
+			"the best pizza",
+			"the best vegan",
+			"the best vegetarian"]
+
 # --------- Routes ----------
 # this is our main page
 from flask import make_response
@@ -150,31 +167,57 @@ def testfeed():
 	
 	ideas = [i for i in models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:100] if i.get_res().open_now()][:20]
 	
-	thematic = ["to pre-game with friends",
-				"to celebrate",
-				"to focus and get shit done",
-				"to watch the game",
-				 "the perfect hangover breakfast",
-				"to relax and hang out",
-				"to impress my date",
-				"to cleanse and refuel"]
-	specific = ["the best burger",
-				"the best thai food",
-				"the best sandwich",
-				"the best burrito",
-				"the best pizza",
-				"the best vegan",
-				"the best vegetarian"]
+	#Day and time interpretation to string
+	now_time = models.currentTime('EST')
+	day = now_time.strftime('%A')
+	hour = int(now_time.strftime('%H%M'))
+	if hour > 600 and hour < 1200:zone = 'Morning'
+	elif hour > 1200 and hour < 1800:zone = 'Afternoon'
+	else: zone = 'Night'
+	mood = "It's " + day + " " + zone + " in "
 	
-	templateData = newsfeedData(ideas)
 	
-	templateData['thematic'] = thematic
-	templateData['specific'] = specific
+	data = newsfeedData(ideas)
+	
+	data['thematic'] = THEMATIC
+	data['specific'] = SPECIFIC
+	data['mood'] = mood
+	
+	data['moods'] = [{'name':'Hangover','img':'mood1.png'},
+					{'name':'Impress my Date','img':'mood2.png'},
+					{'name':'Focus and get shit done','img':'mood3.png'},
+					{'name':'Boozy Brunch','img':'mood4.png'},]
+	
+	data['types'] = [{'name':'Noodles','img':'type1.png'},
+					{'name':'Pizza','img':'type2.png'},
+					{'name':'Sandwiches','img':'type3.png'},
+					{'name':'Sushi','img':'type4.png'},]
 	
 	user = models.User.objects(userid = request.cookies['userid']).first()
-	templateData['user'] = user
-	return render_template("testfeed.html", **templateData)
+	data['user'] = user
+	return render_template("testfeed.html", **data)
+
+@app.route("/testfeedquery", methods=['GET','POST'])
+def testfeedquery():
+	mood = request.args.get('mood','')
+	type = request.args.get('type','')
+	city = request.args.get('city','')
 	
+	kwargs = {'complete':1, 'deleted':0, 'tag__icontains':mood}
+	if city != '':
+		res = [x.id for x in models.Restaurant.objects(full_city__icontains = city).only('id')]
+		kwargs['restaurant__in'] = res
+	if type != '':
+		tags = [x.ideaid for x in models.Tag.objects(type = 'Type', text = type).only('ideaid')]
+		kwargs['id__in'] = tags
+		
+	ideas = [i for i in models.Idea.objects(**kwargs).order_by('-timestamp')[:100] if i.get_res().open_now()][:20]
+	
+	data = newsfeedData(ideas)
+	user = models.User.objects(userid = request.cookies['userid']).first()
+	data['user'] = user
+	return render_template("newsfeed_content.html", **data)
+
 @app.route("/newsfeed", methods=['GET','POST'])
 def newsfeed():
 	cookie_check = checkCookies(request, '/newsfeed')
@@ -696,8 +739,8 @@ def map():
 		types.sort()
 		
 		cities = set([])
-		for row in models.Idea.objects(complete = 1, deleted = 0).only('full_city').all():
-			cities.add(','.join(row.full_city.split(',')[:2]))
+		for row in models.Idea.objects(complete = 1, deleted = 0).only('restaurant').all():
+			cities.add(','.join(row.get_res().full_city.split(',')[:2]))
 			
 		cities = list(cities)
 		cities.sort()
