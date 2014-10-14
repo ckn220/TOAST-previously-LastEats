@@ -165,7 +165,7 @@ def testfeed():
 	if cookie_check != None:
 		return cookie_check
 	
-	ideas = []#[i for i in models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:100] if i.get_res().open_now()][:20]
+	ideas = [i for i in models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:100] if i.get_res().open_now()][:20]
 	
 	#Day and time interpretation to string
 	now_time = models.currentTime('EST')
@@ -206,11 +206,24 @@ def testfeedquery():
 	mood = request.args.get('mood','')
 	type = request.args.get('type','')
 	city = request.args.get('city','')
+	price = request.args.get('price','')
 	
 	kwargs = {'complete':1, 'deleted':0, 'tag__icontains':mood}
+	city_kwargs = {}
 	if city != '':
-		res = [x.id for x in models.Restaurant.objects(full_city__icontains = city).only('id')]
+		city_kwargs['full_city__icontains'] = city
+		
+	if price != '':
+		if price == 'bang':
+			city_kwargs['cost__lte'] = 2
+		else:
+			city_kwargs['cost__gt'] = 2
+	
+	if len(city_kwargs) > 0:
+		res = [x.id for x in models.Restaurant.objects(**city_kwargs).only('id')]
 		kwargs['restaurant__in'] = res
+	
+	
 	if type != '':
 		tags = [x.ideaid for x in models.Tag.objects(type = 'Type', text = type).only('ideaid')]
 		kwargs['id__in'] = tags

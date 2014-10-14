@@ -259,6 +259,17 @@
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		<div class='newsfeed' style='text-align:left;font-size:14px;'>
 			<h1>Recent Declarations</h1>
+			
+			<div data-role="fieldcontain" style='padding: 20px 0px;'>
+				<fieldset data-role="controlgroup" data-type="horizontal" >
+				<input type="radio" name="price" id="bang" value="bang" />
+				<label for="bang">Bang for the Buck</label>
+				
+				<input type="radio" name="price" id="pricey" value="pricey"  />
+				<label for="pricey">A bit more expensive</label>
+				</fieldset>
+			</div>
+			
 			<div class='ideaContent' style='padding-bottom:60px;'>
 			{% include "newsfeed_content.html"%}
 			</div>
@@ -277,6 +288,7 @@
 var CITY = '';
 var TYPE = '';
 var MOOD = '';
+var PRICE = '';
 
 $(document).ready(function(){
 	$('#select-choice-1').change(function(){
@@ -301,6 +313,10 @@ $(document).ready(function(){
 	
 	$('#select-city').change(function(){
 		CITY = $(this).val();
+		testQueryEx();
+	});
+	$('input[name=price]').change(function(){
+		PRICE = $(this).val();
 		testQueryEx();
 	});
 	
@@ -413,7 +429,7 @@ function testQueryEx(){
 	$.ajax({
 		url: 'testfeedquery',
 		type: "get",
-		data: {'mood': MOOD,'type':TYPE,'city':CITY},
+		data: {'mood': MOOD,'type':TYPE,'city':CITY,'price':PRICE},
 		success: function(value) {
 			$('.ideaContent').html(value);
 		}
