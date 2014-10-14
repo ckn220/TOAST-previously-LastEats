@@ -165,7 +165,7 @@ def testfeed():
 	if cookie_check != None:
 		return cookie_check
 	
-	ideas = [i for i in models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:100] if i.get_res().open_now()][:20]
+	ideas = []#[i for i in models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:100] if i.get_res().open_now()][:20]
 	
 	#Day and time interpretation to string
 	now_time = models.currentTime('EST')
@@ -182,6 +182,7 @@ def testfeed():
 	data['thematic'] = THEMATIC
 	data['specific'] = SPECIFIC
 	data['mood'] = mood
+	data['time_of_day'] = zone
 	
 	data['moods'] = [{'name':'Hangover','img':'mood1.png'},
 					{'name':'Impress my Date','img':'mood2.png'},
@@ -192,6 +193,9 @@ def testfeed():
 					{'name':'Pizza','img':'type2.png'},
 					{'name':'Sandwiches','img':'type3.png'},
 					{'name':'Sushi','img':'type4.png'},]
+	
+	data['cities'] = ['New York','Brooklyn','Queens']
+	data['city'] = 'New York'
 	
 	user = models.User.objects(userid = request.cookies['userid']).first()
 	data['user'] = user

@@ -5,9 +5,14 @@
 <meta name="Description" content="Find the best meals chosen by your friends for cities all over the world.">
 
 <style>
+.testHeader {
+	background: url('../static/img/sunny-morning-new-york.jpg');
+	background-size: cover;
+}
+
 .main-content {
 	max-width:none;
-	margin: 0px 5%;
+	padding: 0px 5%;
 }
 
 .inline {
@@ -60,13 +65,104 @@
 
 .searchType {opacity: .6;}
 .searchType:hover, .searchType.active {opacity: 1;cursor: pointer;}
+
+.testHeader .ui-select {
+	width: 280px;
+}
+.testHeader .ui-select .ui-btn {
+	padding: 10px 15px;
+	margin:0px;
+}
 </style>
+
 {% endblock %} 
 
 {% block body %}
 
 <div data-role="page" class="jqm-demos mainScroller" data-quicklinks="false">
-	{% include "header.html" %}
+	<div class='hiddenSlider transition' style='background:#f95d64;color:white;text-shadow:none;position:relative;overflow:hidden;height:0px;'>
+		<div class='hiddenSliderCont'>
+				<div><br></div>
+			
+			<div style='color: #f95d64;font-size: 2em;background: white;position: absolute;right: 10px;top: 10px;
+							padding: 0px 9px;border-radius: 100px;cursor:pointer;z-index:10;' onclick='$(this).parent().parent().height("0px")'>&#10006;</div>
+			
+			<div class='col-sm-4 transition active' num='1' style='left:0%;'>
+				<img src='/static/img/top1.png' style='width:240px;' />
+				<h2>That one special place</h2>
+				<div>Last Eats is a place to showcase your favorite meal in a city -- the one place
+					that you love most right now. Add as many cities as you want!</div>
+				<div class='mobileContent'>
+					<div class='hiddenDot active'></div>
+					<div class='hiddenDot '></div>
+					<div class='hiddenDot '></div>
+				</div>
+			</div>
+			
+			<div class='col-sm-4 transition' num='2'>
+				<img src='/static/img/top2.png' style='width:240px;'/>
+				<h2>Friends helping friends find great food</h2>
+				<div>Word of mouth recommendations from the people you know and trust the most.
+					If you only had time for one meal, where would you go?</div>
+				<div class='mobileContent'>
+					<div class='hiddenDot '></div>
+					<div class='hiddenDot active'></div>
+					<div class='hiddenDot '></div>
+				</div>
+			</div>
+			
+			<div class='col-sm-4 transition' num='3'>
+				<img src='/static/img/top3.png' style='width:240px;' />
+				<h2>Restaurants change and so can you</h2>
+				<div>Just like with your Facebook profile photo, nothing is set in stone.  Share the places you love the most right now
+					and change them whenever you like.</div>
+				<div class='mobileContent'>
+					<div class='hiddenDot '></div>
+					<div class='hiddenDot '></div>
+					<div class='hiddenDot active'></div>
+				</div>
+				
+			</div>
+			
+			<div class='mobileContent'>
+				<div class='arrowLeft' style='top:30%;' onclick='swipeCol(-1)'></div>
+				<div class='arrowRight' style='top:30%;' onclick='swipeCol(1)'></div>
+			</div>
+			<br><br>
+		</div>
+	
+	</div>
+	
+	<div class='testHeader'>
+		<div style='padding:20px 1%;'>
+			<a href="/newsfeed" title="Last Eats home"><img src="/static/img/logo.png" style='width:50px;'></a>
+			<!-- <p><span class="jqm-version"></span> Demos</p> -->
+			<a href="#" style='float:right;' onclick='getNotifications()'>
+				<div class="user_photo" style='display:inline-block;'><img src="{{ user.picture }}" height="50" width="50"></div>
+				<div style='display: inline-block;vertical-align: top;padding-top: 16px;padding-left: 10px;'>
+					{{user.user_name}} {{user.user_last_name}}</div>
+			{% if user and user.notify_count > 0  %}
+				<div class='userNotifyCount'>{{ user.notify_count }}</div>
+			{% endif %}
+			</a>
+		</div>
+		
+		<div style='text-align:center;font-size:2em;padding:20px 0px 80px;'>
+			<h1><span>Good {{time_of_day}}, <span class='city'>{{city}}</span></h1>
+			<h3>Find the best meals as chosen by your friends for all over <span class='city'>{{city}}</span></h3>
+			
+			<a style='display: inline-block;margin: 5px 0px;padding: 15px 15px;width: 250px;margin-bottom: 15px;text-shadow: none;border:2px solid red;' data-role="button" 
+					onclick='$(".hiddenSlider").height($(".hiddenSliderCont .col-sm-4").height()+parseInt($(".hiddenSliderCont .col-sm-4").css("padding-top"))*2+38)' 
+					style='border:none;'>How It Works</a>
+			
+			<div><select name="select-city" id="select-city">
+				{% for city in cities %}
+					<option value="{{city}}">{{city}}</option>
+				{% endfor %}
+			</select></div>
+			
+		</div>
+	</div>
 	
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='background:white;'>
 		</br>
@@ -163,7 +259,7 @@
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
 		<div class='newsfeed' style='text-align:left;font-size:14px;'>
 			<h1>Recent Declarations</h1>
-			<div class='ideaContent'>
+			<div class='ideaContent' style='padding-bottom:60px;'>
 			{% include "newsfeed_content.html"%}
 			</div>
 			<div style='clear:both;'></div>
@@ -179,6 +275,8 @@
 <script src="/static/js/mapquest.js"></script>
 <script>
 var CITY = '';
+var TYPE = '';
+var MOOD = '';
 
 $(document).ready(function(){
 	$('#select-choice-1').change(function(){
@@ -199,6 +297,11 @@ $(document).ready(function(){
 			$('.searchEats').hide();
 			$('.addEats').show();
 		}
+	});
+	
+	$('#select-city').change(function(){
+		CITY = $(this).val();
+		testQueryEx();
 	});
 	
 });
@@ -301,19 +404,21 @@ function delete_entry(thisObject, id){
 }
 
 function testQuery(mood,type){
+	MOOD = mood;
+	TYPE = type;
+	testQueryEx();
+}
+function testQueryEx(){
 	$('.ideaContent').html('<h1>LOADING</h1>');
 	$.ajax({
 		url: 'testfeedquery',
 		type: "get",
-		data: {'mood': mood,'type':type,'city':CITY},
+		data: {'mood': MOOD,'type':TYPE,'city':CITY},
 		success: function(value) {
 			$('.ideaContent').html(value);
 		}
 	});
-	
-	ideaContent
 }
-
 </script>
 
 {% endblock %}
