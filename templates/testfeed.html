@@ -63,8 +63,14 @@
 }
 .searchDetail .searchDetailItem:hover, .searchDetail .searchDetailItem.active {opacity: 1;cursor: pointer;}
 
-.searchType {opacity: .6;}
-.searchType:hover, .searchType.active {opacity: 1;cursor: pointer;}
+.searchType {
+	opacity: .6;
+	max-width:100%;
+}
+.searchType:hover, .searchType.active {
+	opacity: 1;
+	cursor: pointer;
+}
 
 .testHeader .ui-select {
 	width: 280px;
@@ -234,9 +240,9 @@
 			
 			<div class='searchEats'>
 				<div style='padding:20px 0px;'>
-					<div class='col' ><img class='searchType' onclick='showSearch("mood")' src='../static/img/search_cover_1.png' title='Mood Food' /></div>
-					<div class='col'><img class='searchType' onclick='showSearch("type")' src='../static/img/search_cover_2.png' title='Type of Food' /></div>
-					<div class='col'><img class='searchType' src='../static/img/search_cover_3.png' title='Near Me Now' /></div>
+					<div class='col' ><img class='searchType' onclick='showSearch("mood", this)' src='../static/img/search_cover_1.png' title='Mood Food' /></div>
+					<div class='col'><img class='searchType' onclick='showSearch("type", this)' src='../static/img/search_cover_2.png' title='Type of Food' /></div>
+					<div class='col'><img class='searchType' onclick='mapSearch(this)' src='../static/img/search_cover_3.png' title='Near Me Now' /></div>
 				</div>
 				
 				<div num='1' class='searchDetail mood'>
@@ -256,7 +262,7 @@
 			</div>
 		</div>
 	</div>
-	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false">
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='padding-bottom:100px;'>
 		<div class='newsfeed' style='text-align:left;font-size:14px;'>
 			<h1>Recent Declarations</h1>
 			
@@ -277,7 +283,11 @@
 		</div>
 		
 		{% include "sidebars.html" %}
-	
+		
+		
+		<div id="map_canvas" class="map" style='height:700px;' ></div>
+		<div id='multimap2'></div>
+		
 	</div>
 </div><!-- /page -->
 {% endblock %}
@@ -289,6 +299,8 @@ var CITY = '';
 var TYPE = '';
 var MOOD = '';
 var PRICE = '';
+
+var mapPins = new Array();
 
 $(document).ready(function(){
 	$('#select-choice-1').change(function(){
@@ -320,9 +332,42 @@ $(document).ready(function(){
 		testQueryEx();
 	});
 	
+	createPins();
 });
 
-function showSearch(type){
+function createPins(){
+	hidePins();
+	
+	var icon = {'Multiple Reccomendations':'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+				'Newest':'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+				'Friends':'http://maps.google.com/mapfiles/ms/icons/green-dot.png'}
+	for (var i = 0; i < mapData.length; i++){
+		createMarker(mapData[i].lat, mapData[i].lng, mapData[i].title, '/last_eat_entry/'+mapData[i].id, {'url':icon[mapData[i].filter]});
+	}
+	setFirstCenter();
+}
+function hidePins(){
+	for (var i = 0; i < mapPins.length; i++ ){
+		mapPins[i][0].setVisible(false);
+	}
+}
+function setFirstCenter(){
+	$('#map_canvas').gmap('get','map').setCenter(mapPins[0][0].position);
+	$('#map_canvas').gmap('get','map').setZoom(13);
+}
+
+function mapSearch(thisObject){
+	$('.searchDetail').hide();
+	$('.searchType').removeClass('active');
+	$(thisObject).addClass('active');
+	MOOD = '';
+	TYPE = '';
+	PRICE = '';
+	
+	testQueryEx();
+}
+
+function showSearch(type, thisObject){
 	$('.searchDetail').hide();
 	$('.searchDetail.'+type).show();
 	
@@ -429,9 +474,10 @@ function testQueryEx(){
 	$.ajax({
 		url: 'testfeedquery',
 		type: "get",
-		data: {'mood': MOOD,'type':TYPE,'city':CITY,'price':PRICE},
+		data: {'mood': MOOD,'type':TYPE,'city':CITY,'price':PRICE, 'lat':LATITUDE, 'lng':LONGITUDE},
 		success: function(value) {
 			$('.ideaContent').html(value);
+			createPins();
 		}
 	});
 }

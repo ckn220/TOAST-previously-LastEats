@@ -206,17 +206,22 @@ def testfeedquery():
 	type = request.args.get('type','')
 	city = request.args.get('city','')
 	price = request.args.get('price','')
+	lat = request.args.get('lat','')
+	lng = request.args.get('lng','')
 	
 	kwargs = {'complete':1, 'deleted':0, 'tag__icontains':mood}
 	city_kwargs = {}
 	if city != '':
 		city_kwargs['full_city__icontains'] = city
-		
+	
 	if price != '':
 		if price == 'bang':
 			city_kwargs['cost__lte'] = 2
 		else:
 			city_kwargs['cost__gt'] = 2
+	
+	if lat != '':
+		city_kwargs['point__near'] = [float(lng),float(lat)]
 	
 	if len(city_kwargs) > 0:
 		res = [x.id for x in models.Restaurant.objects(**city_kwargs).only('id')]
@@ -228,6 +233,10 @@ def testfeedquery():
 		kwargs['id__in'] = tags
 		
 	ideas = [i for i in models.Idea.objects(**kwargs).order_by('-timestamp')[:100] if i.get_res().open_now()][:20]
+	for idea in ideas:
+		idea.order = res.index(idea.restaurant)
+	
+	ideas = sorted(ideas, key=lambda x: x.order)
 	
 	data = newsfeedData(ideas)
 	user = models.User.objects(userid = request.cookies['userid']).first()
