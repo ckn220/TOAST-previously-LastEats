@@ -1,3 +1,6 @@
+<script>
+	mapData = [];
+</script>
 
 {% if ideaIds|length == 0 %}
 	{% if friend %}
@@ -10,6 +13,10 @@
 {% for idSet in ideaIds|batch(3) -%}
 <div>
 {% for id in idSet %}
+<script>
+mapData.push({'lat':'{{ideas[id].get_res().point['coordinates'][1]}}','lng':'{{ideas[id].get_res().point['coordinates'][0]}}','title':'{{ideas[id].get_res().name}}','id':'{{id}}','filter':'Newest'});
+</script>
+
 <div class='newsfeedItem entry' style='border:#ddd thin solid;border-radius:4px; margin-bottom:20px;'>
 	{% if current_user != None and user.userid == ideas[id].userid %}
 		<div class='delete-entry transition' onclick='delete_entry(this, "{{ ideas[id].id }}")' >X</div>
