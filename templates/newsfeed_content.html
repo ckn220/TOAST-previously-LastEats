@@ -16,7 +16,9 @@
 	{%endif%}
 	<a href="/last_eat_entry/{{ id }}" data-role="button" class="ui-link ui-btn ui-shadow ui-corner-all" role="button" style='border:none;box-shadow:none;padding:0px;background:none;'>
 		<div class="user_choice_why">
+			{% if ideas[id].userid in friends %}
 			<img src="{{ friends[ideas[id].userid].picture }}">
+			{% endif %}
 			
 			<div style='white-space: pre-wrap;font-weight: normal;text-align:left;padding-top: 10px;'><span>If I only had time for one meal in <b>{{ ideas[id].get_res().full_city.replace(', United States','').replace(',USA','') }}</b> and I wanted <b>{{ideas[id].tag}}</b>, I'd go to <b>{{ideas[id].get_res().name}}</b></span></div>
 			{% if ideas[id].distance %}

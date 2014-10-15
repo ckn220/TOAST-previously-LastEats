@@ -176,7 +176,6 @@ def testfeed():
 	else: zone = 'Night'
 	mood = "It's " + day + " " + zone + " in "
 	
-	
 	data = newsfeedData(ideas)
 	
 	data['thematic'] = THEMATIC
