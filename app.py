@@ -88,6 +88,10 @@ SPECIFIC = ["the best burger",
 			"the best vegan",
 			"the best vegetarian"]
 
+CITYIMG = {'Morning':'../static/img/morning-city.jpg',
+		'Afternoon':'../static/img/afternoon-city.jpeg',
+		'Night':'../static/img/night-city.jpg'}
+
 # --------- Routes ----------
 # this is our main page
 from flask import make_response
@@ -182,6 +186,7 @@ def testfeed():
 	data['specific'] = SPECIFIC
 	data['mood'] = mood
 	data['time_of_day'] = zone
+	data['city_img'] = CITYIMG[zone]
 	
 	data['moods'] = [{'name':'Hangover','img':'mood1.png'},
 					{'name':'Impress my Date','img':'mood2.png'},
@@ -193,8 +198,19 @@ def testfeed():
 					{'name':'Sandwiches','img':'type3.png'},
 					{'name':'Sushi','img':'type4.png'},]
 	
-	data['cities'] = ['New York','Brooklyn','Queens']
-	data['city'] = 'New York'
+	data['cities'] = ['Manhattan','Brooklyn','Queens','The Bronx','Staten Island']
+	
+	lat = None
+	try:
+		[lat, lng] = ipToLatLng(ip)
+	except:
+		print 'IP ERROR'
+	if lat:
+		loc_res = models.Restaurant.objects(point__near=[lng, lat]).first()
+	else:
+		loc_res = models.Restaurant.objects(full_city__icontains = 'New York, NY').first()
+	
+	data['city'] = loc_res.city.split(',')[0]
 	
 	user = models.User.objects(userid = request.cookies['userid']).first()
 	data['user'] = user
@@ -1043,8 +1059,11 @@ def add_last_eats():
 			
 			testRes = models.Restaurant.objects(full_city = full_city, name = request.form.get('addressName')).first()
 			if not testRes:
-				testRes = models.Restaurant(city = idea.title, full_city = idea.full_city,
-			        name = idea.restaurant_name, point = idea.point)
+				testRes = models.Restaurant(city = city, full_city = full_city,
+			        name = request.form.get('addressName'), point = [lng, lat])
+				testRes.save()
+				testRes = models.Restaurant.objects(id = testRes.id)
+			if testRes.googleId == None:
 				testRes = googlePlace(testRes)
 				if testRes.cost and not models.Tag.objects(ideaid = testRes.id, type = 'Price'):
 					if testRes.cost > 2:
@@ -1071,6 +1090,7 @@ def add_last_eats():
 					
 			idea.complete = 1
 			idea.save()
+			testRes.save()
 			if not testRes.instagram_id:
 				print 'NO INSTAGRAM PHOTOS FOUND FOR IDEA ' + str(idea.id)
 			

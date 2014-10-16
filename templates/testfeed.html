@@ -6,7 +6,7 @@
 
 <style>
 .testHeader {
-	background: url('../static/img/sunny-morning-new-york.jpg');
+	background: url('{{city_img}}');
 	background-size: cover;
 }
 
@@ -154,16 +154,16 @@
 		</div>
 		
 		<div style='text-align:center;font-size:2em;padding:20px 0px 80px;'>
-			<h1><span>Good {{time_of_day}}, <span class='city'>{{city}}</span></h1>
-			<h3>Find the best meals as chosen by your friends for all over <span class='city'>{{city}}</span></h3>
+			<h1><span>Good {{time_of_day}}, <span class='city'>New York</span></h1>
+			<h3>Find the best meals as chosen by your friends for all over <span class='city'>New York</span></h3>
 			
 			<a style='display: inline-block;margin: 5px 0px;padding: 15px 15px;width: 250px;margin-bottom: 15px;text-shadow: none;border:2px solid red;' data-role="button" 
 					onclick='$(".hiddenSlider").height($(".hiddenSliderCont .col-sm-4").height()+parseInt($(".hiddenSliderCont .col-sm-4").css("padding-top"))*2+38)' 
 					style='border:none;'>How It Works</a>
 			
 			<div><select name="select-city" id="select-city">
-				{% for city in cities %}
-					<option value="{{city}}">{{city}}</option>
+				{% for c in cities %}
+					<option value="{{c}}" {%if c == city%}selected='selected'{%endif%}>{{c}}</option>
 				{% endfor %}
 			</select></div>
 			
@@ -189,8 +189,14 @@
 					<div class='error_message' style='display:none;padding:5px 0px;margin:5px 0px;background:#faa;'></div>
 					<div class='inline' style='padding-right:5px;padding-top: 11px;'>If I only had time for one meal in: </div>
 					<div class='inline' >
-						<!--<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="" style='width:230px;'>-->
-						<input type="text" name="textinput-5" id="textinput-5" placeholder="Enter a City" value="" style='width:230px;'>
+						<select name="city" id="select-city-2">
+							{% for c in cities %}
+								<option value="{{c}}" {%if c == city%}selected='selected'{%endif%}>{{c}}</option>
+							{% endfor %}
+						</select>
+			
+						<!--<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="" style='width:230px;'>
+						<input type="text" name="textinput-5" id="textinput-5" placeholder="Enter a City" value="" style='width:230px;'>-->
 					</div>
 					<input type="hidden" id="cityLat" name="cityLat" />
 					<input type="hidden" id="cityLng" name="cityLng" />
@@ -295,10 +301,16 @@
 {% block scripts %}
 <script src="/static/js/mapquest.js"></script>
 <script>
-var CITY = '';
+var CITY = '{{city}}';
 var TYPE = '';
 var MOOD = '';
 var PRICE = '';
+
+var city_gps = {'Manhattan':[40.790278, -73.959722],
+				'Brooklyn':[40.692778, -73.990278],
+				'Queens':[40.75, -73.866667],
+				'The Bronx':[40.8373, -73.886],
+				'Staten Island':[40.576281, -74.144839]};
 
 var mapPins = new Array();
 
@@ -331,6 +343,21 @@ $(document).ready(function(){
 		PRICE = $(this).val();
 		testQueryEx();
 	});
+	
+	$('#select-city-2').change(function(){
+		if (autocomplete){
+	        var lati = city_gps[$(this).val()][0];
+	        var long = city_gps[$(this).val()][1];
+	        $('#cityLat').val(lati);
+			$('#cityLng').val(long);
+	        var s = new google.maps.LatLng(lati,long);
+	        var n = new google.maps.LatLng(lati,long);
+	        
+	        var boundary = new google.maps.LatLngBounds(s,n);
+	        autocomplete.setBounds(boundary);
+		}
+	});
+	
 	
 	createPins();
 });
@@ -378,12 +405,7 @@ function showSearch(type, thisObject){
 var ajax_loading = 0;
 function moveOn(){
 	
-	if ($('#textinput-4').length > 0){
-		var city = $('#textinput-4').val();
-	}
-	else {
-		var city = $('#textinput-5').val();
-	}
+	var city = $('select[name=city]').val();
 	var addressName = $('#addressName').val();
 	var addressLat = $('#addressLat').val();
 	var addressLng = $('#addressLng').val();
