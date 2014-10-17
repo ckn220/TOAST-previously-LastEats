@@ -79,6 +79,10 @@
 	padding: 10px 15px;
 	margin:0px;
 }
+
+.ui-checkbox {
+	display: inline-block;
+}
 </style>
 
 {% endblock %} 
@@ -241,6 +245,15 @@
 					<div class='inline' ><input type="text" name="order" id="order" placeholder="" value="" style='width:300px;'></div>
 				</div>
 				
+				<div>
+					<b>Additional Info:</b>
+					{% for text in ['Great for Groups','Kid Friendly','Formal Attire'] %}
+						<input type="checkbox" name="Price" id="{{ text }}" value='{{text}}' class="custom" />
+						<label for="{{ text }}">
+							<span style='font-weight:normal;'>{{ text }}</span>
+						</label>
+					{% endfor %}
+				</div>
 				<div class="form_next"><a data-role="button" style="color: white !important;background: #fc5d61;display:inline-block;text-shadow:none;" onclick='moveOn()'>Submit Your Eats!</a></div>
 			</div>
 			
@@ -415,6 +428,13 @@ function moveOn(){
 		tag = $('select[name=select-choice-1]').val();
 	}
 	
+	var tags = new Array();
+	$('input[name=Price]').each(function(){
+		if ($(this).is(':checked')){
+			tags.push($(this).val());
+		}
+	});
+	
 	var warned = false;
 	if ($('.error_message').css('display') != 'none'){
 		warned = true;}
@@ -441,7 +461,8 @@ function moveOn(){
 					'tag': tag,
 					'order': order,
 					'requestid': reqId,
-					'warned': warned},
+					'warned': warned,
+					'tags':tags},
 			success: function(value) {
 				ajax_loading = 0;
 				console.log(value);

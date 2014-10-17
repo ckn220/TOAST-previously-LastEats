@@ -88,7 +88,7 @@ SPECIFIC = ["the best burger",
 			"the best vegan",
 			"the best vegetarian"]
 
-CITYIMG = {'Morning':'../static/img/morning-city.jpg',
+CITYIMG = {'Morning':'../static/img/morning-city.jpeg',
 		'Afternoon':'../static/img/afternoon-city.jpeg',
 		'Night':'../static/img/night-city.jpg'}
 
@@ -529,6 +529,11 @@ def last_eat_entry(id):
 				tags[row.type] = []
 			tags[row.type].append(row)
 		
+		for row in models.Tag.objects(ideaid = idea.id):
+			if row.type not in tags:
+				tags[row.type] = []
+			tags[row.type].append(row)
+			
 		first = False
 		if 'first' in request.args:
 			first = request.args.get('first')
@@ -1062,7 +1067,7 @@ def add_last_eats():
 				testRes = models.Restaurant(city = city, full_city = full_city,
 			        name = request.form.get('addressName'), point = [lng, lat])
 				testRes.save()
-				testRes = models.Restaurant.objects(id = testRes.id)
+				testRes = models.Restaurant.objects(id = testRes.id).first()
 			if testRes.googleId == None:
 				testRes = googlePlace(testRes)
 				if testRes.cost and not models.Tag.objects(ideaid = testRes.id, type = 'Price'):
@@ -1087,7 +1092,13 @@ def add_last_eats():
 					
 					req.friends.remove(request.cookies['userid'])
 					req.save()
-					
+			
+			print request.form.getlist('tags')
+			for text in request.form.getlist('tags[]'):
+				if not models.Tag.objects(ideaid = idea.id, type = 'Price', text = text).first():
+					tag = models.Tag(ideaid = idea.id, type = 'Price', text = text)
+					tag.save()
+			
 			idea.complete = 1
 			idea.save()
 			testRes.save()
@@ -1465,7 +1476,7 @@ def googlePlace(res):
 		if len(data['results']) > 0:
 			res.googleId = data['results'][0]['place_id']
 		else:
-			res.googleId = 0
+			res.googleId = str(0)
 		res.save()
 		
 	if res.website == None and res.googleId != 0:

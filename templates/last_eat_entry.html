@@ -66,9 +66,8 @@
 		
 		<div class='tagCont'>
 			{% for key in tags %}
-				{% if key in ['Great for','Price','Type'] %}
 				<div class='tags'>
-					{{key}}: {% for tag in tags[key] %}{%if loop.index > 1%}, {%endif%}
+					{% for tag in tags[key] %}{%if loop.index > 1%}, {%endif%}
 						<div class='tag'>{{ tag.text }} 
 							{% if user.userid == idea.userid %}
 							<div class='removetag' onclick='removetag(this,"{{idea.id}}","{{key}}","{{tag.text}}")'>x</div>
@@ -76,8 +75,12 @@
 						</div>
 					{% endfor %}
 				</div>
-				{%endif%}
 			{% endfor %}
+			{% if idea.get_res().open_now() %}
+			<div class='tags' style='color:green;'>OPEN NOW</div>
+			{% else %}
+			<div class='tags' style='color:red;'>CLOSED</div>
+			{% endif %}
 		</div>
 		
 		{% if current_user != None %}
@@ -192,16 +195,14 @@
 				{% endfor %}
 			</div>
 			<div style='font-size:14px;'>
-			{% if idea.get_res().open_now() %}
-			<div><b>OPEN NOW!!!</b></div>
-			{% endif %}
-			<div><b>Hours:</b> 
+			
+			<!--<div><b>Hours:</b> 
 				{%for row in idea.get_res().hours %}
 					{% if 'open' in row %}
 					<div>open: {{row['open']['time']}}, close: {{row['close']['time']}}</div>
 					{%endif%}
 				{%endfor%}
-			</div>
+			</div>-->
 			<!--<div><b>Cost:</b> {{idea.get_res().cost}}</div>
 			<div><b>Types:</b> {{idea.get_res().types}}</div>-->
 			<div><a href='{{idea.get_res().website}}' target="_blank">{{idea.get_res().website}}</a></div>
