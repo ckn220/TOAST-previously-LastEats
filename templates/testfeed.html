@@ -82,6 +82,7 @@
 
 .ui-checkbox {
 	display: inline-block;
+	vertical-align:top;
 }
 </style>
 
@@ -246,15 +247,16 @@
 				</div>
 				
 				<div>
-					<b>Additional Info:</b>
+					<b style='vertical-align: top;display: inline-block;padding: 20px 20px 0px 0px;'>Additional Info:</b>
 					{% for text in ['Great for Groups','Kid Friendly','Formal Attire'] %}
 						<input type="checkbox" name="Price" id="{{ text }}" value='{{text}}' class="custom" />
 						<label for="{{ text }}">
 							<span style='font-weight:normal;'>{{ text }}</span>
 						</label>
 					{% endfor %}
+					<a data-role="button" style="color: white !important;background: #fc5d61;display:inline-block;text-shadow:none;" onclick='moveOn()'>Submit Your Eats!</a>
 				</div>
-				<div class="form_next"><a data-role="button" style="color: white !important;background: #fc5d61;display:inline-block;text-shadow:none;" onclick='moveOn()'>Submit Your Eats!</a></div>
+				<div class="form_next"></div>
 			</div>
 			
 			<div class='searchEats'>
