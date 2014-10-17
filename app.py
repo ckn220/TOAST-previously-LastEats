@@ -1466,7 +1466,7 @@ def ipToLatLng(ip):
 def googlePlace(res):
 	if res.googleId == None:
 		url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
-		url += 'location=' + str(res.point['coordinates'][1]) + ',' + str(res.point['coordinates'][0]) + '&radius=50&types=food&name=' + res.name
+		url += 'location=' + str(res.point['coordinates'][1]) + ',' + str(res.point['coordinates'][0]) + '&radius=50&types=food&name=' + res.name.replace("'",'')
 		url += '&key=AIzaSyA75SXaNNsVtJVayxlKtDAeF5ZBSVomrzM'
 		
 		response = requests.request("GET",url)
