@@ -169,7 +169,7 @@ def testfeed():
 	if cookie_check != None:
 		return cookie_check
 	
-	ideas = [i for i in models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:100] if i.get_res().open_now()][:20]
+	ideas = models.Idea.objects(complete = 1, deleted = 0).order_by('-timestamp')[:20]
 	
 	#Day and time interpretation to string
 	now_time = models.currentTime('EST')

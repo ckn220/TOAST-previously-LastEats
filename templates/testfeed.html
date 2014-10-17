@@ -203,8 +203,15 @@
 						<!--<input type="text" name="textinput-4" id="textinput-4" placeholder="Enter a City" value="" style='width:230px;'>
 						<input type="text" name="textinput-5" id="textinput-5" placeholder="Enter a City" value="" style='width:230px;'>-->
 					</div>
-					<input type="hidden" id="cityLat" name="cityLat" />
-					<input type="hidden" id="cityLng" name="cityLng" />
+					<script>
+						var city_gps = {'Manhattan':[40.790278, -73.959722],
+							'Brooklyn':[40.692778, -73.990278],
+							'Queens':[40.75, -73.866667],
+							'The Bronx':[40.8373, -73.886],
+							'Staten Island':[40.576281, -74.144839]};
+					</script>
+					<input type="hidden" id="cityLat" name="cityLat" value=40.790278 />
+					<input type="hidden" id="cityLng" name="cityLng" value=-73.959722 />
 				</div>
 				
 				<div>
@@ -321,11 +328,7 @@ var TYPE = '';
 var MOOD = '';
 var PRICE = '';
 
-var city_gps = {'Manhattan':[40.790278, -73.959722],
-				'Brooklyn':[40.692778, -73.990278],
-				'Queens':[40.75, -73.866667],
-				'The Bronx':[40.8373, -73.886],
-				'Staten Island':[40.576281, -74.144839]};
+
 
 var mapPins = new Array();
 
