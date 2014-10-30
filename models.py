@@ -61,6 +61,8 @@ class Idea(Document):
 # 	website = mongoengine.StringField()
 #	instagram_id = mongoengine.StringField()
 	
+	instagram_id = mongoengine.StringField()
+	
 	tag = mongoengine.StringField()
 	
 	likes = mongoengine.ListField(default=[])
@@ -88,8 +90,8 @@ class Idea(Document):
 class Restaurant(Document):
 	googleId = mongoengine.StringField()
 	
-	city = mongoengine.StringField(required=True)
-	full_city = mongoengine.StringField()
+	city = mongoengine.StringField(default = '')
+	full_city = mongoengine.StringField(default = '')
 	
 	name = mongoengine.StringField(required=True)
 	

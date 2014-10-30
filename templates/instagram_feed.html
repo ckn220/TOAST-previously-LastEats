@@ -1,0 +1,33 @@
+{% extends "skeleton.html" %}
+
+{% block style %}
+<meta property="og:image" content="http://beta.lasteats.com/static/assets/img/CURRENT_LOGO_WHITE.png">
+<meta name="Description" content="Find the best meals chosen by your friends for cities all over the world.">
+
+<style>
+
+</style>
+
+{% endblock %} 
+
+{% block body %}
+
+<div data-role="page" class="jqm-demos mainScroller" data-quicklinks="false">
+	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" style='padding-bottom:100px;'>
+		<div class='newsfeed' style='text-align:left;font-size:14px;'>
+			<h1>Recent Declarations</h1>
+			
+			<div class='ideaContent' style='padding-bottom:60px;'>
+			{% include "newsfeed_content.html"%}
+			</div>
+			<div style='clear:both;'></div>
+		</div>
+	</div>
+</div><!-- /page -->
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}
+
+
