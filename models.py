@@ -64,6 +64,7 @@ class Idea(Document):
 	instagram_id = mongoengine.StringField()
 	
 	tag = mongoengine.StringField()
+	instagram_tags = mongoengine.ListField(default=[])
 	
 	likes = mongoengine.ListField(default=[])
 	like_count = mongoengine.IntField(default=0)

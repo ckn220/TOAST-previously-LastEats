@@ -28,11 +28,17 @@ mapData.push({'lat':'{{ideas[id].get_res().point['coordinates'][1]}}','lng':'{{i
 			{% endif %}
 			
 			<div style='white-space: pre-wrap;font-weight: normal;text-align:left;padding-top: 10px;'><span>If I only had time for one meal in <b>{{ ideas[id].get_res().full_city.replace(', United States','').replace(',USA','') }}</b> and I wanted <b>{{ideas[id].tag}}</b>, I'd go to <b>{{ideas[id].get_res().name}}</b></span></div>
+			
+			{%if ideas[id].instagram_tags%}
+			<div>{{ideas[id].instagram_tags}}</div>
+			{%endif%}
+			
 			{% if ideas[id].distance %}
 				<h3 style='float:right;font-weight:normal;'>{{ ideas[id].distance }} miles</h3>
 			{% endif %}
 			<div style='clear:both;'></div>
 		</div>
+		
 		<div class="restaurant_photo">
 			{% if current_user != None and user.userid == ideas[id].userid %}
 			<a href='/add_last_eats_last?id={{ideas[id].id}}' class='changeLink'>Want to change your pic? Browse alternatives or upload your own here</a>

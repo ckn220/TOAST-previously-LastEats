@@ -261,37 +261,39 @@ def testfeedquery():
 
 @app.route("/instafeed", methods=['GET','POST'])
 def instafeed():
-	url = 'https://api.instagram.com/v1/users/'+'1363211850'+'/media/recent/?access_token=' + INSTAGRAM_TOKEN
-	response = requests.request("GET",url)
-	data = json.loads(response.text)
-	if len(data['data']) > 0:
-		for row in data['data']:
-			if 'lasteats' in row['tags']:
-				testIdea = models.Idea.objects(instagram_id = row['id']).first()
-				if not testIdea and row and 'location' in row and row['location']:
-					if 'id' in row['location']:
-						testRes = models.Restaurant.objects(instagram_id = row['location']['id']).first()
-					else:
-						testRes = None
-					if not testRes:
-						testRes = models.Restaurant(name = row['location'].get('name',''), point = [row['location']['longitude'], row['location']['latitude']])
-						testRes.save()
-						testRes = models.Restaurant.objects(id = testRes.id).first()
-					if testRes.googleId == None:
-						testRes = googlePlace(testRes)
-						if testRes.cost and not models.Tag.objects(ideaid = testRes.id, type = 'Price'):
-							if testRes.cost > 2:
-								tag = models.Tag(ideaid = testRes.id, type = 'Price', text = 'Pricey')
-							else:
-								tag = models.Tag(ideaid = testRes.id, type = 'Price', text = 'Bang for the Buck')
-							tag.save()
+	for i in ['398367094','1363211850']:
+		url = 'https://api.instagram.com/v1/users/'+i+'/media/recent/?access_token=' + INSTAGRAM_TOKEN
+		response = requests.request("GET",url)
+		data = json.loads(response.text)
+		if len(data['data']) > 0:
+			for row in data['data']:
+				if 'lasteats' in row['tags']:
+					testIdea = models.Idea.objects(instagram_id = row['id']).first()
+					if not testIdea and row and 'location' in row and row['location']:
+						if 'id' in row['location']:
+							testRes = models.Restaurant.objects(instagram_id = row['location']['id']).first()
+						else:
+							testRes = None
+						if not testRes:
+							testRes = models.Restaurant(name = row['location'].get('name',''), point = [row['location']['longitude'], row['location']['latitude']])
+							testRes.save()
+							testRes = models.Restaurant.objects(id = testRes.id).first()
+						if testRes.googleId == None:
+							testRes = googlePlace(testRes)
+							if testRes.cost and not models.Tag.objects(ideaid = testRes.id, type = 'Price'):
+								if testRes.cost > 2:
+									tag = models.Tag(ideaid = testRes.id, type = 'Price', text = 'Pricey')
+								else:
+									tag = models.Tag(ideaid = testRes.id, type = 'Price', text = 'Bang for the Buck')
+								tag.save()
+							
+						idea = models.Idea(restaurant = testRes.id, instagram_tags = row['tags'], idea = row['caption']['text'], userid = '0', timestamp = datetime.datetime.now(), 
+										order = '',	instagram_id = row['id'])
+						idea.filename = {'url':row['images']['standard_resolution']['url'],'id':row['user']['id'],'creator':row['user']['username']}
+						idea.save()
 						
-					idea = models.Idea(restaurant = testRes.id, tag = str(row['tags']), idea = row['caption']['text'], userid = '0', timestamp = datetime.datetime.now(), 
-									order = '',	instagram_id = row['id'])
-					idea.filename = {'url':row['images']['standard_resolution']['url'],'id':row['user']['id'],'creator':row['user']['username']}
-					idea.save()
-	
-	ideas = models.Idea.objects(instagram_id__exists = True, restaurant__exists = True).order_by('-timestamp')
+				
+	ideas = models.Idea.objects(instagram_tags__exists = True).order_by('-timestamp')
 	data = newsfeedData(ideas)
 	user = models.User.objects(userid = request.cookies['userid']).first()
 	data['user'] = user
