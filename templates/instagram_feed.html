@@ -21,6 +21,16 @@
 <div data-role="page" class="jqm-demos mainScroller" data-quicklinks="false">
 	<div role="main" class="ui-content jqm-content main-content" data-ajax-warning="false" 
 		style='padding-bottom:100px;max-width:none;width: 90%;margin: 0px 5%;'>
+		
+		<div>
+		{%if not user.instagram_id %}
+		<a href='https://api.instagram.com/oauth/authorize/?client_id=6c8312ff8f374e9f8c2269a693a2969d&
+			redirect_uri=http://localhost:5000/instafeed&response_type=code'><img src='../static/img/insta.png'/></a>
+		{%endif%}
+		
+		</div>
+		
+		
 		<div class='newsfeed' style='text-align:left;font-size:14px;'>
 			<h1>Instagram Declarations</h1>
 			

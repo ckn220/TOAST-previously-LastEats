@@ -80,6 +80,7 @@ THEMATIC = ["to pre-game with friends",
 			"to relax and hang out",
 			"to impress my date",
 			"to cleanse and refuel"]
+
 SPECIFIC = ["the best burger",
 			"the best thai food",
 			"the best sandwich",
@@ -88,9 +89,20 @@ SPECIFIC = ["the best burger",
 			"the best vegan",
 			"the best vegetarian"]
 
+TYPES = [u'Indian',u'Caribbean', u'Vietnamese', u'Middle Eastern', u'Brunch/American', u'Everything', u'Pub', u'Brewery', 
+		u'Pizza', u'Japanese/Sushi', u'Latin', u'Deli', u'Dessert', u'American/Pub', u'Southern', u'French', u'Thai', u'Tapas', 
+		u'Cuban', u'Seafood', u'Breweries', u'Greek', u'American', u'Steakhouse', u'BBQ', u'Italian', u'Mexican', u'Sushi', 
+		u'Mediterranean', u'Japanese', u'Delis', u'Breweries/Pub', u'Asian', u'Spanish', u'Breakfast']
+
+GREAT = [u'Lunch', u'Breakfast', u'Brunch', u'Dinner', u'Dessert']
+
+VIBE = [u'Trendy', u'Hip', u'Upscale', u'Laid Back', u'Intimate']
+
 CITYIMG = {'Morning':'../static/img/morning-city.jpeg',
 		'Afternoon':'../static/img/afternoon-city.jpeg',
 		'Night':'../static/img/night-city.jpg'}
+
+
 
 # --------- Routes ----------
 # this is our main page
@@ -261,14 +273,31 @@ def testfeedquery():
 
 @app.route("/instafeed", methods=['GET','POST'])
 def instafeed():
-	for i in ['398367094','1363211850']:
+	user = models.User.objects(userid = request.cookies['userid']).first()
+	
+	if 'code' in request.args:
+		data = {'client_id':'6c8312ff8f374e9f8c2269a693a2969d',
+			'client_secret':'fe89421502594c1595fb5c5012a08e60',
+			'grant_type':'authorization_code',
+			'redirect_uri':'http://localhost:5000/instafeed',
+			'code':request.args['code']}
+		
+		r = requests.post('https://api.instagram.com/oauth/access_token',data)
+		data = json.loads(r.text)
+		if 'user' in data:
+			user.instagram_id = data['user']['id']
+			user.save()
+		pass
+		
+	if user.instagram_id:
+		i = user.instagram_id
 		url = 'https://api.instagram.com/v1/users/'+i+'/media/recent/?access_token=' + INSTAGRAM_TOKEN
 		response = requests.request("GET",url)
 		data = json.loads(response.text)
 		if len(data['data']) > 0:
 			for row in data['data']:
 				if 'lasteats' in row['tags']:
-					testIdea = models.Idea.objects(instagram_id = row['id']).first()
+					testIdea = models.Idea.objects(userid = user.userid, instagram_id = row['id']).first()
 					if not testIdea and row and 'location' in row and row['location']:
 						if 'id' in row['location']:
 							testRes = models.Restaurant.objects(instagram_id = row['location']['id']).first()
@@ -287,15 +316,26 @@ def instafeed():
 									tag = models.Tag(ideaid = testRes.id, type = 'Price', text = 'Bang for the Buck')
 								tag.save()
 							
-						idea = models.Idea(restaurant = testRes.id, instagram_tags = row['tags'], idea = row['caption']['text'], userid = '0', timestamp = datetime.datetime.now(), 
+						idea = models.Idea(userid = user.userid, restaurant = testRes.id, instagram_tags = row['tags'], idea = row['caption']['text'], userid = '0', timestamp = datetime.datetime.now(), 
 										order = '',	instagram_id = row['id'])
 						idea.filename = {'url':row['images']['standard_resolution']['url'],'id':row['user']['id'],'creator':row['user']['username']}
 						idea.save()
 						
 				
 	ideas = models.Idea.objects(instagram_tags__exists = True).order_by('-timestamp')
+	
+	for row in ideas:
+		types = {'Great for':GREAT,'Type':TYPES,'Vibe':VIBE}
+		for type in types:
+			for i in row.instagram_tags:
+				lower = [x.lower() for x in types[type]]
+				if i.lower() in lower:
+					if not models.Tag.objects(ideaid = row.id, type = type, text = types[type][lower.index(i.lower())]).first():
+						print types[type][lower.index(i.lower())]
+						tag = models.Tag(ideaid = row.id, type = type, text = types[type][lower.index(i.lower())])
+						tag.save()
+	
 	data = newsfeedData(ideas)
-	user = models.User.objects(userid = request.cookies['userid']).first()
 	data['user'] = user
 	return render_template("instagram_feed.html", **data)
 			
@@ -818,11 +858,7 @@ def map():
 		filter = request.args.get('filter','')
 		price = request.args.get('price','')
 		
-		types = [u'Caribbean', u'Vietnamese', u'Middle Eastern', u'Brunch/American', u'Everything', u'Pub', 
-				u'Brewery', u'Pizza', u'Japanese/Sushi', u'Latin', u'Deli', u'Dessert', u'American/Pub', 
-				u'Southern', u'French', u'Thai', u'Tapas', u'Cuban', u'Seafood', u'Breweries', u'Greek', 
-				u'American', u'Steakhouse', u'BBQ', u'Italian', u'Mexican', u'Sushi', u'Mediterranean', 
-				u'Japanese', u'Diet: Vegitarian', u'Delis', u'Breweries/Pub', u'Asian', u'Spanish', u'Breakfast']
+		types = TYPES
 		types.sort()
 		
 		cities = set([])
@@ -1207,16 +1243,13 @@ def add_last_eats_next_next():
 
 @app.route("/add_last_eats_tags", methods=['GET','POST'])
 def add_last_eats_tags():
-	tagSets = {u'Vibe': set([u'Trendy', u'Hip', u'Upscale', u'Laid Back', u'Intimate']),
+	tagSets = {u'Vibe': set(VIBE),
 		u'Price': set([u'Bang for the Buck', u'Pricey']),
-		u'Great for': set([u'Lunch', u'Breakfast', u'Brunch', u'Dinner', u'Dessert']),
+		u'Great for': set(GREAT),
 		u'Diet': set([u'Gluten Free Options','Vegetarian Options']),
 		u'Perks': set([u'Full Bar', u'Kid Friendly', u'Groups']),
 		u'Attire': set([u'Casual', u'Formal']),
-		u'Type': set([u'Indian',u'Caribbean', u'Vietnamese', u'Middle Eastern', u'Brunch/American', u'Everything', u'Pub', u'Brewery', 
-					u'Pizza', u'Japanese/Sushi', u'Latin', u'Deli', u'Dessert', u'American/Pub', u'Southern', u'French', u'Thai', u'Tapas', 
-					u'Cuban', u'Seafood', u'Breweries', u'Greek', u'American', u'Steakhouse', u'BBQ', u'Italian', u'Mexican', u'Sushi', 
-					u'Mediterranean', u'Japanese', u'Delis', u'Breweries/Pub', u'Asian', u'Spanish', u'Breakfast'])}
+		u'Type': set(TYPES)}
 	
 	tagList = list(tagSets['Type'])
 	tagList.sort()

@@ -30,6 +30,17 @@ mapData.push({'lat':'{{ideas[id].get_res().point['coordinates'][1]}}','lng':'{{i
 			<div style='white-space: pre-wrap;font-weight: normal;text-align:left;padding-top: 10px;'><span>If I only had time for one meal in <b>{{ ideas[id].get_res().full_city.replace(', United States','').replace(',USA','') }}</b> and I wanted <b>{{ideas[id].tag}}</b>, I'd go to <b>{{ideas[id].get_res().name}}</b></span></div>
 			
 			{%if ideas[id].instagram_tags%}
+			{% set tags = ideas[id].get_tags() %}
+			<div class='tagCont'>
+			{% for key in tags %}
+				<div class='tags'>
+					{% for tag in tags[key] %}{%if loop.index > 1%}, {%endif%}
+						<div class='tag'>{{ tag.text }}</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+			</div>
+			
 			<div>{{ideas[id].instagram_tags}}</div>
 			{%endif%}
 			

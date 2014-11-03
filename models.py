@@ -87,7 +87,20 @@ class Idea(Document):
 	def get_res(self):
 		return Restaurant.objects(id = self.restaurant).first()
 	
-
+	def get_tags(self):
+		tags = {}
+		for row in Tag.objects(ideaid = self.get_res().id):
+			if row.type not in tags:
+				tags[row.type] = []
+			tags[row.type].append(row)
+		
+		for row in Tag.objects(ideaid = self.id):
+			if row.type not in tags:
+				tags[row.type] = []
+			tags[row.type].append(row)
+		
+		return tags
+	
 class Restaurant(Document):
 	googleId = mongoengine.StringField()
 	
@@ -150,6 +163,7 @@ class User(Document):
 	
 	email = mongoengine.StringField()
 	picture = mongoengine.StringField()
+	instagram_id = mongoengine.StringField()
 	
 	saves = mongoengine.ListField(default=[])
 	
