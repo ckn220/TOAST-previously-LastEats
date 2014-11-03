@@ -316,7 +316,7 @@ def instafeed():
 									tag = models.Tag(ideaid = testRes.id, type = 'Price', text = 'Bang for the Buck')
 								tag.save()
 							
-						idea = models.Idea(userid = user.userid, restaurant = testRes.id, instagram_tags = row['tags'], idea = row['caption']['text'], userid = '0', timestamp = datetime.datetime.now(), 
+						idea = models.Idea(userid = user.userid, restaurant = testRes.id, instagram_tags = row['tags'], idea = row['caption']['text'], timestamp = datetime.datetime.now(), 
 										order = '',	instagram_id = row['id'])
 						idea.filename = {'url':row['images']['standard_resolution']['url'],'id':row['user']['id'],'creator':row['user']['username']}
 						idea.save()
