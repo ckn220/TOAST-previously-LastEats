@@ -279,7 +279,7 @@ def instafeed():
 		data = {'client_id':'6c8312ff8f374e9f8c2269a693a2969d',
 			'client_secret':'fe89421502594c1595fb5c5012a08e60',
 			'grant_type':'authorization_code',
-			'redirect_uri':'http://localhost:5000/instafeed',
+			'redirect_uri':'http://lasteats-dev.herokuapp.com/instafeed',
 			'code':request.args['code']}
 		
 		r = requests.post('https://api.instagram.com/oauth/access_token',data)
