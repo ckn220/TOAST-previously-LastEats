@@ -489,7 +489,7 @@ function moveOn(){
 	
 }
 
-{% if req %}
+{% if req and req != None %}
 var req = {'lati': {{ req.point.coordinates[1] }},'long': {{ req.point.coordinates[0] }}};
 var reqId = "{{ req.id }}";
 $("#textinput-4").val("{{ req.get_res.full_city }}");
