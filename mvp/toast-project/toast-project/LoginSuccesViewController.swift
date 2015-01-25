@@ -11,6 +11,8 @@ import Parse
 
 class LoginSuccesViewController: UIViewController {
 
+    @IBOutlet weak var loadingPictureView: UIActivityIndicatorView!
+    @IBOutlet weak var profileNameLabel: UILabel!
     @IBOutlet weak var profilePicView: UIImageView!
     var isFB:Bool?
     
@@ -32,20 +34,36 @@ class LoginSuccesViewController: UIViewController {
         
         if PFUser.currentUser() != nil {
             
-            let userImageFile = PFUser.currentUser()["profilePicture"] as PFFile
-            userImageFile.getDataInBackgroundWithBlock {
-                (imageData: NSData!, error: NSError!) -> Void in
-                if error == nil {
-                    let image = UIImage(data:imageData)
-                    self.profilePicView.image = image
-                }
+            if let name = PFUser.currentUser()["name"] as? String{
+                
+                profileNameLabel.text = "Welcome, " + name
+                
             }
+            
+            
+            
+            if PFUser.currentUser()["profilePicture"] != nil {
+                let userImageFile = PFUser.currentUser()["profilePicture"] as PFFile
+                userImageFile.getDataInBackgroundWithBlock {
+                    (imageData: NSData!, error: NSError!) -> Void in
+                    if error == nil {
+                        let image = UIImage(data:imageData)
+                        self.profilePicView.image = image
+                    }
+                }
+            }else {
+                
+                loadingPictureView.alpha = 0
+                
+            }
+    
             
         }
         
     }
 
     @IBAction func closePressed(sender: AnyObject) {
+        PFUser.logOut()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

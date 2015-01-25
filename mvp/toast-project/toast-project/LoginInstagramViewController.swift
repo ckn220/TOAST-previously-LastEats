@@ -44,6 +44,28 @@ class LoginInstagramViewController: UIViewController, UIWebViewDelegate {
         NSLog("%@", stringURL)
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        
+        var cookie:NSHTTPCookie
+        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        
+        if let cookies = storage.cookies {
+            
+            for cookie in cookies {
+                
+                if cookie.domain.rangeOfString("instagram.com")?.isEmpty == false {
+                    
+                    storage.deleteCookie(cookie as NSHTTPCookie)
+                }
+                
+            }
+            
+            NSUserDefaults.standardUserDefaults().synchronize()
+            
+        }
+        
+    }
+    
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
         let URLString = request.URL.absoluteString;
@@ -70,7 +92,7 @@ class LoginInstagramViewController: UIViewController, UIWebViewDelegate {
     }
     
     func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
-        UIAlertView(title: "Connection Error", message: error.description, delegate: self, cancelButtonTitle: "OK").show()
+        //UIAlertView(title: "Connection Error", message: error.description, delegate: self, cancelButtonTitle: "OK").show()
     }
     
     override func didReceiveMemoryWarning() {

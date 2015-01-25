@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "toast_project.LoginViewController.(loginInstagramDidClose (toast_project.LoginViewController) -&gt; (token : Swift.String) -&gt; ()).(closure #1):LoginViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.LoginViewController.(getFacebookDetails (toast_project.LoginViewController) -&gt; () -&gt; ()).(closure #1):LoginViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.LoginViewController.(viewDidLoad (toast_project.LoginViewController) -&gt; () -&gt; ()).(closure #1):LoginViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.LoginViewController.facebookDidPressed (toast_project.LoginViewController)(ObjectiveC.UIButton) -&gt; ():LoginViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "PFUser.currentUser()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

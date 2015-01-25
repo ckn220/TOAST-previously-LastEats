@@ -9,42 +9,72 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "toast-project/LoginViewController.swift"
-            timestampString = "443884302.972178"
+            filePath = "toast-project/LoginSuccesViewController.swift"
+            timestampString = "443899324.203519"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
-            landmarkName = "loginInstagramDidClose(token:)"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "viewWillAppear(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "toast-project/LoginViewController.swift"
+            timestampString = "443908415.397281"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "200"
+            endingLineNumber = "200"
+            landmarkName = "facebookDidPressed(_:)"
             landmarkType = "5">
             <Locations>
                <Location
-                  shouldBeEnabled = "No"
+                  shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "toast_project.LoginViewController.loginInstagramDidClose (toast_project.LoginViewController)(token : Swift.String) -&gt; ()"
+                  symbolName = "toast_project.LoginViewController.facebookDidPressed (toast_project.LoginViewController)(ObjectiveC.UIButton) -&gt; ()"
                   moduleName = "toast-project"
                   urlString = "file:///Users/diegocruz/Documents/git/TOAST-previously-LastEats/mvp/toast-project/toast-project/LoginViewController.swift"
-                  timestampString = "443884320.880115"
+                  timestampString = "443899807.369996"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "179"
-                  endingLineNumber = "179"
-                  offsetFromSymbolStart = "84">
+                  startingLineNumber = "136"
+                  endingLineNumber = "136"
+                  offsetFromSymbolStart = "24">
                </Location>
                <Location
-                  shouldBeEnabled = "No"
+                  shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "toast_project.LoginViewController.(loginInstagramDidClose (toast_project.LoginViewController) -&gt; (token : Swift.String) -&gt; ()).(closure #1)"
+                  symbolName = "toast_project.LoginViewController.(facebookDidPressed (toast_project.LoginViewController) -&gt; (ObjectiveC.UIButton) -&gt; ()).(closure #1)"
                   moduleName = "toast-project"
                   urlString = "file:///Users/diegocruz/Documents/git/TOAST-previously-LastEats/mvp/toast-project/toast-project/LoginViewController.swift"
-                  timestampString = "443884320.881324"
+                  timestampString = "443899807.370266"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "179"
-                  endingLineNumber = "179"
+                  startingLineNumber = "136"
+                  endingLineNumber = "136"
                   offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "reabstraction thunk helper from @callee_owned (@owned Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.PFUser&gt;, @owned Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.NSError&gt;) -&gt; (@unowned ()) to @callee_unowned @objc_block (@unowned Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.PFUser&gt;, @unowned Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.NSError&gt;) -&gt; (@unowned ())"
+                  moduleName = "toast-project"
+                  urlString = "file:///Users/diegocruz/Documents/git/TOAST-previously-LastEats/mvp/toast-project/toast-project/LoginViewController.swift"
+                  timestampString = "443899807.370441"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "136"
+                  endingLineNumber = "136"
+                  offsetFromSymbolStart = "0">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -56,12 +86,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "toast-project/LoginViewController.swift"
-            timestampString = "443884375.850178"
+            timestampString = "443908415.397281"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
-            landmarkName = "loginInstagramDidClose(token:)"
+            startingLineNumber = "61"
+            endingLineNumber = "61"
+            landmarkName = "printWeatherInfo()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -30,18 +30,18 @@
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It's Sunday late morning." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e0q-1K-QAV">
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It's Sunday late morning." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="e0q-1K-QAV">
                                 <rect key="frame" x="16" y="134" width="288" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="fZq-eJ-ylu"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It's cloudy and cold out." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8QV-dV-hLY">
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It's cloudy and cold out." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="8QV-dV-hLY">
                                 <rect key="frame" x="16" y="173" width="288" height="21"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -72,9 +72,9 @@
                                     <segue destination="e7H-um-ro9" kind="showDetail" identifier="loginInstagramSegue" id="0Kg-Tp-o0s"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's eat." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LVa-jh-FFX">
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's eat." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="LVa-jh-FFX">
                                 <rect key="frame" x="16" y="238" width="288" height="21"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -111,6 +111,7 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="facebookButton" destination="6G5-YY-vof" id="NDN-V5-3Ux"/>
                         <outlet property="myLastLabel" destination="LVa-jh-FFX" id="noa-lC-azI"/>
                         <outlet property="myTimeLabel" destination="e0q-1K-QAV" id="9rd-db-0lu"/>
                         <outlet property="myWeatherLabel" destination="8QV-dV-hLY" id="u5h-8O-Y6k"/>
@@ -145,12 +146,24 @@
                                     <constraint firstAttribute="width" constant="210" id="kuj-NQ-kK9"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8hM-pw-Iv5">
+                                <rect key="frame" x="55" y="397" width="210" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="OYN-Kq-c2n"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.1803921568627451" green="0.37647058823529411" blue="0.77254901960784317" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="8hM-pw-Iv5" firstAttribute="leading" secondItem="YwR-MC-GMA" secondAttribute="leading" id="1dA-dg-jfd"/>
+                            <constraint firstItem="8hM-pw-Iv5" firstAttribute="top" secondItem="YwR-MC-GMA" secondAttribute="bottom" constant="8" id="AVE-3a-p5I"/>
                             <constraint firstAttribute="centerX" secondItem="7j6-E6-d4L" secondAttribute="centerX" id="NuD-RR-kpr"/>
                             <constraint firstAttribute="centerX" secondItem="YwR-MC-GMA" secondAttribute="centerX" id="OvN-aT-wYa"/>
                             <constraint firstAttribute="centerY" secondItem="7j6-E6-d4L" secondAttribute="centerY" id="Vqq-Mc-2HB"/>
+                            <constraint firstItem="8hM-pw-Iv5" firstAttribute="trailing" secondItem="YwR-MC-GMA" secondAttribute="trailing" id="kEx-1D-dhb"/>
                             <constraint firstAttribute="centerY" secondItem="YwR-MC-GMA" secondAttribute="centerY" id="zl4-3S-CBl"/>
                         </constraints>
                     </view>
@@ -163,6 +176,8 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="loadingPictureView" destination="7j6-E6-d4L" id="f1B-SN-uaM"/>
+                        <outlet property="profileNameLabel" destination="8hM-pw-Iv5" id="uSx-fd-uze"/>
                         <outlet property="profilePicView" destination="YwR-MC-GMA" id="n2u-Fw-kR0"/>
                     </connections>
                 </viewController>
