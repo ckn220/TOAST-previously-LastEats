@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A315FC28-91A5-42AB-A428-3ED587BFC5B1</string>
+	<key>IDESourceControlProjectName</key>
+	<string>toast-project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
+		<string>https://github.com/Alamofire/Alamofire.git</string>
+		<key>F90710996CC30E635B8F5EC7DC7B7F972A849D41</key>
+		<string>https://github.com/ckn220/TOAST-previously-LastEats.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>mvp/toast-project/toast-project.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
+		<string>../../../../../Alamofire</string>
+		<key>F90710996CC30E635B8F5EC7DC7B7F972A849D41</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ckn220/TOAST-previously-LastEats.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F90710996CC30E635B8F5EC7DC7B7F972A849D41</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>67620B5EFA902936DF04070AF595B76AB0333747</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Alamofire</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F90710996CC30E635B8F5EC7DC7B7F972A849D41</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TOAST-previously-LastEats</string>
+		</dict>
+	</array>
+</dict>
+</plist>
