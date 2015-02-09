@@ -8,11 +8,26 @@
 
 import UIKit
 
-class PlaceCell: UICollectionViewCell {
+class PlaceCell: UICollectionViewCell,ReviewFriendsDelegate {
     @IBOutlet weak var placePictureView: UIImageView!
     @IBOutlet weak var placeNameLabel: UILabel!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     
     @IBOutlet weak var reviewTextView: UITextView!
     @IBOutlet weak var reviewFriendCollectionView: UICollectionView!
+    
+    var hashtagDataSource: HashtagCollectionViewDataSource?
+    var reviewFriendDataSource: ReviewFriendsCollectionViewDataSource?
+    
+    func reviewFriendDidSelectReview(#review: String) {
+        
+        if review != "" {
+            reviewTextView.text = review
+            reviewTextView.textColor = UIColor.blackColor()
+        }else{
+            reviewTextView.text = "No review"
+            reviewTextView.textColor = UIColor.lightGrayColor()
+        }
+        
+    }
 }

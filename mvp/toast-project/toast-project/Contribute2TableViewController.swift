@@ -113,7 +113,12 @@ class Contribute2TableViewController: UITableViewController,UICollectionViewData
                     }
                 })
                 
-                imPlace.relationForKey("toasts").addObject(self.myToast!)
+                //Adding inverse relationship - Hashtags
+                for h:PFObject in self.selectedHashtags!{
+                    h.relationForKey("toasts").addObject(self.myToast!)
+                    h.saveEventually(nil)
+                }
+                
             }else{
                 NSLog("%@ toasts error", error.description)
             }

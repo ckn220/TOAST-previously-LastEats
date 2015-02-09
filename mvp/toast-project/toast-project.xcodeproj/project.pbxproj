@@ -65,7 +65,10 @@
 		08B425D61A7C497D00A72C95 /* Contribute1TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B425D51A7C497D00A72C95 /* Contribute1TableViewController.swift */; };
 		08B425D81A7C498700A72C95 /* Contribute2TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B425D71A7C498700A72C95 /* Contribute2TableViewController.swift */; };
 		08B425DA1A7C602800A72C95 /* ToastTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B425D91A7C602800A72C95 /* ToastTableViewCell.swift */; };
-		08C2E8CD1A885E83009A44F6 /* HashtagsPlaceCellCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8CC1A885E83009A44F6 /* HashtagsPlaceCellCollectionViewController.swift */; };
+		08C2E8D01A886683009A44F6 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8CF1A886683009A44F6 /* CollectionViewDataSource.swift */; };
+		08C2E8D21A886993009A44F6 /* CustomUICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8D11A886993009A44F6 /* CustomUICollectionViewCell.swift */; };
+		08C2E8D41A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */; };
+		08C2E8D61A88F859009A44F6 /* ReviewFriendsCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8D51A88F859009A44F6 /* ReviewFriendsCollectionViewDataSource.swift */; };
 		08DB82461A87B6AA00AEE163 /* Discover1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB82451A87B6AA00AEE163 /* Discover1ViewController.swift */; };
 		08DB82481A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB82471A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift */; };
 		08DB824A1A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB82491A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift */; };
@@ -221,7 +224,10 @@
 		08B425D51A7C497D00A72C95 /* Contribute1TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contribute1TableViewController.swift; sourceTree = "<group>"; };
 		08B425D71A7C498700A72C95 /* Contribute2TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contribute2TableViewController.swift; sourceTree = "<group>"; };
 		08B425D91A7C602800A72C95 /* ToastTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastTableViewCell.swift; sourceTree = "<group>"; };
-		08C2E8CC1A885E83009A44F6 /* HashtagsPlaceCellCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagsPlaceCellCollectionViewController.swift; sourceTree = "<group>"; };
+		08C2E8CF1A886683009A44F6 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
+		08C2E8D11A886993009A44F6 /* CustomUICollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUICollectionViewCell.swift; sourceTree = "<group>"; };
+		08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		08C2E8D51A88F859009A44F6 /* ReviewFriendsCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewFriendsCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		08DB82451A87B6AA00AEE163 /* Discover1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Discover1ViewController.swift; sourceTree = "<group>"; };
 		08DB82471A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoodsHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		08DB82491A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsLikeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -524,7 +530,6 @@
 			isa = PBXGroup;
 			children = (
 				08F8389A1A88137400CFCAEF /* HashtagCell.swift */,
-				08C2E8CC1A885E83009A44F6 /* HashtagsPlaceCellCollectionViewController.swift */,
 			);
 			name = Hashtags;
 			sourceTree = "<group>";
@@ -563,6 +568,10 @@
 				08F838981A88136100CFCAEF /* PlaceCell.swift */,
 				08C2E8CE1A885E88009A44F6 /* ReviewFriends */,
 				08C2E8CB1A885E58009A44F6 /* Hashtags */,
+				08C2E8CF1A886683009A44F6 /* CollectionViewDataSource.swift */,
+				08C2E8D51A88F859009A44F6 /* ReviewFriendsCollectionViewDataSource.swift */,
+				08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */,
+				08C2E8D11A886993009A44F6 /* CustomUICollectionViewCell.swift */,
 			);
 			name = placeCell;
 			sourceTree = "<group>";
@@ -702,6 +711,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08C2E8D21A886993009A44F6 /* CustomUICollectionViewCell.swift in Sources */,
 				086CFB321A734CD500E321F7 /* InstagramEngine.m in Sources */,
 				0812C9601A646434004A115B /* UIProgressView+AFNetworking.m in Sources */,
 				0812C95E1A646434004A115B /* UIButton+AFNetworking.m in Sources */,
@@ -711,7 +721,6 @@
 				0812C95D1A646434004A115B /* UIAlertView+AFNetworking.m in Sources */,
 				086CFB341A734CD500E321F7 /* IKUserInPhoto.m in Sources */,
 				08DB824A1A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift in Sources */,
-				08C2E8CD1A885E83009A44F6 /* HashtagsPlaceCellCollectionViewController.swift in Sources */,
 				086CFB3E1A73CD4600E321F7 /* LoginInstagramViewController.swift in Sources */,
 				08F8389B1A88137400CFCAEF /* HashtagCell.swift in Sources */,
 				08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */,
@@ -720,6 +729,7 @@
 				086CFB371A734CD500E321F7 /* InstagramModel.m in Sources */,
 				08DB82481A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift in Sources */,
 				08B425D61A7C497D00A72C95 /* Contribute1TableViewController.swift in Sources */,
+				08C2E8D41A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift in Sources */,
 				0812C9411A646424004A115B /* AFHTTPRequestOperationManager.m in Sources */,
 				0812C9451A646424004A115B /* AFURLConnectionOperation.m in Sources */,
 				08F838941A87C83900CFCAEF /* ToastsViewController.swift in Sources */,
@@ -740,6 +750,8 @@
 				0812C9471A646424004A115B /* AFURLResponseSerialization.m in Sources */,
 				086CFB361A734CD500E321F7 /* InstagramMedia.m in Sources */,
 				0812C9661A64651F004A115B /* Model.xcdatamodeld in Sources */,
+				08C2E8D01A886683009A44F6 /* CollectionViewDataSource.swift in Sources */,
+				08C2E8D61A88F859009A44F6 /* ReviewFriendsCollectionViewDataSource.swift in Sources */,
 				086CFB351A734CD500E321F7 /* InstagramComment.m in Sources */,
 				0812C9621A646434004A115B /* UIWebView+AFNetworking.m in Sources */,
 				08B425D41A7C493E00A72C95 /* DiscoverTableViewController.swift in Sources */,

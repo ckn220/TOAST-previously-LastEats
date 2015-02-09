@@ -17,10 +17,11 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     @IBOutlet weak var toastsCollectionView: UICollectionView!
     @IBOutlet weak var moodTitleLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         myPlaces = []
-        // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,6 +74,54 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
                     NSLog("%@", error!.description)
                 }
             })
+        
+            //Get Hashtags
+            let toastQuery = imPlace.relationForKey("toasts").query()
+            let hashtagQuery = PFQuery(className: "Hashtag")
+            hashtagQuery.whereKey("toasts", matchesQuery:toastQuery)
+            hashtagQuery.limit = 4
+            hashtagQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
+                if error == nil{
+                    cell.hashtagDataSource = HashtagCollectionViewDataSource(items: result as NSArray, cellIdentifier: "hashtagCell", configureBlock: { (imCell, item) -> () in
+                        if let actualCell = imCell as? CustomUICollectionViewCell {
+                                actualCell.configureForItem(item!)
+                        }
+                    })
+                    cell.hashtagsCollectionView.dataSource = cell.hashtagDataSource
+                    cell.hashtagsCollectionView.delegate = cell.hashtagDataSource
+                    cell.hashtagsCollectionView.reloadData()
+                }else{
+                    NSLog("%@", error.description)
+                }
+        }
+        
+            //Get Toasts.user
+            let othertoastQuery = imPlace.relationForKey("toasts").query()
+            othertoastQuery.includeKey("user")
+            othertoastQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
+                if error == nil{
+                    cell.reviewFriendDataSource = ReviewFriendsCollectionViewDataSource(items: result as NSArray, cellIdentifier: "reviewFriendCell", configureBlock: { (imCell, item) -> () in
+                        if let actualCell = imCell as? CustomUICollectionViewCell {
+                            actualCell.configureForItem(item!)
+                        }
+                    })
+                    cell.reviewFriendCollectionView.dataSource = cell.reviewFriendDataSource
+                    cell.reviewFriendCollectionView.delegate = cell.reviewFriendDataSource
+                    cell.reviewFriendDataSource?.myDelegate = cell
+                    cell.reviewFriendCollectionView.reloadData()
+                    
+                    let firstToast = result[0] as PFObject
+                    var review = (firstToast["review"] as String)
+                    if review != "" {
+                        let toastUser = firstToast["user"] as PFObject
+                        review = review + "   - " + (toastUser["name"] as String)
+                    }
+                    cell.reviewFriendDidSelectReview(review: review)
+                    
+                }else{
+                    NSLog("%@", error.description)
+                }
+        }
             
             return cell
         

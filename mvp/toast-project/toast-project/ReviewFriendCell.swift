@@ -7,8 +7,32 @@
 //
 
 import UIKit
+import Parse
 
-class ReviewFriendCell: UICollectionViewCell {
+class ReviewFriendCell: CustomUICollectionViewCell {
     
     @IBOutlet weak var friendPictureView: UIImageView!
+    
+    override func configureForItem(item:AnyObject) {
+        
+        let myUser = (item as PFObject)["user"] as PFObject
+        myUser.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
+            if error == nil{
+                
+            }else{
+                NSLog("%@", error.description)
+            }
+            let pictureFile = (result as PFObject)["profilePicture"] as PFFile
+            pictureFile.getDataInBackgroundWithBlock { (data, error) -> Void in
+                if error == nil{
+                    self.friendPictureView.image = UIImage(data: data)
+                    self.friendPictureView.layer.cornerRadius = CGRectGetWidth(self.friendPictureView.bounds)/2
+                }else{
+                    NSLog("%@", error.description)
+                }
+            }
+        }
+        
+        
+    }
 }

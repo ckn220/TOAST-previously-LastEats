@@ -10,7 +10,9 @@ import UIKit
 import Parse
 import Alamofire
 
-class Contribute1TableViewController: UITableViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITextFieldDelegate {
+class Contribute1TableViewController: UITableViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UITextFieldDelegate,UITextViewDelegate {
+    
+    let reviewPlaceholder = "What's the special sauce"
     
     var moods:[PFObject]?
     var selectedMoods:[PFObject]?
@@ -204,7 +206,12 @@ class Contribute1TableViewController: UITableViewController,UICollectionViewData
             reviewSection = 3
         }
         let reviewCell = self.tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: reviewSection)) as UITableViewCell!
-        newToast?["review"] = (reviewCell.viewWithTag(201) as UITextView).text
+        let review = (reviewCell.viewWithTag(201) as UITextView).text
+        if review != reviewPlaceholder {
+            newToast?["review"] = review
+        }else{
+            newToast?["review"] = ""
+        }
         
         //Place search and creation
         let queryPlace = PFQuery(className: "Place")
@@ -225,8 +232,10 @@ class Contribute1TableViewController: UITableViewController,UICollectionViewData
                         NSLog("%@",request.URL.absoluteString!)
                         let result = (JSON as NSDictionary)["result"] as NSDictionary
                         //Metadata: Address and phone number
-                        myPlace["address"]=result["formatted_address"]
-                        myPlace["phone"]=result["formatted_phone_number"]
+                        if result["formatted_address"] != nil
+                        {myPlace["address"]=result["formatted_address"]}
+                        if result["formatted_phone_number"] != nil
+                        {myPlace["phone"]=result["formatted_phone_number"]}
                         let geo=((result["geometry"] as NSDictionary)["location"] as NSDictionary)
                         myPlace["lng"]=geo["lng"]
                         myPlace["lat"]=geo["lat"]
@@ -334,5 +343,23 @@ class Contribute1TableViewController: UITableViewController,UICollectionViewData
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    //MARK: Review textview delegate methods
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        
+        if textView.text == reviewPlaceholder {
+            textView.text = ""
+            textView.textColor = UIColor.blackColor()
+        }
+        return true
+    }
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        
+        if textView.text == "" {
+            textView.text = reviewPlaceholder
+            textView.textColor = UIColor.lightGrayColor()
+        }
     }
 }

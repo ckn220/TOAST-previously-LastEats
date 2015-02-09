@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import Parse
 
-class HashtagCell: UICollectionViewCell {
+class HashtagCell: CustomUICollectionViewCell {
     
     @IBOutlet weak var hashtagLabel: UILabel!
+    
+    override func configureForItem(item:AnyObject) {
+        let imHashTag = item as PFObject
+        self.hashtagLabel.text = "#"+(imHashTag["name"] as? String)!
+    }
 }
