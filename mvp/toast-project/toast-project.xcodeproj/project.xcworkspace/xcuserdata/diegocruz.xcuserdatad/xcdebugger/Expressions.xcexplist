@@ -3,7 +3,13 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "toast_project.LoginViewController.(loginInstagramDidClose (toast_project.LoginViewController) -&gt; (token : Swift.String) -&gt; ()).(closure #1):LoginViewController.swift">
+         contextName = "toast_project.Contribute1TableViewController.(editingPlaceName (toast_project.Contribute1TableViewController) -&gt; (ObjectiveC.UITextField) -&gt; ()).(closure #1):Contribute1TableViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Contribute1TableViewController.prepareForSegue (toast_project.Contribute1TableViewController)(ObjectiveC.UIStoryboardSegue, sender : Swift.Optional&lt;Swift.AnyObject&gt;) -&gt; ():Contribute1TableViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.DiscoverTableViewController.(tableView (toast_project.DiscoverTableViewController) -&gt; (ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell).(closure #1):DiscoverTableViewController.swift">
       </ContextState>
       <ContextState
          contextName = "toast_project.LoginViewController.(getFacebookDetails (toast_project.LoginViewController) -&gt; () -&gt; ()).(closure #1):LoginViewController.swift">
@@ -12,12 +18,42 @@
          contextName = "toast_project.LoginViewController.(viewDidLoad (toast_project.LoginViewController) -&gt; () -&gt; ()).(closure #1):LoginViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "toast_project.Contribute1TableViewController.tableView (toast_project.Contribute1TableViewController)(ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:Contribute1TableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.autocompleteList![0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ToastsViewController.(viewWillAppear (toast_project.ToastsViewController) -&gt; (Swift.Bool) -&gt; ()).(closure #1):ToastsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "results.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.LoginViewController.(loginInstagramDidClose (toast_project.LoginViewController) -&gt; (token : Swift.String) -&gt; ()).(closure #1):LoginViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "toast_project.LoginViewController.facebookDidPressed (toast_project.LoginViewController)(ObjectiveC.UIButton) -&gt; ():LoginViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "PFUser.currentUser()">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Contribute1TableViewController.(prepareForSegue (toast_project.Contribute1TableViewController) -&gt; (ObjectiveC.UIStoryboardSegue, sender : Swift.Optional&lt;Swift.AnyObject&gt;) -&gt; ()).(closure #1).(closure #1):Contribute1TableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "request.URL.absoluteString">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.DiscoverTableViewController.tableView (toast_project.DiscoverTableViewController)(ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:DiscoverTableViewController.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

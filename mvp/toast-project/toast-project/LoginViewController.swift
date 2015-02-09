@@ -39,7 +39,7 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         Alamofire.request(.GET, "http://api.openweathermap.org/data/2.5/weather?q=new,york&APPID=1cec9211c792bf8f901772d017c9ff5b")
             .responseJSON { (imRequest, imResponse, JSON, error) in
                 
-                NSLog("%@", JSON as NSDictionary)
+                //NSLog("%@", JSON as NSDictionary)
                 
                 if error == nil{
 
@@ -406,10 +406,11 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     
     
     func goToSuccess(#isFB: Bool){
-        let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("loginSuccessNavScene") as UINavigationController
-        let newScene = newSceneNav.viewControllers[0] as LoginSuccesViewController
+        let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("discover2Scene") as UIViewController
+            //as UINavigationController
+        //let newScene = newSceneNav.viewControllers[0] as LoginSuccesViewController
         
-        newScene.isFB = isFB
+        //newScene.isFB = isFB
         
         self.presentViewController(newSceneNav, animated: true, completion: nil)
         
