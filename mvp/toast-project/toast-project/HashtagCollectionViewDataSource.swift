@@ -9,8 +9,14 @@
 import UIKit
 import Parse
 
+protocol HashtagDelegate {
+    func hashtagSelected(hashtag: PFObject)
+}
+
 class HashtagCollectionViewDataSource: CollectionViewDataSource,UICollectionViewDelegateFlowLayout {
    
+    var myDelegate:HashtagDelegate?
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         if collectionView.tag == 501{
             let myItem = self.items[indexPath.row] as PFObject
@@ -20,6 +26,11 @@ class HashtagCollectionViewDataSource: CollectionViewDataSource,UICollectionView
             return CGSizeZero
         }
         
+    }
+    
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let selectedItem = self.items[indexPath.row] as PFObject
+        myDelegate?.hashtagSelected(selectedItem)
     }
     
 }

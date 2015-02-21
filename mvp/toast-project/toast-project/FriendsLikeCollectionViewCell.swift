@@ -11,6 +11,6 @@ import UIKit
 class FriendsLikeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var friendNameLabel: UILabel!
-    @IBOutlet weak var friendCountView: UIView!
-    @IBOutlet weak var friendPictureView: UIView!
+    @IBOutlet weak var friendCountLabel: UILabel!
+    @IBOutlet weak var friendPictureView: BackgroundImageView!
 }

@@ -16,5 +16,6 @@ class HashtagCell: CustomUICollectionViewCell {
     override func configureForItem(item:AnyObject) {
         let imHashTag = item as PFObject
         self.hashtagLabel.text = "#"+(imHashTag["name"] as? String)!
+        //self.hashtagLabel.sizeToFit()
     }
 }

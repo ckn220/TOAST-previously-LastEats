@@ -13,7 +13,10 @@ import Alamofire
 class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     var myMood:PFObject?
+    var myHashtag:PFObject?
+    var myCategory: PFObject?
     var myPlaces:[PFObject]?
+    var myFriend:PFObject?
     
     @IBOutlet weak var toastsCollectionView: UICollectionView!
     @IBOutlet weak var moodTitleLabel: UILabel!
@@ -32,15 +35,26 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-        
-        moodTitleLabel.text = (myMood!["name"] as? String)?.uppercaseString
+    
         toastsCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
         
-        let toastsQuery = PFQuery(className: "Toast")
-        toastsQuery.whereKey("moods", equalTo: myMood)
-        
+        var currentTitle = ""
         let placesQuery = PFQuery(className: "Place")
-        placesQuery.whereKey("toasts", matchesQuery: toastsQuery)
+        if myCategory != nil {
+            completeQuery(placesQuery, withCategory: myCategory!)
+        }else{
+            let toastsQuery = PFQuery(className: "Toast")
+            if myMood != nil {
+                completeQuery(toastsQuery, withMood: myMood!)
+            }else if myHashtag != nil{
+                completeQuery(toastsQuery, withHashtag: myHashtag!)
+            }else{
+                completeQuery(toastsQuery, withFriend: myFriend!)
+            }
+            placesQuery.whereKey("toasts", matchesQuery: toastsQuery)
+        }
+        
+        moodTitleLabel.text = moodTitleLabel.text?.uppercaseString
         placesQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
                 NSLog("Places: %d", result.count)
@@ -51,6 +65,27 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             }
         }
     }
+    
+    func completeQuery(query:PFQuery,withHashtag hashtag: PFObject){
+        query.whereKey("hashtags", equalTo: hashtag)
+        moodTitleLabel.text = "#" + (myHashtag!["name"] as String)
+    }
+    
+    func completeQuery(query:PFQuery,withMood mood: PFObject){
+        query.whereKey("moods", equalTo: mood)
+        moodTitleLabel.text = myMood!["name"] as? String
+    }
+    
+    func completeQuery(query:PFQuery,withCategory category: PFObject){
+        query.whereKey("category", equalTo: category)
+        moodTitleLabel.text = myCategory!["name"] as? String
+    }
+    
+    func completeQuery(query:PFQuery,withFriend friend: PFObject){
+        query.whereKey("user", equalTo:friend)
+        moodTitleLabel.text = (friend["name"] as String).componentsSeparatedByString(" ")[0] + " likes"
+    }
+    
     
     //MARK: CollectionView datasource methods
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -66,10 +101,11 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("placeCell", forIndexPath: indexPath) as PlaceCell
             let imPlace = myPlaces![indexPath.row]
             cell.placeNameLabel.text = (imPlace["name"] as? String)?.uppercaseString
-            let placePictureString = imPlace["picture"] as String
+            let placePictureString = imPlace["foursquarePicture"] as String
             Alamofire.request(.GET, placePictureString).response({ (request, response, data, error) -> Void in
                 if error == nil{
-                    cell.placePictureView.image = UIImage(data: data as NSData)
+                    cell.myBackgroundView.insertImage(UIImage(data: data as NSData)!)
+                    cell.myBackgroundView.insertShadow()
                 }else{
                     NSLog("%@", error!.description)
                 }
@@ -90,6 +126,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
                     cell.hashtagsCollectionView.dataSource = cell.hashtagDataSource
                     cell.hashtagsCollectionView.delegate = cell.hashtagDataSource
                     cell.hashtagsCollectionView.reloadData()
+                    cell.hashtagsCollectionViewHeight.constant = cell.hashtagsCollectionView.collectionViewLayout.collectionViewContentSize().height
                 }else{
                     NSLog("%@", error.description)
                 }
@@ -138,5 +175,19 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     @IBAction func backPressed(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "placeDetailSegue" {
+            let destination = segue.destinationViewController as PlaceDetailViewController
+            
+            let selectedIndexPath = toastsCollectionView.indexPathsForSelectedItems()[0] as NSIndexPath
+            let selectedPlace = myPlaces?[selectedIndexPath.row]
+            let selectedCell = toastsCollectionView.cellForItemAtIndexPath(selectedIndexPath) as PlaceCell
+            destination.myPlacePicture = selectedCell.myBackgroundView.myImage
+            destination.myPlace = selectedPlace
+            destination.placeReviewFriends = selectedCell.reviewFriendDataSource?.items as? [PFObject]
+            destination.placeHashtags = selectedCell.hashtagDataSource?.items as? [PFObject]
+        }
     }
 }

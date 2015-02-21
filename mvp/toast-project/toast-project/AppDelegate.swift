@@ -24,7 +24,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         PFFacebookUtils.initializeFacebook();
         
+        if PFUser.currentUser() == nil{
+            goToLogin()
+        }else{
+            goToDiscover()
+        }
+        
         return true
+    }
+    
+    func goToLogin(){
+        PFUser.logOut()
+        let myStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        self.window?.rootViewController = myStoryboard.instantiateViewControllerWithIdentifier("loginScene") as? UIViewController
+    }
+    
+    func goToDiscover(){
+        let myStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        self.window?.rootViewController = myStoryboard.instantiateViewControllerWithIdentifier("mainScene") as? UIViewController
     }
     
     func application(application: UIApplication,openURL url: NSURL,sourceApplication: String,annotation: AnyObject?) -> Bool {

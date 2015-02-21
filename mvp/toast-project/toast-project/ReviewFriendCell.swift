@@ -11,6 +11,8 @@ import Parse
 
 class ReviewFriendCell: CustomUICollectionViewCell {
     
+    @IBOutlet weak var favoriteButton:UIButton!
+    @IBOutlet weak var friendNameLabel: UILabel!
     @IBOutlet weak var friendPictureView: UIImageView!
     
     override func configureForItem(item:AnyObject) {
@@ -30,6 +32,9 @@ class ReviewFriendCell: CustomUICollectionViewCell {
                 }else{
                     NSLog("%@", error.description)
                 }
+                
+                let firstName = (myUser["name"] as String).componentsSeparatedByString(" ")[0]
+                self.friendNameLabel.text = firstName
             }
         }
         

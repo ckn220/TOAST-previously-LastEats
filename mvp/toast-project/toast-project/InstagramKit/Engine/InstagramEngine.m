@@ -25,6 +25,7 @@
 #import "InstagramComment.h"
 #import "InstagramTag.h"
 #import "InstagramPaginationInfo.h"
+#import "InstagramLocation.h"
 
 #define kKeyClientID @"client_id"
 #define kKeyAccessToken @"access_token"
@@ -463,7 +464,7 @@ typedef enum
 }
 
 
-#pragma mark - Media -
+#pragma mark - Media
 
 
 - (void)getMedia:(NSString *)mediaId
@@ -540,7 +541,77 @@ typedef enum
 		}
     }];
 }
+                        
 
+#pragma mark - Places
+                         
+- (void)getPlaceWithFoursquareId:(NSString *)foursquareId withSuccess:(InstagramLocationBlock)success
+failure:(InstagramFailureBlock)failure
+{
+    [self getPath:[NSString stringWithFormat:@"locations/search?foursquare_v2_id=%@",foursquareId] parameters:nil responseModel:[InstagramLocation class] success:^(id response, InstagramPaginationInfo *paginationInfo) {
+        if(success)
+        {
+            NSArray *objects = response;
+            success(objects, paginationInfo);
+        }
+    } failure:^(NSError *error, NSInteger statusCode) {
+        if(failure)
+        {
+            failure(error);
+        }
+    }];
+}
+                         
+- (void)getMediaAtPlace:(NSString *)placeId
+                     withSuccess:(InstagramMediaBlock)success
+                     failure:(InstagramFailureBlock)failure
+{
+    [self getPath:[NSString stringWithFormat:@"locations/%@/media/recent",placeId] parameters:nil responseModel:[InstagramMedia class] success:^(id response, InstagramPaginationInfo *paginationInfo) {
+        if(success)
+        {
+            NSArray *objects = response;
+            success(objects, paginationInfo);
+        }
+    } failure:^(NSError *error, NSInteger statusCode) {
+        if(failure)
+        {
+            failure(error);
+        }
+    }];
+}
+                         
+- (void)getMediaAtFoursquareId:(NSString *)foursquareId withSuccess:(InstagramMediaBlock)success failure:(InstagramFailureBlock)failure{
+    
+    [self getPlaceWithFoursquareId:foursquareId withSuccess:^(NSArray *locations, InstagramPaginationInfo *paginationInfo) {
+        
+        if(locations.count > 0){
+            NSString *placeId = ((InstagramLocation *)locations[0]).instagramId;
+            [self getMediaAtPlace:placeId withSuccess:^(NSArray *media, InstagramPaginationInfo *paginationInfo) {
+                
+                if (success){
+                    success(media, paginationInfo);
+                }
+                
+            } failure:^(NSError *error) {
+                if(failure)
+                {
+                    failure(error);
+                }
+            }];
+        }else{
+            if (success){
+                success(locations, paginationInfo);
+            }
+        }
+    
+    } failure:^(NSError *error) {
+        if(failure)
+        {
+            failure(error);
+        }
+    }];
+ 
+}
 
 #pragma mark - Users -
 

@@ -30,6 +30,7 @@
 
 typedef void(^InstagramLoginBlock)(NSError* error);
 typedef void(^InstagramMediaBlock)(NSArray *media, InstagramPaginationInfo *paginationInfo);
+typedef void(^InstagramLocationBlock)(NSArray *locations, InstagramPaginationInfo *paginationInfo);
 typedef void (^InstagramObjectsBlock)(NSArray *objects, InstagramPaginationInfo *paginationInfo);
 typedef void (^InstagramTagsBlock)(NSArray *tags, InstagramPaginationInfo *paginationInfo);
 typedef void (^InstagramCommentsBlock)(NSArray *comments);
@@ -128,6 +129,12 @@ typedef NS_OPTIONS(NSInteger, IKLoginScope) {
                withSuccess:(InstagramMediaBlock)success
                    failure:(InstagramFailureBlock)failure;
 
+
+
+#pragma mark - Places
+- (void)getMediaAtFoursquareId:(NSString *)foursquareId
+               withSuccess:(InstagramMediaBlock)success
+                   failure:(InstagramFailureBlock)failure;
 
 
 #pragma mark - Users -

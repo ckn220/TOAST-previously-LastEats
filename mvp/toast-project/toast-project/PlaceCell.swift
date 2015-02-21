@@ -13,6 +13,8 @@ class PlaceCell: UICollectionViewCell,ReviewFriendsDelegate {
     @IBOutlet weak var placeNameLabel: UILabel!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     
+    @IBOutlet weak var hashtagsCollectionViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var myBackgroundView: BackgroundImageView!
     @IBOutlet weak var reviewTextView: UITextView!
     @IBOutlet weak var reviewFriendCollectionView: UICollectionView!
     
