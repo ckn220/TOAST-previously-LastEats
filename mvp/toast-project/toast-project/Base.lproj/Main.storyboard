@@ -22,18 +22,22 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test-bg.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Mmz-rZ-cwm">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TOAST" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bja-rl-su2">
-                                <rect key="frame" x="16" y="36" width="288" height="72"/>
+                            <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F8C-7u-i1L">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toast" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bja-rl-su2">
+                                <rect key="frame" x="16" y="36" width="288" height="50"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="72" id="0KT-IL-Yx6"/>
+                                    <constraint firstAttribute="height" constant="50" id="0KT-IL-Yx6"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="51"/>
+                                <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="50"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <size key="shadowOffset" width="0.0" height="0.0"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It's Sunday late morning." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="e0q-1K-QAV">
-                                <rect key="frame" x="16" y="134" width="288" height="21"/>
+                                <rect key="frame" x="16" y="112" width="288" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="fZq-eJ-ylu"/>
                                 </constraints>
@@ -42,7 +46,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="It's cloudy and cold out." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="8QV-dV-hLY">
-                                <rect key="frame" x="16" y="173" width="288" height="21"/>
+                                <rect key="frame" x="16" y="151" width="288" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -75,7 +79,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Let's eat." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="LVa-jh-FFX">
-                                <rect key="frame" x="16" y="238" width="288" height="21"/>
+                                <rect key="frame" x="16" y="216" width="288" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -96,6 +100,7 @@
                             <constraint firstItem="e0q-1K-QAV" firstAttribute="top" secondItem="bja-rl-su2" secondAttribute="bottom" constant="26" id="NbS-2B-kNH"/>
                             <constraint firstItem="LVa-jh-FFX" firstAttribute="top" secondItem="8QV-dV-hLY" secondAttribute="bottom" constant="44" id="WNK-ts-6IF"/>
                             <constraint firstItem="8QV-dV-hLY" firstAttribute="trailing" secondItem="e0q-1K-QAV" secondAttribute="trailing" id="WP4-kW-8eK"/>
+                            <constraint firstItem="F8C-7u-i1L" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="WyY-Xm-mDM"/>
                             <constraint firstItem="o73-vw-DUb" firstAttribute="leading" secondItem="6G5-YY-vof" secondAttribute="leading" id="YN6-Pv-ZUn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Mmz-rZ-cwm" secondAttribute="trailing" constant="-16" id="arh-7a-IhO"/>
                             <constraint firstAttribute="trailingMargin" secondItem="o73-vw-DUb" secondAttribute="trailing" id="cvY-O2-FSd"/>
@@ -104,10 +109,13 @@
                             <constraint firstItem="o73-vw-DUb" firstAttribute="leading" secondItem="bja-rl-su2" secondAttribute="leading" id="g8I-UI-m4J"/>
                             <constraint firstItem="e0q-1K-QAV" firstAttribute="leading" secondItem="bja-rl-su2" secondAttribute="leading" id="hAU-Vp-JF9"/>
                             <constraint firstItem="bja-rl-su2" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="16" id="jkN-d0-bb8"/>
+                            <constraint firstItem="F8C-7u-i1L" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" id="lrv-TB-0pM"/>
                             <constraint firstItem="o73-vw-DUb" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="pXr-WW-XDj"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="F8C-7u-i1L" secondAttribute="bottom" id="q54-r7-vuH"/>
                             <constraint firstItem="LVa-jh-FFX" firstAttribute="leading" secondItem="8QV-dV-hLY" secondAttribute="leading" id="sKA-Sd-Tz1"/>
                             <constraint firstItem="8QV-dV-hLY" firstAttribute="height" secondItem="e0q-1K-QAV" secondAttribute="height" id="t4c-gk-87S"/>
                             <constraint firstItem="o73-vw-DUb" firstAttribute="height" secondItem="6G5-YY-vof" secondAttribute="height" id="uRg-FD-8ev"/>
+                            <constraint firstAttribute="trailing" secondItem="F8C-7u-i1L" secondAttribute="trailing" id="yjH-XP-vdz"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>

@@ -34,6 +34,8 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
         friends = []
         moodsTableView.estimatedRowHeight = 50
         moodsTableView.rowHeight = UITableViewAutomaticDimension
+        
+        currentUser = PFUser.currentUser()
     }
     
     override func didReceiveMemoryWarning() {
@@ -47,7 +49,7 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
             self.getFavoriteFriends()
             self.getFriends()
             self.configureLocation()
-        getMoods()
+            getMoods()
     }
     
     override func viewDidAppear(animated: Bool) {

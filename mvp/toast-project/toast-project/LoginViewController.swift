@@ -12,7 +12,7 @@ import CoreLocation
 import Alamofire
 
 class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInstagramDelegate {
-
+    
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var myTimeLabel: UILabel!
     @IBOutlet weak var myWeatherLabel: UILabel!
@@ -20,7 +20,6 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     
     var myDateFormatter : NSDateFormatter?
     var myWeather:(temperature:Int,state:Int,date:NSDate)?
-    var loggedUser:PFUser?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,54 +27,11 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         myDateFormatter = NSDateFormatter()
         myDateFormatter!.dateStyle = .ShortStyle
         
+        PFUser.logOut()
+        
         printWeatherInfo()
         printTimeInfo()
         
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        let accountStore = ACAccountStore()
-        let accountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierFacebook)
-        
-        if accountType.accessGranted == true {
-            
-            if FBSession.activeSession().isOpen == true {
-                
-                FBRequestConnection.startForMeWithCompletionHandler({ (request, result, error) -> Void in
-                    
-                    let name:String = result["name"] as String
-                    
-                    self.facebookButton.setTitle("CONTINUE AS "+name.uppercaseString, forState: UIControlState.Normal)
-                    self.facebookButton.titleLabel?.font = UIFont.boldSystemFontOfSize(16)
-                    
-                })
-                
-            }
-            
-        }
-        else{
-            
-            self.facebookButton.setTitle("SIGN IN WITH FACEBOOK", forState: UIControlState.Normal)
-            self.facebookButton.titleLabel?.font = UIFont.boldSystemFontOfSize(18)
-            
-        }
-   
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        PFUser.logOut()
-    }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func printWeatherInfo(){
@@ -86,7 +42,7 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
                 //NSLog("%@", JSON as NSDictionary)
                 
                 if error == nil{
-
+                    
                     let result = JSON as NSDictionary
                     
                     if (result["message"] == nil) {
@@ -180,15 +136,57 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         
         self.myTimeLabel.text = "It's " + dayText + " " + timeText
     }
-
+    
     func getTimeInfo() -> (day:Int,time:Int){
         
         let myCalendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
         let myWeekDay = myCalendar?.components(NSCalendarUnit.CalendarUnitWeekday | NSCalendarUnit.CalendarUnitHour, fromDate: NSDate())
         return (myWeekDay!.weekday,myWeekDay!.hour)
-   
+        
     }
     
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        let accountStore = ACAccountStore()
+        let accountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierFacebook)
+        
+        if accountType.accessGranted == true {
+            
+            if FBSession.activeSession().isOpen == true {
+                
+                FBRequestConnection.startForMeWithCompletionHandler({ (request, result, error) -> Void in
+                    
+                    let name:String = result["name"] as String
+                    
+                    self.facebookButton.setTitle("CONTINUE AS "+name.uppercaseString, forState: UIControlState.Normal)
+                    self.facebookButton.titleLabel?.font = UIFont.boldSystemFontOfSize(16)
+                    
+                })
+                
+            }
+            
+        }
+        else{
+            
+            self.facebookButton.setTitle("SIGN IN WITH FACEBOOK", forState: UIControlState.Normal)
+            self.facebookButton.titleLabel?.font = UIFont.boldSystemFontOfSize(18)
+            
+        }
+        
+        
+        
+    }
+    
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    
+    //MARK: - Facebook Authentication
     @IBAction func facebookDidPressed(sender: UIButton) {
         
         PFFacebookUtils.logInWithPermissions(["public_profile"], {
@@ -200,17 +198,15 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
             
             if user == nil {
                 NSLog("Uh oh. The user cancelled the Facebook login.")
+                
+            } else if user.isNew {
+                NSLog("User signed up and logged in through Facebook!")
+                self.getFacebookDetails()
+                
             } else {
-                self.loggedUser =  user
-                if user.isNew {
-                    NSLog("User signed up and logged in through Facebook!")
-                    self.getFacebookDetails()
-                } else {
-                    NSLog("User logged in through Facebook!")
-                    self.goToSuccess()
-                }
+                NSLog("User logged in through Facebook!")
+                self.goToSuccess(isFB: true)
             }
-        
         })
         
     }
@@ -218,30 +214,28 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     func getFacebookDetails(){
         
         FBRequestConnection.startWithGraphPath("/me?fields=name,picture", completionHandler: { (connection, result, error) -> Void in
-            if error == nil{
+            
+            if (error == nil){
+                let imUser = PFUser.currentUser()
                 let myResult = result as Dictionary<String,AnyObject>
                 
-                self.loggedUser?["name"] = myResult["name"]
-                self.loggedUser?["facebookId"] = myResult["id"]
-                self.loggedUser?.saveEventually({ (success, error) -> Void in
-                    if error == nil{
-                        self.searchFacebookFriends()
-                    }else{
-                        NSLog("%@", error.description)
-                    }
-                })
+                NSLog("%@", myResult["name"] as String)
+                imUser["name"] = myResult["name"]
+                imUser["facebookId"] = myResult["id"]
+                imUser.saveEventually({ (success, error) -> Void in })
                 
                 let pictureDic = myResult["picture"] as Dictionary<String,AnyObject>
                 let dataDic = pictureDic["data"] as Dictionary<String,AnyObject>
+                
                 let picString = dataDic["url"] as String
                 
-                self.getProfilePicture(url: picString)
+                self.getProfilePicture(url: picString, isFB: true)
+                
             }
             else {
                 NSLog("%@", error.description)
             }
         })
-        
         
     }
     
@@ -258,6 +252,14 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
                     self.validateFacebookFriend(imFriend as NSDictionary)
                 }
                 
+                PFUser.currentUser().saveEventually({ (success, error) -> Void in
+                    if error == nil{
+                        self.goToSuccess(isFB: true)
+                    }else{
+                        NSLog("%@",error.description)
+                    }
+                })
+                
             }else{
                 NSLog("%@",error.description)
             }
@@ -265,12 +267,14 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     }
     
     func validateFacebookFriend(friend:NSDictionary){
+        let user = PFUser.currentUser()
+        
         let usersQuery = PFQuery(className: "User")
         usersQuery.whereKey("facebookId", equalTo: friend["id"])
         usersQuery.getFirstObjectInBackgroundWithBlock { (result, error) -> Void in
             if error == nil {
-                result.relationForKey("friends").addObject(self.loggedUser!)
-                self.loggedUser?.relationForKey("friends").addObject(result)
+                result.relationForKey("friends").addObject(user)
+                user.relationForKey("friends").addObject(result)
                 result.saveEventually(nil)
             }else{
                 NSLog("%@",error.description)
@@ -278,51 +282,68 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         }
     }
     
+    
+    //MARK: - Instagram Authentication
     func loginInstagramDidClose(#token: String) {
         if token.isEmpty == false {
+            
             var query = PFQuery(className:"TokenStorage")
             query.whereKey("accessToken", equalTo:token)
+            
             query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error) -> Void in
+                
                 if error == nil {
+                    
                     if objects.count > 0 {
+                        
                         let mySessionToken = objects[0]["userSessionToken"] as String
                         self.signinInstagram(sessionToken: mySessionToken)
+                        
                     }
                     else{
+                        
                         self.signupInstagram(token: token)
+                        
                     }
+                    
                 }
                 else{
                     UIAlertView(title: "Instagram login failed", message: error.description, delegate: self, cancelButtonTitle: "OK").show()
                 }
+                
             })
+            
         }
+        
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func signupInstagram(#token : String){
         
-        loggedUser = PFUser()
+        let user = PFUser()
+        
         let uuidUSer: CFUUIDRef = CFUUIDCreate(nil)
         let newUsername: CFStringRef = CFUUIDCreateString(nil, uuidUSer)
         
         let uuidPass: CFUUIDRef = CFUUIDCreate(nil)
         let newPassword: CFStringRef = CFUUIDCreateString(nil, uuidPass)
         
-        loggedUser?.username = newUsername
-        loggedUser?.password = newPassword
+        user.username = newUsername
+        user.password = newPassword
         
-        loggedUser?.signUpInBackgroundWithBlock {
+        user.signUpInBackgroundWithBlock {
             (succeeded: Bool!, error: NSError!) -> Void in
             if error == nil {
                 // Hooray! Let them use the app now.
                 NSLog("Signed up in with Instagram")
+                
                 let newTokenStorage = PFObject(className: "TokenStorage")
                 newTokenStorage["accessToken"] = token
-                newTokenStorage["userSessionToken"] = self.loggedUser?.sessionToken
-                newTokenStorage.saveEventually(nil)
-                self.getInstagramUserDetails()
-
+                newTokenStorage["userSessionToken"] = user.sessionToken
+                newTokenStorage.saveEventually({ (success, error) -> Void in })
+                
+                self.getInstagramUserDetails(user: user)
+                
             } else {
                 NSLog("%@", error.description)
             }
@@ -334,74 +355,99 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     func signinInstagram(#sessionToken: String){
         
         PFUser.becomeInBackground(sessionToken, block: { (user, error) -> Void in
-            if error == nil{
-                NSLog("Logged in with Instagram")
-                self.loggedUser = user
-                self.goToSuccess()
-            }else{
-                NSLog("%@", error.description)
-            }
+            NSLog("Logged in with Instagram")
+            self.goToSuccess(isFB: false)
+            
         })
-    }
-    
-    func getInstagramUserDetails(){
         
-        InstagramEngine.sharedEngine().getSelfUserDetailsWithSuccess({ (instaUser : InstagramUser!) -> Void in
-            self.loggedUser?["name"] = instaUser.fullName
-            self.loggedUser?["instagramId"] = instaUser.Id
-            self.getProfilePicture(url: instaUser.profilePictureURL.URLString)
-        }, failure: { (error) -> Void in
-            NSLog("%@", error.description)
-            self.goToSuccess()
-        })
     }
     
+    func getInstagramUserDetails(#user: PFUser){
+        
+        
+        InstagramEngine.sharedEngine().getSelfUserDetailsWithSuccess({ (user : InstagramUser!) -> Void in
+            
+            PFUser.currentUser()["name"] = user.fullName
+            PFUser.currentUser()["instagramId"] = user.Id
+            PFUser.currentUser().saveEventually({ (success, error) -> Void in })
+            
+            self.getProfilePicture(url: user.profilePictureURL.URLString, isFB: false)
+            
+            }, failure: { (error) -> Void in
+                
+                NSLog("%@", error.description)
+                self.goToSuccess(isFB: false)
+                
+        })
+        
+        
+    }
     
-    func getProfilePicture(#url: String)
+    //MARK: - General get profile picture
+    func getProfilePicture(#url: String, isFB: Bool)
     {
         Alamofire.request(.GET, url).response({ (request, response, data, error) -> Void in
             
             if error == nil{
+                
                 let profilePicFile : PFFile = PFFile(name: "profilePic.jpg", data: data as NSData)
+                PFUser.currentUser()["profilePicture"]=profilePicFile
                 profilePicFile.saveInBackgroundWithBlock({ (success, error) -> Void in
-                    if error == nil{
-                        self.loggedUser?["profilePicture"] = profilePicFile
-                        self.loggedUser?.saveInBackgroundWithBlock({ (success, error) -> Void in
-                            if error == nil {
-                                self.goToSuccess()
-                            }else{
-                                NSLog("%@",error!.description)
-                            }
-                        })
+                    
+                    if success == true {
+                        PFUser.currentUser()["profilePicture"]=profilePicFile
+                        self.searchFacebookFriends()
+                        
                     }else{
-                        NSLog("%@",error!.description)
+                        NSLog("%@", error.description)
+                        
                     }
+                    
                 })
+                
+                self.goToSuccess(isFB: isFB)
+                
             }
             else{
-                NSLog("%@",error!.description)
+                NSLog("%@",error!)
+                
+                self.goToSuccess(isFB: isFB)
             }
+            
         })
-        
     }
     
+    
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "loginInstagramSegue" {
+            
             let destinationNav = segue.destinationViewController as UINavigationController
             let destination = destinationNav.viewControllers[0] as LoginInstagramViewController
+            
             destination.myDelegate = self
+            
         }
+        
     }
     
-    func goToSuccess(){
-        let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("mainScene") as MainViewController
-        newSceneNav.loggedUser = loggedUser
+    
+    
+    
+    func goToSuccess(#isFB: Bool){
+        let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("mainScene") as UIViewController
+        //as UINavigationController
+        //let newScene = newSceneNav.viewControllers[0] as LoginSuccesViewController
+        
+        //newScene.isFB = isFB
+        
         self.presentViewController(newSceneNav, animated: true, completion: nil)
+        
     }
+    
 }

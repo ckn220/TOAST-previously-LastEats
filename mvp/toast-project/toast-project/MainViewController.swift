@@ -18,7 +18,6 @@ class MainViewController: UIViewController,DiscoverDelegate {
     var snapToSide: UISnapBehavior?
     var discoverBehavior: UIDynamicItemBehavior?
     var mainNav:UINavigationController?
-    var loggedUser:PFUser?
     
     var isOpen = false
     var totalOffset:CGFloat = 0
@@ -138,7 +137,6 @@ class MainViewController: UIViewController,DiscoverDelegate {
             mainNav = segue.destinationViewController as? UINavigationController
             if let destination = mainNav?.viewControllers[0] as? Discover1ViewController {
                 destination.myDelegate = self
-                destination.currentUser = loggedUser
             }
             
         }
