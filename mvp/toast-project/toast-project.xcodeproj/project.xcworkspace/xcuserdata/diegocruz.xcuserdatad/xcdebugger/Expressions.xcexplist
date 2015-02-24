@@ -77,15 +77,15 @@
          contextName = "toast_project.DiscoverTableViewController.tableView (toast_project.DiscoverTableViewController)(ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:DiscoverTableViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "toast_project.Contribute2TableViewController.insertFoursquarePicture (toast_project.Contribute2TableViewController)(ObjectiveC.NSDictionary, inPlace : ObjectiveC.PFObject) -&gt; ():Contribute2TableViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "toast_project.LoginViewController.facebookDidPressed (toast_project.LoginViewController)(ObjectiveC.UIButton) -&gt; ():LoginViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "PFUser.currentUser()">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Contribute2TableViewController.insertFoursquarePicture (toast_project.Contribute2TableViewController)(ObjectiveC.NSDictionary, inPlace : ObjectiveC.PFObject) -&gt; ():Contribute2TableViewController.swift">
       </ContextState>
       <ContextState
          contextName = "toast_project.Contribute2TableViewController.(savePressed (toast_project.Contribute2TableViewController) -&gt; (Swift.AnyObject) -&gt; ()).(closure #1).(closure #1).(closure #1).(closure #1):Contribute2TableViewController.swift">
@@ -107,7 +107,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.LoginViewController.(loginInstagramDidClose (toast_project.LoginViewController) -&gt; (token : Swift.String) -&gt; ()).(closure #1):LoginViewController.swift">
+         contextName = "toast_project.LoginViewController.(getProfilePicture (toast_project.LoginViewController) -&gt; (url : Swift.String, isFB : Swift.Bool) -&gt; ()).(closure #1):LoginViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "request.URL.absoluteString">
+            </PersistentString>
+            <PersistentString
+               value = "PFUser.currentUser()">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "toast_project.Discover1ViewController.locationManager (toast_project.Discover1ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.CLLocationManager&gt;, didUpdateLocations : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Array&lt;Swift.AnyObject&gt;&gt;) -&gt; ():Discover1ViewController.swift">
@@ -118,15 +126,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.LoginViewController.(getProfilePicture (toast_project.LoginViewController) -&gt; (url : Swift.String, isFB : Swift.Bool) -&gt; ()).(closure #1):LoginViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "request.URL.absoluteString">
-            </PersistentString>
-            <PersistentString
-               value = "PFUser.currentUser()">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "toast_project.LoginViewController.(loginInstagramDidClose (toast_project.LoginViewController) -&gt; (token : Swift.String) -&gt; ()).(closure #1):LoginViewController.swift">
       </ContextState>
       <ContextState
          contextName = "toast_project.Contribute1TableViewController.prepareForSegue (toast_project.Contribute1TableViewController)(ObjectiveC.UIStoryboardSegue, sender : Swift.Optional&lt;Swift.AnyObject&gt;) -&gt; ():Contribute1TableViewController.swift">
@@ -190,6 +190,14 @@
          <PersistentStrings>
             <PersistentString
                value = "self.favoriteFriends!.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Discover1ViewController.viewWillAppear (toast_project.Discover1ViewController)(Swift.Bool) -&gt; ():Discover1ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "PFUser.currentUser()">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

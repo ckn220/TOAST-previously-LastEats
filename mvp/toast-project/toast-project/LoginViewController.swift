@@ -400,7 +400,8 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     }
     
     func goToSuccess(){
-        let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("mainScene") as UIViewController
+        let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("mainScene") as MainViewController
+        newSceneNav.loggedUser = loggedUser
         self.presentViewController(newSceneNav, animated: true, completion: nil)
     }
 }

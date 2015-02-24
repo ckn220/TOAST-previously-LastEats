@@ -44,12 +44,9 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        PFUser.currentUser().fetchIfNeededInBackgroundWithBlock({ (result, error) -> Void in
-            self.currentUser = result as? PFUser
             self.getFavoriteFriends()
             self.getFriends()
             self.configureLocation()
-        })
         getMoods()
     }
     
