@@ -20,8 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.enableLocalDatastore()
         Parse.setApplicationId("HnLgxzOU0ZOTYIRxrRB3ulXDlsS1FGzBl96ytBSk", clientKey: "Towu7llPAMzgeeOUmZjPpXNXM5JoTH1K57BBGwxY")
         
-        //optional
-        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         PFFacebookUtils.initializeFacebook();
         
         if PFUser.currentUser() == nil{
@@ -29,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }else{
             goToDiscover()
         }
-        
+
         return true
     }
     

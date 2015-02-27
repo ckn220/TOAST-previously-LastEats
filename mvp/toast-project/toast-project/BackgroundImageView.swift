@@ -12,6 +12,7 @@ import AVFoundation
 class BackgroundImageView: UIView {
 
     var myImage: UIImage?
+    var myOpacity:CGFloat = 0.0
     
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -26,6 +27,9 @@ class BackgroundImageView: UIView {
         rectanglePath.addClip()
 
         drawImage()
+        if myOpacity > 0{
+            drawOpacity()
+        }
         
         CGContextRestoreGState(context)
     }
@@ -34,6 +38,11 @@ class BackgroundImageView: UIView {
         myImage = newImage
         self.setNeedsDisplay()
         
+    }
+    
+    func insertImage(newImage:UIImage, withOpacity opacity:CGFloat){
+        myOpacity = opacity
+        insertImage(newImage)
     }
     
     func drawImage(){
@@ -60,12 +69,10 @@ class BackgroundImageView: UIView {
         }
     }
     
-    func insertShadow(){
-        self.layer.shouldRasterize = true;
-        self.layer.shadowColor = UIColor.blackColor().CGColor
-        self.layer.shadowOffset = CGSizeMake(0, 2)
-        self.layer.shadowRadius = 2
-        self.layer.shadowOpacity = 0.4
-        self.layer.shadowPath = UIBezierPath(rect: self.bounds).CGPath
+    func drawOpacity(){
+        let opacityRectangle = UIBezierPath(rect: self.bounds)
+        let color = UIColor(red: 38.0/255, green: 38.0/255, blue: 38.0/255, alpha: myOpacity)
+        color.setFill()
+        opacityRectangle.fill()
     }
 }

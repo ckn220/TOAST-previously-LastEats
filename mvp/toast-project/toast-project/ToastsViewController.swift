@@ -105,7 +105,6 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             Alamofire.request(.GET, placePictureString).response({ (request, response, data, error) -> Void in
                 if error == nil{
                     cell.myBackgroundView.insertImage(UIImage(data: data as NSData)!)
-                    cell.myBackgroundView.insertShadow()
                 }else{
                     NSLog("%@", error!.description)
                 }

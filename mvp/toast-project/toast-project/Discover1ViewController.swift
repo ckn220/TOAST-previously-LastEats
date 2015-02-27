@@ -15,7 +15,7 @@ protocol DiscoverDelegate {
     func discoverDidDissapear()
 }
 
-class Discover1ViewController: UIViewController,UITableViewDataSource, UITableViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,CLLocationManagerDelegate{
+class Discover1ViewController: UIViewController, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,CLLocationManagerDelegate{
     
     var locationManager: CLLocationManager?
     var moods:[PFObject]?
@@ -23,17 +23,23 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
     var favoriteFriends:[PFObject]?
     var friends:[PFObject]?
     var currentUser:PFUser?
-
-    @IBOutlet weak var moodsTableView: UITableView!
     
+    @IBOutlet weak var myBG: BackgroundImageView!
+
+    @IBOutlet weak var leadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var friendsBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var friendsCollectionView: UICollectionView!
+    @IBOutlet weak var moodButtonView: UIVisualEffectView!
+    @IBOutlet weak var locationButtonView: UIVisualEffectView!
+    @IBOutlet weak var userPictureView: UIImageView!
+    
+    //MARK: - Superview methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
         moods = []
         favoriteFriends = []
         friends = []
-        moodsTableView.estimatedRowHeight = 50
-        moodsTableView.rowHeight = UITableViewAutomaticDimension
         
         currentUser = PFUser.currentUser()
     }
@@ -46,10 +52,15 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+            self.configureBG()
+            self.configureUserPicture()
+            self.configureButtons()
             self.getFavoriteFriends()
             self.getFriends()
             self.configureLocation()
             getMoods()
+        
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -62,12 +73,38 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
         myDelegate?.discoverDidDissapear()
     }
     
+    //MARK: - Configure methods
+    func configureBG(){
+        myBG.insertImage(UIImage(named: "mainBG")!, withOpacity: 0.6)
+    }
+    
+    func configureUserPicture(){
+        let pictureFile = currentUser!["profilePicture"] as PFFile
+        pictureFile.getDataInBackgroundWithBlock { (data, error) -> Void in
+            if error == nil {
+                self.userPictureView.image = UIImage(data: data)
+                self.userPictureView.layer.cornerRadius = 11
+            }else{
+                NSLog("%@",error.description)
+            }
+        }
+    }
+    
+    func configureButtons(){
+        let locationLayer = locationButtonView.layer
+        locationLayer.borderColor = UIColor.whiteColor().CGColor
+        locationLayer.borderWidth = 1
+        
+        let moodLayer = moodButtonView.layer
+        moodLayer.borderColor = UIColor.whiteColor().CGColor
+        moodLayer.borderWidth = 1
+    }
+    
     func getMoods(){
         let moodsQuery = PFQuery(className: "Mood")
         moodsQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
                 self.moods = result as? [PFObject]
-                self.moodsTableView.reloadData()
             }else{
                 NSLog("%@",error.description)
             }
@@ -100,9 +137,7 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
     }
     
     func reloadFriendsColletion(){
-        if let cell = self.moodsTableView.cellForRowAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as? MoodsHeaderTableViewCell{
-            cell.friendsLikeCollectionView.reloadData()
-        }
+        
     }
     
     func configureLocation(){
@@ -120,6 +155,8 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
                 startUpdatingLocation()
             }
         }
+        
+        var b:UIButton
     }
     
     func startUpdatingLocation() {
@@ -165,58 +202,6 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
         }
         
     }
-
-    //MARK: Tableview methods
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return moods!.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell:UITableViewCell
-        
-        if indexPath.row == 0{
-            cell = tableView.dequeueReusableCellWithIdentifier("moodsHeaderCell") as MoodsHeaderTableViewCell
-            (cell as MoodsHeaderTableViewCell).friendsLikeCollectionView.reloadData()
-        }else{
-            cell = tableView.dequeueReusableCellWithIdentifier("moodCell") as UITableViewCell
-            let currentMood = moods![indexPath.row]
-            cell.textLabel?.text = (currentMood["name"] as? String)?.uppercaseString
-        }
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = tableView.dequeueReusableCellWithIdentifier("hungryCell") as UITableViewCell
-
-        return cell
-    }
-    
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 100
-    }
-    
-    //MARK: Scrollview delegate methods
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        let headerCell:MoodsHeaderTableViewCell? = moodsTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? MoodsHeaderTableViewCell
-        
-        if headerCell != nil{
-            let friendsLikeCollection = headerCell!.friendsLikeCollectionView
-            let scrollY = scrollView.contentOffset.y
-            
-            let newAlpha:CGFloat = 1 - scrollY/60
-            friendsLikeCollection.alpha = newAlpha
-            if newAlpha <= 0{
-                let hungryHeader = moodsTableView.headerViewForSection(0)
-                hungryHeader?.backgroundColor = UIColor.whiteColor()
-                hungryHeader?.contentView.backgroundColor = UIColor.whiteColor()
-            }
-        }
-        
-    }
     
     //MARK: Collectionview methods
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -234,7 +219,7 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if favoriteFriends!.count + friends!.count > 0 {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("friendsLikeCell", forIndexPath: indexPath) as FriendsLikeCollectionViewCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("friendsCell", forIndexPath: indexPath) as FriendsLikeCollectionViewCell
             cell.friendPictureView.layer.cornerRadius = CGRectGetWidth(cell.friendPictureView.frame)/2
             cell.friendCountLabel.layer.cornerRadius = CGRectGetWidth(cell.friendCountLabel.frame)/2
             
@@ -245,14 +230,14 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
                 currentFriend = friends![indexPath.row]
             }
             let firstName = (currentFriend["name"] as String).componentsSeparatedByString(" ")[0]
-            cell.friendNameLabel.text = firstName.uppercaseString + " LIKES"
+            cell.friendNameLabel.text = firstName+"'s " + "Toasts"
             insertToastCount(ofFriend: currentFriend, toCell: cell)
             insertPicture(ofFriend: currentFriend, toCell: cell)
             
             return cell
         }else{
             let inviteCell = collectionView.dequeueReusableCellWithReuseIdentifier("inviteFriendsCell", forIndexPath: indexPath) as UICollectionViewCell
-            inviteCell.viewWithTag(101)?.layer.cornerRadius = 35
+            inviteCell.viewWithTag(101)?.layer.cornerRadius = 32
             
             return inviteCell
         }
@@ -284,23 +269,42 @@ class Discover1ViewController: UIViewController,UITableViewDataSource, UITableVi
     //MARK: Action methods
     @IBAction func menuPressed(sender: AnyObject) {
         myDelegate?.discoverMenuPressed()
+        
+    }
+    
+    @IBAction func locationButtonPressed(sender: UITapGestureRecognizer) {
+        //animatePressed(buttonView: sender.view!.viewWithTag(301)!)
+    }
+    
+    @IBAction func moodButtonPressed(sender: UITapGestureRecognizer) {
+        animatePressed(buttonView: sender.view!.viewWithTag(301)!)
+        
+        let destination = storyboard?.instantiateViewControllerWithIdentifier("selectMoodScene") as SelectMoodViewController
+        destination.moods = moods
+        self.showViewController(destination, sender: self)
+    }
+    
+    func animatePressed(#buttonView:UIView){
+        UIView.animateKeyframesWithDuration(0.1, delay: 0, options: .CalculationModePaced, animations: { () -> Void in
+            
+            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.1, animations: { () -> Void in
+                buttonView.alpha = 0.4
+            })
+            
+            }, completion: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier != "newToastSegue" {
             let destination = segue.destinationViewController as ToastsViewController
-            if segue.identifier == "moodDetailSegue"{
-                let selectedIndexPath = moodsTableView.indexPathForSelectedRow()
-                let selectedMood = moods![selectedIndexPath!.row]
-                destination.myMood = selectedMood
+            
+            if segue.identifier == "friendToastsDetailSegue"{
                 
-            }else if segue.identifier == "friendToastsDetailSegue"{
-                let friendsCollection = (moodsTableView.cellForRowAtIndexPath(NSIndexPath(forItem: 0, inSection: 0)) as MoodsHeaderTableViewCell).friendsLikeCollectionView
-                let selectedIndexPath = friendsCollection.indexPathsForSelectedItems()[0] as NSIndexPath
+                let selectedIndexPath = friendsCollectionView.indexPathsForSelectedItems()[0] as NSIndexPath
                 destination.myFriend = getFriend(fromIndexPath: selectedIndexPath)
             }
-        }        
+        }
     }
     
     func getFriend(fromIndexPath indexPath:NSIndexPath) -> PFObject{

@@ -13,10 +13,8 @@ import Alamofire
 
 class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInstagramDelegate {
     
-    @IBOutlet weak var facebookButton: UIButton!
-    @IBOutlet weak var myTimeLabel: UILabel!
-    @IBOutlet weak var myWeatherLabel: UILabel!
-    @IBOutlet weak var myLastLabel: UILabel!
+    @IBOutlet weak var facebookButtonView: UIVisualEffectView!
+    @IBOutlet weak var intagramButtonView: UIVisualEffectView!
     
     var myDateFormatter : NSDateFormatter?
     var myWeather:(temperature:Int,state:Int,date:NSDate)?
@@ -26,123 +24,6 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         
         myDateFormatter = NSDateFormatter()
         myDateFormatter!.dateStyle = .ShortStyle
-        
-        PFUser.logOut()
-        
-        printWeatherInfo()
-        printTimeInfo()
-        
-    }
-    
-    func printWeatherInfo(){
-        
-        Alamofire.request(.GET, "http://api.openweathermap.org/data/2.5/weather?q=new,york&APPID=1cec9211c792bf8f901772d017c9ff5b")
-            .responseJSON { (imRequest, imResponse, JSON, error) in
-                
-                //NSLog("%@", JSON as NSDictionary)
-                
-                if error == nil{
-                    
-                    let result = JSON as NSDictionary
-                    
-                    if (result["message"] == nil) {
-                        var temp = result["main"]!["temp"] as Int
-                        
-                        var tempText : String
-                        var condiText : String
-                        
-                        switch (temp - 273) {
-                        case -1000...10:
-                            tempText = "cold"
-                        case 11...18:
-                            tempText = "fresh"
-                        case 20...1000:
-                            tempText = "hot"
-                        default:
-                            tempText = "cool"
-                        }
-                        
-                        let cond = result["weather"]![0]["id"] as Int
-                        
-                        switch cond{
-                        case 200...299:
-                            condiText = "stormy"
-                        case 300...399:
-                            condiText = "drizzly"
-                        case 500...599:
-                            condiText = "rainy"
-                        case 600...699:
-                            condiText = "snowy"
-                        case 800...802:
-                            condiText = "clear"
-                        case 803...899:
-                            condiText = "cloudy"
-                        default:
-                            condiText = "normal"
-                        }
-                        
-                        self.myWeatherLabel.text = "It's " + tempText + " and " + condiText
-                        
-                        UIView.animateWithDuration(0.4, animations: { () -> Void in
-                            self.myTimeLabel.alpha = 1
-                            self.myWeatherLabel.alpha=1
-                            self.myLastLabel.alpha = 1
-                            }, completion: nil)
-                    }
-                    else{
-                        let a = UIAlertView(title: "Open Weather Error", message: error?.description, delegate: self, cancelButtonTitle: "OK")
-                        a.show()
-                    }
-                    
-                    
-                    
-                    
-                    
-                }
-                else{
-                    let a = UIAlertView(title: "Open Weather Error", message: error?.description, delegate: self, cancelButtonTitle: "OK")
-                    a.show()
-                }
-                
-        }
-        
-    }
-    
-    func printTimeInfo(){
-        
-        let days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
-        let times = ["early morning","late morning","early afternoon","late afternoon","night","late night"]
-        
-        let myTimeInfo = self.getTimeInfo()
-        let dayText = days[myTimeInfo.day-1]
-        var timeText :String
-        
-        switch myTimeInfo.time {
-        case 0...4:
-            timeText = times[5]
-        case 5...8:
-            timeText = times[0]
-        case 9...11:
-            timeText = times[1]
-        case 12...15:
-            timeText = times[2]
-        case 16...18:
-            timeText = times[3]
-        case 19...23:
-            timeText = times[4]
-        default:
-            timeText = times[5]
-        }
-        
-        self.myTimeLabel.text = "It's " + dayText + " " + timeText
-    }
-    
-    func getTimeInfo() -> (day:Int,time:Int){
-        
-        let myCalendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
-        let myWeekDay = myCalendar?.components(NSCalendarUnit.CalendarUnitWeekday | NSCalendarUnit.CalendarUnitHour, fromDate: NSDate())
-        return (myWeekDay!.weekday,myWeekDay!.hour)
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -151,35 +32,35 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     }
     
     override func viewWillAppear(animated: Bool) {
+        insertVisualEffect(button: facebookButtonView)
+        insertVisualEffect(button: intagramButtonView)
         
+        validateFacebookSession()
+    }
+    
+    func insertVisualEffect(#button:UIView){
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.whiteColor().CGColor
+    }
+    
+    func validateFacebookSession(){
         let accountStore = ACAccountStore()
         let accountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierFacebook)
+        let label = facebookButtonView.viewWithTag(101) as UILabel
+        let initialText = label.text
         
         if accountType.accessGranted == true {
-            
             if FBSession.activeSession().isOpen == true {
-                
                 FBRequestConnection.startForMeWithCompletionHandler({ (request, result, error) -> Void in
                     
                     let name:String = result["name"] as String
-                    
-                    self.facebookButton.setTitle("CONTINUE AS "+name.uppercaseString, forState: UIControlState.Normal)
-                    self.facebookButton.titleLabel?.font = UIFont.boldSystemFontOfSize(16)
-                    
+                    label.text = "Continue as "+name
                 })
-                
             }
-            
         }
         else{
-            
-            self.facebookButton.setTitle("SIGN IN WITH FACEBOOK", forState: UIControlState.Normal)
-            self.facebookButton.titleLabel?.font = UIFont.boldSystemFontOfSize(18)
-            
+            label.text = initialText
         }
-        
-        
-        
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -187,9 +68,9 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     }
     
     //MARK: - Facebook Authentication
-    @IBAction func facebookDidPressed(sender: UIButton) {
-        
-        PFFacebookUtils.logInWithPermissions(["public_profile"], {
+    @IBAction func facebookDidPressed(sender: UIPanGestureRecognizer) {
+        animatePressed(buttonView: sender.view!.viewWithTag(301)!)
+    PFFacebookUtils.logInWithPermissions(["public_profile"], {
             (user: PFUser!, error: NSError!) -> Void in
             
             if error != nil {
@@ -208,7 +89,6 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
                 self.goToSuccess(isFB: true)
             }
         })
-        
     }
     
     func getFacebookDetails(){
@@ -284,6 +164,15 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     
     
     //MARK: - Instagram Authentication
+    @IBAction func instagramDidPressed(sender: UITapGestureRecognizer) {
+        animatePressed(buttonView: sender.view!.viewWithTag(301)!)
+        let destinationNav = storyboard?.instantiateViewControllerWithIdentifier("loginInstagramNavScene") as UINavigationController
+        let destination = destinationNav.viewControllers[0] as LoginInstagramViewController
+        destination.myDelegate = self
+        
+        self.showDetailViewController(destinationNav, sender: self)
+    }
+    
     func loginInstagramDidClose(#token: String) {
         if token.isEmpty == false {
             
@@ -383,7 +272,20 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         
     }
     
-    //MARK: - General get profile picture
+    //MARK: - General login
+    func animatePressed(#buttonView:UIView){
+        UIView.animateKeyframesWithDuration(0.2, delay: 0, options: .CalculationModePaced, animations: { () -> Void in
+            
+            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.1, animations: { () -> Void in
+                buttonView.alpha = 0.3
+            })
+            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.1, animations: { () -> Void in
+                buttonView.alpha = 0
+            })
+            
+        }, completion: nil)
+    }
+    
     func getProfilePicture(#url: String, isFB: Bool)
     {
         Alamofire.request(.GET, url).response({ (request, response, data, error) -> Void in

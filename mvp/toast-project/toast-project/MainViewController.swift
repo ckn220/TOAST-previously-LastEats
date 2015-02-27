@@ -17,11 +17,13 @@ class MainViewController: UIViewController,DiscoverDelegate {
     var snapToCenter:UISnapBehavior?
     var snapToSide: UISnapBehavior?
     var discoverBehavior: UIDynamicItemBehavior?
+    
     var mainNav:UINavigationController?
     
     var isOpen = false
     var totalOffset:CGFloat = 0
     var canPan = true
+    var hideStatusBar = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +55,7 @@ class MainViewController: UIViewController,DiscoverDelegate {
         if canPan {
             if sender.state == .Began {
                 removeMySnaps()
-                
+                updateMyStatusBar(hidden: true)
             }else if sender.state == .Ended {
                 endedOpen(view: sender.view!)
                 totalOffset = 0
@@ -79,6 +81,7 @@ class MainViewController: UIViewController,DiscoverDelegate {
         animator?.addBehavior(discoverBehavior)
         
         isOpen = snap.isEqual(snapToSide)
+        updateMyStatusBar(hidden: isOpen)
     }
     
     func offsetIsValid(#offset:CGFloat)->Bool{
@@ -113,6 +116,11 @@ class MainViewController: UIViewController,DiscoverDelegate {
         }
     }
     
+    func updateMyStatusBar(#hidden: Bool){
+        /*hideStatusBar = hidden
+        setNeedsStatusBarAppearanceUpdate()*/
+    }
+    
     //MARK: Discover delegate methods
     func discoverDidAppear() {
         canPan = true
@@ -140,6 +148,15 @@ class MainViewController: UIViewController,DiscoverDelegate {
             }
             
         }
+    }
+    
+    //MARK: Misc methods
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return hideStatusBar
     }
 
 }
