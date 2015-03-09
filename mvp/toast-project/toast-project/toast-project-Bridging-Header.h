@@ -5,3 +5,4 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "InstagramKit.h"
+#import "iCarousel.h"

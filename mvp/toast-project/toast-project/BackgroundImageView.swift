@@ -54,11 +54,14 @@ class BackgroundImageView: UIView {
             var newY:CGFloat
             var newX:CGFloat
             
-            if originalHeight >= originalWidth {
-                newWidth = CGRectGetWidth(self.bounds)
+            let parentWidth = CGRectGetWidth(self.bounds)
+            let parentHeight = CGRectGetHeight(self.bounds)
+            
+            if compareDimensions(parentHeight > parentWidth,imageHeightBigger: originalHeight > originalWidth)  {
+                newWidth = parentWidth
                 newHeight = originalHeight * (newWidth/originalWidth)
             }else{
-                newHeight = CGRectGetHeight(self.bounds)
+                newHeight = parentHeight
                 newWidth = originalWidth * (newHeight/originalHeight)
             }
             
@@ -66,6 +69,14 @@ class BackgroundImageView: UIView {
             newX = (CGRectGetWidth(self.bounds) - newWidth)/2
             let imageRect = CGRectMake(newX, newY, newWidth, newHeight)
             myImage?.drawInRect(imageRect)
+        }
+    }
+    
+    func compareDimensions(parentHeightBigger:Bool,imageHeightBigger:Bool) -> Bool{
+        if parentHeightBigger{
+            return imageHeightBigger
+        }else{
+            return !imageHeightBigger
         }
     }
     

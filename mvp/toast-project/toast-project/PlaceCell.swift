@@ -18,6 +18,10 @@ class PlaceCell: UICollectionViewCell,ReviewFriendsDelegate {
     @IBOutlet weak var reviewTextView: UITextView!
     @IBOutlet weak var reviewFriendCollectionView: UICollectionView!
     
+    @IBOutlet weak var categoryNameLabel: UILabel!
+    @IBOutlet weak var walkLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    
     var hashtagDataSource: HashtagCollectionViewDataSource?
     var reviewFriendDataSource: ReviewFriendsCollectionViewDataSource?
     
@@ -25,11 +29,13 @@ class PlaceCell: UICollectionViewCell,ReviewFriendsDelegate {
         
         if review != "" {
             reviewTextView.text = review
-            reviewTextView.textColor = UIColor.blackColor()
+            reviewTextView.alpha = 1
+            reviewTextView.textColor = UIColor.whiteColor()
         }else{
             reviewTextView.text = "No review"
-            reviewTextView.textColor = UIColor.lightGrayColor()
+            reviewTextView.alpha = 0.5
         }
-        
+        reviewTextView.font = UIFont(name: "Avenir-Roman", size: 16.0)
+        reviewTextView.textColor = UIColor.whiteColor()
     }
 }

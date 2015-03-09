@@ -203,8 +203,8 @@ class Contribute1TableViewController: UITableViewController,UICollectionViewData
         let selectedMood = moods![indexPath.row]
         let myLabel = selectedCell?.viewWithTag(101)! as UILabel
         
-        if contains(selectedMoods!,selectedMood) {
-            selectedMoods?.removeAtIndex(indexPath.row)
+        if let selectedIndex = find(selectedMoods!,selectedMood) {
+            selectedMoods?.removeAtIndex(selectedIndex)
             myLabel.textColor = UIColor.blackColor()
         }else{
             myLabel.textColor = UIColor.blueColor()

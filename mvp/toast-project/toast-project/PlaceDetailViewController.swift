@@ -23,7 +23,7 @@ class PlaceDetailViewController: UIViewController {
         super.viewDidLoad()
 
         configurePlaceName()
-        configureCategoryName()
+        //configureCategoryName()
     }
 
     override func didReceiveMemoryWarning() {

@@ -11,6 +11,7 @@ import Parse
 import Alamofire
 import MapKit
 import CoreLocation
+import AddressBook
 
 class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelegate,MKMapViewDelegate,HashtagDelegate {
     
@@ -25,21 +26,27 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
     var likeFriendsDataSource:ReviewFriendsCollectionViewDataSource?
     var hashtagsDataSource:HashtagCollectionViewDataSource?
     
+    @IBOutlet weak var cateogoryLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var distanceLabel: UILabel!
+    
     @IBOutlet weak var reviewTextView: UITextView!
     @IBOutlet weak var placePictureView:BackgroundImageView!
     @IBOutlet weak var LIkeFriendsCollectionView: UICollectionView!
     @IBOutlet weak var placeMapView: MKMapView!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     
-    //
-    @IBOutlet weak var categoryLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var phoneLabel: UILabel!
-    @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var reservationButton: UIButton!
     @IBOutlet weak var menuButton: UIButton!
-
+    @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var phoneLabel: UILabel!
+    @IBOutlet weak var websiteLabel: UILabel!
+    
+    @IBOutlet weak var getDirectionsButton: UIView!
+    @IBOutlet weak var callButton: UIView!
+    @IBOutlet weak var urlButton: UIView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,8 +69,7 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         configurePhone()
         configureAddress()
         configureDistance()
-        configureReservation()
-        configureMenu()
+        configureWebsite()
     }
     
     //MARK: Place properties methods
@@ -112,14 +118,15 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
     func configureCategory(){
         (myPlace?["category"] as PFObject).fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
             if error == nil {
-                self.categoryLabel.text = result["name"] as? String
+                let placeName = (result["name"] as? String)
+                self.cateogoryLabel.text = placeName?.uppercaseString
             }
         }
     }
     
     func configurePrice(){
         var priceText = ""
-        if let placePrice = myPlace?["price"] as? Int {
+        if let placePrice = myPlace!["price"] as? Int {
             for var k=0;k<placePrice;++k {
                 priceText += "$"
             }
@@ -128,13 +135,34 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         priceLabel.text = priceText
     }
     
+    func configureDistance(){
+        let userLastLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint
+        let placeLocation = myPlace!["location"] as? PFGeoPoint
+        
+        let distance = placeLocation?.distanceInMilesTo(userLastLocation)
+        
+        let milesPerMinuteWalkingSpeed = 0.05216
+        let walkingTime = distance!/milesPerMinuteWalkingSpeed
+        var walkingString = ""
+        if walkingTime/60 > 24{
+            walkingString = NSString(format: "%0.0f", walkingTime/(60*24)) + "-DAY WALK"
+        }else if walkingTime/60 >= 1 {
+            walkingString = NSString(format: "%0.0f", walkingTime/(60)) + " HRS WALK"
+        }else{
+            walkingString = NSString(format: "%0.0f", walkingTime) + " MIN WALK"
+        }
+        
+        distanceLabel.text = walkingString
+    }
+    
     func configurePhone(){
         if let phone = myPlace?["formattedPhone"] as? String {
             phoneLabel.text = phone
+        }else{
+            callButton.alpha = 0
         }
         
     }
-    
     func configureAddress(){
         
         addressLabel.text = ""
@@ -153,15 +181,12 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         
     }
     
-    func configureDistance(){
-        let userLastLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint
-        let distance = placeGeoPoint?.distanceInMilesTo(userLastLocation)
-        let distanceText = NSString(format: "%0.1f", distance!)
-        
-        let milesPerMinuteWalkingSpeed = 0.05216
-        let walkingTime = NSString(format: "%0.0f", distance!/milesPerMinuteWalkingSpeed)
-        
-        distanceLabel.text = distanceText+" Miles Away - "+walkingTime+" Minute Walk"
+    func configureWebsite(){
+        if let url = myPlace?["url"] as? String{
+            websiteLabel.text = url
+        }else{
+            urlButton.alpha = 0
+        }
     }
     
     func configureReservation(){
@@ -208,12 +233,14 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         
         if review != "" {
             reviewTextView.text = review
-            reviewTextView.textColor = UIColor.blackColor()
+            reviewTextView.alpha = 1
         }else{
             reviewTextView.text = "No review"
-            reviewTextView.textColor = UIColor.lightGrayColor()
+            reviewTextView.alpha = 0.5
         }
         
+        reviewTextView.textColor = UIColor.whiteColor()
+        reviewTextView.font = UIFont(name: "Avenir-Roman", size: 16)
     }
     
     func hashtagSelected(hashtag: PFObject) {
@@ -229,17 +256,16 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         
         switch indexPath.row{
         case 0:
-            return currentWidth*0.8968
+            return currentWidth*0.619169
         case 2:
             return CGRectGetHeight(reviewTextView.bounds)+28
-        case 5:
-            return hashtagsCollectionView.collectionViewLayout.collectionViewContentSize().height
         default:
             return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
         }
     }
     
     //MARK: Actions methods
+    /*
     @IBAction func reservationPressed(sender: AnyObject) {
         let nav = self.storyboard?.instantiateViewControllerWithIdentifier("deliveryWebViewNavScene") as UINavigationController
         let destination = nav.viewControllers[0] as GenericWebViewController
@@ -258,7 +284,7 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         
         self.parentViewController?.parentViewController?.showDetailViewController(nav, sender: nil)
         
-    }
+    }*/
     
     @IBAction func categoryPressed(sender: UIButton) {
         
@@ -274,6 +300,44 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         
         
     }
+    
+    @IBAction func getDirectionsCalled(sender: AnyObject) {
+        
+        let placeGeo = myPlace!["location"] as PFGeoPoint
+        let coords = CLLocationCoordinate2DMake(placeGeo.latitude,placeGeo.longitude)
+        /*
+        let address = [kABPersonAddressStreetKey: (myPlace!["address"] as? String)!,
+            kABPersonAddressCityKey: myPlace!["city"],
+            kABPersonAddressStateKey: myPlace!["state"],
+            kABPersonAddressZIPKey: myPlace!["postalCode"],
+            kABPersonAddressCountryCodeKey: "US"]*/
+        
+        let place = MKPlacemark(coordinate: coords, addressDictionary: nil)
+        let mapItem = MKMapItem(placemark: place)
+        mapItem.name = myPlace!["name"] as String
+        
+        let options = [MKLaunchOptionsDirectionsModeKey:
+            MKLaunchOptionsDirectionsModeWalking,
+            MKLaunchOptionsShowsTrafficKey: false]
+        mapItem.openInMapsWithLaunchOptions(options)
+        
+    }
+    
+    @IBAction func callPressed(sender: AnyObject) {
+        let url = NSURL(string: "callto://" + (myPlace!["phone"] as String))!
+        if UIApplication.sharedApplication().canOpenURL(url){
+            UIApplication.sharedApplication().openURL(url)
+        }
+    }
+    
+    @IBAction func websitePressed(sender: AnyObject) {
+        let url = NSURL(string: (myPlace!["url"] as String))!
+        if UIApplication.sharedApplication().canOpenURL(url){
+            UIApplication.sharedApplication().openURL(url)
+        }
+        
+    }
+    
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent

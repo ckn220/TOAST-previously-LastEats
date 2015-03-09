@@ -52,7 +52,7 @@ class ReviewFriendsCollectionViewDataSource: CollectionViewDataSource,UICollecti
         }else{
             selectFriend(cell)
         }
-        
+        /*
         let favoriteButton = cell.favoriteButton
         favoriteButton.tag = indexPath.row
         if contains(favoriteFriends, item as PFObject){
@@ -61,7 +61,7 @@ class ReviewFriendsCollectionViewDataSource: CollectionViewDataSource,UICollecti
             favoriteButton.selected = false
         }
         favoriteButton.addTarget(self, action: "favoriteButtonPressed:", forControlEvents: .TouchUpInside)
-        
+        */
         return cell
     }
     
@@ -90,15 +90,15 @@ class ReviewFriendsCollectionViewDataSource: CollectionViewDataSource,UICollecti
         cell.layer.transform = CATransform3DMakeScale(1, 1, 1)
         cell.layer.opacity = 1
         cell.friendNameLabel.alpha = 1
-        cell.favoriteButton.alpha = 1
+        //cell.favoriteButton.alpha = 1
     }
     
     func deselectFriend(cell:ReviewFriendCell){
         cell.layer.transform = CATransform3DMakeScale(0.65, 0.65, 1)
         cell.layer.opacity = 0.5
         cell.friendNameLabel.alpha = 0
-        cell.favoriteButton.selected = false
-        cell.favoriteButton.alpha = 0
+        //cell.favoriteButton.selected = false
+        //cell.favoriteButton.alpha = 0
     }
  
     func fillReview(review: String){

@@ -18,6 +18,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     var myPlaces:[PFObject]?
     var myFriend:PFObject?
     
+    @IBOutlet weak var myBG: BackgroundImageView!
     @IBOutlet weak var toastsCollectionView: UICollectionView!
     @IBOutlet weak var moodTitleLabel: UILabel!
     
@@ -35,11 +36,14 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     override func viewWillAppear(animated: Bool) {
         
         super.viewWillAppear(animated)
-    
+        
+        myBG.insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.7)
+        
         toastsCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
         
         var currentTitle = ""
         let placesQuery = PFQuery(className: "Place")
+        placesQuery.includeKey("category")
         if myCategory != nil {
             completeQuery(placesQuery, withCategory: myCategory!)
         }else{
@@ -54,7 +58,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             placesQuery.whereKey("toasts", matchesQuery: toastsQuery)
         }
         
-        moodTitleLabel.text = moodTitleLabel.text?.uppercaseString
+        moodTitleLabel.text = getCapitalString(moodTitleLabel.text!)
         placesQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
                 NSLog("Places: %d", result.count)
@@ -87,7 +91,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     
-    //MARK: CollectionView datasource methods
+    //MARK: - CollectionView datasource methods
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -100,11 +104,15 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("placeCell", forIndexPath: indexPath) as PlaceCell
             let imPlace = myPlaces![indexPath.row]
-            cell.placeNameLabel.text = (imPlace["name"] as? String)?.uppercaseString
+            cell.placeNameLabel.text = (imPlace["name"] as? String)
+            insertSmallShadow(cell.placeNameLabel)
+        
             let placePictureString = imPlace["foursquarePicture"] as String
+        
             Alamofire.request(.GET, placePictureString).response({ (request, response, data, error) -> Void in
                 if error == nil{
-                    cell.myBackgroundView.insertImage(UIImage(data: data as NSData)!)
+                    cell.myBackgroundView.insertImage(UIImage(data: data as NSData)!,withOpacity: 0.1)
+                    self.insertShadow(cell.myBackgroundView)
                 }else{
                     NSLog("%@", error!.description)
                 }
@@ -149,8 +157,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
                     let firstToast = result[0] as PFObject
                     var review = (firstToast["review"] as String)
                     if review != "" {
-                        let toastUser = firstToast["user"] as PFObject
-                        review = review + "   - " + (toastUser["name"] as String)
+                        review = "\""+review+"\""
                     }
                     cell.reviewFriendDidSelectReview(review: review)
                     
@@ -158,7 +165,11 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
                     NSLog("%@", error.description)
                 }
         }
-            
+            configureCategory(place: imPlace, atCell: cell)
+            configureDistance(place: imPlace, atCell: cell)
+            configurePrice(place: imPlace, atCell: cell)
+        
+        
             return cell
         
     }
@@ -166,11 +177,11 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     //MARK: CollectionView delegate methods
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        return CGSizeMake(260, CGRectGetHeight(collectionView.bounds))
+        return CGSizeMake(260*CGRectGetWidth(collectionView.bounds)/320, CGRectGetHeight(collectionView.bounds))
         
     }
     
-    //MARK: Action methods
+    //MARK: - Action methods
     
     @IBAction func backPressed(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
@@ -188,5 +199,69 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             destination.placeReviewFriends = selectedCell.reviewFriendDataSource?.items as? [PFObject]
             destination.placeHashtags = selectedCell.hashtagDataSource?.items as? [PFObject]
         }
+    }
+    
+    //MARK: - Configure cell methods
+    func configureCategory(#place:PFObject,atCell cell:PlaceCell){
+        (place["category"] as PFObject).fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
+            if error == nil {
+                let placeName = (result["name"] as? String)
+                cell.categoryNameLabel.text = placeName?.uppercaseString
+            }
+        }
+    }
+    
+    func configurePrice(#place:PFObject,atCell cell:PlaceCell){
+        var priceText = ""
+        if let placePrice = place["price"] as? Int {
+            for var k=0;k<placePrice;++k {
+                priceText += "$"
+            }
+        }
+        
+        cell.priceLabel.text = priceText
+    }
+    
+    func configureDistance(#place:PFObject,atCell cell:PlaceCell){
+        let userLastLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint
+        let placeLocation = place["location"] as? PFGeoPoint
+        
+        let distance = placeLocation?.distanceInMilesTo(userLastLocation)
+        
+        let milesPerMinuteWalkingSpeed = 0.05216
+        let walkingTime = distance!/milesPerMinuteWalkingSpeed
+        var walkingString = ""
+        if walkingTime/60 > 24{
+            walkingString = NSString(format: "%0.0f", walkingTime/(60*24)) + "-DAY WALK"
+        }else if walkingTime/60 >= 1 {
+            walkingString = NSString(format: "%0.0f", walkingTime/(60)) + " HRS WALK"
+        }else{
+            walkingString = NSString(format: "%0.0f", walkingTime) + " MIN WALK"
+        }
+        
+        cell.walkLabel.text = walkingString
+    }
+    
+    //MARK: - Misc methods
+    func getCapitalString(original:String) -> String{
+        return prefix(original, 1).capitalizedString + suffix(original, countElements(original) - 1)
+    }
+    
+    func insertShadow(view:UIView){
+        
+        let layer = view.layer
+        layer.shadowOffset = CGSizeMake(0, -1)
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowRadius = 16.0
+        layer.shadowOpacity = 0.8
+        layer.shadowPath = UIBezierPath(rect: layer.bounds).CGPath
+    }
+    
+    func insertSmallShadow(view:UIView){
+        let layer = view.layer
+        layer.shadowOffset = CGSizeMake(0, 0)
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowRadius = 6.0
+        layer.shadowOpacity = 0.6
     }
 }

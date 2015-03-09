@@ -54,9 +54,13 @@ class SelectMoodViewController: UIViewController,UITableViewDataSource, UITableV
         let cell = tableView.dequeueReusableCellWithIdentifier("moodCell") as UITableViewCell
         let moodName = moods[indexPath.row]["name"] as? String
         
-        cell.textLabel?.text = prefix(moodName!, 1).capitalizedString + suffix(moodName!, countElements(moodName!) - 1)
+        cell.textLabel?.text = getCapitalString(moodName!)
         
         return cell
+    }
+
+    func getCapitalString(original:String) -> String{
+        return prefix(original, 1).capitalizedString + suffix(original, countElements(original) - 1)
     }
     
     //MARK: Action methods

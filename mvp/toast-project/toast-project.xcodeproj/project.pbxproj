@@ -33,6 +33,7 @@
 		0812C9661A64651F004A115B /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0812C9641A64651F004A115B /* Model.xcdatamodeld */; };
 		0812C9C81A646B75004A115B /* MyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0812C9C71A646B75004A115B /* MyHelper.swift */; };
 		0812C9D81A647956004A115B /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 0812C9D01A647879004A115B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		081420751AAB895B003BEA9E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081420741AAB895B003BEA9E /* AddressBook.framework */; };
 		08255F131A75626B00ABA356 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F101A75626B00ABA356 /* Bolts.framework */; };
 		08255F141A75626B00ABA356 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F111A75626B00ABA356 /* Parse.framework */; };
 		08255F151A75626B00ABA356 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */; };
@@ -54,6 +55,7 @@
 		08363FAA1A57798A007A6827 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08363FA91A57798A007A6827 /* libz.dylib */; };
 		08363FAC1A57799C007A6827 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08363FAB1A57799C007A6827 /* libsqlite3.dylib */; };
 		08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08363FB01A577C63007A6827 /* LoginViewController.swift */; };
+		084C145F1AA100B3005FB0E9 /* SearchPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */; };
 		086CFB321A734CD500E321F7 /* InstagramEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB201A734CD500E321F7 /* InstagramEngine.m */; };
 		086CFB331A734CD500E321F7 /* InstagramKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 086CFB221A734CD500E321F7 /* InstagramKit.plist */; };
 		086CFB341A734CD500E321F7 /* IKUserInPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB251A734CD500E321F7 /* IKUserInPhoto.m */; };
@@ -66,6 +68,9 @@
 		086CFB3E1A73CD4600E321F7 /* LoginInstagramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB3D1A73CD4600E321F7 /* LoginInstagramViewController.swift */; };
 		08B425D61A7C497D00A72C95 /* Contribute1TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B425D51A7C497D00A72C95 /* Contribute1TableViewController.swift */; };
 		08B425D81A7C498700A72C95 /* Contribute2TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B425D71A7C498700A72C95 /* Contribute2TableViewController.swift */; };
+		08B905E71AA14A29009F3B21 /* ToastMoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */; };
+		08B905EB1AA14AB1009F3B21 /* ToastHashtagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */; };
+		08B905ED1AA1E8D6009F3B21 /* ReviewPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B905EC1AA1E8D6009F3B21 /* ReviewPlaceViewController.swift */; };
 		08C2E8D01A886683009A44F6 /* CollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8CF1A886683009A44F6 /* CollectionViewDataSource.swift */; };
 		08C2E8D21A886993009A44F6 /* CustomUICollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8D11A886993009A44F6 /* CustomUICollectionViewCell.swift */; };
 		08C2E8D41A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */; };
@@ -80,6 +85,17 @@
 		08EDB1051A9E538B00D94CF7 /* DiscoverTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1041A9E538B00D94CF7 /* DiscoverTransitioning.swift */; };
 		08EDB1071A9E5D5E00D94CF7 /* DiscoverNavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1061A9E5D5E00D94CF7 /* DiscoverNavigationDelegate.swift */; };
 		08EDB1091A9E67B900D94CF7 /* SelectLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1081A9E67B900D94CF7 /* SelectLocationViewController.swift */; };
+		08EDB10E1AA0010200D94CF7 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB10D1AA0010200D94CF7 /* iCarousel.m */; };
+		08EDB1131AA00A7400D94CF7 /* ToastNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1121AA00A7400D94CF7 /* ToastNameView.swift */; };
+		08EDB1151AA00AA100D94CF7 /* ToastMoodsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1141AA00AA100D94CF7 /* ToastMoodsView.swift */; };
+		08EDB1171AA00AB700D94CF7 /* ToastRushView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1161AA00AB700D94CF7 /* ToastRushView.swift */; };
+		08EDB1191AA00ACC00D94CF7 /* ToastVegetarianView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1181AA00ACC00D94CF7 /* ToastVegetarianView.swift */; };
+		08EDB11B1AA00AED00D94CF7 /* ToastReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB11A1AA00AED00D94CF7 /* ToastReviewView.swift */; };
+		08EDB11D1AA00AFA00D94CF7 /* ToastHashtagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB11C1AA00AFA00D94CF7 /* ToastHashtagsView.swift */; };
+		08EDB11F1AA00B3000D94CF7 /* CarouselViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08EDB11E1AA00B3000D94CF7 /* CarouselViews.xib */; };
+		08EDB1211AA00E4E00D94CF7 /* ToastCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1201AA00E4E00D94CF7 /* ToastCarouselView.swift */; };
+		08EDB1231AA017EB00D94CF7 /* ContributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1221AA017EB00D94CF7 /* ContributeViewController.swift */; };
+		08F019DE1AA0A4A0001FA0B5 /* ToastSubmitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F019DD1AA0A4A0001FA0B5 /* ToastSubmitView.swift */; };
 		08F838941A87C83900CFCAEF /* ToastsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F838931A87C83900CFCAEF /* ToastsViewController.swift */; };
 		08F838961A87C87500CFCAEF /* ToastsCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F838951A87C87500CFCAEF /* ToastsCollectionViewLayout.swift */; };
 		08F838991A88136100CFCAEF /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F838981A88136100CFCAEF /* PlaceCell.swift */; };
@@ -192,6 +208,7 @@
 		0812C9651A64651F004A115B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		0812C9C71A646B75004A115B /* MyHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyHelper.swift; sourceTree = "<group>"; };
 		0812C9C91A647879004A115B /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = ../../../../Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		081420741AAB895B003BEA9E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		08255F101A75626B00ABA356 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		08255F111A75626B00ABA356 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
@@ -217,6 +234,7 @@
 		08363FA91A57798A007A6827 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		08363FAB1A57799C007A6827 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		08363FB01A577C63007A6827 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPlaceViewController.swift; sourceTree = "<group>"; };
 		086CFB1F1A734CD500E321F7 /* InstagramEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramEngine.h; sourceTree = "<group>"; };
 		086CFB201A734CD500E321F7 /* InstagramEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramEngine.m; sourceTree = "<group>"; };
 		086CFB211A734CD500E321F7 /* InstagramKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramKit.h; sourceTree = "<group>"; };
@@ -238,6 +256,9 @@
 		086CFB3D1A73CD4600E321F7 /* LoginInstagramViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInstagramViewController.swift; sourceTree = "<group>"; };
 		08B425D51A7C497D00A72C95 /* Contribute1TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contribute1TableViewController.swift; sourceTree = "<group>"; };
 		08B425D71A7C498700A72C95 /* Contribute2TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Contribute2TableViewController.swift; sourceTree = "<group>"; };
+		08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastMoodCell.xib; sourceTree = "<group>"; };
+		08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastHashtagCell.xib; sourceTree = "<group>"; };
+		08B905EC1AA1E8D6009F3B21 /* ReviewPlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewPlaceViewController.swift; sourceTree = "<group>"; };
 		08C2E8CF1A886683009A44F6 /* CollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDataSource.swift; sourceTree = "<group>"; };
 		08C2E8D11A886993009A44F6 /* CustomUICollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomUICollectionViewCell.swift; sourceTree = "<group>"; };
 		08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagCollectionViewDataSource.swift; sourceTree = "<group>"; };
@@ -252,6 +273,18 @@
 		08EDB1041A9E538B00D94CF7 /* DiscoverTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTransitioning.swift; sourceTree = "<group>"; };
 		08EDB1061A9E5D5E00D94CF7 /* DiscoverNavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverNavigationDelegate.swift; sourceTree = "<group>"; };
 		08EDB1081A9E67B900D94CF7 /* SelectLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectLocationViewController.swift; sourceTree = "<group>"; };
+		08EDB10C1AA0010200D94CF7 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		08EDB10D1AA0010200D94CF7 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		08EDB1121AA00A7400D94CF7 /* ToastNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastNameView.swift; sourceTree = "<group>"; };
+		08EDB1141AA00AA100D94CF7 /* ToastMoodsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastMoodsView.swift; sourceTree = "<group>"; };
+		08EDB1161AA00AB700D94CF7 /* ToastRushView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastRushView.swift; sourceTree = "<group>"; };
+		08EDB1181AA00ACC00D94CF7 /* ToastVegetarianView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastVegetarianView.swift; sourceTree = "<group>"; };
+		08EDB11A1AA00AED00D94CF7 /* ToastReviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastReviewView.swift; sourceTree = "<group>"; };
+		08EDB11C1AA00AFA00D94CF7 /* ToastHashtagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastHashtagsView.swift; sourceTree = "<group>"; };
+		08EDB11E1AA00B3000D94CF7 /* CarouselViews.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarouselViews.xib; sourceTree = "<group>"; };
+		08EDB1201AA00E4E00D94CF7 /* ToastCarouselView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastCarouselView.swift; sourceTree = "<group>"; };
+		08EDB1221AA017EB00D94CF7 /* ContributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContributeViewController.swift; sourceTree = "<group>"; };
+		08F019DD1AA0A4A0001FA0B5 /* ToastSubmitView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastSubmitView.swift; sourceTree = "<group>"; };
 		08F838931A87C83900CFCAEF /* ToastsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastsViewController.swift; sourceTree = "<group>"; };
 		08F838951A87C87500CFCAEF /* ToastsCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastsCollectionViewLayout.swift; sourceTree = "<group>"; };
 		08F838981A88136100CFCAEF /* PlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
@@ -271,6 +304,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				081420751AAB895B003BEA9E /* AddressBook.framework in Frameworks */,
 				0801937E1A8E3EBC00CAA770 /* MapKit.framework in Frameworks */,
 				08F85AE71A8D5F0300C01CC9 /* AVFoundation.framework in Frameworks */,
 				08363FAC1A57799C007A6827 /* libsqlite3.dylib in Frameworks */,
@@ -320,6 +354,7 @@
 		0812C9251A645BDD004A115B /* General */ = {
 			isa = PBXGroup;
 			children = (
+				08EDB10B1AA0010200D94CF7 /* iCarousel */,
 				080193821A8FE43F00CAA770 /* Delivery API */,
 				0812C9C91A647879004A115B /* Alamofire.xcodeproj */,
 				0812C9491A646434004A115B /* UIKit+AFNetworking */,
@@ -467,6 +502,7 @@
 		08363FAD1A5779A9007A6827 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				081420741AAB895B003BEA9E /* AddressBook.framework */,
 				0801937D1A8E3EBC00CAA770 /* MapKit.framework */,
 				08F85AE61A8D5F0300C01CC9 /* AVFoundation.framework */,
 				08255F101A75626B00ABA356 /* Bolts.framework */,
@@ -506,6 +542,15 @@
 				08E184BB1A90D63B00C9A956 /* MainMenuTableViewController.swift */,
 			);
 			name = Main;
+			sourceTree = "<group>";
+		};
+		084C145B1AA1003C005FB0E9 /* Name/Review Aux VC */ = {
+			isa = PBXGroup;
+			children = (
+				084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */,
+				08B905EC1AA1E8D6009F3B21 /* ReviewPlaceViewController.swift */,
+			);
+			name = "Name/Review Aux VC";
 			sourceTree = "<group>";
 		};
 		086CFB1D1A734CD500E321F7 /* InstagramKit */ = {
@@ -554,7 +599,10 @@
 		08B425CD1A7C48B200A72C95 /* Contribution */ = {
 			isa = PBXGroup;
 			children = (
+				08EDB1111AA00A4C00D94CF7 /* CarouselViews */,
+				084C145B1AA1003C005FB0E9 /* Name/Review Aux VC */,
 				08B425D51A7C497D00A72C95 /* Contribute1TableViewController.swift */,
+				08EDB1221AA017EB00D94CF7 /* ContributeViewController.swift */,
 				08B425D71A7C498700A72C95 /* Contribute2TableViewController.swift */,
 			);
 			name = Contribution;
@@ -613,6 +661,33 @@
 				08EDB1041A9E538B00D94CF7 /* DiscoverTransitioning.swift */,
 			);
 			name = TransitioningHelpers;
+			sourceTree = "<group>";
+		};
+		08EDB10B1AA0010200D94CF7 /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				08EDB10C1AA0010200D94CF7 /* iCarousel.h */,
+				08EDB10D1AA0010200D94CF7 /* iCarousel.m */,
+			);
+			path = iCarousel;
+			sourceTree = "<group>";
+		};
+		08EDB1111AA00A4C00D94CF7 /* CarouselViews */ = {
+			isa = PBXGroup;
+			children = (
+				08EDB1121AA00A7400D94CF7 /* ToastNameView.swift */,
+				08EDB1141AA00AA100D94CF7 /* ToastMoodsView.swift */,
+				08EDB1161AA00AB700D94CF7 /* ToastRushView.swift */,
+				08EDB1181AA00ACC00D94CF7 /* ToastVegetarianView.swift */,
+				08EDB11A1AA00AED00D94CF7 /* ToastReviewView.swift */,
+				08EDB11C1AA00AFA00D94CF7 /* ToastHashtagsView.swift */,
+				08F019DD1AA0A4A0001FA0B5 /* ToastSubmitView.swift */,
+				08EDB1201AA00E4E00D94CF7 /* ToastCarouselView.swift */,
+				08EDB11E1AA00B3000D94CF7 /* CarouselViews.xib */,
+				08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */,
+				08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */,
+			);
+			name = CarouselViews;
 			sourceTree = "<group>";
 		};
 		08F838901A87C81400CFCAEF /* Toasts */ = {
@@ -764,10 +839,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08B905EB1AA14AB1009F3B21 /* ToastHashtagCell.xib in Resources */,
 				08363F791A5778E4007A6827 /* Main.storyboard in Resources */,
 				08363F7E1A5778E4007A6827 /* LaunchScreen.xib in Resources */,
 				0812C9241A6432BA004A115B /* test-bg.jpg in Resources */,
+				08B905E71AA14A29009F3B21 /* ToastMoodCell.xib in Resources */,
 				086CFB331A734CD500E321F7 /* InstagramKit.plist in Resources */,
+				08EDB11F1AA00B3000D94CF7 /* CarouselViews.xib in Resources */,
 				08363F7B1A5778E4007A6827 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -786,17 +864,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08F019DE1AA0A4A0001FA0B5 /* ToastSubmitView.swift in Sources */,
+				08EDB11B1AA00AED00D94CF7 /* ToastReviewView.swift in Sources */,
 				08C2E8D21A886993009A44F6 /* CustomUICollectionViewCell.swift in Sources */,
 				086CFB321A734CD500E321F7 /* InstagramEngine.m in Sources */,
 				0812C9601A646434004A115B /* UIProgressView+AFNetworking.m in Sources */,
 				0812C95E1A646434004A115B /* UIButton+AFNetworking.m in Sources */,
 				0812C9C81A646B75004A115B /* MyHelper.swift in Sources */,
 				08B425D81A7C498700A72C95 /* Contribute2TableViewController.swift in Sources */,
+				08EDB10E1AA0010200D94CF7 /* iCarousel.m in Sources */,
 				0812C9611A646434004A115B /* UIRefreshControl+AFNetworking.m in Sources */,
 				08E184B81A90BFFC00C9A956 /* MainViewController.swift in Sources */,
 				0812C95D1A646434004A115B /* UIAlertView+AFNetworking.m in Sources */,
 				086CFB341A734CD500E321F7 /* IKUserInPhoto.m in Sources */,
 				08DB824A1A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift in Sources */,
+				08EDB1191AA00ACC00D94CF7 /* ToastVegetarianView.swift in Sources */,
 				086CFB3E1A73CD4600E321F7 /* LoginInstagramViewController.swift in Sources */,
 				08F8389B1A88137400CFCAEF /* HashtagCell.swift in Sources */,
 				08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */,
@@ -814,14 +896,20 @@
 				0812C9451A646424004A115B /* AFURLConnectionOperation.m in Sources */,
 				08F838941A87C83900CFCAEF /* ToastsViewController.swift in Sources */,
 				08EDB1071A9E5D5E00D94CF7 /* DiscoverNavigationDelegate.swift in Sources */,
+				08B905ED1AA1E8D6009F3B21 /* ReviewPlaceViewController.swift in Sources */,
 				08F8389F1A88142600CFCAEF /* MoreReviewsCell.swift in Sources */,
+				08EDB11D1AA00AFA00D94CF7 /* ToastHashtagsView.swift in Sources */,
 				08F838961A87C87500CFCAEF /* ToastsCollectionViewLayout.swift in Sources */,
+				08EDB1231AA017EB00D94CF7 /* ContributeViewController.swift in Sources */,
+				08EDB1131AA00A7400D94CF7 /* ToastNameView.swift in Sources */,
 				08EDB1051A9E538B00D94CF7 /* DiscoverTransitioning.swift in Sources */,
+				08EDB1151AA00AA100D94CF7 /* ToastMoodsView.swift in Sources */,
 				0812C95F1A646434004A115B /* UIImageView+AFNetworking.m in Sources */,
 				080193881A8FFF9300CAA770 /* GenericWebViewController.swift in Sources */,
 				0812C9401A646424004A115B /* AFHTTPRequestOperation.m in Sources */,
 				08DB82461A87B6AA00AEE163 /* Discover1ViewController.swift in Sources */,
 				08F838991A88136100CFCAEF /* PlaceCell.swift in Sources */,
+				08EDB1211AA00E4E00D94CF7 /* ToastCarouselView.swift in Sources */,
 				0812C95C1A646434004A115B /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				08363F741A5778E4007A6827 /* AppDelegate.swift in Sources */,
 				0812C9461A646424004A115B /* AFURLRequestSerialization.m in Sources */,
@@ -837,9 +925,11 @@
 				0812C9661A64651F004A115B /* Model.xcdatamodeld in Sources */,
 				08C2E8D01A886683009A44F6 /* CollectionViewDataSource.swift in Sources */,
 				08C2E8D61A88F859009A44F6 /* ReviewFriendsCollectionViewDataSource.swift in Sources */,
+				08EDB1171AA00AB700D94CF7 /* ToastRushView.swift in Sources */,
 				08F85AE31A8D5DD500C01CC9 /* BackgroundImageView.swift in Sources */,
 				086CFB351A734CD500E321F7 /* InstagramComment.m in Sources */,
 				08EDB1091A9E67B900D94CF7 /* SelectLocationViewController.swift in Sources */,
+				084C145F1AA100B3005FB0E9 /* SearchPlaceViewController.swift in Sources */,
 				0812C9621A646434004A115B /* UIWebView+AFNetworking.m in Sources */,
 				086CFB3A1A734CD500E321F7 /* InstagramUser.m in Sources */,
 				08F85AEC1A8E397000C01CC9 /* PlaceDetailTableViewController.swift in Sources */,
