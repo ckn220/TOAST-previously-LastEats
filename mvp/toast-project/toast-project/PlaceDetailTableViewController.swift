@@ -13,8 +13,17 @@ import MapKit
 import CoreLocation
 import AddressBook
 
+protocol PlaceDetailDelegate{
+    func placeDetailMenuPressed()
+    func placeDetailCallPressed()
+    func placeDetailWebsitePressed()
+    func placeDetailDirectionsPressed()
+    func placeDetailCategoryPressed()
+}
+
 class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelegate,MKMapViewDelegate,HashtagDelegate {
     
+    var myDelegate:PlaceDetailDelegate?
     var placeGeoPoint:PFGeoPoint?
     var myPlace:PFObject?
     var myPlacePicture:UIImage?
@@ -36,12 +45,11 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
     @IBOutlet weak var placeMapView: MKMapView!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     
-    @IBOutlet weak var reservationButton: UIButton!
-    @IBOutlet weak var menuButton: UIButton!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var websiteLabel: UILabel!
     
+    @IBOutlet weak var menuButton: UIView!
     @IBOutlet weak var getDirectionsButton: UIView!
     @IBOutlet weak var callButton: UIView!
     @IBOutlet weak var urlButton: UIView!
@@ -70,6 +78,7 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         configureAddress()
         configureDistance()
         configureWebsite()
+        configureMenu()
     }
     
     //MARK: Place properties methods
@@ -189,17 +198,6 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         }
     }
     
-    func configureReservation(){
-        BookingService.getReservationURL(fromName: myPlace?["name"] as String, address: myPlace?["address"] as String) { (url) -> () in
-            
-            if url != "" {
-                self.reservationURL = url
-            }else{
-                self.reservationButton.alpha = 0
-            }
-        }
-    }
-    
     func configureMenu(){
         if let menu = myPlace?["menuLink"] as? String{
             
@@ -256,7 +254,7 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         
         switch indexPath.row{
         case 0:
-            return currentWidth*0.619169
+            return currentWidth
         case 2:
             return CGRectGetHeight(reviewTextView.bounds)+28
         default:
@@ -264,80 +262,25 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         }
     }
     
-    //MARK: Actions methods
-    /*
-    @IBAction func reservationPressed(sender: AnyObject) {
-        let nav = self.storyboard?.instantiateViewControllerWithIdentifier("deliveryWebViewNavScene") as UINavigationController
-        let destination = nav.viewControllers[0] as GenericWebViewController
-        destination.myURL = reservationURL
-        destination.title = "Reservation"
-        
-        self.parentViewController?.parentViewController?.showDetailViewController(nav, sender: nil)
-    }
-    
-    
-    @IBAction func menuPressed(sender: UIButton) {
-        let nav = self.storyboard?.instantiateViewControllerWithIdentifier("deliveryWebViewNavScene") as UINavigationController
-        let destination = nav.viewControllers[0] as GenericWebViewController
-        destination.myURL = menuURL
-        destination.title = "Menu"
-        
-        self.parentViewController?.parentViewController?.showDetailViewController(nav, sender: nil)
-        
-    }*/
-    
     @IBAction func categoryPressed(sender: UIButton) {
-        
-        (myPlace?["category"] as PFObject).fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
-            if error == nil {
-                let destination = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as ToastsViewController
-                destination.myCategory = result
-                
-                self.parentViewController?.navigationController?.showViewController(destination, sender: nil)
-            }
-        }
-        
-        
-        
+        myDelegate?.placeDetailCategoryPressed()
     }
     
     @IBAction func getDirectionsCalled(sender: AnyObject) {
-        
-        let placeGeo = myPlace!["location"] as PFGeoPoint
-        let coords = CLLocationCoordinate2DMake(placeGeo.latitude,placeGeo.longitude)
-        /*
-        let address = [kABPersonAddressStreetKey: (myPlace!["address"] as? String)!,
-            kABPersonAddressCityKey: myPlace!["city"],
-            kABPersonAddressStateKey: myPlace!["state"],
-            kABPersonAddressZIPKey: myPlace!["postalCode"],
-            kABPersonAddressCountryCodeKey: "US"]*/
-        
-        let place = MKPlacemark(coordinate: coords, addressDictionary: nil)
-        let mapItem = MKMapItem(placemark: place)
-        mapItem.name = myPlace!["name"] as String
-        
-        let options = [MKLaunchOptionsDirectionsModeKey:
-            MKLaunchOptionsDirectionsModeWalking,
-            MKLaunchOptionsShowsTrafficKey: false]
-        mapItem.openInMapsWithLaunchOptions(options)
-        
+        myDelegate?.placeDetailDirectionsPressed()
     }
     
     @IBAction func callPressed(sender: AnyObject) {
-        let url = NSURL(string: "callto://" + (myPlace!["phone"] as String))!
-        if UIApplication.sharedApplication().canOpenURL(url){
-            UIApplication.sharedApplication().openURL(url)
-        }
+        myDelegate?.placeDetailCallPressed()
     }
     
     @IBAction func websitePressed(sender: AnyObject) {
-        let url = NSURL(string: (myPlace!["url"] as String))!
-        if UIApplication.sharedApplication().canOpenURL(url){
-            UIApplication.sharedApplication().openURL(url)
-        }
-        
+        myDelegate?.placeDetailWebsitePressed()
     }
     
+    @IBAction func menuPressed(sender: UIButton) {
+        myDelegate?.placeDetailMenuPressed()
+    }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent

@@ -88,6 +88,20 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "toast_project.PlaceDetailViewController.reservePressed (toast_project.PlaceDetailViewController)(ObjectiveC.UIButton) -&gt; ():PlaceDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "myPlace![&quot;postalCode&quot;] as String">
+            </PersistentString>
+            <PersistentString
+               value = "myPlace![&quot;name&quot;] as String">
+            </PersistentString>
+            <PersistentString
+               value = "myPlace![&quot;address&quot;] as String">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "toast_project.Contribute2TableViewController.(savePressed (toast_project.Contribute2TableViewController) -&gt; (Swift.AnyObject) -&gt; ()).(closure #1).(closure #1).(closure #1).(closure #1):Contribute2TableViewController.swift">
          <PersistentStrings>
             <PersistentString

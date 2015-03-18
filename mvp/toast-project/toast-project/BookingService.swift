@@ -10,22 +10,31 @@ import UIKit
 import Alamofire
 
 class BookingService: NSObject {
-    class func getReservationURL(fromName restaurantName:String,address:String,completion: (String)->()){
-        getOpenTableReservationURL(fromName: restaurantName,address: address) { (url) -> () in
+    class func getReservationURL(fromName restaurantName:String,address:String,zipcode:String,completion: (String)->()){
+        getOpenTableReservationURL(fromName: restaurantName,address: address,zipcode:zipcode) { (url) -> () in
             completion(url)
         }
     }
     
-    private class func getOpenTableReservationURL(fromName restaurantName:String,address:String,completion: (String)->()){
+    private class func getOpenTableReservationURL(fromName restaurantName:String,address:String,zipcode:String,completion: (String)->()){
         let masterURL = "http://opentable.herokuapp.com/api/restaurants?"
         var myParams = BookingService.escapeBookingParameters(restaurantName,address: address)
         
-        Alamofire.request(.GET, masterURL+"name="+myParams.eName+"&address="+myParams.eAddress).responseJSON { (imRequest, imResponse, JSON, error) in
+        Alamofire.request(.GET, masterURL+"name="+myParams.eName).responseJSON { (imRequest, imResponse, JSON, error) in
             if error == nil{
-                if let restaurants = (JSON as NSDictionary)["restaurants"] as? NSArray {
-                    if restaurants.count > 0 {
-                        let firstRestaurant = restaurants[0] as NSDictionary
-                        completion(firstRestaurant["mobile_reserve_url"] as String)
+                if let tempRestaurants = (JSON as NSDictionary)["restaurants"] as? NSArray {
+                    if tempRestaurants.count > 0 {
+                        
+                        var restaurant:NSDictionary
+                        if tempRestaurants.count > 1{
+                            restaurant = BookingService.findCorrectRestaurant(fromList: tempRestaurants, withAddress: address)
+                        }else{
+                            restaurant = tempRestaurants[0] as NSDictionary
+                        }
+                        
+                        let reservationURL = restaurant["mobile_reserve_url"] as String
+                        completion(reservationURL)
+                        
                     }else{
                         completion("")
                     }
@@ -46,5 +55,12 @@ class BookingService: NSObject {
         let escapedAddress = address.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
         
         return (escapedName!,escapedAddress!)
+    }
+    
+    class func findCorrectRestaurant(fromList restaurants:NSArray, withAddress address:String) -> NSDictionary{
+        let addressComponents = address.componentsSeparatedByString(" ")
+        let predicate = NSPredicate(format: "address CONTAINS[cd] %@",addressComponents[0])
+        
+        return restaurants.filteredArrayUsingPredicate(predicate!)[0] as NSDictionary
     }
 }

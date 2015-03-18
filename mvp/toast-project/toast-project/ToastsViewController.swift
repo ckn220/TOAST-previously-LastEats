@@ -26,19 +26,6 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         super.viewDidLoad()
         myPlaces = []
         
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        
-        super.viewWillAppear(animated)
-        
-        myBG.insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.7)
-        
         toastsCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
         
         var currentTitle = ""
@@ -68,6 +55,18 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
                 NSLog("%@",error.description)
             }
         }
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        myBG.insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.7)
     }
     
     func completeQuery(query:PFQuery,withHashtag hashtag: PFObject){

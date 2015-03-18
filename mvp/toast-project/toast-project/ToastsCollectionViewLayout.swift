@@ -27,13 +27,14 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
         minimumLineSpacing = 18
         minimumInteritemSpacing = 18
         scrollDirection = .Horizontal
-        itemSize = CGSizeMake(260, 440)
-        sectionInset = UIEdgeInsetsMake(0,(deviceWidth/2) - (260/2), 0,(deviceWidth/2) - (260/2));
+        let itemWidth = 260*deviceWidth/320
+        sectionInset = UIEdgeInsetsMake(0,(deviceWidth/2) - (itemWidth/2), 0,(deviceWidth/2) - (itemWidth/2));
     }
     
     func halfWidth() -> CGFloat{
         return (CGRectGetWidth(collectionView!.bounds) / 2)
     }
+    
     
     override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         
@@ -56,4 +57,22 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
         return CGPointMake(proposedContentOffset.x + offsetAdjustment, proposedContentOffset.y)
     }
     
+    override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
+        let attributes = super.layoutAttributesForElementsInRect(rect) as [UICollectionViewLayoutAttributes]
+        let visibleCenter = collectionView!.bounds.size.width/2 + collectionView!.contentOffset.x
+        
+        for at in attributes{
+            var newFrame = at.frame
+            let distanceToCenter:Double = abs(Double(CGRectGetMidX(newFrame)) - Double(visibleCenter))
+            newFrame.origin.y += CGFloat(distanceToCenter/8)
+            at.frame = newFrame
+            at.alpha = CGFloat(Double(1.0) - (distanceToCenter/500.0))
+        }
+        
+        return attributes
+    }
+    
+    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+        return true
+    }
 }
