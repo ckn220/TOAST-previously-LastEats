@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 import Alamofire
+import Foundation
 
 class ContributeViewController: UIViewController, iCarouselDataSource, iCarouselDelegate,ToastCarouselViewDelegate,SearchPlaceDelegate,ReviewPlaceDelegate {
 
@@ -425,6 +426,113 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         }
     }
     
+    func insertSchedule(json:NSDictionary,inPlace place:PFObject){
+        if let schedulesDic = json["hours"] as? NSDictionary{
+            let timeframes = schedulesDic["timeframes"] as NSArray
+            var placeSchedules = schedules(timeframes: timeframes)
+            PFObject.saveAllInBackground(placeSchedules, block: { (success, error) -> Void in
+                if error == nil{
+                    var openKey = place.relationForKey("open")
+                    for schedule in placeSchedules{
+                        openKey.addObject(schedule)
+                    }
+                }else{
+                    NSLog("%@", error.description)
+                }
+            })
+        }
+    }
+    
+    func schedules(#timeframes:NSArray) -> [PFObject]{
+        var schedules = [PFObject]()
+        for timeframe in timeframes{
+            schedules.extend(schedulesForTimeframe(timeframe as NSDictionary))
+        }
+        return schedules
+    }
+    
+    func schedulesForTimeframe(timeframe:NSDictionary) -> [PFObject]{
+        var hours = [PFObject]()
+        let myDays = days(timeframe["days"] as String)
+        let myHours = openHours(timeframe["open"] as NSArray)
+        for imDay in myDays{
+            for imHour in myHours{
+                hours.append(createSchedule(day: imDay, hour: imHour))
+            }
+        }
+        return hours
+    }
+    
+    func createSchedule(#day:Int,hour:Int) -> PFObject{
+        let newOpen = PFObject(className: "OpenSchedule")
+        newOpen["day"] = day
+        newOpen["hour"] = hour
+        return newOpen
+    }
+    
+    func days(daysTimeFrame:String)->[Int]{
+        var dayStrings:[String] = daysTimeFrame.componentsSeparatedByString("–")
+        if dayStrings.count > 1{
+            let firstDay = day(dayStrings[0])
+            let lastDay = day(dayStrings[1])
+            return allDays(from:firstDay, to: lastDay)
+            
+        }else{
+            return [day(daysTimeFrame)]
+        }
+    }
+    
+    func day(dayString:String)->Int{
+        let days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
+        return find(days,dayString)!
+    }
+    
+    func allDays(#from:Int,to:Int)-> [Int]{
+        var days = [Int]()
+        for d in from...to{
+            days.append(d)
+        }
+        return days
+    }
+    
+    func openHours(openArray:NSArray) -> [Int]{
+        var hours = [Int]()
+        for openItem in openArray{
+            let hoursString = (openItem as NSDictionary)["renderedTime"] as String
+            hours.extend(realHours(hoursString))
+        }
+        return hours
+    }
+    
+    func realHours(hoursTimeframe:String)->[Int]{
+        var hours = [Int]()
+        var hourStrings:[String] = hoursTimeframe.componentsSeparatedByString("–")
+        let firstH = realHour(hourStrings[0])
+        let lastH = realHour(hourStrings[1])
+        hours.extend(allHours(from:firstH,to:lastH))
+        
+        return hours
+    }
+    
+    func allHours(#from:Int,to:Int) -> [Int]{
+        var hours = [Int]()
+        for h in from..<to{
+            hours.append(h)
+        }
+        return hours
+    }
+    
+    func realHour(hourString:String)->Int{
+        let isPM = hourString.rangeOfString("PM") != nil
+        let h = hourString.componentsSeparatedByString(":")[0].toInt()!
+        
+        if isPM{
+            return h + 12
+        }else{
+            return h
+        }
+    }
+    
     func createNewPlace(){
         
         let myPlace = PFObject(className: "Place")
@@ -433,7 +541,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         if let myPlaceID = tempToast["placeId"] as? String{
             myPlace["foursquarePlaceId"] = myPlaceID
             
-            Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/"+myPlaceID+"?&client_id="+self.foursquareClientId+"&client_secret="+self.foursquareClientSecret+"&v=20150207").responseJSON({ (request, response, JSON, error) -> Void in
+            Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/"+myPlaceID+"?&client_id="+self.foursquareClientId+"&client_secret="+self.foursquareClientSecret+"&v=20150207&locale=en").responseJSON({ (request, response, JSON, error) -> Void in
                 
                 if error == nil{
                     let result = ((JSON as NSDictionary)["response"] as NSDictionary)["venue"] as NSDictionary
@@ -446,6 +554,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
                     self.insertFoursquarePicture(result, inPlace: myPlace)
                     self.insertMenuLink(result, inPlace: myPlace)
                     self.insertWebsite(result, inPlace: myPlace)
+                    self.insertSchedule(result, inPlace: myPlace)
                     
                 }else{
                     NSLog("%@", error!.description)

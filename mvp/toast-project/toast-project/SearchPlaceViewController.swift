@@ -104,7 +104,7 @@ class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISear
                 
                 //let googleRequestString = "https://maps.googleapis.com/maps/api/place/autocomplete/json?key="+googleKey+"&types=establishment&sensor=true&input="
                 
-                let foursquareRequestString = "https://api.foursquare.com/v2/venues/suggestCompletion?"+llKey+llValue+"&client_id="+foursquareClientId+"&client_secret="+foursquareClientSecret+"&v=20150207&m=foursquare&categoryId=4d4b7105d754a06374d81259&limit=5&query="
+                let foursquareRequestString = "https://api.foursquare.com/v2/venues/suggestCompletion?"+llKey+llValue+"&client_id="+foursquareClientId+"&client_secret="+foursquareClientSecret+"&v=20150207&locale=en&m=foursquare&categoryId=4d4b7105d754a06374d81259&limit=5&query="
                 
                 if let inputText = tempText.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()){
                     

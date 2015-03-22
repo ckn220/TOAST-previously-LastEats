@@ -10,25 +10,35 @@ import UIKit
 import Parse
 import Alamofire
 
-class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,PlaceCellDelegate {
     
     var myMood:PFObject?
     var myHashtag:PFObject?
     var myCategory: PFObject?
     var myPlaces:[PFObject]?
     var myFriend:PFObject?
+    var currentReviewsTableView:UITableView?
     
+    @IBOutlet weak var myBlurBG: UIVisualEffectView!
     @IBOutlet weak var myBG: BackgroundImageView!
     @IBOutlet weak var toastsCollectionView: UICollectionView!
     @IBOutlet weak var moodTitleLabel: UILabel!
+    @IBOutlet weak var placeTitleLabel: UILabel!
+    @IBOutlet weak var placeCloseButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        configure()
+        configurePlaces()
+    }
+    
+    func configure(){
         myPlaces = []
-        
         toastsCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
-        
-        var currentTitle = ""
+    }
+    
+    func configurePlaces(){
         let placesQuery = PFQuery(className: "Place")
         placesQuery.includeKey("category")
         if myCategory != nil {
@@ -45,7 +55,6 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             placesQuery.whereKey("toasts", matchesQuery: toastsQuery)
         }
         
-        moodTitleLabel.text = getCapitalString(moodTitleLabel.text!)
         placesQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
                 NSLog("Places: %d", result.count)
@@ -55,6 +64,8 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
                 NSLog("%@",error.description)
             }
         }
+        
+        moodTitleLabel.text = getCapitalString(moodTitleLabel.text!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -63,10 +74,8 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     override func viewWillAppear(animated: Bool) {
-        
         super.viewWillAppear(animated)
-        
-        myBG.insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.7)
+        myBG.insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.65)
     }
     
     func completeQuery(query:PFQuery,withHashtag hashtag: PFObject){
@@ -102,75 +111,10 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier("placeCell", forIndexPath: indexPath) as PlaceCell
-            let imPlace = myPlaces![indexPath.row]
-            cell.placeNameLabel.text = (imPlace["name"] as? String)
-            insertSmallShadow(cell.placeNameLabel)
-        
-            let placePictureString = imPlace["foursquarePicture"] as String
-        
-            Alamofire.request(.GET, placePictureString).response({ (request, response, data, error) -> Void in
-                if error == nil{
-                    cell.myBackgroundView.insertImage(UIImage(data: data as NSData)!,withOpacity: 0.1)
-                    self.insertShadow(cell.myBackgroundView)
-                }else{
-                    NSLog("%@", error!.description)
-                }
-            })
-        
-            //Get Hashtags
-            let toastQuery = imPlace.relationForKey("toasts").query()
-            let hashtagQuery = PFQuery(className: "Hashtag")
-            hashtagQuery.whereKey("toasts", matchesQuery:toastQuery)
-            hashtagQuery.limit = 4
-            hashtagQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
-                if error == nil{
-                    cell.hashtagDataSource = HashtagCollectionViewDataSource(items: result as NSArray, cellIdentifier: "hashtagCell", configureBlock: { (imCell, item) -> () in
-                        if let actualCell = imCell as? CustomUICollectionViewCell {
-                                actualCell.configureForItem(item!)
-                        }
-                    })
-                    cell.hashtagsCollectionView.dataSource = cell.hashtagDataSource
-                    cell.hashtagsCollectionView.delegate = cell.hashtagDataSource
-                    cell.hashtagsCollectionView.reloadData()
-                    cell.hashtagsCollectionViewHeight.constant = cell.hashtagsCollectionView.collectionViewLayout.collectionViewContentSize().height
-                }else{
-                    NSLog("%@", error.description)
-                }
-        }
-        
-            //Get Toasts.user
-            let othertoastQuery = imPlace.relationForKey("toasts").query()
-            othertoastQuery.includeKey("user")
-            othertoastQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
-                if error == nil{
-                    cell.reviewFriendDataSource = ReviewFriendsCollectionViewDataSource(items: result as NSArray, cellIdentifier: "reviewFriendCell", configureBlock: { (imCell, item) -> () in
-                        if let actualCell = imCell as? CustomUICollectionViewCell {
-                            actualCell.configureForItem(item!)
-                        }
-                    })
-                    cell.reviewFriendCollectionView.dataSource = cell.reviewFriendDataSource
-                    cell.reviewFriendCollectionView.delegate = cell.reviewFriendDataSource
-                    cell.reviewFriendDataSource?.myDelegate = cell
-                    cell.reviewFriendCollectionView.reloadData()
-                    
-                    let firstToast = result[0] as PFObject
-                    var review = (firstToast["review"] as String)
-                    if review != "" {
-                        review = "\""+review+"\""
-                    }
-                    cell.reviewFriendDidSelectReview(review: review)
-                    
-                }else{
-                    NSLog("%@", error.description)
-                }
-        }
-            configureCategory(place: imPlace, atCell: cell)
-            configureDistance(place: imPlace, atCell: cell)
-            configurePrice(place: imPlace, atCell: cell)
-        
+            cell.myPlace = myPlaces![indexPath.row]
+            cell.myDelegate = self
         
             return cell
-        
     }
     
     //MARK: CollectionView delegate methods
@@ -181,7 +125,6 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     //MARK: - Action methods
-    
     @IBAction func backPressed(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
     }
@@ -195,72 +138,55 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             let selectedCell = toastsCollectionView.cellForItemAtIndexPath(selectedIndexPath) as PlaceCell
             destination.myPlacePicture = selectedCell.myBackgroundView.myImage
             destination.myPlace = selectedPlace
-            destination.placeReviewFriends = selectedCell.reviewFriendDataSource?.items as? [PFObject]
-            destination.placeHashtags = selectedCell.hashtagDataSource?.items as? [PFObject]
+            destination.placeHashtags = selectedCell.hashtagDataSource?.hashtags
+            toastsCollectionView.deselectItemAtIndexPath(selectedIndexPath, animated: false)
         }
     }
     
-    //MARK: - Configure cell methods
-    func configureCategory(#place:PFObject,atCell cell:PlaceCell){
-        (place["category"] as PFObject).fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
-            if error == nil {
-                let placeName = (result["name"] as? String)
-                cell.categoryNameLabel.text = placeName?.uppercaseString
-            }
+    @IBAction func closeReviewsPressed(sender: AnyObject) {
+        if let table = currentReviewsTableView{
+            table.setContentOffset(CGPointMake(0, 0), animated: true)
         }
     }
     
-    func configurePrice(#place:PFObject,atCell cell:PlaceCell){
-        var priceText = ""
-        if let placePrice = place["price"] as? Int {
-            for var k=0;k<placePrice;++k {
-                priceText += "$"
-            }
-        }
+    //MARK: - PlaceCell delegate methods
+    func placeCellDidScroll(#tableView: UITableView,place: PFObject) {
+        currentReviewsTableView = tableView
+        let alphaChange = tableView.contentOffset.y/50
+        let placeAlphaChange = tableView.contentOffset.y/150
+        let newAlpha = min(1,0 + alphaChange)
+        let newPlaceAlpha = min(1,0 + placeAlphaChange)
+        myBlurBG.alpha = newAlpha
         
-        cell.priceLabel.text = priceText
-    }
-    
-    func configureDistance(#place:PFObject,atCell cell:PlaceCell){
-        let userLastLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint
-        let placeLocation = place["location"] as? PFGeoPoint
+        placeTitleLabel.text = getCapitalString(place["name"] as String!)
+        placeTitleLabel.alpha = newPlaceAlpha
+        placeCloseButton.alpha = newPlaceAlpha
         
-        let distance = placeLocation?.distanceInMilesTo(userLastLocation)
+        moodTitleLabel.alpha = max(0,1 - newAlpha)
+        //changeBrothersAlpha(place: place, alpha: moodTitleLabel.alpha)
         
-        let milesPerMinuteWalkingSpeed = 0.05216
-        let walkingTime = distance!/milesPerMinuteWalkingSpeed
-        var walkingString = ""
-        if walkingTime/60 > 24{
-            walkingString = NSString(format: "%0.0f", walkingTime/(60*24)) + "-DAY WALK"
-        }else if walkingTime/60 >= 1 {
-            walkingString = NSString(format: "%0.0f", walkingTime/(60)) + " HRS WALK"
+        if newAlpha >= 1{
+            toastsCollectionView.scrollEnabled = false
         }else{
-            walkingString = NSString(format: "%0.0f", walkingTime) + " MIN WALK"
+            toastsCollectionView.scrollEnabled = true
         }
-        
-        cell.walkLabel.text = walkingString
+    }
+    
+    func placeCellDidPressed(#place:PFObject) {
+        let selectedIndex = find(myPlaces!,place)!
+        toastsCollectionView.selectItemAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0), animated: false, scrollPosition: .None)
+        self.performSegueWithIdentifier("placeDetailSegue", sender: self)
+    }
+    
+    func placeCellReviewDidPressed(#toast: PFObject,place: PFObject) {
+        let destination = self.storyboard?.instantiateViewControllerWithIdentifier("reviewDetailScene") as ReviewDetailViewController
+        destination.myToast = toast
+        destination.titleString = place["name"] as String!
+        self.showViewController(destination, sender: self)
     }
     
     //MARK: - Misc methods
     func getCapitalString(original:String) -> String{
         return prefix(original, 1).capitalizedString + suffix(original, countElements(original) - 1)
-    }
-    
-    func insertShadow(view:UIView){
-        
-        let layer = view.layer
-        layer.shadowOffset = CGSizeMake(0, -1)
-        layer.shadowColor = UIColor.blackColor().CGColor
-        layer.shadowRadius = 16.0
-        layer.shadowOpacity = 0.8
-        layer.shadowPath = UIBezierPath(rect: layer.bounds).CGPath
-    }
-    
-    func insertSmallShadow(view:UIView){
-        let layer = view.layer
-        layer.shadowOffset = CGSizeMake(0, 0)
-        layer.shadowColor = UIColor.blackColor().CGColor
-        layer.shadowRadius = 6.0
-        layer.shadowOpacity = 0.6
     }
 }

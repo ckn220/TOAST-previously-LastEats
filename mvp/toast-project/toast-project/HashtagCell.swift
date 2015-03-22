@@ -9,14 +9,22 @@
 import UIKit
 import Parse
 
-class HashtagCell: CustomUICollectionViewCell {
+class HashtagCell: UICollectionViewCell {
     
     @IBOutlet weak var hashtagLabel: UILabel!
     
-    override func configureForItem(item:AnyObject) {
-        let imHashTag = item as PFObject
-        self.hashtagLabel.text = "#"+(imHashTag["name"] as? String)!
+    func configure(#item:PFObject,index:Int) {
+        configureLabel(item: item,index:index)
         insertSmallShadow(self.hashtagLabel)
+    }
+    
+    func configureLabel(#item:PFObject,index:Int){
+        hashtagLabel.text = "#"+(item["name"] as? String)!
+        if index%2==0{
+            hashtagLabel.textAlignment = .Left
+        }else{
+            hashtagLabel.textAlignment = .Right
+        }
     }
     
     func insertSmallShadow(view:UIView){
@@ -25,5 +33,6 @@ class HashtagCell: CustomUICollectionViewCell {
         layer.shadowColor = UIColor.blackColor().CGColor
         layer.shadowRadius = 6.0
         layer.shadowOpacity = 0.6
+        layer.shouldRasterize = true
     }
 }

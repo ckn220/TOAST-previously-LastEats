@@ -20,6 +20,7 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     var placeHashtags: [PFObject]?
     var reservationURL:String?
     
+    @IBOutlet weak var myBlurBG: BackgroundImageView!
     @IBOutlet weak var pickupButton: UIButton!
     @IBOutlet weak var deliveryButton: UIButton!
     @IBOutlet weak var reservationButton: UIButton!
@@ -43,7 +44,15 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
         return .LightContent
     }
     
+    override func viewWillAppear(animated: Bool) {
+        configure()
+    }
+    
     //MARK: - Configure methods
+    func configure(){
+        myBlurBG.insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.65)
+    }
+    
     func configurePlaceName(){
         placeNameLabel.text = myPlace!["name"] as? String
     }

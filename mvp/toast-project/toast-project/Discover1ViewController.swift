@@ -259,7 +259,7 @@ class Discover1ViewController: UIViewController, UICollectionViewDataSource,UICo
         let pictureFile = friend["profilePicture"] as PFFile
         pictureFile.getDataInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
-                cell.friendPictureView.insertImage(UIImage(data: result)!)
+                cell.friendPictureView.myImage = UIImage(data: result)!
             }else{
                 NSLog("%@", error.description)
             }

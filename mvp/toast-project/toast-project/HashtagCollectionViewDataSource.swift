@@ -13,23 +13,39 @@ protocol HashtagDelegate {
     func hashtagSelected(hashtag: PFObject)
 }
 
-class HashtagCollectionViewDataSource: CollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class HashtagCollectionViewDataSource: NSObject,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
    
     var myDelegate:HashtagDelegate?
+    var hashtags:[PFObject] = []
+    
+    init(hashtags:[PFObject],myDelegate:HashtagDelegate?){
+        super.init()
+        self.hashtags = hashtags
+        self.myDelegate = myDelegate
+    }
+    
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return hashtags.count
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("hashtagCell", forIndexPath: indexPath) as HashtagCell
+        cell.configure(item: hashtags[indexPath.row], index: indexPath.row)
+        
+        return cell
+    }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        if collectionView.tag == 501{
-            let myItem = self.items[indexPath.row] as PFObject
-            let myString = "#" + (myItem["name"] as String)
-            return myString.sizeWithAttributes([NSFontAttributeName:UIFont.systemFontOfSize(15.0)])
-        }else{
-            return CGSizeZero
-        }
-        
+        let totalWidth = CGRectGetWidth(collectionView.bounds)
+        return CGSizeMake(totalWidth/2, 18)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let selectedItem = self.items[indexPath.row] as PFObject
+        let selectedItem = self.hashtags[indexPath.row] as PFObject
         myDelegate?.hashtagSelected(selectedItem)
     }
     

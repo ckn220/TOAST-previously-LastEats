@@ -24,8 +24,8 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
     func setup(){
         let deviceWidth = CGRectGetWidth(UIScreen.mainScreen().bounds)
         
-        minimumLineSpacing = 18
-        minimumInteritemSpacing = 18
+        minimumLineSpacing = 0
+        minimumInteritemSpacing = 0
         scrollDirection = .Horizontal
         let itemWidth = 260*deviceWidth/320
         sectionInset = UIEdgeInsetsMake(0,(deviceWidth/2) - (itemWidth/2), 0,(deviceWidth/2) - (itemWidth/2));
@@ -62,10 +62,11 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
         let visibleCenter = collectionView!.bounds.size.width/2 + collectionView!.contentOffset.x
         
         for at in attributes{
-            var newFrame = at.frame
-            let distanceToCenter:Double = abs(Double(CGRectGetMidX(newFrame)) - Double(visibleCenter))
-            newFrame.origin.y += CGFloat(distanceToCenter/8)
-            at.frame = newFrame
+            var newTransform = at.transform3D
+            let distanceToCenter:Double = abs(Double(CGRectGetMidX(at.frame)) - Double(visibleCenter))
+            let newScale = CGFloat(1 - (distanceToCenter/2000))
+            newTransform = CATransform3DMakeScale(newScale, newScale, 1)
+            at.transform3D = newTransform
             at.alpha = CGFloat(Double(1.0) - (distanceToCenter/500.0))
         }
         

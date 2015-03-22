@@ -21,7 +21,7 @@ protocol PlaceDetailDelegate{
     func placeDetailCategoryPressed()
 }
 
-class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelegate,MKMapViewDelegate,HashtagDelegate {
+class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,HashtagDelegate {
     
     var myDelegate:PlaceDetailDelegate?
     var placeGeoPoint:PFGeoPoint?
@@ -32,34 +32,34 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
     var reservationURL: String?
     var menuURL: String?
     
-    var likeFriendsDataSource:ReviewFriendsCollectionViewDataSource?
-    var hashtagsDataSource:HashtagCollectionViewDataSource?
+    var hashtagsDataSource:HashtagCollectionViewDataSource?{
+        didSet{
+            hashtagCollectionView.dataSource = hashtagsDataSource
+            hashtagCollectionView.delegate = hashtagsDataSource
+            hashtagCollectionView.reloadData()
+        }
+    }
     
     @IBOutlet weak var cateogoryLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
-    @IBOutlet weak var reviewTextView: UITextView!
     @IBOutlet weak var placePictureView:BackgroundImageView!
-    @IBOutlet weak var LIkeFriendsCollectionView: UICollectionView!
     @IBOutlet weak var placeMapView: MKMapView!
-    @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     
     @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var phoneLabel: UILabel!
-    @IBOutlet weak var websiteLabel: UILabel!
-    
-    @IBOutlet weak var menuButton: UIView!
-    @IBOutlet weak var getDirectionsButton: UIView!
-    @IBOutlet weak var callButton: UIView!
-    @IBOutlet weak var urlButton: UIView!
-    
+    @IBOutlet weak var callLabel: UILabel!
+    @IBOutlet weak var hoursLabel: UILabel!
+    @IBOutlet weak var hashtagCollectionView: UICollectionView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        configureReviewFriends()
-        configureHashtags()
+        configure()
+    }
+    
+    func configure(){
+        self.tableView.estimatedRowHeight = 60
+        self.tableView.rowHeight = UITableViewAutomaticDimension
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,17 +74,17 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         configureMap()
         configureCategory()
         configurePrice()
-        configurePhone()
-        configureAddress()
         configureDistance()
-        configureWebsite()
-        configureMenu()
+        configureAddress()
+        configureHours()
+        configureCall()
+        configureHashtags()
     }
     
     //MARK: Place properties methods
     func configurePlacePicture(){
         if let pic = myPlacePicture {
-            self.placePictureView.insertImage(pic)
+            self.placePictureView.myImage = pic
         }
     }
     
@@ -96,32 +96,6 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         
         let squareRegion = MKCoordinateRegionMakeWithDistance(placeAnnotation.coordinate, 200, 200)
         placeMapView.setRegion(squareRegion, animated: false)
-    }
-    
-    func configureReviewFriends(){
-        likeFriendsDataSource = ReviewFriendsCollectionViewDataSource(items: placeReviewFriends!, cellIdentifier: "reviewFriendCell", configureBlock: { (imCell, item) -> () in
-            if let actualCell = imCell as? CustomUICollectionViewCell {
-                actualCell.configureForItem(item!)
-            }
-        })
-        LIkeFriendsCollectionView.dataSource = likeFriendsDataSource
-        LIkeFriendsCollectionView.delegate = likeFriendsDataSource
-        likeFriendsDataSource?.myDelegate = self
-        LIkeFriendsCollectionView.reloadData()
-        
-        reviewFriendDidSelectReview(review: placeReviewFriends?[0]["review"] as String)
-    }
-    
-    func configureHashtags(){
-        hashtagsDataSource = HashtagCollectionViewDataSource(items: placeHashtags!, cellIdentifier: "hashtagCell", configureBlock: { (imCell, item) -> () in
-            if let actualCell = imCell as? CustomUICollectionViewCell {
-                actualCell.configureForItem(item!)
-            }
-        })
-        hashtagsDataSource?.myDelegate = self
-        hashtagsCollectionView.dataSource = hashtagsDataSource
-        hashtagsCollectionView.delegate = hashtagsDataSource
-        hashtagsCollectionView.reloadData()
     }
     
     func configureCategory(){
@@ -164,52 +138,22 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         distanceLabel.text = walkingString
     }
     
-    func configurePhone(){
-        if let phone = myPlace?["formattedPhone"] as? String {
-            phoneLabel.text = phone
-        }else{
-            callButton.alpha = 0
-        }
-        
-    }
     func configureAddress(){
-        
-        addressLabel.text = ""
-        if let addressText = myPlace?["address"] as? String {
-            addressLabel.text! += addressText
-        }
-        if let cityText = myPlace?["city"] as? String {
-            addressLabel.text! += (", " + cityText)
-        }
-        if let stateText = myPlace?["state"] as? String {
-            addressLabel.text! += (". " + stateText)
-        }
-        if let zipcodeText = myPlace?["postalCode"] as? String {
-            addressLabel.text! += (" " + zipcodeText)
-        }
+        addressLabel.text = myPlace?["address"] as String!
+    }
+    
+    func configureHours(){
         
     }
     
-    func configureWebsite(){
-        if let url = myPlace?["url"] as? String{
-            websiteLabel.text = url
-        }else{
-            urlButton.alpha = 0
+    func configureCall(){
+        if let phone = myPlace?["formattedPhone"] as? String{
+            callLabel.text = "Call   "+phone
         }
     }
     
-    func configureMenu(){
-        if let menu = myPlace?["menuLink"] as? String{
-            
-            if menu != ""{
-                self.menuURL = menu
-            }else{
-                self.menuButton.alpha = 0
-            }
-            
-        }else{
-            self.menuButton.alpha = 0
-        }
+    func configureHashtags(){
+        hashtagsDataSource = HashtagCollectionViewDataSource(hashtags: placeHashtags!, myDelegate: self)
     }
     
     //MARK MapView delegate methods
@@ -226,62 +170,84 @@ class PlaceDetailTableViewController: UITableViewController, ReviewFriendsDelega
         return an
     }
     
-    //MARK: ReviewFriend Datasource delegate methods
-    func reviewFriendDidSelectReview(#review: String) {
-        
-        if review != "" {
-            reviewTextView.text = review
-            reviewTextView.alpha = 1
-        }else{
-            reviewTextView.text = "No review"
-            reviewTextView.alpha = 0.5
-        }
-        
-        reviewTextView.textColor = UIColor.whiteColor()
-        reviewTextView.font = UIFont(name: "Avenir-Roman", size: 16)
-    }
-    
-    func hashtagSelected(hashtag: PFObject) {
-        let destination = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as ToastsViewController
-        destination.myHashtag = hashtag
-        
-        self.parentViewController?.navigationController?.showViewController(destination, sender: nil)
-    }
-    
     //MARK: TableView delegate methods
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let currentWidth = CGRectGetWidth(tableView.bounds)
         
         switch indexPath.row{
-        case 0:
+        case 0: //Place picture
             return currentWidth
-        case 2:
-            return CGRectGetHeight(reviewTextView.bounds)+28
+        case 1: //map
+            return currentWidth/2
+        case 3: //menu
+            if validateMenu(){
+                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+            }else{
+                return 0.1
+            }
+        case 4: //call
+            if validateCall(){
+                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+            }else{
+                return 0.1
+            }
+        case 6: //website
+            if validateWebsite(){
+                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+            }else{
+                return 0.1
+            }
+        case 7,8:
+            if placeHashtags?.count > 0{
+                return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
+            }else{
+                return 0.1
+            }
         default:
             return super.tableView(tableView, heightForRowAtIndexPath: indexPath)
         }
     }
     
+    func validateMenu()-> Bool{
+        return myPlace?["menuLink"] != nil
+    }
+    
+    func validateCall()->Bool{
+        return myPlace?["phone"] != nil
+    }
+    
+    func validateWebsite()->Bool{
+        return myPlace?["url"] != nil
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        switch indexPath.row{
+        case 3: //menu
+            myDelegate?.placeDetailMenuPressed()
+        case 4: //call
+            myDelegate?.placeDetailCallPressed()
+        case 5: //directions
+            myDelegate?.placeDetailDirectionsPressed()
+        case 6: //website
+            myDelegate?.placeDetailDirectionsPressed()
+        default:
+            return
+        }
+    }
+    
+    //MARK: - HashtagDataSource delegate methods
+    func hashtagSelected(hashtag: PFObject) {
+        
+    }
+    
+    //MARK: - Actions methods
     @IBAction func categoryPressed(sender: UIButton) {
         myDelegate?.placeDetailCategoryPressed()
     }
     
-    @IBAction func getDirectionsCalled(sender: AnyObject) {
-        myDelegate?.placeDetailDirectionsPressed()
-    }
-    
-    @IBAction func callPressed(sender: AnyObject) {
-        myDelegate?.placeDetailCallPressed()
-    }
-    
-    @IBAction func websitePressed(sender: AnyObject) {
-        myDelegate?.placeDetailWebsitePressed()
-    }
-    
-    @IBAction func menuPressed(sender: UIButton) {
-        myDelegate?.placeDetailMenuPressed()
-    }
-    
+    //MARK: - Misc methods
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }

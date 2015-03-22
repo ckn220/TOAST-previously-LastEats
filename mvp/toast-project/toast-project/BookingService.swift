@@ -20,7 +20,7 @@ class BookingService: NSObject {
         let masterURL = "http://opentable.herokuapp.com/api/restaurants?"
         var myParams = BookingService.escapeBookingParameters(restaurantName,address: address)
         
-        Alamofire.request(.GET, masterURL+"name="+myParams.eName).responseJSON { (imRequest, imResponse, JSON, error) in
+        Alamofire.request(.GET, masterURL+"name="+myParams.eName+"&zipcode="+zipcode).responseJSON { (imRequest, imResponse, JSON, error) in
             if error == nil{
                 if let tempRestaurants = (JSON as NSDictionary)["restaurants"] as? NSArray {
                     if tempRestaurants.count > 0 {
