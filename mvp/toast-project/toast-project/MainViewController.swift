@@ -143,7 +143,7 @@ class MainViewController: UIViewController,DiscoverDelegate {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "embedDiscoverSegue" {
             mainNav = segue.destinationViewController as? UINavigationController
-            if let destination = mainNav?.viewControllers[0] as? Discover1ViewController {
+            if let destination = mainNav?.viewControllers[0] as? DiscoverViewController {
                 destination.myDelegate = self
             }
             

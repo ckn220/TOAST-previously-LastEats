@@ -20,7 +20,7 @@ class ReviewDetailViewController: UIViewController {
         configureTitle()
     }
     
-    func configureTitle(){
+    private func configureTitle(){
         if titleString != nil{
             titleLabel.text = "Toasts for "+titleString!
         }
@@ -33,7 +33,7 @@ class ReviewDetailViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        (self.view as BackgroundImageView).insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.65)
+        (self.view as! BackgroundImageView).insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.65)
     }
 
     //MARK: - Action methods
@@ -43,7 +43,7 @@ class ReviewDetailViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "reviewTableViewSegue"{
-            let destination = segue.destinationViewController as ReviewDetailTableViewController
+            let destination = segue.destinationViewController as! ReviewDetailTableViewController
             destination.myToast = myToast
         }
     }

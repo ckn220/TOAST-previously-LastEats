@@ -51,7 +51,7 @@ class SelectMoodViewController: UIViewController,UITableViewDataSource, UITableV
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("moodCell") as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("moodCell") as! UITableViewCell
         let moodName = moods[indexPath.row]["name"] as? String
         
         cell.textLabel?.text = getCapitalString(moodName!)
@@ -60,7 +60,7 @@ class SelectMoodViewController: UIViewController,UITableViewDataSource, UITableV
     }
 
     func getCapitalString(original:String) -> String{
-        return prefix(original, 1).capitalizedString + suffix(original, countElements(original) - 1)
+        return prefix(original, 1).capitalizedString + suffix(original, count(original) - 1)
     }
     
     //MARK: Action methods
@@ -76,7 +76,7 @@ class SelectMoodViewController: UIViewController,UITableViewDataSource, UITableV
     // MARK: - Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "moodSelectedSegue" {
-            let destination = segue.destinationViewController as ToastsViewController
+            let destination = segue.destinationViewController as! ToastsViewController
             destination.myMood = moods[moodsTableView.indexPathForSelectedRow()!.row]
         }
     }

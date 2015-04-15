@@ -22,7 +22,6 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     
     @IBOutlet weak var myBlurBG: BackgroundImageView!
     @IBOutlet weak var pickupButton: UIButton!
-    @IBOutlet weak var deliveryButton: UIButton!
     @IBOutlet weak var reservationButton: UIButton!
     
     
@@ -30,11 +29,37 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
         super.viewDidLoad()
 
         configurePlaceName()
-        configurePickupButton()
-        configureDeliveryButton()
-        configureReservationButton()
+        configureBottomBar()
     }
 
+    private func configurePlaceName(){
+        placeNameLabel.text = myPlace!["name"] as? String
+    }
+    
+    private func configureBottomBar(){
+        configurePickupButton()
+        configureReserveButton()
+    }
+    
+    private func configurePickupButton(){
+        toggleBottomBarButton(pickupButton, enabled: myPlace?["phone"] != nil)
+    }
+    
+    private func configureReserveButton(){
+        toggleBottomBarButton(reservationButton, enabled: myPlace?["reservationURL"] as! String != "")
+    }
+    
+    private func toggleBottomBarButton(button:UIButton,enabled:Bool){
+        button.enabled = enabled
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            if enabled{
+                button.alpha = 1
+            }else{
+                button.alpha = 0.3
+            }
+        })
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -51,34 +76,6 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     //MARK: - Configure methods
     func configure(){
         myBlurBG.insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.65)
-    }
-    
-    func configurePlaceName(){
-        placeNameLabel.text = myPlace!["name"] as? String
-    }
-    
-    func configurePickupButton(){
-        NSLog("%@",myPlace!["phone"] as String)
-        toogleBottomBarButton(pickupButton, enabled: myPlace!["phone"] as String != "")
-    }
-    
-    func configureDeliveryButton(){
-        toogleBottomBarButton(pickupButton, enabled: false)
-    }
-    
-    func configureReservationButton(){
-        BookingService.getReservationURL(fromName: myPlace!["name"] as String, address: myPlace!["address"] as String, zipcode: myPlace!["postalCode"] as String) {(url) -> Void in
-            self.reservationURL = url
-            self.toogleBottomBarButton(self.reservationButton, enabled: self.reservationURL != "")
-        }
-    }
-    
-    func toogleBottomBarButton(button: UIButton,enabled:Bool){
-        if enabled == true {
-            button.alpha = 1
-        }else{
-            //button.alpha = 0.3
-        }
     }
     
     //MARK: - Action methods
@@ -101,24 +98,19 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     
     //MARK: Bottom bar methods
     @IBAction func reservePressed(sender: UIButton) {
-        if reservationURL != "" {
-            self.viewLink(reservationURL!, title: "Reservation")
-        }
+        self.viewLink(myPlace!["reservationURL"] as! String, title: "Reservation")
     }
     
     @IBAction func pickupPressed(sender: UIButton) {
         callPlace()
     }
     
-    @IBAction func deliveryPressed(sender: UIButton) {
-    }
-    
     
     //MARK: - PlaceDetail Delegate
     func placeDetailCategoryPressed() {
-        (myPlace?["category"] as PFObject).fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
+        (myPlace?["category"] as! PFObject).fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
             if error == nil {
-                let destination = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as ToastsViewController
+                let destination = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
                 destination.myCategory = result
                 
                 self.navigationController?.showViewController(destination, sender: nil)
@@ -131,12 +123,12 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     }
     
     func placeDetailMenuPressed() {
-        let webString = myPlace!["menuLink"] as String
+        let webString = myPlace!["menuURL"] as! String
         viewLink(webString, title: "Menu")
     }
     
     func placeDetailWebsitePressed() {
-        let webString = myPlace!["url"] as String
+        let webString = myPlace!["url"] as! String
         viewLink(webString, title: "Website")
     }
     
@@ -172,21 +164,21 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     }
     
     func openInAppleMaps(){
-        let placeGeo = self.myPlace!["location"] as PFGeoPoint
+        let placeGeo = self.myPlace!["location"] as! PFGeoPoint
         let coords = CLLocationCoordinate2DMake(placeGeo.latitude,placeGeo.longitude)
         let place = MKPlacemark(coordinate: coords, addressDictionary: nil)
         let mapItem = MKMapItem(placemark: place)
-        mapItem.name = self.myPlace!["name"] as String
+        mapItem.name = self.myPlace!["name"] as! String
         
         let options = [MKLaunchOptionsDirectionsModeKey:
             MKLaunchOptionsDirectionsModeWalking,
             MKLaunchOptionsShowsTrafficKey: false]
-        mapItem.openInMapsWithLaunchOptions(options)
+        mapItem.openInMapsWithLaunchOptions(options as [NSObject : AnyObject])
     }
     
     func googleMapsAction()->UIAlertAction{
         return UIAlertAction(title: "Google Maps", style: .Default) { (action) -> Void in
-            let placeGeo = self.myPlace!["location"] as PFGeoPoint
+            let placeGeo = self.myPlace!["location"] as! PFGeoPoint
             let directionsString = "comgooglemaps://?saddr=Current+Location&daddr=\(placeGeo.latitude),\(placeGeo.longitude)&directionsmode=driving"
             UIApplication.sharedApplication().openURL(NSURL(string: directionsString)!)
         }
@@ -199,8 +191,8 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     
     //MARK: Generic methods
     func viewLink(link:String,title:String){
-        let navDestination = storyboard?.instantiateViewControllerWithIdentifier("deliveryWebViewNavScene") as UINavigationController
-        let destination = navDestination.viewControllers[0] as GenericWebViewController
+        let navDestination = storyboard?.instantiateViewControllerWithIdentifier("deliveryWebViewNavScene") as! UINavigationController
+        let destination = navDestination.viewControllers[0] as! GenericWebViewController
         destination.myURL = link
         destination.title = title
         
@@ -208,7 +200,7 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     }
     
     func callPlace(){
-        let url = NSURL(string: "telprompt://" + (myPlace!["phone"] as String))!
+        let url = NSURL(string: "telprompt://" + (myPlace!["phone"] as! String))!
         if UIApplication.sharedApplication().canOpenURL(url){
             UIApplication.sharedApplication().openURL(url)
         }

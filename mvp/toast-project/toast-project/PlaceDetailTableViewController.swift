@@ -12,6 +12,7 @@ import Alamofire
 import MapKit
 import CoreLocation
 import AddressBook
+import Foundation
 
 protocol PlaceDetailDelegate{
     func placeDetailMenuPressed()
@@ -99,12 +100,17 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     }
     
     func configureCategory(){
-        (myPlace?["category"] as PFObject).fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
-            if error == nil {
-                let placeName = (result["name"] as? String)
-                self.cateogoryLabel.text = placeName?.uppercaseString
+        if let category = myPlace?["category"] as? PFObject{
+            category.fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
+                if error == nil {
+                    let placeName = (result["name"] as? String)
+                    self.cateogoryLabel.text = placeName?.uppercaseString
+                }
             }
+        }else{
+            self.cateogoryLabel.text = ""
         }
+        
     }
     
     func configurePrice(){
@@ -128,22 +134,28 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
         let walkingTime = distance!/milesPerMinuteWalkingSpeed
         var walkingString = ""
         if walkingTime/60 > 24{
-            walkingString = NSString(format: "%0.0f", walkingTime/(60*24)) + "-DAY WALK"
+            walkingString = String(format: "%0.0f", walkingTime/(60*24)) + "-DAY WALK"
         }else if walkingTime/60 >= 1 {
-            walkingString = NSString(format: "%0.0f", walkingTime/(60)) + " HRS WALK"
+            walkingString = String(format: "%0.0f", walkingTime/(60)) + " HRS WALK"
         }else{
-            walkingString = NSString(format: "%0.0f", walkingTime) + " MIN WALK"
+            walkingString = String(format: "%0.0f", walkingTime) + " MIN WALK"
         }
         
         distanceLabel.text = walkingString
     }
     
     func configureAddress(){
-        addressLabel.text = myPlace?["address"] as String!
+        addressLabel.text = myPlace?["address"] as! String!
     }
     
     func configureHours(){
-        
+        PFCloud.callFunctionInBackground("openStatusForPlace", withParameters: ["placeId":myPlace!.objectId]) { (result, error) -> Void in
+            if error == nil{
+                self.hoursLabel.text = result as? String
+            }else{
+                NSLog("Configure Hours: %@", error.description)
+            }
+        }
     }
     
     func configureCall(){
@@ -161,8 +173,8 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
         var an = mapView.dequeueReusableAnnotationViewWithIdentifier("pointAn")
         if an == nil {
             an = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pointAn")
-            (an as MKPinAnnotationView).pinColor = MKPinAnnotationColor.Red
-            (an as MKPinAnnotationView).animatesDrop = true
+            (an as! MKPinAnnotationView).pinColor = MKPinAnnotationColor.Red
+            (an as! MKPinAnnotationView).animatesDrop = true
         }
         
         an.annotation = annotation
@@ -209,7 +221,7 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     }
     
     func validateMenu()-> Bool{
-        return myPlace?["menuLink"] != nil
+        return myPlace?["menuURL"] != nil
     }
     
     func validateCall()->Bool{
@@ -231,7 +243,7 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
         case 5: //directions
             myDelegate?.placeDetailDirectionsPressed()
         case 6: //website
-            myDelegate?.placeDetailDirectionsPressed()
+            myDelegate?.placeDetailWebsitePressed()
         default:
             return
         }

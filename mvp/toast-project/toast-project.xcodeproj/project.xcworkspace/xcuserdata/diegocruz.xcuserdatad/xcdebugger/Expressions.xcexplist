@@ -3,6 +3,107 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "toast_project.ToastsViewController.(configureReserveButton in _2A6FD6D8D23BEE593C45CE7497DE3380) (toast_project.ToastsViewController)(place : ObjectiveC.PFObject) -&gt; ():ToastsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "place[&quot;reservationURL&quot;] as String">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.DiscoverTableViewController.(tableView (toast_project.DiscoverTableViewController) -&gt; (ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell).(closure #1):DiscoverTableViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ContributeViewController.insertToastInHashtags (toast_project.ContributeViewController)() -&gt; ():ContributeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.PlaceCell.reviewsDataSource.didset : Swift.Optional&lt;toast_project.ReviewsTableViewDataSource&gt;:PlaceCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "reviewsDataSource!.toasts[0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ToastReviewView.textView (toast_project.ToastReviewView)(ObjectiveC.UITextView, shouldChangeTextInRange : C._NSRange, replacementText : Swift.String) -&gt; Swift.Bool:ToastReviewView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "textView.text">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.LoginViewController.(getProfilePicture (toast_project.LoginViewController) -&gt; (url : Swift.String, isFB : Swift.Bool) -&gt; ()).(closure #1):LoginViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "request.URL.absoluteString">
+            </PersistentString>
+            <PersistentString
+               value = "PFUser.currentUser()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.DeliveryService.((getOpenTableDeliveryURL in _7B5AE2D4DFF42BB29E9A91152595D736) (toast_project.DeliveryService.Type) -&gt; (fromName : Swift.String, address : Swift.String, completion : (Swift.String) -&gt; ()) -&gt; ()).(closure #1):DeliveryService.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "imRequest.URL.absoluteString">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Contribute1TableViewController.tableView (toast_project.Contribute1TableViewController)(ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:Contribute1TableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.autocompleteList![0]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.LoginViewController.(loginInstagramDidClose (toast_project.LoginViewController) -&gt; (token : Swift.String) -&gt; ()).(closure #1):LoginViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ReviewDetailTableViewController.setProfilePicture (toast_project.ReviewDetailTableViewController)(cell : ObjectiveC.UITableViewCell) -&gt; ():ReviewDetailTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "myToast![&quot;user&quot;]">
+            </PersistentString>
+            <PersistentString
+               value = "myToast!">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.LoginViewController.(viewDidLoad (toast_project.LoginViewController) -&gt; () -&gt; ()).(closure #1):LoginViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.SearchPlaceViewController.(updateSearchResultsForSearchController (toast_project.SearchPlaceViewController) -&gt; (ObjectiveC.UISearchController) -&gt; ()).(closure #1):SearchPlaceViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.PostRelatedTableViewController.(configureRestaurant in _49C684B38F0CE82D6F3B58669058EFA5) (toast_project.PostRelatedTableViewController)() -&gt; ():PostRelatedTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "myTempToast[&quot;name&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ReviewPlaceViewController.(isNewHashtag in _99CC7B19E00727890506E8BFBB8BFCF1) (toast_project.ReviewPlaceViewController)(Swift.String) -&gt; Swift.Bool:ReviewPlaceViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "h[&quot;name&quot;] as String">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ToastsViewController.scrollViewDidEndDecelerating (toast_project.ToastsViewController)(ObjectiveC.UIScrollView) -&gt; ():ToastsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "visiblePlaceIndexPath!.row">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "toast_project.BackgroundImageView.drawImage (toast_project.BackgroundImageView)() -&gt; ():BackgroundImageView.swift">
          <PersistentStrings>
             <PersistentString
@@ -14,10 +115,48 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.PlaceCell.reviewsDataSource.didset : Swift.Optional&lt;toast_project.ReviewsTableViewDataSource&gt;:PlaceCell.swift">
+         contextName = "toast_project.SearchPlaceViewController.updateSearchResultsForSearchController (toast_project.SearchPlaceViewController)(ObjectiveC.UISearchController) -&gt; ():SearchPlaceViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "reviewsDataSource!.toasts[0]">
+               value = "foursquareRequestString + inputText">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Discover1ViewController.(getFavoriteFriends (toast_project.Discover1ViewController) -&gt; () -&gt; ()).(closure #1):Discover1ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.favoriteFriends!.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.PlaceDetailViewController.reservePressed (toast_project.PlaceDetailViewController)(ObjectiveC.UIButton) -&gt; ():PlaceDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "myPlace![&quot;address&quot;] as String">
+            </PersistentString>
+            <PersistentString
+               value = "myPlace![&quot;postalCode&quot;] as String">
+            </PersistentString>
+            <PersistentString
+               value = "myPlace![&quot;name&quot;] as String">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ContributeViewController.(createNewPlace (toast_project.ContributeViewController) -&gt; () -&gt; ()).(closure #1):ContributeViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "JSON as NSDictionary">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Contribute2TableViewController.(savePressed (toast_project.Contribute2TableViewController) -&gt; (Swift.AnyObject) -&gt; ()).(closure #1).(closure #1).(closure #1).(closure #1):Contribute2TableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "picture.lowResolutionImageURL.absoluteString">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -30,13 +169,56 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.BookingService.findCorrectRestaurant (toast_project.BookingService.Type)(fromList : ObjectiveC.NSArray, withAddress : Swift.String) -&gt; ObjectiveC.NSDictionary:BookingService.swift">
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Contribute2TableViewController.(createNewPlace (toast_project.Contribute2TableViewController) -&gt; () -&gt; ()).(closure #1):Contribute2TableViewController.swift">
+         contextName = "toast_project.Contribute2TableViewController.(savePressed (toast_project.Contribute2TableViewController) -&gt; (Swift.AnyObject) -&gt; ()).(closure #1).(closure #1):Contribute2TableViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "JSON as NSDictionary">
+               value = "self.myPlaceID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ToastsViewController.((updateBG in _2A6FD6D8D23BEE593C45CE7497DE3380) (toast_project.ToastsViewController) -&gt; (ObjectiveC.PFObject) -&gt; ()).(closure #1):ToastsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "result">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Contribute2TableViewController.createNewPlace (toast_project.Contribute2TableViewController)() -&gt; ():Contribute2TableViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Discover1ViewController.viewWillAppear (toast_project.Discover1ViewController)(Swift.Bool) -&gt; ():Discover1ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "PFUser.currentUser()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.PostRelatedViewController.(configureTableViewInset in _80885E553A70C4136D64BE3A66FAAD8A) (toast_project.PostRelatedViewController)() -&gt; ():PostRelatedViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "relatedPlaces.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Contribute1TableViewController.(editingPlaceName (toast_project.Contribute1TableViewController) -&gt; (ObjectiveC.UITextField) -&gt; ()).(closure #1):Contribute1TableViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Discover1ViewController.getFavoriteFriends (toast_project.Discover1ViewController)() -&gt; ():Discover1ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "PFUser.currentUser()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.PlaceCell.configureCategory (toast_project.PlaceCell)() -&gt; ():PlaceCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -49,21 +231,62 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.Contribute2TableViewController.insertPlace (toast_project.Contribute2TableViewController)(ObjectiveC.PFObject) -&gt; ():Contribute2TableViewController.swift">
+         contextName = "toast_project.Contribute1TableViewController.prepareForSegue (toast_project.Contribute1TableViewController)(ObjectiveC.UIStoryboardSegue, sender : Swift.Optional&lt;Swift.AnyObject&gt;) -&gt; ():Contribute1TableViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ContributeViewController.(toastSubmitSelected (toast_project.ContributeViewController) -&gt; () -&gt; ()).(closure #1):ContributeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.PlaceDetailTableViewController.viewWillAppear (toast_project.PlaceDetailTableViewController)(Swift.Bool) -&gt; ():PlaceDetailTableViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "place[&quot;address&quot;] as String">
-            </PersistentString>
-            <PersistentString
-               value = "place[&quot;name&quot;] as String">
+               value = "myPlacePicture">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.DiscoverTableViewController.(tableView (toast_project.DiscoverTableViewController) -&gt; (ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell).(closure #1):DiscoverTableViewController.swift">
+         contextName = "toast_project.ToastsViewController.reservePressed (toast_project.ToastsViewController)(ObjectiveC.UIButton) -&gt; ():ToastsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "currentIndexPath!.row">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.DiscoverTableViewController.tableView (toast_project.DiscoverTableViewController)(ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:DiscoverTableViewController.swift">
+         contextName = "toast_project.BookingService.findCorrectRestaurant (toast_project.BookingService.Type)(fromList : ObjectiveC.NSArray, withAddress : Swift.String) -&gt; ObjectiveC.NSDictionary:BookingService.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ToastsViewController.pickupPressed (toast_project.ToastsViewController)(ObjectiveC.UIButton) -&gt; ():ToastsViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ContributeViewController.carouselCurrentItemIndexDidChange (toast_project.ContributeViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.iCarousel&gt;) -&gt; ():ContributeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.BackgroundImageView.drawRect (toast_project.BackgroundImageView)(C.CGRect) -&gt; ():BackgroundImageView.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.bounds">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.LoginViewController.facebookDidPressed (toast_project.LoginViewController)(ObjectiveC.UIButton) -&gt; ():LoginViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "PFUser.currentUser()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ToastsViewController.(viewWillAppear (toast_project.ToastsViewController) -&gt; (Swift.Bool) -&gt; ()).(closure #1):ToastsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "results.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.LoginViewController.(getFacebookDetails (toast_project.LoginViewController) -&gt; () -&gt; ()).(closure #1):LoginViewController.swift">
       </ContextState>
       <ContextState
          contextName = "toast_project.Contribute1TableViewController.(prepareForSegue (toast_project.Contribute1TableViewController) -&gt; (ObjectiveC.UIStoryboardSegue, sender : Swift.Optional&lt;Swift.AnyObject&gt;) -&gt; ()).(closure #1).(closure #1):Contribute1TableViewController.swift">
@@ -82,54 +305,18 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.Discover1ViewController.(getFavoriteFriends (toast_project.Discover1ViewController) -&gt; () -&gt; ()).(closure #1):Discover1ViewController.swift">
+         contextName = "toast_project.ContributeViewController.days (toast_project.ContributeViewController)(Swift.String) -&gt; Swift.Array&lt;Swift.Int&gt;:ContributeViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.BookingService.findCorrectRestaurant (toast_project.BookingService.Type)(fromList : ObjectiveC.NSArray, withAddress : Swift.String) -&gt; Swift.Optional&lt;ObjectiveC.NSDictionary&gt;:BookingService.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Contribute2TableViewController.(createNewPlace (toast_project.Contribute2TableViewController) -&gt; () -&gt; ()).(closure #1):Contribute2TableViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.favoriteFriends!.count">
+               value = "JSON as NSDictionary">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Contribute1TableViewController.(editingPlaceName (toast_project.Contribute1TableViewController) -&gt; (ObjectiveC.UITextField) -&gt; ()).(closure #1):Contribute1TableViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.ReviewDetailTableViewController.setProfilePicture (toast_project.ReviewDetailTableViewController)(cell : ObjectiveC.UITableViewCell) -&gt; ():ReviewDetailTableViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "myToast![&quot;user&quot;]">
-            </PersistentString>
-            <PersistentString
-               value = "myToast!">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.BackgroundImageView.drawRect (toast_project.BackgroundImageView)(C.CGRect) -&gt; ():BackgroundImageView.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.bounds">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.LoginViewController.(getFacebookDetails (toast_project.LoginViewController) -&gt; () -&gt; ()).(closure #1):LoginViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.LoginViewController.facebookDidPressed (toast_project.LoginViewController)(ObjectiveC.UIButton) -&gt; ():LoginViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "PFUser.currentUser()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.LoginViewController.(loginInstagramDidClose (toast_project.LoginViewController) -&gt; (token : Swift.String) -&gt; ()).(closure #1):LoginViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.LoginViewController.(viewDidLoad (toast_project.LoginViewController) -&gt; () -&gt; ()).(closure #1):LoginViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Contribute2TableViewController.insertFoursquarePicture (toast_project.Contribute2TableViewController)(ObjectiveC.NSDictionary, inPlace : ObjectiveC.PFObject) -&gt; ():Contribute2TableViewController.swift">
       </ContextState>
       <ContextState
          contextName = "toast_project.Discover1ViewController.locationManager (toast_project.Discover1ViewController)(Swift.ImplicitlyUnwrappedOptional&lt;ObjectiveC.CLLocationManager&gt;, didUpdateLocations : Swift.ImplicitlyUnwrappedOptional&lt;Swift.Array&lt;Swift.AnyObject&gt;&gt;) -&gt; ():Discover1ViewController.swift">
@@ -140,12 +327,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.ToastsViewController.(viewWillAppear (toast_project.ToastsViewController) -&gt; (Swift.Bool) -&gt; ()).(closure #1):ToastsViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "results.count">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "toast_project.Discover1ViewController.viewDidLoad (toast_project.Discover1ViewController)() -&gt; ():Discover1ViewController.swift">
       </ContextState>
       <ContextState
          contextName = "toast_project.PlaceDetailTableViewController.(viewWillAppear (toast_project.PlaceDetailTableViewController) -&gt; (Swift.Bool) -&gt; ()).(closure #1):PlaceDetailTableViewController.swift">
@@ -156,94 +338,21 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.Contribute1TableViewController.tableView (toast_project.Contribute1TableViewController)(ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:Contribute1TableViewController.swift">
+         contextName = "toast_project.DiscoverTableViewController.tableView (toast_project.DiscoverTableViewController)(ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:DiscoverTableViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.Contribute2TableViewController.insertPlace (toast_project.Contribute2TableViewController)(ObjectiveC.PFObject) -&gt; ():Contribute2TableViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.autocompleteList![0]">
+               value = "place[&quot;address&quot;] as String">
+            </PersistentString>
+            <PersistentString
+               value = "place[&quot;name&quot;] as String">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.LoginViewController.(getProfilePicture (toast_project.LoginViewController) -&gt; (url : Swift.String, isFB : Swift.Bool) -&gt; ()).(closure #1):LoginViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "request.URL.absoluteString">
-            </PersistentString>
-            <PersistentString
-               value = "PFUser.currentUser()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Contribute1TableViewController.prepareForSegue (toast_project.Contribute1TableViewController)(ObjectiveC.UIStoryboardSegue, sender : Swift.Optional&lt;Swift.AnyObject&gt;) -&gt; ():Contribute1TableViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Discover1ViewController.viewWillAppear (toast_project.Discover1ViewController)(Swift.Bool) -&gt; ():Discover1ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "PFUser.currentUser()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Contribute2TableViewController.(savePressed (toast_project.Contribute2TableViewController) -&gt; (Swift.AnyObject) -&gt; ()).(closure #1).(closure #1):Contribute2TableViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.myPlaceID">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.PlaceDetailViewController.reservePressed (toast_project.PlaceDetailViewController)(ObjectiveC.UIButton) -&gt; ():PlaceDetailViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "myPlace![&quot;name&quot;] as String">
-            </PersistentString>
-            <PersistentString
-               value = "myPlace![&quot;address&quot;] as String">
-            </PersistentString>
-            <PersistentString
-               value = "myPlace![&quot;postalCode&quot;] as String">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Contribute2TableViewController.(savePressed (toast_project.Contribute2TableViewController) -&gt; (Swift.AnyObject) -&gt; ()).(closure #1).(closure #1).(closure #1).(closure #1):Contribute2TableViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "picture.lowResolutionImageURL.absoluteString">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.PlaceDetailTableViewController.viewWillAppear (toast_project.PlaceDetailTableViewController)(Swift.Bool) -&gt; ():PlaceDetailTableViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "myPlacePicture">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Discover1ViewController.getFavoriteFriends (toast_project.Discover1ViewController)() -&gt; ():Discover1ViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "PFUser.currentUser()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Discover1ViewController.viewDidLoad (toast_project.Discover1ViewController)() -&gt; ():Discover1ViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.Contribute2TableViewController.createNewPlace (toast_project.Contribute2TableViewController)() -&gt; ():Contribute2TableViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "toast_project.DeliveryService.((getOpenTableDeliveryURL in _7B5AE2D4DFF42BB29E9A91152595D736) (toast_project.DeliveryService.Type) -&gt; (fromName : Swift.String, address : Swift.String, completion : (Swift.String) -&gt; ()) -&gt; ()).(closure #1):DeliveryService.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "imRequest.URL.absoluteString">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "toast_project.Contribute2TableViewController.insertFoursquarePicture (toast_project.Contribute2TableViewController)(ObjectiveC.NSDictionary, inPlace : ObjectiveC.PFObject) -&gt; ():Contribute2TableViewController.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

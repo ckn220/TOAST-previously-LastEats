@@ -31,7 +31,7 @@ class DiscoverTransitioning: NSObject, UIViewControllerAnimatedTransitioning{
     }
     
     func animatePush(#transitionContext: UIViewControllerContextTransitioning){
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as Discover1ViewController!
+        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! Discover1ViewController!
         let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
         let toV = transitionContext.viewForKey(UITransitionContextToViewKey)!
         let containerView = transitionContext.containerView()
@@ -43,13 +43,13 @@ class DiscoverTransitioning: NSObject, UIViewControllerAnimatedTransitioning{
         var initialPosition:CGPoint
         if toVC is SelectMoodViewController {
             buttonView = fromVC.moodButtonView
-            toTable = (toVC as SelectMoodViewController).moodsTableView
+            toTable = (toVC as! SelectMoodViewController).moodsTableView
         }else{
             buttonView = fromVC.locationButtonView
             toTable = UIView()
         }
         buttonLayer = buttonView.layer
-        buttonLabel = buttonView.viewWithTag(101) as UILabel
+        buttonLabel = buttonView.viewWithTag(101) as! UILabel
         initialPosition = buttonLayer.position
         
         toV.frame = transitionContext.finalFrameForViewController(toVC)
@@ -96,7 +96,7 @@ class DiscoverTransitioning: NSObject, UIViewControllerAnimatedTransitioning{
     func animatePop(#transitionContext: UIViewControllerContextTransitioning){
         let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let fromV = transitionContext.viewForKey(UITransitionContextFromViewKey)!
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as Discover1ViewController
+        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)! as! Discover1ViewController
         let toV = transitionContext.viewForKey(UITransitionContextToViewKey)!
         let containerView = transitionContext.containerView()
         
@@ -108,7 +108,7 @@ class DiscoverTransitioning: NSObject, UIViewControllerAnimatedTransitioning{
         var myTable:UIView
         var myNav:UIView
         if fromVC is SelectMoodViewController{
-            let moodVC = fromVC as SelectMoodViewController
+            let moodVC = fromVC as! SelectMoodViewController
             myTable = moodVC.moodsTableView
             myNav = moodVC.myNavBar
         }else{
@@ -125,7 +125,7 @@ class DiscoverTransitioning: NSObject, UIViewControllerAnimatedTransitioning{
             buttonView = toVC.locationButtonView
         }
         buttonLayer = buttonView.layer
-        buttonLabel = buttonView.viewWithTag(101) as UILabel
+        buttonLabel = buttonView.viewWithTag(101) as! UILabel
         /////
         
         let newXScale = CGRectGetWidth(buttonView.frame)/CGRectGetWidth(myNav.frame)
@@ -144,14 +144,14 @@ class DiscoverTransitioning: NSObject, UIViewControllerAnimatedTransitioning{
             UIView.animateWithDuration(0.4, delay: 0, options: .CurveEaseOut, animations: { () -> Void in
                 
                 for element in fromVC.view.subviews{
-                    let imView:UIView = element as UIView
+                    let imView:UIView = element as! UIView
                     if !imView.isEqual(myNav){
                         imView.alpha = 0
                     }
                 }
                 
                 for element in myNav.subviews{
-                    let imView:UIView = element as UIView
+                    let imView:UIView = element as! UIView
                     imView.alpha = 0
                 }
                 

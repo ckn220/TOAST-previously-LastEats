@@ -43,7 +43,7 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
         let targetRect = CGRectMake(proposedContentOffset.x, 0, CGRectGetWidth(collectionView!.bounds), CGRectGetHeight(collectionView!.bounds))
         let array = super.layoutAttributesForElementsInRect(targetRect)
         
-        for layoutAt in array as [UICollectionViewLayoutAttributes]{
+        for layoutAt in array as! [UICollectionViewLayoutAttributes]{
             
             let myCenterX = layoutAt.center.x
             let diff = Float(abs(myCenterX - horizontalCenter))
@@ -58,7 +58,7 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
     }
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
-        let attributes = super.layoutAttributesForElementsInRect(rect) as [UICollectionViewLayoutAttributes]
+        let attributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]
         let visibleCenter = collectionView!.bounds.size.width/2 + collectionView!.contentOffset.x
         
         for at in attributes{

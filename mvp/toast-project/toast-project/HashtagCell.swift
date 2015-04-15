@@ -31,8 +31,8 @@ class HashtagCell: UICollectionViewCell {
         let layer = view.layer
         layer.shadowOffset = CGSizeMake(0, 0)
         layer.shadowColor = UIColor.blackColor().CGColor
-        layer.shadowRadius = 6.0
-        layer.shadowOpacity = 0.6
+        layer.shadowRadius = 3.0
+        layer.shadowOpacity = 1.0
         layer.shouldRasterize = true
     }
 }

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Diego Cruz. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import Parse
 import Alamofire
@@ -14,10 +15,13 @@ protocol PlaceCellDelegate{
     func placeCellDidScroll(#tableView:UITableView,place:PFObject)
     func placeCellDidPressed(#place:PFObject)
     func placeCellReviewDidPressed(#toast:PFObject,place: PFObject)
+    func placeCellReviewerDidPress(#user:PFUser)
 }
 
 class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     
+    @IBOutlet weak var toastCountLabel: UILabel!
+    @IBOutlet weak var toastCountView: UIView!
     @IBOutlet weak var placeNameLabel: UILabel!
     @IBOutlet weak var hashtagsCollectionView: UICollectionView!
     @IBOutlet weak var hashtagsCollectionViewHeight: NSLayoutConstraint!
@@ -38,6 +42,8 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     var reviewsDataSource: ReviewsTableViewDataSource?{
         didSet{
+            reviewsTableView.estimatedRowHeight = 144
+            reviewsTableView.rowHeight = UITableViewAutomaticDimension
             reviewsTableView.dataSource = reviewsDataSource
             reviewsTableView.delegate = reviewsDataSource
             reviewsTableView.reloadData()
@@ -61,11 +67,10 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     func configurePicture(){
-        let placePictureString = myPlace!["foursquarePicture"] as String
-        Alamofire.request(.GET, placePictureString).response({ (request, response, data, error) -> Void in
+        let firstPhotoString = (myPlace!["photos"] as! [String])[0]
+        Alamofire.request(.GET, firstPhotoString).response({ (request, response, data, error) -> Void in
             if error == nil{
-                self.myBackgroundView.insertImage(UIImage(data: data as NSData)!,withOpacity: 0)
-                //self.insertShadow(self.myBackgroundView)
+                self.myBackgroundView.insertImage(UIImage(data: data as! NSData)!,withOpacity: 0)
             }else{
                 NSLog("%@", error!.description)
             }
@@ -73,13 +78,10 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     func configureHashtags(){
-        let toastQuery = myPlace!.relationForKey("toasts").query()
-        let hashtagQuery = PFQuery(className: "Hashtag")
-        hashtagQuery.whereKey("toasts", matchesQuery:toastQuery)
-        hashtagQuery.limit = 4
-        hashtagQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
+        
+        PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":myPlace!.objectId,"limit":10]) { (result, error) -> Void in
             if error == nil{
-                self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: result as [PFObject], myDelegate: nil)
+                self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: result as! [PFObject], myDelegate: nil)
             }else{
                 NSLog("%@", error.description)
             }
@@ -98,7 +100,8 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         othertoastQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
                 self.reviewsTableView.rowHeight = UITableViewAutomaticDimension
-                self.reviewsDataSource = ReviewsTableViewDataSource(toasts: result as [PFObject],delegate: self)
+                self.reviewsDataSource = ReviewsTableViewDataSource(toasts: result as! [PFObject],delegate: self)
+                self.configureToastCount(result as! [PFObject])
                 
             }else{
                 NSLog("%@", error.description)
@@ -106,14 +109,28 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         }
     }
     
+    private func configureToastCount(toasts:[PFObject]){
+        if toasts.count > 1{
+            toastCountView.alpha = 1
+            toastCountLabel.text = "\(toasts.count) Friends Toasts"
+        }else{
+            toastCountView.alpha = 0
+        }
+    }
+    
     //MARK - Information bar methods
     func configureCategory(){
-        (myPlace!["category"] as PFObject).fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
-            if error == nil {
-                let placeName = (result["name"] as? String)
-                self.categoryNameLabel.text = placeName?.uppercaseString
+        if let category = myPlace!["category"] as? PFObject{
+            category.fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
+                if error == nil {
+                    let placeName = (result["name"] as? String)
+                    self.categoryNameLabel.text = placeName?.uppercaseString
+                }
             }
+        }else{
+            self.categoryNameLabel.text = ""
         }
+        
     }
     
     func configurePrice(){
@@ -137,11 +154,11 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         let walkingTime = distance!/milesPerMinuteWalkingSpeed
         var walkingString = ""
         if walkingTime/60 > 24{
-            walkingString = NSString(format: "%0.0f", walkingTime/(60*24)) + "-DAY WALK"
+            walkingString = String(format: "%0.0f", walkingTime/(60*24)) + "-DAY WALK"
         }else if walkingTime/60 >= 1 {
-            walkingString = NSString(format: "%0.0f", walkingTime/(60)) + " HRS WALK"
+            walkingString = String(format: "%0.0f", walkingTime/(60)) + " HRS WALK"
         }else{
-            walkingString = NSString(format: "%0.0f", walkingTime) + " MIN WALK"
+            walkingString = String(format: "%0.0f", walkingTime) + " MIN WALK"
         }
         
         walkLabel.text = walkingString
@@ -149,16 +166,16 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     
     //MARK: - Misc methods
     func getCapitalString(original:String) -> String{
-        return prefix(original, 1).capitalizedString + suffix(original, countElements(original) - 1)
+        return prefix(original, 1).capitalizedString + suffix(original, count(original) - 1)
     }
     
     func insertShadow(view:UIView){
         
         let layer = view.layer
-        layer.shadowOffset = CGSizeMake(0, -1)
+        layer.shadowOffset = CGSizeMake(0, 0)
         layer.shadowColor = UIColor.blackColor().CGColor
-        layer.shadowRadius = 16.0
-        layer.shadowOpacity = 0.8
+        layer.shadowRadius = 8.0
+        layer.shadowOpacity = 0.9
         layer.shadowPath = UIBezierPath(rect: layer.bounds).CGPath
         layer.shouldRasterize = true
     }
@@ -167,8 +184,8 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         let layer = view.layer
         layer.shadowOffset = CGSizeMake(0, 0)
         layer.shadowColor = UIColor.blackColor().CGColor
-        layer.shadowRadius = 6.0
-        layer.shadowOpacity = 0.6
+        layer.shadowRadius = 4.0
+        layer.shadowOpacity = 0.9
         layer.shouldRasterize = true
     }
     
@@ -203,5 +220,9 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     
     func reviewDataSourceReviewDidPressed(#toast: PFObject) {
         myDelegate?.placeCellReviewDidPressed(toast: toast,place: myPlace!)
+    }
+    
+    func reviewDataSourceReviewerDidPress(#user: PFUser) {
+        myDelegate?.placeCellReviewerDidPress(user: user)
     }
 }

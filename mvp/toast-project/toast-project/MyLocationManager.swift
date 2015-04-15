@@ -59,7 +59,7 @@ class MyLocationManager: NSObject,CLLocationManagerDelegate {
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        let lastLocation = locations.last as CLLocation
+        let lastLocation = locations.last as! CLLocation
         if lastLocation.timestamp.timeIntervalSinceNow > -30 {
             manager.stopUpdatingLocation()
             myDelegate?.myLocationManagerDidGetUserLocation(lastLocation)

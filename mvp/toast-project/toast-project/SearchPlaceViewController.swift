@@ -12,18 +12,20 @@ import Alamofire
 
 protocol SearchPlaceDelegate {
     func searchPlaceIdSelected(placeTemp:(placeId:String,name:String))
+    func searchPlaceCancelled()
 }
 
-class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISearchBarDelegate, UISearchControllerDelegate,UITableViewDataSource,UITableViewDelegate {
+class SearchPlaceViewController: UIViewController,UISearchBarDelegate,UITableViewDataSource,UITableViewDelegate {
 
+    @IBOutlet weak var nameSearchBar: UISearchBar!
     @IBOutlet weak var resultsTableView:UITableView!
-    var mySearchController:UISearchController?
     var results:[AnyObject] = []
     var tempText = ""
     var placeID = ""
     let foursquareClientId = "2EDPPGSKXYRS3TIW4TIDKRXEGBNMIVMCC5HF4FAEZEHISGI4"
     let foursquareClientSecret = "H2GC5EERWD3RHBLMSGVEY55TI5JPA5HXZD4MRLO4XILVJ4HB"
     
+    var selectedPlace:NSDictionary?
     var myDelegate:SearchPlaceDelegate?
     
     override func viewDidLoad() {
@@ -31,7 +33,6 @@ class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISear
 
         // Do any additional setup after loading the view.
         configureTableView()
-        configureSearchController()
     }
     
     override func didReceiveMemoryWarning() {
@@ -39,8 +40,17 @@ class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISear
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated:Bool){
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        configureNameSearchBar()
+    }
+    
+    private func configureNameSearchBar(){
+        self.nameSearchBar.layer.transform = CATransform3DMakeTranslation(0, -44, 0)
+    }
+    
+    override func viewDidAppear(animated:Bool){
+        super.viewDidAppear(animated)
         showSearchBar()
     }
     
@@ -49,48 +59,55 @@ class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISear
         resultsTableView.contentInset = UIEdgeInsetsMake(0,0,0,0)
     }
     
-    func configureSearchController(){
-        mySearchController = UISearchController(searchResultsController: nil)
-        mySearchController?.dimsBackgroundDuringPresentation = false
-        mySearchController?.delegate = self
-        mySearchController?.searchResultsUpdater = self
-        mySearchController?.searchBar.delegate = self
-    }
-    
     func showSearchBar(){
-        let mySearchBar = mySearchController!.searchBar
-        mySearchBar.frame = CGRectMake(0,-44,CGRectGetWidth(self.view.frame),44)
-        self.view.addSubview(mySearchBar)
-        
+        nameSearchBar.alpha = 1
         UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .CurveEaseOut, animations: { () -> Void in
-            mySearchBar.layer.transform = CATransform3DMakeTranslation(0, 44, 0)
+            self.nameSearchBar.layer.transform = CATransform3DMakeTranslation(0, 0, 0)
             
         }) { (completion) -> Void in
+            self.nameSearchBar.becomeFirstResponder()
+            return
+        }
+    }
+    
+    func hideSearchBar(){
+        nameSearchBar.resignFirstResponder()
+        UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .CurveEaseOut, animations: { () -> Void in
+            self.nameSearchBar.layer.transform = CATransform3DMakeTranslation(0, -44, 0)
             
+            }) { (completion) -> Void in
+                self.nameSearchBar.alpha = 0
+                self.nameSearchBar.text = ""
         }
     }
     
     //MARK: - SearchBar delegate methods
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-    
     func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        //dismissSearch()
+        searchBar.resignFirstResponder()
+        if selectedPlace == nil{
+            myDelegate?.searchPlaceCancelled()
+        }else{
+
+            let name = self.selectedPlace!["name"] as! String
+            self.myDelegate?.searchPlaceIdSelected((self.placeID, name))
+            hideSearchBar()
+            removeSuggestions()
+            
+            delay(0.2, closure: { () -> () in
+                let name = self.selectedPlace!["name"] as! String
+                self.myDelegate?.searchPlaceIdSelected((self.placeID, name))
+            })
+        }
+        
+        
     }
     
-    //MARK:  SearchController delegate methods
-    func didDismissSearchController(searchController: UISearchController) {
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    //MARK: SearchResultsUpdating
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-        tempText = searchController.searchBar.text
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        tempText = searchText
         placeID = ""
         
         if (tempText.isEmpty == false) {
-            if tempText.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: " ")).utf16Count >= 3 {
+            if count(tempText.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: " ")).utf16) >= 3 {
                 
                 var llKey = "ll="
                 var llValue = ""
@@ -99,10 +116,8 @@ class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISear
                     llValue = "\(userLocation.latitude),\(userLocation.longitude)"
                 }else{
                     llKey = "near="
-                    llValue = "New,York"
+                    llValue = "New,York,City,NY"
                 }
-                
-                //let googleRequestString = "https://maps.googleapis.com/maps/api/place/autocomplete/json?key="+googleKey+"&types=establishment&sensor=true&input="
                 
                 let foursquareRequestString = "https://api.foursquare.com/v2/venues/suggestCompletion?"+llKey+llValue+"&client_id="+foursquareClientId+"&client_secret="+foursquareClientSecret+"&v=20150207&locale=en&m=foursquare&categoryId=4d4b7105d754a06374d81259&limit=5&query="
                 
@@ -113,14 +128,14 @@ class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISear
                             
                             if error == nil {
                                 if let result = JSON as? NSDictionary {
-                                    if ((result["meta"] as NSDictionary)["code"] as Int) == 200 {
-                                        let myResults = (result["response"] as NSDictionary)["minivenues"] as? [AnyObject]
+                                    if ((result["meta"] as! NSDictionary)["code"] as! Int) == 200 {
+                                        let myResults = (result["response"] as! NSDictionary)["minivenues"] as? [AnyObject]
                                         
                                         if myResults?.count > 0{
-                                                self.resultsTableView.beginUpdates()
-                                                self.results = myResults!
-                                                self.resultsTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
-                                                self.resultsTableView.endUpdates()
+                                            self.resultsTableView.beginUpdates()
+                                            self.results = myResults!
+                                            self.resultsTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+                                            self.resultsTableView.endUpdates()
                                         }else{
                                             self.removeSuggestions()
                                         }
@@ -133,6 +148,7 @@ class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISear
                                     self.removeSuggestions()
                                 }
                             }else{
+                                NSLog("%@",error!.description)
                                 self.removeSuggestions()
                             }
                     }
@@ -154,8 +170,8 @@ class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISear
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("resultCell") as UITableViewCell
-        let myItem = results[indexPath.row] as NSDictionary
+        let cell = tableView.dequeueReusableCellWithIdentifier("resultCell") as! UITableViewCell
+        let myItem = results[indexPath.row] as! NSDictionary
         cell.textLabel?.text = myItem["name"] as? String
         if let location = myItem["location"] as? NSDictionary{
             cell.detailTextLabel?.text = location["address"] as? String
@@ -171,11 +187,17 @@ class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISear
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        let selectedResult = results[indexPath.row] as NSDictionary
-        placeID = selectedResult["id"] as String
-        let name = selectedResult["name"] as String
-        myDelegate?.searchPlaceIdSelected((placeID, name))
-        dismissSearch()
+        selectedPlace = results[indexPath.row] as? NSDictionary
+        placeID = selectedPlace!["id"] as! String
+        
+        CATransaction.begin()
+        CATransaction.setCompletionBlock { () -> Void in
+            let name = self.selectedPlace!["name"] as! String
+            self.myDelegate?.searchPlaceIdSelected((self.placeID, name))
+        }
+        hideSearchBar()
+        removeSuggestions()
+        CATransaction.commit()
     }
     
     func removeSuggestions(){
@@ -188,12 +210,12 @@ class SearchPlaceViewController: UIViewController,UISearchResultsUpdating,UISear
         
     }
     
-    //MARK: - Misc methods
-    func dismissSearch(){
-        mySearchController?.active = false
-    }
-    
-    override func prefersStatusBarHidden() -> Bool {
-        return true
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
 }

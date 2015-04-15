@@ -26,7 +26,7 @@ class MainMenuTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let myAppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let myAppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         myAppDelegate.goToLogin()
     }
 

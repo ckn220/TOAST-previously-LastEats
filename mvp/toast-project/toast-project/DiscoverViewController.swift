@@ -15,6 +15,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     @IBOutlet weak var profilePictureView: BackgroundImageView!
     @IBOutlet weak var sentenceLabel: UILabel!
     @IBOutlet weak var discoverCarousel: iCarousel!
+    var myDelegate:DiscoverDelegate?
     
     var locationManager:MyLocationManager?
     var moodDataSource:DiscoverDataSource?{
@@ -48,7 +49,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
         let moodsQuery = PFQuery(className: "Mood")
         moodsQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
-                self.moodDataSource = DiscoverDataSource(items: result as [PFObject], myDelegate: self, isMood: true)
+                self.moodDataSource = DiscoverDataSource(items: result as! [PFObject], myDelegate: self, isMood: true)
             }else{
                 NSLog("%@",error.description)
             }
@@ -60,7 +61,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
         neighborhoodsQuery.orderByAscending("order")
         neighborhoodsQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
-                self.neighborhoodDataSource = DiscoverDataSource(items: result as [PFObject], myDelegate: self, isMood: false)
+                self.neighborhoodDataSource = DiscoverDataSource(items: result as! [PFObject], myDelegate: self, isMood: false)
             }else{
                 NSLog("%@", error.description)
             }
@@ -79,12 +80,12 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     }
     
     func configureBG(){
-        let bgView = self.view as BackgroundImageView
+        let bgView = self.view as! BackgroundImageView
         bgView.insertImage(UIImage(named: "mainBG")!, withOpacity: 0.65)
     }
     
     func configureProfilePicture(){
-        let pictureFile = PFUser.currentUser()["profilePicture"] as PFFile
+        let pictureFile = PFUser.currentUser()["profilePicture"] as! PFFile
         pictureFile.getDataInBackgroundWithBlock { (data, error) -> Void in
             if error == nil {
                 self.profilePictureView.myImage = UIImage(data: data)
@@ -136,7 +137,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
             self.sentenceLabel.alpha = 1
             
             if self.selectedMood != nil{
-                self.sentenceLabel.text = "I want something\r\n"+(self.selectedMood!["name"] as String)+" in"
+                self.sentenceLabel.text = "I want something\r\n"+(self.selectedMood!["name"] as! String)+" in"
             }else{
                 self.sentenceLabel.text = "I want something:"
             }
@@ -162,7 +163,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     }
     
     func neighborhoodsDataSourceItemSelected(#index: Int) {
-        let destination = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as ToastsViewController
+        let destination = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
         destination.myMood = selectedMood
         self.showViewController(destination, sender: self)
     }
@@ -173,5 +174,10 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
             selectedMood = nil
             changeToDataSource(moodDataSource!)
         }
+    }
+    
+    //MARK: - Action methods
+    @IBAction func menuPressed(sender: AnyObject) {
+        myDelegate?.discoverMenuPressed()
     }
 }

@@ -25,14 +25,18 @@ class ReviewDetailTableViewController: UITableViewController {
     }
     
     func configureHashtags(){
-        myToast?.relationForKey("hashtags").query().findObjectsInBackgroundWithBlock({ (result, error) -> Void in
-            if error == nil{
-                self.myHashtags = result as [PFObject]
-                self.tableView.reloadData()
-            }else{
-                NSLog("%@", error.description)
-            }
-        })
+        
+            let query = PFQuery(className: "Hashtag")
+            query.whereKey("toasts", equalTo: myToast)
+            query.orderByAscending("name")
+            query.findObjectsInBackgroundWithBlock { (result, error) -> Void in
+                if error == nil{
+                    self.myHashtags = result as! [PFObject]
+                    self.tableView.reloadData()
+                }else{
+                    NSLog("%@", error.description)
+                }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -56,13 +60,13 @@ class ReviewDetailTableViewController: UITableViewController {
         
         switch indexPath.row{
         case 0:
-            cell = tableView.dequeueReusableCellWithIdentifier("reviewerCell") as UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier("reviewerCell") as! UITableViewCell
             configureReviewer(cell: cell)
         case 1:
-            cell = tableView.dequeueReusableCellWithIdentifier("reviewCell") as UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier("reviewCell") as! UITableViewCell
             configureReview(cell: cell)
         default:
-            cell = tableView.dequeueReusableCellWithIdentifier("hashtagCell") as UITableViewCell
+            cell = tableView.dequeueReusableCellWithIdentifier("hashtagCell") as! UITableViewCell
             configureHashtag(cell: cell, index: indexPath.row - 2)
         }
         return cell
@@ -74,9 +78,9 @@ class ReviewDetailTableViewController: UITableViewController {
     }
     
     func setProfilePicture(#cell:UITableViewCell){
-        let pictureView = cell.viewWithTag(501) as BackgroundImageView
+        let pictureView = cell.viewWithTag(501) as! BackgroundImageView
         configurePictureView(pictureView)
-        let pictureFile = (myToast?["user"] as PFUser)["profilePicture"] as PFFile
+        let pictureFile = (myToast?["user"] as! PFUser)["profilePicture"] as! PFFile
         pictureFile.getDataInBackgroundWithBlock { (data, error) -> Void in
             if error == nil{
                 pictureView.myImage = UIImage(data: data)
@@ -94,19 +98,19 @@ class ReviewDetailTableViewController: UITableViewController {
     }
     
     func setName(#cell:UITableViewCell){
-        let nameLabel = cell.viewWithTag(101) as UILabel
-        nameLabel.text = (myToast?["user"] as PFUser)["name"] as? String
+        let nameLabel = cell.viewWithTag(101) as! UILabel
+        nameLabel.text = (myToast?["user"] as! PFUser)["name"] as? String
     }
     
     func configureReview(#cell:UITableViewCell){
-        let reviewLabel = cell.viewWithTag(101) as UILabel
-        reviewLabel.text = "\""+(myToast?["review"] as String)+"\""
+        let reviewLabel = cell.viewWithTag(101) as! UILabel
+        reviewLabel.text = "\""+(myToast?["review"] as! String)+"\""
     }
     
     func configureHashtag(#cell:UITableViewCell,index:Int){
         let currentHashtag = myHashtags[index]
-        let hashtagLabel = cell.viewWithTag(101) as UILabel
-        hashtagLabel.text = "#" + (currentHashtag["name"] as String)
+        let hashtagLabel = cell.viewWithTag(101) as! UILabel
+        hashtagLabel.text = "#" + (currentHashtag["name"] as! String)
     }
 
 }

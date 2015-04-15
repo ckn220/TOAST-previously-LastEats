@@ -79,7 +79,7 @@ class Discover1ViewController: UIViewController, UICollectionViewDataSource,UICo
     }
     
     func configureUserPicture(){
-        let pictureFile = currentUser!["profilePicture"] as PFFile
+        let pictureFile = currentUser!["profilePicture"] as! PFFile
         pictureFile.getDataInBackgroundWithBlock { (data, error) -> Void in
             if error == nil {
                 self.userPictureView.image = UIImage(data: data)
@@ -193,7 +193,7 @@ class Discover1ViewController: UIViewController, UICollectionViewDataSource,UICo
     }
     
     func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        let lastLocation = locations.last as CLLocation
+        let lastLocation = locations.last as! CLLocation
         if lastLocation.timestamp.timeIntervalSinceNow > -30 {
             let geoPoint = PFGeoPoint(location: lastLocation)
             currentUser?["lastLocation"]=geoPoint
@@ -219,7 +219,7 @@ class Discover1ViewController: UIViewController, UICollectionViewDataSource,UICo
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if favoriteFriends!.count + friends!.count > 0 {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("friendsCell", forIndexPath: indexPath) as FriendsLikeCollectionViewCell
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("friendsCell", forIndexPath: indexPath) as! FriendsLikeCollectionViewCell
             cell.friendPictureView.layer.cornerRadius = CGRectGetWidth(cell.friendPictureView.frame)/2
             cell.friendCountLabel.layer.cornerRadius = CGRectGetWidth(cell.friendCountLabel.frame)/2
             
@@ -229,14 +229,14 @@ class Discover1ViewController: UIViewController, UICollectionViewDataSource,UICo
             }else{
                 currentFriend = friends![indexPath.row]
             }
-            let firstName = (currentFriend["name"] as String).componentsSeparatedByString(" ")[0]
+            let firstName = (currentFriend["name"] as! String).componentsSeparatedByString(" ")[0]
             cell.friendNameLabel.text = firstName+"'s " + "Toasts"
             insertToastCount(ofFriend: currentFriend, toCell: cell)
             insertPicture(ofFriend: currentFriend, toCell: cell)
             
             return cell
         }else{
-            let inviteCell = collectionView.dequeueReusableCellWithReuseIdentifier("inviteFriendsCell", forIndexPath: indexPath) as UICollectionViewCell
+            let inviteCell = collectionView.dequeueReusableCellWithReuseIdentifier("inviteFriendsCell", forIndexPath: indexPath) as! UICollectionViewCell
             inviteCell.viewWithTag(101)?.layer.cornerRadius = 32
             
             return inviteCell
@@ -256,7 +256,7 @@ class Discover1ViewController: UIViewController, UICollectionViewDataSource,UICo
     }
     
     func insertPicture(ofFriend friend:PFObject,toCell cell:FriendsLikeCollectionViewCell){
-        let pictureFile = friend["profilePicture"] as PFFile
+        let pictureFile = friend["profilePicture"] as! PFFile
         pictureFile.getDataInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
                 cell.friendPictureView.myImage = UIImage(data: result)!
@@ -279,7 +279,7 @@ class Discover1ViewController: UIViewController, UICollectionViewDataSource,UICo
     @IBAction func moodButtonPressed(sender: UITapGestureRecognizer) {
         animatePressed(buttonView: sender.view!.viewWithTag(301)!)
         
-        let destination = storyboard?.instantiateViewControllerWithIdentifier("selectMoodScene") as SelectMoodViewController
+        let destination = storyboard?.instantiateViewControllerWithIdentifier("selectMoodScene") as! SelectMoodViewController
         destination.moods = moods
         self.showViewController(destination, sender: self)
     }
@@ -297,11 +297,11 @@ class Discover1ViewController: UIViewController, UICollectionViewDataSource,UICo
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier != "newToastSegue" {
-            let destination = segue.destinationViewController as ToastsViewController
+            let destination = segue.destinationViewController as! ToastsViewController
             
             if segue.identifier == "friendToastsDetailSegue"{
                 
-                let selectedIndexPath = friendsCollectionView.indexPathsForSelectedItems()[0] as NSIndexPath
+                let selectedIndexPath = friendsCollectionView.indexPathsForSelectedItems()[0] as! NSIndexPath
                 destination.myFriend = getFriend(fromIndexPath: selectedIndexPath)
             }
         }

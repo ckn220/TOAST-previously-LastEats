@@ -20,20 +20,25 @@ class BookingService: NSObject {
         let masterURL = "http://opentable.herokuapp.com/api/restaurants?"
         var myParams = BookingService.escapeBookingParameters(restaurantName,address: address)
         
-        Alamofire.request(.GET, masterURL+"name="+myParams.eName+"&zipcode="+zipcode).responseJSON { (imRequest, imResponse, JSON, error) in
+        Alamofire.request(.GET, masterURL+"name="+myParams.eName+"&postal_code="+zipcode).responseJSON { (imRequest, imResponse, JSON, error) in
             if error == nil{
-                if let tempRestaurants = (JSON as NSDictionary)["restaurants"] as? NSArray {
+                if let tempRestaurants = (JSON as! NSDictionary)["restaurants"] as? NSArray {
                     if tempRestaurants.count > 0 {
                         
-                        var restaurant:NSDictionary
+                        var restaurant:NSDictionary?
                         if tempRestaurants.count > 1{
-                            restaurant = BookingService.findCorrectRestaurant(fromList: tempRestaurants, withAddress: address)
+                            restaurant = BookingService.findCorrectRestaurant(fromList: tempRestaurants, withAddress: address,andPostalCode: zipcode)
                         }else{
-                            restaurant = tempRestaurants[0] as NSDictionary
+                            restaurant = tempRestaurants[0] as? NSDictionary
                         }
                         
-                        let reservationURL = restaurant["mobile_reserve_url"] as String
-                        completion(reservationURL)
+                        if restaurant != nil{
+                            let reservationURL = restaurant!["mobile_reserve_url"] as! String
+                            completion(reservationURL)
+                        }else{
+                            completion("")
+                        }
+                        
                         
                     }else{
                         completion("")
@@ -57,10 +62,16 @@ class BookingService: NSObject {
         return (escapedName!,escapedAddress!)
     }
     
-    class func findCorrectRestaurant(fromList restaurants:NSArray, withAddress address:String) -> NSDictionary{
+    class func findCorrectRestaurant(fromList restaurants:NSArray, withAddress address:String, andPostalCode postalcode:String) -> NSDictionary?{
         let addressComponents = address.componentsSeparatedByString(" ")
-        let predicate = NSPredicate(format: "address CONTAINS[cd] %@",addressComponents[0])
+        let predicate = NSPredicate(format: "(address CONTAINS[cd] %@) AND (postal_code = %@)",addressComponents[0],postalcode)
         
-        return restaurants.filteredArrayUsingPredicate(predicate!)[0] as NSDictionary
+        let filteredRestaurants = restaurants.filteredArrayUsingPredicate(predicate)
+        if filteredRestaurants.count > 0{
+            return filteredRestaurants[0] as? NSDictionary
+        }else{
+            return nil
+        }
+        
     }
 }

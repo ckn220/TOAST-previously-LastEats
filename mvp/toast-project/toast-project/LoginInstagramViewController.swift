@@ -55,7 +55,7 @@ class LoginInstagramViewController: UIViewController, UIWebViewDelegate {
                 
                 if cookie.domain.rangeOfString("instagram.com")?.isEmpty == false {
                     
-                    storage.deleteCookie(cookie as NSHTTPCookie)
+                    storage.deleteCookie(cookie as! NSHTTPCookie)
                 }
                 
             }
@@ -68,7 +68,7 @@ class LoginInstagramViewController: UIViewController, UIWebViewDelegate {
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
-        let URLString = request.URL.absoluteString;
+        let URLString = request.URL!.absoluteString;
         
         if (URLString?.hasPrefix(InstagramEngine.sharedEngine().appRedirectURL) == true){
             

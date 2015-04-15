@@ -1,6 +1,6 @@
 // AFSecurityPolicy.m
 //
-// Copyright (c) 2013-2014 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -125,7 +125,7 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
         SecTrustRef trust;
         __Require_noErr_Quiet(SecTrustCreateWithCertificates(certificates, policy, &trust), _out);
-        
+
         SecTrustResultType result;
         __Require_noErr_Quiet(SecTrustEvaluate(trust, &result), _out);
 
@@ -198,24 +198,9 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
     }
 
     self.validatesCertificateChain = YES;
+    self.validatesDomainName = YES;
 
     return self;
-}
-
-#pragma mark -
-
-- (void)setSSLPinningMode:(AFSSLPinningMode)SSLPinningMode {
-    _SSLPinningMode = SSLPinningMode;
-
-    switch (self.SSLPinningMode) {
-        case AFSSLPinningModePublicKey:
-        case AFSSLPinningModeCertificate:
-            self.validatesDomainName = YES;
-            break;
-        default:
-            self.validatesDomainName = NO;
-            break;
-    }
 }
 
 - (void)setPinnedCertificates:(NSArray *)pinnedCertificates {
@@ -254,14 +239,21 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
 
     SecTrustSetPolicies(serverTrust, (__bridge CFArrayRef)policies);
 
-    if (!AFServerTrustIsValid(serverTrust) && !self.allowInvalidCertificates) {
+    if(self.SSLPinningMode == AFSSLPinningModeNone) {
+        if(self.allowInvalidCertificates || AFServerTrustIsValid(serverTrust)){
+            return YES;
+        } else {
+            return NO;
+        }
+    } else if(!AFServerTrustIsValid(serverTrust) && !self.allowInvalidCertificates) {
         return NO;
     }
-
+    
     NSArray *serverCertificates = AFCertificateTrustChainForServerTrust(serverTrust);
     switch (self.SSLPinningMode) {
         case AFSSLPinningModeNone:
-            return YES;
+        default:
+            return NO;
         case AFSSLPinningModeCertificate: {
             NSMutableArray *pinnedCertificates = [NSMutableArray array];
             for (NSData *certificateData in self.pinnedCertificates) {
@@ -304,7 +296,7 @@ static NSArray * AFPublicKeyTrustChainForServerTrust(SecTrustRef serverTrust) {
             return trustedPublicKeyCount > 0 && ((self.validatesCertificateChain && trustedPublicKeyCount == [serverCertificates count]) || (!self.validatesCertificateChain && trustedPublicKeyCount >= 1));
         }
     }
-    
+
     return NO;
 }
 

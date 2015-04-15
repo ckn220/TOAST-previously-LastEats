@@ -34,10 +34,10 @@ class DiscoverDataSource: NSObject,iCarouselDataSource,iCarouselDelegate,Discove
         
         var cell:DiscoverCell
         if view == nil {
-            cell = NSBundle.mainBundle().loadNibNamed("DiscoverCell", owner: nil, options: nil)[0] as DiscoverCell
+            cell = NSBundle.mainBundle().loadNibNamed("DiscoverCell", owner: nil, options: nil)[0] as! DiscoverCell
             cell.frame = CGRectMake(0, 0, 167, 44)
         }else{
-            cell = view as DiscoverCell
+            cell = view as! DiscoverCell
         }
         cell.configureItem(myItems[index], isMood: isMood,myDelegate:self,index:index)
         cell.isCurrent = carousel.currentItemIndex == index
@@ -67,8 +67,8 @@ class DiscoverDataSource: NSObject,iCarouselDataSource,iCarouselDelegate,Discove
     }
     
     func carouselCurrentItemIndexDidChange(carousel: iCarousel!) {
-        let currentItem = carousel.currentItemView as DiscoverCell
-        for item in carousel.visibleItemViews as [DiscoverCell]{
+        let currentItem = carousel.currentItemView as! DiscoverCell
+        for item in carousel.visibleItemViews as! [DiscoverCell]{
             item.isCurrent = item.isEqual(currentItem)
         }
     }

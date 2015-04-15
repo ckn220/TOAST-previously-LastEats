@@ -9,6 +9,10 @@
 import UIKit
 import Parse
 
+protocol ReviewCellDelegate{
+    func reviewCellReviewerPressed(index:Int)
+}
+
 class ReviewCell: UITableViewCell {
 
     @IBOutlet weak var reviewerPictureButton: ReviewerButton!
@@ -16,13 +20,30 @@ class ReviewCell: UITableViewCell {
     @IBOutlet weak var reviewTextLabel: UILabel!
     @IBOutlet weak var separatorView: UIView!
     
-    func configure(#isLastItem:Bool){
-        //configureReviewerPicture()
-        configureSeparatorLine(isLastItem: isLastItem)
+    var myDelegate:ReviewCellDelegate?
+    var reviewIndex:Int!
+    
+    func configure(item:PFObject,index:Int,lastIndex:Int){
+        configure(index)
+        configureUser(item: item)
+        configureReview(item: item,isSingle: lastIndex == 0)
+        configureSeparatorLine(isLastItem: lastIndex == index)
     }
     
-    func setUserInfo(user:PFUser){
-        (user["profilePicture"] as PFFile).getDataInBackgroundWithBlock { (data, error) -> Void in
+    //MARK: - Configure methods
+    private func configure(index:Int){
+        reviewIndex = index
+    }
+    
+    //MARK: - Configure User methods
+    private func configureUser(#item:PFObject){
+        if let user = item["user"] as? PFUser{
+            setUserInfo(user)
+        }
+    }
+    
+    private func setUserInfo(user:PFUser){
+        (user["profilePicture"] as! PFFile).getDataInBackgroundWithBlock { (data, error) -> Void in
             if error == nil{
                 self.reviewerPictureButton.myImage = UIImage(data: data)
             }else{
@@ -34,11 +55,7 @@ class ReviewCell: UITableViewCell {
         configureReviewerPicture()
     }
     
-    func setReview(review:String){
-        reviewTextLabel.text = review
-    }
-    
-    func configureReviewerPicture(){
+    private func configureReviewerPicture(){
         let layer = reviewerPictureButton.layer
         layer.cornerRadius = 28
         layer.borderWidth = 1
@@ -46,11 +63,34 @@ class ReviewCell: UITableViewCell {
         layer.shouldRasterize = true
     }
     
-    func configureSeparatorLine(#isLastItem:Bool){
+    //MARK: - Configure Review methods
+    private func configureReview(#item:PFObject,isSingle:Bool){
+        if let review = item["review"] as? String{
+            if isSingle {
+                setReview("\""+review+"\"")
+            }else{
+                setReview(review)
+            }
+            
+        }
+    }
+    
+    private func setReview(review:String){
+        reviewTextLabel.text = review
+        self.layoutIfNeeded()
+    }
+    
+    //MARK: - Configure Separator line methods
+    private func configureSeparatorLine(#isLastItem:Bool){
         if isLastItem {
             separatorView.alpha = 0
         }else{
             separatorView.alpha = 0.4
         }
+    }
+    
+    //MARK: - Action methods
+    @IBAction func reviewerPressed(sender: ReviewerButton) {
+        myDelegate?.reviewCellReviewerPressed(reviewIndex)
     }
 }

@@ -43,7 +43,7 @@ class LoginSuccesViewController: UIViewController {
             
             
             if PFUser.currentUser()["profilePicture"] != nil {
-                let userImageFile = PFUser.currentUser()["profilePicture"] as PFFile
+                let userImageFile = PFUser.currentUser()["profilePicture"] as! PFFile
                 userImageFile.getDataInBackgroundWithBlock {
                     (imageData: NSData!, error: NSError!) -> Void in
                     if error == nil {

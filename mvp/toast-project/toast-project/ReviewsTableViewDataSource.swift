@@ -13,9 +13,10 @@ protocol ReviewDataSourceDelegate {
     func reviewDataSourceDidEndScrolling(#contentOffset: CGPoint)
     func reviewDataSourcePlaceDidPressed()
     func reviewDataSourceReviewDidPressed(#toast:PFObject)
+    func reviewDataSourceReviewerDidPress(#user:PFUser)
 }
 
-class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDelegate
+class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDelegate,ReviewCellDelegate
 {
     var myDelegate: ReviewDataSourceDelegate?
     var toasts:[PFObject] = []
@@ -38,20 +39,26 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.row == 0{
-            let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as UITableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! UITableViewCell
             return cell
         }else{
-            let cell = tableView.dequeueReusableCellWithIdentifier("reviewCell") as ReviewCell
-            let user = toasts[indexPath.row-1]["user"] as PFUser
-            let review = toasts[indexPath.row-1]["review"] as String
-            cell.configure(isLastItem: indexPath.row == (toasts.count))
-            cell.setUserInfo(user)
-            cell.setReview(review)
+            
+            var cellIdentifier:String
+            if toasts.count > 1{
+                cellIdentifier = "reviewCell"
+            }else{
+                cellIdentifier = "singleReviewCell"
+            }
+
+            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ReviewCell
+            let currentToast = toasts[indexPath.row-1]
+            cell.configure(currentToast,index:indexPath.row-1,lastIndex: toasts.count-1)
+            cell.myDelegate = self
             
             return cell
         }
     }
-    
+    /*
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         switch indexPath.row{
         case 0:
@@ -59,7 +66,7 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
         default:
             return 144
         }
-    }
+    }*/
     
     func reviewOffest(#tableView:UITableView) -> CGFloat{
         let aspect:Double = 538.0/364.0
@@ -85,5 +92,11 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
         default:
             myDelegate?.reviewDataSourceReviewDidPressed(toast:toasts[indexPath.row - 1])
         }
+    }
+    
+    //MARK: - ReviewCell delegate methods
+    func reviewCellReviewerPressed(index: Int) {
+        let selectedUser = toasts[index]["user"] as! PFUser
+        myDelegate?.reviewDataSourceReviewerDidPress(user: selectedUser)
     }
 }

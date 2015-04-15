@@ -12,12 +12,9 @@ class ToastNameView: ToastCarouselView {
 
     @IBOutlet weak var nameLabel: UILabel!
 
-    @IBAction func namePressed(sender: UIButton) {
-        myDelegate?.toastCarouselViewDelegate(indexSelected: index!,value: nil)
-    }
     
     override func reloadValues() {
-        if let newValue = myDelegate?.toastCarouselViewDelegateGetTempToast()["placeName"] as? String{
+        if let newValue = myDelegate?.toastCarouselViewGetTempToast()["placeName"] as? String{
             nameLabel.text = newValue
             nameLabel.alpha = 1
         }else{

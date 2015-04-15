@@ -46,15 +46,15 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     func validateFacebookSession(){
         let accountStore = ACAccountStore()
         let accountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierFacebook)
-        let label = facebookButtonView.viewWithTag(101) as UILabel
+        let label = facebookButtonView.viewWithTag(101) as! UILabel
         let initialText = label.text
         
         if accountType.accessGranted == true {
             if FBSession.activeSession().isOpen == true {
                 FBRequestConnection.startForMeWithCompletionHandler({ (request, result, error) -> Void in
                     
-                    let name:String = result["name"] as String
-                    label.text = "Continue as "+name
+                    let name:String = result["name"] as! String
+                    label.text = "Continue as! "+name
                 })
             }
         }
@@ -70,7 +70,7 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     //MARK: - Facebook Authentication
     @IBAction func facebookDidPressed(sender: UIPanGestureRecognizer) {
         animatePressed(buttonView: sender.view!.viewWithTag(301)!)
-    PFFacebookUtils.logInWithPermissions(["public_profile"], {
+    PFFacebookUtils.logInWithPermissions(["public_profile"], block: {
             (user: PFUser!, error: NSError!) -> Void in
             
             if error != nil {
@@ -97,17 +97,17 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
             
             if (error == nil){
                 let imUser = PFUser.currentUser()
-                let myResult = result as Dictionary<String,AnyObject>
+                let myResult = result as! Dictionary<String,AnyObject>
                 
-                NSLog("%@", myResult["name"] as String)
+                NSLog("%@", myResult["name"] as! String)
                 imUser["name"] = myResult["name"]
                 imUser["facebookId"] = myResult["id"]
                 imUser.saveEventually({ (success, error) -> Void in })
                 
-                let pictureDic = myResult["picture"] as Dictionary<String,AnyObject>
-                let dataDic = pictureDic["data"] as Dictionary<String,AnyObject>
+                let pictureDic = myResult["picture"] as! Dictionary<String,AnyObject>
+                let dataDic = pictureDic["data"] as! Dictionary<String,AnyObject>
                 
-                let picString = dataDic["url"] as String
+                let picString = dataDic["url"] as! String
                 
                 self.getProfilePicture(url: picString, isFB: true)
                 
@@ -125,11 +125,11 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         friendsRequest.startWithCompletionHandler{(connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
             
             if error == nil {
-                let resultdict = result as NSDictionary
-                let friends = resultdict["data"] as NSArray
+                let resultdict = result as! NSDictionary
+                let friends = resultdict["data"] as! NSArray
                 
                 for imFriend in friends {
-                    self.validateFacebookFriend(imFriend as NSDictionary)
+                    self.validateFacebookFriend(imFriend as! NSDictionary)
                 }
                 
                 PFUser.currentUser().saveEventually({ (success, error) -> Void in
@@ -166,8 +166,8 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     //MARK: - Instagram Authentication
     @IBAction func instagramDidPressed(sender: UITapGestureRecognizer) {
         animatePressed(buttonView: sender.view!.viewWithTag(301)!)
-        let destinationNav = storyboard?.instantiateViewControllerWithIdentifier("loginInstagramNavScene") as UINavigationController
-        let destination = destinationNav.viewControllers[0] as LoginInstagramViewController
+        let destinationNav = storyboard?.instantiateViewControllerWithIdentifier("loginInstagramNavScene") as! UINavigationController
+        let destination = destinationNav.viewControllers[0] as! LoginInstagramViewController
         destination.myDelegate = self
         
         self.showDetailViewController(destinationNav, sender: self)
@@ -185,7 +185,7 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
                     
                     if objects.count > 0 {
                         
-                        let mySessionToken = objects[0]["userSessionToken"] as String
+                        let mySessionToken = objects[0]["userSessionToken"] as! String
                         self.signinInstagram(sessionToken: mySessionToken)
                         
                     }
@@ -217,11 +217,11 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         let uuidPass: CFUUIDRef = CFUUIDCreate(nil)
         let newPassword: CFStringRef = CFUUIDCreateString(nil, uuidPass)
         
-        user.username = newUsername
-        user.password = newPassword
+        user.username = newUsername as String
+        user.password = newPassword as String
         
         user.signUpInBackgroundWithBlock {
-            (succeeded: Bool!, error: NSError!) -> Void in
+            (succeeded: Bool, error: NSError!) -> Void in
             if error == nil {
                 // Hooray! Let them use the app now.
                 NSLog("Signed up in with Instagram")
@@ -292,7 +292,7 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
             
             if error == nil{
                 
-                let profilePicFile : PFFile = PFFile(name: "profilePic.jpg", data: data as NSData)
+                let profilePicFile : PFFile = PFFile(name: "profilePic.jpg", data: data as! NSData)
                 PFUser.currentUser()["profilePicture"]=profilePicFile
                 profilePicFile.saveInBackgroundWithBlock({ (success, error) -> Void in
                     
@@ -329,8 +329,8 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         
         if segue.identifier == "loginInstagramSegue" {
             
-            let destinationNav = segue.destinationViewController as UINavigationController
-            let destination = destinationNav.viewControllers[0] as LoginInstagramViewController
+            let destinationNav = segue.destinationViewController as! UINavigationController
+            let destination = destinationNav.viewControllers[0] as! LoginInstagramViewController
             
             destination.myDelegate = self
             
@@ -342,9 +342,9 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     
     
     func goToSuccess(#isFB: Bool){
-        let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("mainScene") as UIViewController
+        let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("mainScene") as! UIViewController
         //as UINavigationController
-        //let newScene = newSceneNav.viewControllers[0] as LoginSuccesViewController
+        //let newScene = newSceneNav.viewControllers[0] as! LoginSuccesViewController
         
         //newScene.isFB = isFB
         

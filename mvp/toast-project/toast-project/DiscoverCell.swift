@@ -34,7 +34,7 @@ class DiscoverCell: UIView {
     }
     
     private func configureLabel(#item:PFObject){
-        myLabel.text = getCapitalString(item["name"] as String!)
+        myLabel.text = getCapitalString(item["name"] as! String!)
     }
     
     private func configureBackground(#isMood:Bool){
@@ -84,11 +84,11 @@ class DiscoverCell: UIView {
 
     //MARK: - Misc methods
     func getCapitalString(original:String) -> String{
-        return prefix(original, 1).capitalizedString + suffix(original, countElements(original) - 1)
+        return prefix(original, 1).capitalizedString + suffix(original, count(original) - 1)
     }
     
     //MARK: - Touch events methods
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesBegan(touches, withEvent: event)
         var hue,saturation,brightness,colorAlpha:CGFloat
         hue=0
@@ -100,7 +100,7 @@ class DiscoverCell: UIView {
         myBGView.backgroundColor = UIColor(hue: hue, saturation: saturation, brightness: brightness-0.2, alpha: colorAlpha)
     }
     
-    override func touchesEnded(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesEnded(touches, withEvent: event)
         UIView.animateWithDuration(0.01, delay: 0.1, options: .CurveLinear, animations: { () -> Void in
             self.myBGView.backgroundColor = self.idleColor

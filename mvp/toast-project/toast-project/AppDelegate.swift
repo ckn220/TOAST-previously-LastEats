@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = myStoryboard.instantiateViewControllerWithIdentifier("mainScene") as? UIViewController
     }
     
-    func application(application: UIApplication,openURL url: NSURL,sourceApplication: String,annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication,openURL url: NSURL,sourceApplication: String?,annotation: AnyObject?) -> Bool {
             return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,withSession:PFFacebookUtils.session())
     }
     

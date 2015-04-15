@@ -10,8 +10,9 @@ import UIKit
 import Parse
 
 protocol ToastCarouselViewDelegate {
-    func toastCarouselViewDelegateGetTempToast() -> [String:AnyObject]
-    func toastCarouselViewDelegate(indexSelected index:Int, value: AnyObject?)
+    func toastCarouselViewGetTempToast() -> [String:AnyObject]
+    func toastCarouselViewMoodsSelected(moods:[PFObject])
+    func toastCarouselViewReviewEditing(text:String)
 }
 
 class ToastCarouselView: UIView {
