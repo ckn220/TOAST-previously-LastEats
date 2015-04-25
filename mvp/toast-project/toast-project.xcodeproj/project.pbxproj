@@ -83,6 +83,9 @@
 		08B905E71AA14A29009F3B21 /* ToastMoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */; };
 		08B905EB1AA14AB1009F3B21 /* ToastHashtagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */; };
 		08B905ED1AA1E8D6009F3B21 /* HashtagsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */; };
+		08C1FDE11AE32440009F1FB8 /* ReviewDetailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C1FDE01AE32440009F1FB8 /* ReviewDetailButton.swift */; };
+		08C1FDE61AE32470009F1FB8 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C1FDE51AE32470009F1FB8 /* HeartButton.swift */; };
+		08C1FDE81AE32483009F1FB8 /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C1FDE71AE32483009F1FB8 /* FollowButton.swift */; };
 		08C2E8D41A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */; };
 		08C993831ABC4AC900692721 /* ReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C993821ABC4AC900692721 /* ReviewDetailViewController.swift */; };
 		08C993851ABC4ADA00692721 /* ReviewDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C993841ABC4ADA00692721 /* ReviewDetailTableViewController.swift */; };
@@ -285,6 +288,9 @@
 		08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastMoodCell.xib; sourceTree = "<group>"; };
 		08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastHashtagCell.xib; sourceTree = "<group>"; };
 		08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagsManager.swift; sourceTree = "<group>"; };
+		08C1FDE01AE32440009F1FB8 /* ReviewDetailButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewDetailButton.swift; sourceTree = "<group>"; };
+		08C1FDE51AE32470009F1FB8 /* HeartButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
+		08C1FDE71AE32483009F1FB8 /* FollowButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
 		08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		08C993821ABC4AC900692721 /* ReviewDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewDetailViewController.swift; sourceTree = "<group>"; };
 		08C993841ABC4ADA00692721 /* ReviewDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewDetailTableViewController.swift; sourceTree = "<group>"; };
@@ -699,6 +705,16 @@
 			path = "UIKit+AFNetworking";
 			sourceTree = "<group>";
 		};
+		08C1FDE21AE32448009F1FB8 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				08C1FDE01AE32440009F1FB8 /* ReviewDetailButton.swift */,
+				08C1FDE51AE32470009F1FB8 /* HeartButton.swift */,
+				08C1FDE71AE32483009F1FB8 /* FollowButton.swift */,
+			);
+			name = Buttons;
+			sourceTree = "<group>";
+		};
 		08C2E8CB1A885E58009A44F6 /* Hashtags */ = {
 			isa = PBXGroup;
 			children = (
@@ -713,6 +729,7 @@
 			children = (
 				08C993821ABC4AC900692721 /* ReviewDetailViewController.swift */,
 				08C993841ABC4ADA00692721 /* ReviewDetailTableViewController.swift */,
+				08C1FDE21AE32448009F1FB8 /* Buttons */,
 			);
 			name = "Review Detail";
 			sourceTree = "<group>";
@@ -863,6 +880,11 @@
 					08363F6D1A5778E4007A6827 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = Y2X429E8XQ;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					08363F821A5778E4007A6827 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -962,6 +984,7 @@
 				08EDB11B1AA00AED00D94CF7 /* ToastReviewView.swift in Sources */,
 				086CFB321A734CD500E321F7 /* InstagramEngine.m in Sources */,
 				08D6D1031ABE565B0013C045 /* MyLocationManager.swift in Sources */,
+				08C1FDE81AE32483009F1FB8 /* FollowButton.swift in Sources */,
 				083467EE1AC841EF003B5803 /* ReviewAccesoryView.swift in Sources */,
 				08EDB10E1AA0010200D94CF7 /* iCarousel.m in Sources */,
 				08E184B81A90BFFC00C9A956 /* MainViewController.swift in Sources */,
@@ -978,6 +1001,7 @@
 				08F85AEA1A8E395900C01CC9 /* PlaceDetailViewController.swift in Sources */,
 				08B6240D1ADE9CEF00DBC674 /* AFHTTPRequestOperationManager.m in Sources */,
 				08B624141ADE9CEF00DBC674 /* AFURLSessionManager.m in Sources */,
+				08C1FDE11AE32440009F1FB8 /* ReviewDetailButton.swift in Sources */,
 				08363F761A5778E4007A6827 /* ViewController.swift in Sources */,
 				08B624171ADE9CEF00DBC674 /* UIAlertView+AFNetworking.m in Sources */,
 				088188511AC9649F00559DC8 /* ProfileToastCell.swift in Sources */,
@@ -990,6 +1014,7 @@
 				08C2E8D41A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift in Sources */,
 				08F838941A87C83900CFCAEF /* ToastsViewController.swift in Sources */,
 				08B6241A1ADE9CEF00DBC674 /* UIProgressView+AFNetworking.m in Sources */,
+				08C1FDE61AE32470009F1FB8 /* HeartButton.swift in Sources */,
 				08B624131ADE9CEF00DBC674 /* AFURLResponseSerialization.m in Sources */,
 				0881884D1AC9645C00559DC8 /* ProfileDetailViewController.swift in Sources */,
 				08B905ED1AA1E8D6009F3B21 /* HashtagsManager.swift in Sources */,
@@ -1175,7 +1200,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "51831064-dad4-4b51-94bb-51c1d0448599";
 				SWIFT_OBJC_BRIDGING_HEADER = "toast-project/toast-project-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1198,7 +1223,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "51831064-dad4-4b51-94bb-51c1d0448599";
 				SWIFT_OBJC_BRIDGING_HEADER = "toast-project/toast-project-Bridging-Header.h";
 			};
 			name = Release;

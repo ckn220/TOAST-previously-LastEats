@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class MainViewController: UIViewController,DiscoverDelegate {
+class MainViewController: UIViewController,DiscoverDelegate,UIGestureRecognizerDelegate {
 
     @IBOutlet weak var menuContainerView: UIView!
     @IBOutlet weak var discoverContainerView: UIView!
@@ -159,4 +159,8 @@ class MainViewController: UIViewController,DiscoverDelegate {
         return hideStatusBar
     }
 
+    //MARK: - Gesture recognizer delegate methods
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+        return canPan
+    }
 }

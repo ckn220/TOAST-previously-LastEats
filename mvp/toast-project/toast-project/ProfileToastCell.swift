@@ -15,6 +15,7 @@ class ProfileToastCell: UITableViewCell {
     @IBOutlet weak var placeImageView: BackgroundImageView!
     @IBOutlet weak var placeNameLabel: UILabel!
     @IBOutlet weak var placeReviewLabel: UILabel!
+    @IBOutlet weak var topToastSignal: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,12 +28,13 @@ class ProfileToastCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(toast:PFObject){
+    func configureCell(toast:PFObject,topToast:PFObject?){
         placeFromToast(toast, completion: { (place) -> Void in
             self.configureImage(place)
             self.configureName(place)
         })
         configureReview(toast)
+        configureTopToastSignal(toast, topToast: topToast)
     }
     
     private func placeFromToast(toast:PFObject,completion:(place:PFObject)->Void){
@@ -64,5 +66,18 @@ class ProfileToastCell: UITableViewCell {
     
     private func configureReview(toast:PFObject){
         placeReviewLabel.text = toast["review"] as! String!
+    }
+    
+    private func configureTopToastSignal(toast:PFObject,topToast:PFObject?){
+        
+        if let top = topToast {
+            if toast.objectId == top.objectId{
+                topToastSignal.alpha = 1
+            }else{
+                topToastSignal.alpha = 0
+            }
+        }else{
+            topToastSignal.alpha = 0
+        }
     }
 }

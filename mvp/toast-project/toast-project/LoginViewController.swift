@@ -70,30 +70,49 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     //MARK: - Facebook Authentication
     @IBAction func facebookDidPressed(sender: UIPanGestureRecognizer) {
         animatePressed(buttonView: sender.view!.viewWithTag(301)!)
-    PFFacebookUtils.logInWithPermissions(["public_profile"], block: {
+        facebookLogin()
+    }
+    
+    func facebookLogin(){
+        PFFacebookUtils.logInWithPermissions(["public_profile"], block: {
             (user: PFUser!, error: NSError!) -> Void in
             
             if error != nil {
-                NSLog("%@", error.description)
+                NSLog("Facebook Login failed: %@", error.description)
+            }else{
+                if user == nil {
+                    NSLog("Facebook Login canceled.")
+                    
+                } else if user.isNew {
+                    NSLog("Facebook signup succeded")
+                    self.getFacebookDetails(group: nil)
+                    //self.facebookDidSignup()
+                    
+                } else {
+                    NSLog("Facebook login succeded")
+                    self.goToSuccess(isFB: true)
+                }
             }
             
-            if user == nil {
-                NSLog("Uh oh. The user cancelled the Facebook login.")
-                
-            } else if user.isNew {
-                NSLog("User signed up and logged in through Facebook!")
-                self.getFacebookDetails()
-                
-            } else {
-                NSLog("User logged in through Facebook!")
-                self.goToSuccess(isFB: true)
-            }
         })
     }
     
-    func getFacebookDetails(){
+    func facebookDidSignup(){
+        var group = dispatch_group_create()
+
+    }
+    
+    private func myGroupThread(#group: dispatch_group_t,block: ()->Void){
+        dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), block)
+    }
+    
+    private func myGroupCompletion(#group: dispatch_group_t,block: ()->Void){
+        dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), block)
+    }
+    
+    func getFacebookDetails(#group: dispatch_group_t?){
         
-        FBRequestConnection.startWithGraphPath("/me?fields=name,picture", completionHandler: { (connection, result, error) -> Void in
+        FBRequestConnection.startWithGraphPath("/me?fields=name", completionHandler: { (connection, result, error) -> Void in
             
             if (error == nil){
                 let imUser = PFUser.currentUser()
@@ -116,6 +135,10 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
                 NSLog("%@", error.description)
             }
         })
+        
+    }
+    
+    func getFacebookPicture(){
         
     }
     
@@ -337,19 +360,20 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         }
         
     }
-    
-    
-    
-    
+      
     func goToSuccess(#isFB: Bool){
+        updatePushWithUser(PFUser.currentUser())
+        
         let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("mainScene") as! UIViewController
-        //as UINavigationController
-        //let newScene = newSceneNav.viewControllers[0] as! LoginSuccesViewController
-        
-        //newScene.isFB = isFB
-        
         self.presentViewController(newSceneNav, animated: true, completion: nil)
         
+    }
+    
+    //MARK: - Push methods
+    private func updatePushWithUser(user:PFUser){
+        let installation = PFInstallation.currentInstallation()
+        installation["user"] = user
+        installation.saveInBackgroundWithBlock(nil)
     }
     
 }

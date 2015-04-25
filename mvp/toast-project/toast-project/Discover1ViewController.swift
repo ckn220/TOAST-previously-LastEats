@@ -9,12 +9,6 @@
 import UIKit
 import Parse
 
-protocol DiscoverDelegate {
-    func discoverMenuPressed()
-    func discoverDidAppear()
-    func discoverDidDissapear()
-}
-
 class Discover1ViewController: UIViewController, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,CLLocationManagerDelegate{
     
     var locationManager: CLLocationManager?

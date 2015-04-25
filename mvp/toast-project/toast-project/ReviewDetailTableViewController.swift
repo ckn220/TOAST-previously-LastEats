@@ -14,6 +14,9 @@ class ReviewDetailTableViewController: UITableViewController {
     var myToast:PFObject?
     var myHashtags:[PFObject] = []
     
+    @IBOutlet weak var heartButton: HeartButton!
+    @IBOutlet weak var followButton: FollowButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -22,9 +25,10 @@ class ReviewDetailTableViewController: UITableViewController {
     func configure(){
         tableView.rowHeight = UITableViewAutomaticDimension
         configureHashtags()
+        configureButtons()
     }
     
-    func configureHashtags(){
+    private func configureHashtags(){
         
             let query = PFQuery(className: "Hashtag")
             query.whereKey("toasts", equalTo: myToast)
@@ -36,6 +40,67 @@ class ReviewDetailTableViewController: UITableViewController {
                 }else{
                     NSLog("%@", error.description)
                 }
+        }
+    }
+    
+    private func configureButtons(){
+        if isOwnToast(){
+            heartButton.enabled = false
+            heartButton.alpha = 0.5
+            configureHeartCount()
+            
+            followButton.alpha = 0
+        }else{
+            configureHeart()
+            configureFollow()
+        }
+    }
+    
+    private func isOwnToast() -> Bool{
+        return (myToast!["user"] as! PFUser).objectId == PFUser.currentUser()!.objectId
+    }
+    
+    private func configureHeartCount(){
+        let userQuery = PFQuery(className: "User")
+        userQuery.whereKey("hearts", equalTo: myToast!)
+        userQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
+            if error == nil{
+                self.heartButton.setTitle("\(count)", forState: .Normal)
+            }else{
+                NSLog("%@",error.description)
+            }
+        }
+    }
+    
+    private func configureHeart(){
+        let heartQuery = PFUser.currentUser().relationForKey("hearts").query()
+        heartQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
+            if error == nil{
+                let hearts = result as! [PFObject]
+                let heartsCount = hearts.count
+                    if heartsCount > 0{
+                        let index = find(hearts,self.myToast!)
+                        if index >= 0{
+                            self.heartButton.toggleButton()
+                        }
+                    }
+            }
+        }
+    }
+    
+    private func configureFollow(){
+        let toastUser = myToast!["user"] as! PFUser
+        let followQuery = PFUser.currentUser().relationForKey("follows").query()
+        followQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
+            if error == nil{
+                let follows = result as! [PFObject]
+                if follows.count > 0{
+                    let index = find(follows,toastUser)
+                    if index >= 0{
+                        self.followButton.toggleButton()
+                    }
+                }
+            }
         }
     }
 
@@ -99,7 +164,12 @@ class ReviewDetailTableViewController: UITableViewController {
     
     func setName(#cell:UITableViewCell){
         let nameLabel = cell.viewWithTag(101) as! UILabel
-        nameLabel.text = (myToast?["user"] as! PFUser)["name"] as? String
+        if isOwnToast(){
+            nameLabel.text = "You"
+        }else{
+            nameLabel.text = (myToast?["user"] as! PFUser)["name"] as? String
+        }
+        
     }
     
     func configureReview(#cell:UITableViewCell){
@@ -112,5 +182,35 @@ class ReviewDetailTableViewController: UITableViewController {
         let hashtagLabel = cell.viewWithTag(101) as! UILabel
         hashtagLabel.text = "#" + (currentHashtag["name"] as! String)
     }
-
+    
+    //MARK: - Action methods
+    
+    @IBAction func heartButtonPressed(sender: HeartButton) {
+        var heartFunction = "heartToast"
+        if !sender.isOn{
+            heartFunction = "unheartToast"
+        }
+        
+        PFCloud.callFunctionInBackground(heartFunction, withParameters: ["toastId":myToast!.objectId]) { (result, error) -> Void in
+            if error != nil{
+                NSLog("%@",error.description)
+            }
+        }
+    }
+    
+    @IBAction func followButtonPressed(sender: FollowButton) {
+        var followFunction = "followUser"
+        if !sender.isOn{
+            followFunction = "unfollowUser"
+        }
+        
+        let user = (myToast!["user"] as! PFUser).objectId
+        PFCloud.callFunctionInBackground(followFunction, withParameters: ["userId":user]) { (result, error) -> Void in
+            if error != nil{
+                NSLog("%@",error.description)
+            }
+        }
+    }
+    
+    
 }

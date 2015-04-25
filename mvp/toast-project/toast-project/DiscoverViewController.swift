@@ -9,9 +9,14 @@
 import UIKit
 import Parse
 
+protocol DiscoverDelegate {
+    func discoverMenuPressed()
+    func discoverDidAppear()
+    func discoverDidDissapear()
+}
+
 class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLocationManagerDelegate {
 
-    
     @IBOutlet weak var profilePictureView: BackgroundImageView!
     @IBOutlet weak var sentenceLabel: UILabel!
     @IBOutlet weak var discoverCarousel: iCarousel!
@@ -77,6 +82,16 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
         super.viewWillAppear(animated)
         configureBG()
         configureProfilePicture()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        myDelegate?.discoverDidAppear()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        myDelegate?.discoverDidDissapear()
     }
     
     func configureBG(){

@@ -23,6 +23,7 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
     var relatedPlaces = [PFObject]()
     var myTempToast:[String:AnyObject]!
     var myDelegate:PostRelatedDelegate?
+    var topToastHidden = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,7 +103,11 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section{
         case 0:
-            return 1
+            if topToastHidden{
+                return 0
+            }else{
+                return 1
+            }
         case 1:
             return relatedPlaces.count
         default:
@@ -143,7 +148,11 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
     
     //MARK: - TableView delegate methods
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        let offset = scrollView.contentOffset.y
+        var offset = scrollView.contentOffset.y
+        if topToastHidden{
+            offset.advancedBy(405)
+        }
+        
         myDelegate?.postRelatedDidScroll(offset)
         updateTopToastViewAlpha(offset: offset)
         updateRelatedPlacesHeader(offset: offset)
@@ -166,16 +175,80 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let topHeight:CGFloat = 404.0
-        let offset = scrollView.contentOffset.y
-        if offset < topHeight{
-            if offset > 3*topHeight/4.0 {
-                scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
-            }else if offset > topHeight/4.0 {
-                scrollView.setContentOffset(CGPointMake(0, topHeight), animated: true)
-            }else{
-                scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
+        
+        if !topToastHidden{
+            let topHeight:CGFloat = 404.0
+            let offset = scrollView.contentOffset.y
+            if offset < topHeight{
+                if offset > 3*topHeight/4.0 {
+                    scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
+                }else if offset > topHeight/4.0 {
+                    scrollView.setContentOffset(CGPointMake(0, topHeight), animated: true)
+                }else{
+                    scrollView.setContentOffset(CGPointMake(0, 0), animated: true)
+                }
             }
         }
     }
+    
+    //MARK: - Actions methods
+    @IBAction func topToastPressed(sender: AnyObject) {
+        setTopToast()
+    }
+    
+    private func setTopToast(){
+        PFCloud.callFunctionInBackground("setLastTopToast", withParameters: nil) { (result, error) -> Void in
+            if error == nil{
+                self.changeToDone()
+            }else{
+                NSLog("%@",error.description)
+            }
+        }
+    }
+    
+    private func changeToDone(){
+        
+        UIView.animateWithDuration(0.3, delay: 0.2, options: .CurveEaseInOut, animations: { () -> Void in
+            
+            self.yesButton.setTitle("Done", forState: .Normal)
+            let doneColor = UIColor(red:0.313, green:0.89, blue:0.76, alpha:1)
+            self.yesButton.setTitleColor(doneColor, forState: .Normal)
+            
+            self.yesButton.layer.borderColor = UIColor.clearColor().CGColor
+            
+        }) { (completed) -> Void in
+            self.hideTopToastView()
+        }
+    }
+    
+    private func hideTopToastView(){
+        
+        delay(0.8, closure: { () -> () in
+            self.relatedPlacesTableView.beginUpdates()
+            self.topToastHidden = true
+            self.relatedPlacesTableView.deleteRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: .Top)
+            self.relatedPlacesTableView.endUpdates()
+        })
+        
+        UIView.animateWithDuration(0.2, delay: 0.8, options: .CurveEaseInOut, animations: { () -> Void in
+            
+            self.myDelegate?.postRelatedDidScroll(1000)
+            self.updateTopToastViewAlpha(offset: 1000)
+            self.updateRelatedPlacesHeader(offset: 1000)
+            
+        }) { (completed) -> Void in
+            
+        }
+    }
+    
+    //MARK: - Misc methods
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
+    
 }
