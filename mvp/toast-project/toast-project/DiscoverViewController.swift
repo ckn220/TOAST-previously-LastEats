@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+import Alamofire
 
 protocol DiscoverDelegate {
     func discoverMenuPressed()
@@ -100,14 +101,14 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     }
     
     func configureProfilePicture(){
-        let pictureFile = PFUser.currentUser()["profilePicture"] as! PFFile
-        pictureFile.getDataInBackgroundWithBlock { (data, error) -> Void in
-            if error == nil {
-                self.profilePictureView.myImage = UIImage(data: data)
-                self.profilePictureView.layer.cornerRadius = CGRectGetWidth(self.profilePictureView.bounds)/2
-            }else{
-                NSLog("%@",error.description)
-            }
+        if let pictureURL = PFUser.currentUser()["pictureURL"] as? String{
+            Alamofire.request(.GET, pictureURL).response({(request,response,data,error) -> Void in
+                if error == nil {
+                    self.profilePictureView.myImage = UIImage(data: data as! NSData)
+                }else{
+                    NSLog("configureProfilePicture error: %@",error!.description)
+                }
+            })
         }
     }
     

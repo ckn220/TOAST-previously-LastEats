@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+import Alamofire
 
 protocol ReviewCellDelegate{
     func reviewCellReviewerPressed(index:Int)
@@ -43,13 +44,13 @@ class ReviewCell: UITableViewCell {
     }
     
     private func setUserInfo(user:PFUser){
-        (user["profilePicture"] as! PFFile).getDataInBackgroundWithBlock { (data, error) -> Void in
-            if error == nil{
-                self.reviewerPictureButton.myImage = UIImage(data: data)
-            }else{
-                NSLog("%@", error.description)
-            }
-        }
+        Alamofire.request(.GET,user["pictureURL"] as! String).response({(request,response,data,error) -> Void in
+                if error == nil{
+                    self.reviewerPictureButton.myImage = UIImage(data: data as! NSData)
+                }else{
+                    NSLog("%@", error!.description)
+                }
+        })
         
         reviewerNameLabel.text = user["name"] as? String
         configureReviewerPicture()

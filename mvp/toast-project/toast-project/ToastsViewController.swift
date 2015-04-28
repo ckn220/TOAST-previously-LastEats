@@ -34,14 +34,15 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         super.viewDidLoad()
         
         configure()
-        configurePlaces()
+        //configurePlaces()
+        getPlaces()
     }
     
     func configure(){
         myPlaces = []
         toastsCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
     }
-    
+    /*
     func configurePlaces(){
         let placesQuery = PFQuery(className: "Place")
         placesQuery.includeKey("category")
@@ -75,6 +76,22 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         }
         
         moodTitleLabel.text = getCapitalString(moodTitleLabel.text!)
+    }*/
+    
+    func getPlaces(){
+        PFCloud.callFunctionInBackground("discoverPlaces", withParameters: ["moodId":myMood!.objectId]) { (result, error) -> Void in
+            if error == nil{
+                self.myPlaces = result as? [PFObject]
+                self.toastsCollectionView.reloadData()
+                if self.myPlaces?.count > 0{
+                    self.currentIndexPath = NSIndexPath(forRow: 0, inSection: 0)
+                    let firstPlace = self.myPlaces![0]
+                    self.updatesForCurrentPlace(firstPlace)
+                }
+            }else{
+                NSLog("getPlaces error: %@",error.description)
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
