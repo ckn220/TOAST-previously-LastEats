@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+import Alamofire
 
 class ReviewDetailTableViewController: UITableViewController {
 
@@ -145,14 +146,14 @@ class ReviewDetailTableViewController: UITableViewController {
     func setProfilePicture(#cell:UITableViewCell){
         let pictureView = cell.viewWithTag(501) as! BackgroundImageView
         configurePictureView(pictureView)
-        let pictureFile = (myToast?["user"] as! PFUser)["profilePicture"] as! PFFile
-        pictureFile.getDataInBackgroundWithBlock { (data, error) -> Void in
+        
+        Alamofire.request(.GET,(myToast?["user"] as! PFUser)["pictureURL"] as! String).response({(request,response,data,error) -> Void in
             if error == nil{
-                pictureView.myImage = UIImage(data: data)
+                pictureView.myImage = UIImage(data: data as! NSData)
             }else{
-                NSLog("%@",error.description)
+                NSLog("%@", error!.description)
             }
-        }
+        })
     }
     
     func configurePictureView(pictureView:BackgroundImageView){
@@ -164,12 +165,7 @@ class ReviewDetailTableViewController: UITableViewController {
     
     func setName(#cell:UITableViewCell){
         let nameLabel = cell.viewWithTag(101) as! UILabel
-        if isOwnToast(){
-            nameLabel.text = "You"
-        }else{
-            nameLabel.text = (myToast?["user"] as! PFUser)["name"] as? String
-        }
-        
+        nameLabel.text = (myToast?["user"] as! PFUser)["name"] as? String
     }
     
     func configureReview(#cell:UITableViewCell){

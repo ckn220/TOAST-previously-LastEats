@@ -8,8 +8,17 @@
 
 import UIKit
 
+protocol MainMenuTableDelegate{
+    func mainMenuTableDiscoverPressed()
+    func mainMenuTableMyToastsPressed()
+    func mainMenuTableFriendsPressed()
+    func mainMenuTableContributePressed()
+}
+
 class MainMenuTableViewController: UITableViewController {
 
+    var myDelegate:MainMenuTableDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,6 +35,50 @@ class MainMenuTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        switch indexPath.section{
+        case 0:
+            discoverPressed()
+        case 1:
+            if indexPath.row == 0{
+                contributePressed()
+            }else if indexPath.row == 1{
+                myToastsPressed()
+            }else{
+                friendsPressed()
+            }
+        case 2:
+            if indexPath.row == 0{
+                contactUsPressed()
+            }else{
+                logoutPressed()
+            }
+        default:
+            return
+        }
+    }
+    
+    private func discoverPressed(){
+        myDelegate?.mainMenuTableDiscoverPressed()
+    }
+    
+    private func contributePressed(){
+        myDelegate?.mainMenuTableContributePressed()
+    }
+    
+    private func myToastsPressed(){
+        myDelegate?.mainMenuTableMyToastsPressed()
+    }
+    
+    private func friendsPressed(){
+        myDelegate?.mainMenuTableFriendsPressed()
+    }
+    
+    private func contactUsPressed(){
+        
+    }
+    
+    private func logoutPressed(){
         let myAppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         myAppDelegate.goToLogin()
     }

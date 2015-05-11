@@ -6,3 +6,5 @@
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 #import "InstagramKit.h"
 #import "iCarousel.h"
+#import "PFCloud+Cache.h"
+#import "CCHLinkTextView.h"

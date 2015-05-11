@@ -8,7 +8,7 @@
 
 import UIKit
 import Parse
-import Alamofire
+import Haneke
 
 class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,PlaceCellDelegate {
     
@@ -17,8 +17,14 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     var myCategory: PFObject?
     var myPlaces:[PFObject]?
     var myFriend:PFObject?
+    var myNeighborhood:PFObject?
     var currentReviewsTableView:UITableView?
     var currentIndexPath:NSIndexPath?
+    var localHashtags = [String:[PFObject]]()
+    var localReviews = [String:[PFObject]]()
+    var myDelegate:DiscoverDelegate?
+    
+    var lastBG = ""
     
     @IBOutlet weak var myBlurBG: UIVisualEffectView!
     @IBOutlet weak var myBG1: BackgroundImageView!
@@ -34,52 +40,42 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         super.viewDidLoad()
         
         configure()
-        //configurePlaces()
         getPlaces()
     }
     
     func configure(){
         myPlaces = []
         toastsCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
+        configureTitle()
     }
-    /*
-    func configurePlaces(){
-        let placesQuery = PFQuery(className: "Place")
-        placesQuery.includeKey("category")
-        if myCategory != nil {
-            completeQuery(placesQuery, withCategory: myCategory!)
-        }else{
-            let toastsQuery = PFQuery(className: "Toast")
-            if myMood != nil {
-                completeQuery(toastsQuery, withMood: myMood!)
-            }else if myHashtag != nil{
-                completeQuery(toastsQuery, withHashtag: myHashtag!)
+    
+    private func configureTitle(){
+        var titleText = ""
+        if myMood != nil{
+            titleText = myMood!["name"] as! String
+        }else if myHashtag != nil{
+            titleText = myHashtag!["name"] as! String
+        }else if myFriend != nil{
+            if myFriend?.objectId == PFUser.currentUser().objectId{
+                titleText = "My Toasts"
             }else{
-                completeQuery(toastsQuery, withFriend: myFriend!)
-            }
-            placesQuery.whereKey("toasts", matchesQuery: toastsQuery)
-        }
-        
-        placesQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
-            if error == nil{
-                NSLog("Places: %d", result.count)
-                self.myPlaces = result as? [PFObject]
-                self.toastsCollectionView.reloadData()
-                if self.myPlaces?.count > 0{
-                    self.currentIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-                    let firstPlace = self.myPlaces![0]
-                    self.updatesForCurrentPlace(firstPlace)
-                }
-            }else{
-                NSLog("%@",error.description)
+                let friendName = myFriend!["name"] as! String
+                var nameComponents = friendName.componentsSeparatedByString(" ")
+                titleText = "\(nameComponents[0])'s Toasts"
             }
         }
         
-        moodTitleLabel.text = getCapitalString(moodTitleLabel.text!)
-    }*/
+        setMyTitle(titleText)
+    }
+    
+    private func setMyTitle(text:String){
+        moodTitleLabel.text = getCapitalString(text)
+        moodTitleLabel.font = UIFont(name: "Avenir-Heavy", size: 19)
+    }
     
     func getPlaces(){
-        PFCloud.callFunctionInBackground("discoverPlaces", withParameters: ["moodId":myMood!.objectId]) { (result, error) -> Void in
+        
+        PFCloud.callFunctionInBackground("discoverPlaces", withParameters: placesParameters()) { (result, error) -> Void in
             if error == nil{
                 self.myPlaces = result as? [PFObject]
                 self.toastsCollectionView.reloadData()
@@ -93,34 +89,33 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             }
         }
     }
+    
+    private func placesParameters()->[String:AnyObject]{
+        var parameters = [String:AnyObject]()
+        if myMood != nil{
+            parameters["moodId"]=myMood!.objectId
+            if myNeighborhood != nil{
+                parameters["neighborhoodId"]=myNeighborhood!.objectId
+            }
+        }else{
+            if myFriend != nil{
+                parameters["ownerId"] = myFriend!.objectId
+            }
+        }
+        
+        return parameters
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    func completeQuery(query:PFQuery,withHashtag hashtag: PFObject){
-        query.whereKey("hashtags", equalTo: hashtag)
-        moodTitleLabel.text = "#" + (myHashtag!["name"] as! String)
-    }
-    
-    func completeQuery(query:PFQuery,withMood mood: PFObject){
-        query.whereKey("moods", equalTo: mood)
-        moodTitleLabel.text = myMood!["name"] as? String
-    }
-    
-    func completeQuery(query:PFQuery,withCategory category: PFObject){
-        query.whereKey("category", equalTo: category)
-        moodTitleLabel.text = myCategory!["name"] as? String
-    }
-    
-    func completeQuery(query:PFQuery,withFriend friend: PFObject){
-        query.whereKey("user", equalTo:friend)
-        moodTitleLabel.text = (friend["name"] as! String).componentsSeparatedByString(" ")[0] + " likes"
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        for place in myPlaces!{
+            PFCloud.clearCachedResult("placeTopHashtags", withParameters: ["placeId":place.objectId])
+        }
     }
     
     
@@ -149,13 +144,6 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
-        if let place = currentPlace(scrollView:scrollView){
-            updatesForCurrentPlace(place)
-        }
-    }
-    
     private func currentPlace(#scrollView: UIScrollView)-> PFObject?{
         var centerPoint = scrollView.layer.position
         centerPoint.x += scrollView.contentOffset.x
@@ -171,46 +159,61 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     private func updatesForCurrentPlace(place:PFObject){
         configureBottomBar(place: place)
-        updateBG(place)
+        configureBG(place: place)
+    }
+    
+    private func configureBG(#place:PFObject){
+        if let neighborhood = place["neighborhood"] as? PFObject{
+            let BGname = neighborhood["name"] as! String
+            changeBGTo(BGname)
+        }else{
+            changeBGTo("default")
+        }
     }
     
     //MARK: Updating Neighborhood Background
-    private func updateBG(place:PFObject){
-        PFCloud.callFunctionInBackground("neighborhoodBGForPlace", withParameters: ["placeId":place.objectId]) { (result, error) -> Void in
-            if error == nil{
-                Alamofire.request(.GET, result as! String).response({(_,_,data,error) -> Void in
-                    if error == nil{
-                        self.setBG(UIImage(data: data as! NSData)!)
-                    }else{
-                        NSLog("update BG: %@", error!.description)
-                        self.setBG(UIImage(named: "discoverBG")!);
-                    }
-                })
-            }else{
-                NSLog("update BG: %@", error.description)
-                self.setBG(UIImage(named: "discoverBG")!);
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        let currentP = currentPlace(scrollView: scrollView)
+        if let currentNeighborhood = currentP?["neighborhood"] as? PFObject{
+            let currentBG = currentNeighborhood["name"] as! String
+            if currentBG != lastBG{
+                changeBGTo(currentBG)
             }
+        }else if(lastBG != "default"){
+            changeBGTo("default")
         }
+    }
+    
+    private func changeBGTo(newBG:String){
+        lastBG = newBG
+        updateBG()
+    }
+    
+    private func updateBG(){
+        let cache = Cache<UIImage>(name: "neighborhoods")
+        cache.fetch(key: lastBG, failure: { (error) -> () in
+            self.updateBGToDefault()
+            }, success: { (image) -> () in
+                self.setBG(image)
+        })
+    }
+    
+    private func updateBGToDefault(){
+        lastBG = "default"
+        let cache = Cache<UIImage>(name: "neighborhoods")
+        cache.fetch(key: "default", failure: { (error) -> () in
+            NSLog(error!.description)
+            }, success: { (image) -> () in
+                self.setBG(image)
+        })
     }
     
     private func setBG(image:UIImage){
-        transitionToBG(Int(myBG1.alpha), image: image)
-    }
-    
-    private func transitionToBG(bgIndex:Int,image:UIImage){
-        var myBG,otherBG:BackgroundImageView
-        if bgIndex == 0{
-            myBG = myBG1
-            otherBG = myBG2
-        }else{
-            myBG = myBG2
-            otherBG = myBG1
-        }
-        myBG.insertImage(image, withOpacity: 0.6)
-        UIView.animateWithDuration(0.4, delay: 0, options: .CurveLinear, animations: { () -> Void in
-            myBG.alpha = 1
-            otherBG.alpha = 0
-            }, completion: nil)
+        let myBG = self.view as! BackgroundImageView
+        UIView.transitionWithView(myBG, duration: 0.4, options: .TransitionCrossDissolve, animations: { () -> Void in
+                    myBG.insertImage(image, withOpacity: 0.65)
+        },completion:nil)
     }
     
     //MARK: Toggle BottomBar buttons
@@ -240,7 +243,11 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     //MARK: - Action methods
     @IBAction func backPressed(sender: UIButton) {
-        self.navigationController?.popViewControllerAnimated(true)
+        if myDelegate == nil{
+            self.navigationController?.popViewControllerAnimated(true)
+        }else{
+            myDelegate?.discoverMenuPressed()
+        }
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -253,6 +260,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             destination.myPlacePicture = selectedCell.myBackgroundView.myImage
             destination.myPlace = selectedPlace
             destination.placeHashtags = selectedCell.hashtagDataSource?.hashtags
+            destination.bgName = lastBG
             toastsCollectionView.deselectItemAtIndexPath(selectedIndexPath, animated: false)
         }
     }
@@ -345,6 +353,22 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         let destination = self.storyboard?.instantiateViewControllerWithIdentifier("profileDetailScene") as! ProfileDetailViewController
         destination.myUser = user
         self.showViewController(destination, sender: self)
+    }
+    
+    func placeCellAskedForHashtags(placeId: String) -> [PFObject]? {
+        return localHashtags[placeId]
+    }
+    
+    func placeCellAskedForReviews(placeId: String) -> [PFObject]? {
+        return localReviews[placeId]
+    }
+    
+    func placeCellDidGetHashtags(placeId: String, hashtags: [PFObject]) {
+        localHashtags[placeId] = hashtags
+    }
+    
+    func placeCellDidGetReviews(placeId: String, reviews: [PFObject]) {
+        localReviews[placeId] = reviews
     }
     
     //MARK: - Misc methods

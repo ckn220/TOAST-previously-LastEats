@@ -16,10 +16,11 @@ protocol ReviewDataSourceDelegate {
     func reviewDataSourceReviewerDidPress(#user:PFUser)
 }
 
-class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDelegate,ReviewCellDelegate
+class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDelegate,ReviewCellDelegate,ReviewCellHeaderSource
 {
     var myDelegate: ReviewDataSourceDelegate?
     var toasts:[PFObject] = []
+    var reviewTableView:UITableView!
     
     init(toasts:[PFObject],delegate:ReviewDataSourceDelegate){
         super.init()
@@ -29,6 +30,10 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
     
     //MARK: - Tableview datasource methods
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        if reviewTableView == nil{
+            reviewTableView = tableView
+        }
+        
         return 1
     }
     
@@ -54,19 +59,11 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
             let currentToast = toasts[indexPath.row-1]
             cell.configure(currentToast,index:indexPath.row-1,lastIndex: toasts.count-1)
             cell.myDelegate = self
+            cell.myHeaderSource = self
             
             return cell
         }
     }
-    /*
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch indexPath.row{
-        case 0:
-            return reviewOffest(tableView: tableView)
-        default:
-            return 144
-        }
-    }*/
     
     func reviewOffest(#tableView:UITableView) -> CGFloat{
         let aspect:Double = 538.0/364.0
@@ -76,8 +73,21 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
     
     //MARK: - Tableview delegate methods
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        adjustSingleReviewButtons(scrollView.contentOffset.y)
         myDelegate?.reviewDataSourceDidScroll(contentOffset: scrollView.contentOffset)
     }
+    
+    private func adjustSingleReviewButtons(offsetY:CGFloat){
+        if toasts.count == 1{
+            let maxOffset = reviewOffest(tableView: reviewTableView)*2/3
+            let singleCell = reviewTableView.cellForRowAtIndexPath((NSIndexPath(forRow: 1, inSection: 0))) as! ReviewCell
+            let newAlpha = 1 - (( maxOffset - offsetY)/100)
+            singleCell.heartButton.alpha = newAlpha
+            singleCell.followButton.alpha = newAlpha
+        }
+    }
+    
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         myDelegate?.reviewDataSourceDidEndScrolling(contentOffset: scrollView.contentOffset)
@@ -98,5 +108,14 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
     func reviewCellReviewerPressed(index: Int) {
         let selectedUser = toasts[index]["user"] as! PFUser
         myDelegate?.reviewDataSourceReviewerDidPress(user: selectedUser)
+    }
+    
+    //MARK: - ReviewCell headersource methods
+    func dequeueFriendHeader() -> ReviewHeaderCell {
+        return reviewTableView.dequeueReusableCellWithIdentifier("friendHeaderCell") as! ReviewHeaderCell
+    }
+    
+    func dequeueFriendOfFriendHeader() -> ReviewHeaderCell {
+        return reviewTableView.dequeueReusableCellWithIdentifier("friendOfFriendHeaderCell") as! ReviewHeaderCell
     }
 }

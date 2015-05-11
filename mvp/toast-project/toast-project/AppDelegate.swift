@@ -9,6 +9,7 @@
 
 import UIKit
 import Parse
+import Haneke
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,10 +28,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configure(#application: UIApplication){
         configureParse()
         configurePushNotifications(application: application)
+        configureNeighborhoods()
     }
     
     private func configureParse(){
-        Parse.enableLocalDatastore()
+        //Parse.enableLocalDatastore()
         Parse.setApplicationId("HnLgxzOU0ZOTYIRxrRB3ulXDlsS1FGzBl96ytBSk", clientKey: "Towu7llPAMzgeeOUmZjPpXNXM5JoTH1K57BBGwxY")
         PFFacebookUtils.initializeFacebook();
     }
@@ -43,6 +45,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
         application.registerForRemoteNotifications()
+    }
+    
+    private func configureNeighborhoods(){
+        //oneTimeMigration()
+        
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if !defaults.boolForKey("neighborhoodsLoaded"){
+            
+            let operationQueue = NSOperationQueue.mainQueue()
+            operationQueue.addOperationWithBlock({ () -> Void in
+                self.loadNeighborhoods()
+                defaults.setBool(true, forKey: "neighborhoodsLoaded")
+            })
+        }
+    }
+    
+    private func oneTimeMigration(){
+        PFCloud.callFunctionInBackground("neighborhoodMigration", withParameters: nil, block: nil)
+    }
+    
+    private func loadNeighborhoods(){
+        let scale = UIScreen .mainScreen().scale
+        
+        let pictureNames = ["default","Alphabet City","Chinatown","East Village","Greenwich Village","Lower East Side","NoHo","Nolita","SoHo","Tribeca","Union Square","West Village","Williamsburg"]
+        let cache = Cache<UIImage>(name: "neighborhoods")
+        for name in pictureNames{
+            let resourceName = correctedName(name, scale: scale)
+            let picturePath = NSBundle.mainBundle().pathForResource(resourceName, ofType: ".jpg")
+            let pictureData = NSData(contentsOfFile: picturePath!)
+            cache.set(value: UIImage(data: pictureData!)!, key: name, success: nil)
+        }
+    }
+    
+    private func correctedName(name:String,scale:CGFloat) -> String{
+        switch scale{
+        case 2.0:
+            return name+"@2x"
+        case 3.0:
+            return name+"@3x"
+        default:
+            return name
+        }
     }
     
     //MARK: Handle Launch methods

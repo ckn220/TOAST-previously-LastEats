@@ -13,9 +13,6 @@ import Alamofire
 
 class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInstagramDelegate {
     
-    @IBOutlet weak var facebookButtonView: UIVisualEffectView!
-    @IBOutlet weak var intagramButtonView: UIVisualEffectView!
-    
     var myDateFormatter : NSDateFormatter?
     var myWeather:(temperature:Int,state:Int,date:NSDate)?
     
@@ -32,17 +29,15 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     }
     
     override func viewWillAppear(animated: Bool) {
-        insertVisualEffect(button: facebookButtonView)
-        insertVisualEffect(button: intagramButtonView)
-        
-        validateFacebookSession()
+        super.viewWillAppear(animated)
+        //validateFacebookSession()
     }
     
     func insertVisualEffect(#button:UIView){
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.whiteColor().CGColor
     }
-    
+    /*
     func validateFacebookSession(){
         let accountStore = ACAccountStore()
         let accountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierFacebook)
@@ -61,15 +56,15 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         else{
             label.text = initialText
         }
-    }
+    }*/
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }
     
     //MARK: - Facebook Authentication
-    @IBAction func facebookDidPressed(sender: UIPanGestureRecognizer) {
-        animatePressed(buttonView: sender.view!.viewWithTag(301)!)
+    @IBAction func facebookDidPressed(sender: AnyObject) {
+        //animatePressed(buttonView: sender.view!.viewWithTag(301)!)
         facebookLogin()
     }
     
@@ -121,12 +116,8 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         }
     }
     
-    private func myGroupThread(#group: dispatch_group_t,block: ()->Void){
-        dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), block)
-    }
-    
     private func myGroupCompletion(#group: dispatch_group_t,block: ()->Void){
-        dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), block)
+        dispatch_group_notify(group, dispatch_get_main_queue(), block)
     }
     
     func getFacebookDetails(#group: dispatch_group_t){

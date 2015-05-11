@@ -12,12 +12,15 @@ import Parse
 protocol DiscoverDataSourceDelegate{
     func moodsDataSourceItemSelected(#index:Int)
     func neighborhoodsDataSourceItemSelected(#index:Int)
+    func neighborhoodsDataSourceCurrentItemChanged(#item:PFObject)
 }
 
 class DiscoverDataSource: NSObject,iCarouselDataSource,iCarouselDelegate,DiscoverCellDelegate{
     var myItems:[PFObject] = []
     var myDelegate:DiscoverDataSourceDelegate?
     var isMood:Bool = true
+    var myTimer:NSTimer?
+    var currentIndex = 0
     
     init(items:[PFObject],myDelegate:DiscoverDataSourceDelegate,isMood:Bool){
         super.init()
@@ -67,10 +70,30 @@ class DiscoverDataSource: NSObject,iCarouselDataSource,iCarouselDelegate,Discove
     }
     
     func carouselCurrentItemIndexDidChange(carousel: iCarousel!) {
-        let currentItem = carousel.currentItemView as! DiscoverCell
-        for item in carousel.visibleItemViews as! [DiscoverCell]{
-            item.isCurrent = item.isEqual(currentItem)
+        let myQueue = NSOperationQueue.mainQueue()
+        myQueue.addOperationWithBlock { () -> Void in
+            let currentItem = carousel.currentItemView as! DiscoverCell
+            for item in carousel.visibleItemViews as! [DiscoverCell]{
+                item.isCurrent = item.isEqual(currentItem)
+            }
+            
+            if(!self.isMood){
+                self.currentIndex = carousel.currentItemIndex
+                self.startMyTimer()
+            }
         }
+    }
+    
+    private func startMyTimer(){
+        if myTimer != nil{
+            myTimer?.invalidate()
+        }
+        myTimer = NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "applyTimer:", userInfo: nil, repeats: false)
+    }
+    
+    func applyTimer(timer:NSTimer){
+        myDelegate?.neighborhoodsDataSourceCurrentItemChanged(item: myItems[currentIndex])
+        timer.invalidate()
     }
     
     //MARK: - DiscoverCell delegate methods

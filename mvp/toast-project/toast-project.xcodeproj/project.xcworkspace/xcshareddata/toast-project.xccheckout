@@ -7,20 +7,32 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>A315FC28-91A5-42AB-A428-3ED587BFC5B1</string>
 	<key>IDESourceControlProjectName</key>
-	<string>toast-project</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>14AA7F984303839A14ED6AD32A301A4CF162F881</key>
+		<string>https://github.com/eladb/Parse-NSCoding.git</string>
 		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
 		<string>https://github.com/Alamofire/Alamofire.git</string>
+		<key>68D4F73942F8C1C55F3C1D3C368E44AE3F48FB4E</key>
+		<string>https://github.com/updatezen/PFCloud-Cache.git</string>
+		<key>C93564C1AFB8B50FF58188F21182F5D0EEAD1C3F</key>
+		<string>https://github.com/Haneke/HanekeSwift.git</string>
 		<key>F90710996CC30E635B8F5EC7DC7B7F972A849D41</key>
 		<string>https://github.com/ckn220/TOAST-previously-LastEats.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>mvp/toast-project/toast-project.xcodeproj</string>
+	<string>mvp/toast-project/toast-project.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>14AA7F984303839A14ED6AD32A301A4CF162F881</key>
+		<string>../../../..mvp/toast-project/toast-project/Parse-NSCoding</string>
 		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
 		<string>../../../../../Alamofire</string>
+		<key>68D4F73942F8C1C55F3C1D3C368E44AE3F48FB4E</key>
+		<string>../../../..mvp/toast-project/toast-project/PFCloud-Cache</string>
+		<key>C93564C1AFB8B50FF58188F21182F5D0EEAD1C3F</key>
+		<string>../../../../../HanekeSwift</string>
 		<key>F90710996CC30E635B8F5EC7DC7B7F972A849D41</key>
 		<string>../../../..</string>
 	</dict>
@@ -39,6 +51,30 @@
 			<string>67620B5EFA902936DF04070AF595B76AB0333747</string>
 			<key>IDESourceControlWCCName</key>
 			<string>Alamofire</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C93564C1AFB8B50FF58188F21182F5D0EEAD1C3F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>HanekeSwift</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>14AA7F984303839A14ED6AD32A301A4CF162F881</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Parse-NSCoding</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>68D4F73942F8C1C55F3C1D3C368E44AE3F48FB4E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>PFCloud-Cache</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>

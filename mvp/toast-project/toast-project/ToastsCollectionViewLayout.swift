@@ -35,7 +35,7 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
         return (CGRectGetWidth(collectionView!.bounds) / 2)
     }
     
-    
+    /*
     override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         
         var offsetAdjustment = 10000.0 as CGFloat
@@ -55,6 +55,32 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
         }
         
         return CGPointMake(proposedContentOffset.x + offsetAdjustment, proposedContentOffset.y)
+    }*/
+    
+    override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+        let collectionViewSize = self.collectionView!.bounds.size;
+        let proposedContentOffsetCenterX = proposedContentOffset.x + self.collectionView!.bounds.size.width * 0.5;
+        
+        var proposedRect = self.collectionView!.bounds;
+        
+        // Comment out if you want the collectionview simply stop at the center of an item while scrolling freely
+        //proposedRect = CGRectMake(proposedContentOffset.x, 0.0, collectionViewSize.width, collectionViewSize.height);
+        
+        var candidateAttributes:UICollectionViewLayoutAttributes?;
+        for attributes in layoutAttributesForElementsInRect(proposedRect)! {
+            
+            // == First time in the loop == //
+            if candidateAttributes == nil{
+                candidateAttributes = attributes as? UICollectionViewLayoutAttributes;
+                continue;
+            }
+            
+            if fabs(attributes.center.x.distanceTo(proposedContentOffsetCenterX)) < fabs(candidateAttributes!.center.x.distanceTo(proposedContentOffsetCenterX)){
+                candidateAttributes = attributes as? UICollectionViewLayoutAttributes;
+            }
+        }
+        
+        return CGPointMake(candidateAttributes!.center.x - self.collectionView!.bounds.size.width * 0.5, proposedContentOffset.y);
     }
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {

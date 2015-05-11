@@ -41,7 +41,11 @@ class DiscoverCell: UIView {
         if isMood{
             idleColor = UIColor(white:1,alpha:0.3)
         }else{
-            idleColor = UIColor(hue:0.556, saturation:0.674, brightness:1, alpha:1)
+            if index == 4{
+                self.idleColor = UIColor(hue:0.463, saturation:0.69, brightness:0.893, alpha:1)
+            }else{
+               self.idleColor = UIColor(hue:0.556, saturation:0.674, brightness:1, alpha:1)
+            }
         }
         myBGView.backgroundColor = idleColor
         

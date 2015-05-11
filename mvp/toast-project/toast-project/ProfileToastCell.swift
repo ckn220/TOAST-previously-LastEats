@@ -8,7 +8,7 @@
 
 import UIKit
 import Parse
-import Alamofire
+import Haneke
 
 class ProfileToastCell: UITableViewCell {
 
@@ -44,23 +44,23 @@ class ProfileToastCell: UITableViewCell {
             if error == nil{
                 completion(place:result as PFObject)
             }else{
-                NSLog("%@",error.description)
+                NSLog("placeFromToast error: %@",error.description)
             }
         }
     }
     
     private func configureImage(place:PFObject){
         let imageURL = (place["photos"] as! NSArray)[0] as! String
-        Alamofire.request(.GET, imageURL).response({ (request, response, data, error) -> Void in
-            if error == nil{
-                self.placeImageView.myImage = UIImage(data: data as! NSData)!
-            }else{
-                NSLog("%@", error!.description)
-            }
+        let cache = Shared.imageCache
+        cache.fetch(URL: NSURL(string: imageURL)!, failure: { (error) -> () in
+            NSLog("configureImage error: %@",error!.description)
+            }, success: {(image) -> () in
+                self.placeImageView.myImage = image
         })
     }
     
     private func configureName(place:PFObject){
+        //insertShadow(placeNameLabel)
         placeNameLabel.text = place["name"] as! String!
     }
     
@@ -79,5 +79,25 @@ class ProfileToastCell: UITableViewCell {
         }else{
             topToastSignal.alpha = 0
         }
+    }
+    
+    func insertShadow(view:UIView){
+        
+        let layer = view.layer
+        layer.shadowOffset = CGSizeMake(0, 0)
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowRadius = 8.0
+        layer.shadowOpacity = 0.9
+        layer.shadowPath = UIBezierPath(rect: layer.bounds).CGPath
+        layer.shouldRasterize = true
+    }
+    
+    func insertSmallShadow(view:UIView){
+        let layer = view.layer
+        layer.shadowOffset = CGSizeMake(0, 0)
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowRadius = 4.0
+        layer.shadowOpacity = 0.9
+        layer.shouldRasterize = true
     }
 }

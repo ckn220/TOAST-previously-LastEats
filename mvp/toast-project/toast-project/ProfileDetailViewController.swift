@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+import Haneke
 
 class ProfileDetailViewController: UIViewController {
 
@@ -19,6 +20,8 @@ class ProfileDetailViewController: UIViewController {
     @IBOutlet weak var friendsCountLabel: UILabel!
     @IBOutlet weak var followersCountLabel: UILabel!
     
+    var toasts: [PFObject]?
+    var topToast: PFObject?
     var myUser:PFUser!
     var profileDataSource:ProfileToastsDataSource!{
         didSet{
@@ -36,36 +39,50 @@ class ProfileDetailViewController: UIViewController {
     private func configure(){
         myTableView.contentInset = UIEdgeInsetsMake(-40, 0, -30, 0);
         configureUserHeader()
-        loadTopToast()
+        configureUserToasts()
     }
     
-    private func loadTopToast(){
-        if let topToast = myUser["topToast"] as? PFObject{
-            topToast.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
-                if error == nil{
-                    self.configureToasts(topToast: result)
-                }else{
-                    NSLog("%@",error.description)
-                    self.configureToasts(topToast: nil)
+    private func configureUserToasts(){
+        let group = dispatch_group_create()
+        loadToasts(group: group)
+        loadTopToast(group: group)
+        configureUserToastsCompletion(group: group)
+    }
+    
+    private func loadTopToast(#group: dispatch_group_t){
+        if let topToast = self.myUser["topToast"] as? PFObject{
+            dispatch_group_enter(group)
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+                topToast.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
+                    if error == nil{
+                        self.topToast = result as PFObject
+                    }else{
+                        NSLog("loadTopToast error: %@",error.description)
+                    }
+                    dispatch_group_leave(group)
                 }
-            }
-        }else{
-            self.configureToasts(topToast: nil)
+            })
         }
-        
     }
     
-    private func configureToasts(#topToast:PFObject?){
+    private func loadToasts(#group: dispatch_group_t){
+        dispatch_group_enter(group)
         let query = PFQuery(className: "Toast")
-        query.includeKey("place")
         query.whereKey("user", equalTo: myUser)
         query.orderByDescending("createdAt")
         query.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
-                self.profileDataSource = ProfileToastsDataSource(toasts: result as! [PFObject],user:self.myUser,topToast:topToast)
+                self.toasts = result as? [PFObject]
             }else{
-                NSLog("%@",error.description)
+                NSLog("loadToasts error: %@",error.description)
             }
+            dispatch_group_leave(group)
+        }
+    }
+    
+    private func configureUserToastsCompletion(#group: dispatch_group_t){
+        dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { () -> Void in
+            self.profileDataSource = ProfileToastsDataSource(toasts: self.toasts!,user:self.myUser,topToast:self.topToast)
         }
     }
     
@@ -76,10 +93,13 @@ class ProfileDetailViewController: UIViewController {
     }
     
     private func configureProfileImage(user:PFUser){
-        let pictureFile = user["profilePicture"] as! PFFile
-        pictureFile.getDataInBackgroundWithBlock { (result, error) -> Void in
-            self.userPictureView.myImage = UIImage(data: result as NSData)
-        }
+        let imageURL = user["pictureURL"] as! String
+        let cache = Shared.imageCache
+        cache.fetch(URL: NSURL(string: imageURL)!, failure: { (error) -> () in
+            NSLog("configureProfileImage error: %@",error!.description)
+            }, success: { (image) -> () in
+                self.userPictureView.myImage = image
+        })
     }
     
     private func configureProfileName(user:PFUser){
@@ -92,7 +112,7 @@ class ProfileDetailViewController: UIViewController {
         configureFollowerCount(user)
     }
     
-    private func configureCountLabel(label:UILabel){
+    private func initCountLabel(label:UILabel){
         let layer = label.layer
         layer.cornerRadius = CGRectGetWidth(label.bounds)/2
         layer.borderWidth = 1
@@ -100,24 +120,42 @@ class ProfileDetailViewController: UIViewController {
     }
     
     private func configureToastCount(user:PFUser){
-        configureCountLabel(toastCountLabel)
-        
-        PFCloud.callFunctionInBackground("toastCount", withParameters: ["userId":user.objectId]) { (result, error) -> Void in
+        initCountLabel(toastCountLabel)
+        let toastQuery = PFQuery(className: "Toast")
+        toastQuery.whereKey("user", equalTo: user)
+        toastQuery.orderByDescending("createdAt")
+        toastQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
             if error == nil{
-                self.toastCountLabel.text = String(format: "%2d", result as! Int)
+                self.toastCountLabel.text = String(format: "%02d", count)
             }else{
-                NSLog("%@", error.description);
+                NSLog("configureToastCount error: %@",error.description)
             }
         }
-        
     }
     
     private func configureFriendCount(user:PFUser){
-        configureCountLabel(friendsCountLabel)
+        initCountLabel(friendsCountLabel)
+        let friendsQuery = user.relationForKey("friends").query()
+        friendsQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
+            if error == nil{
+                self.friendsCountLabel.text = String(format: "%02d", count)
+            }else{
+                NSLog("configureFriendCount error: %@",error.description)
+            }
+        }
     }
     
     private func configureFollowerCount(user:PFUser){
-        configureCountLabel(followersCountLabel)
+        initCountLabel(followersCountLabel)
+        let followerQuery = PFQuery(className: "User")
+        followerQuery.whereKey("follows", equalTo: user)
+        followerQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
+            if error == nil{
+                self.followersCountLabel.text = String(format: "%02d", count)
+            }else{
+                NSLog("configureFollowerCount error: %@",error.description)
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -130,5 +168,12 @@ class ProfileDetailViewController: UIViewController {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "friendsListSegue"{
+            let destination = segue.destinationViewController as! FriendsListViewController
+            destination.myUser = myUser
+            destination.fromMain = false
+        }
+    }
     
 }

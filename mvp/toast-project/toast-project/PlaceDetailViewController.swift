@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 import MapKit
+import Haneke
 
 class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSheetDelegate {
 
@@ -19,6 +20,7 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     var placeReviewFriends: [PFObject]?
     var placeHashtags: [PFObject]?
     var reservationURL:String?
+    var bgName:String?
     
     @IBOutlet weak var myBlurBG: BackgroundImageView!
     @IBOutlet weak var pickupButton: UIButton!
@@ -75,7 +77,14 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     
     //MARK: - Configure methods
     func configure(){
-        myBlurBG.insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.65)
+        if bgName != nil{
+            let cache = Cache<UIImage>(name:"neighborhoods")
+            cache.fetch(key: bgName!, failure: { (error) -> () in
+                NSLog("configure error: %@",error!.description)
+                }, success: {(image) -> () in
+                    self.myBlurBG.insertImage(image, withOpacity: 0.65)
+            })
+        }
     }
     
     //MARK: - Action methods

@@ -34,9 +34,10 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
     
     private func sortToast(){
         if let top = topToast{
-            let topIndex = find(toasts, top)!
-            toasts.removeAtIndex(topIndex)
-            toasts.insert(top, atIndex: 0)
+            if let topIndex = find(toasts, top){
+                toasts.removeAtIndex(topIndex)
+                toasts.insert(top, atIndex: 0)
+            }
         }
     }
     

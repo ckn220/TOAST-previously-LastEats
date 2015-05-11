@@ -68,7 +68,7 @@ class ProfileHeaderCell: UITableViewCell {
         
         PFCloud.callFunctionInBackground("toastCount", withParameters: ["userId":user.objectId]) { (result, error) -> Void in
             if error == nil{
-                self.toastCountLabel.text = String(format: "%2d", result as! Int)
+                self.toastCountLabel.text = String(format: "%02d", result as! Int)
             }else{
                 NSLog("%@", error.description);
             }

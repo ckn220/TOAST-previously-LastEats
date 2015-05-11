@@ -8,6 +8,7 @@
 
 import UIKit
 import Parse
+import Haneke
 
 class ReviewDetailViewController: UIViewController {
 
@@ -33,7 +34,14 @@ class ReviewDetailViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        (self.view as! BackgroundImageView).insertImage(UIImage(named: "discoverBG")!, withOpacity: 0.65)
+        
+        let cache = Cache<UIImage>(name: "neighborhoods")
+        cache.fetch(key: "default", failure: { (error) -> () in
+            NSLog("viewWillAppear error: %@",error!.description)
+            }, success: {(image) -> () in
+                let myBG = self.view as! BackgroundImageView
+                myBG.insertImage(image, withOpacity: 0.65)
+        })
     }
 
     //MARK: - Action methods

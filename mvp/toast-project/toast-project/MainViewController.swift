@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class MainViewController: UIViewController,DiscoverDelegate,UIGestureRecognizerDelegate {
+class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegate, UIGestureRecognizerDelegate {
 
     @IBOutlet weak var menuContainerView: UIView!
     @IBOutlet weak var discoverContainerView: UIView!
@@ -141,13 +141,27 @@ class MainViewController: UIViewController,DiscoverDelegate,UIGestureRecognizerD
     
     // MARK: - Navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "embedDiscoverSegue" {
-            mainNav = segue.destinationViewController as? UINavigationController
-            if let destination = mainNav?.viewControllers[0] as? DiscoverViewController {
-                destination.myDelegate = self
-            }
-            
+        
+        switch segue.identifier! {
+            case "embedDiscoverSegue":
+            prepareDiscoverSegue(segue)
+            case "embedMenuSegue":
+            prepareMenuSegue(segue)
+            default:
+            return
         }
+    }
+    
+    private func prepareDiscoverSegue(segue: UIStoryboardSegue){
+        mainNav = segue.destinationViewController as? UINavigationController
+        if let destination = mainNav?.viewControllers[0] as? DiscoverViewController {
+            destination.myDelegate = self
+        }
+    }
+    
+    private func prepareMenuSegue(segue: UIStoryboardSegue){
+        let mainMenu = segue.destinationViewController as! MainMenuTableViewController
+        mainMenu.myDelegate = self
     }
     
     //MARK: Misc methods
@@ -162,5 +176,43 @@ class MainViewController: UIViewController,DiscoverDelegate,UIGestureRecognizerD
     //MARK: - Gesture recognizer delegate methods
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
         return canPan
+    }
+    
+    //MARK: - MainMenuTable delegate methods
+    func mainMenuTableFriendsPressed() {
+        let friendsScene = self.storyboard?.instantiateViewControllerWithIdentifier("friendsListScene") as! FriendsListViewController
+        friendsScene.myUser = PFUser.currentUser()
+        friendsScene.fromMain = true
+        friendsScene.myDelegate = self
+        
+        changeMainTo(friendsScene)
+    }
+    
+    func mainMenuTableDiscoverPressed() {
+        let discoverScene = self.storyboard?.instantiateViewControllerWithIdentifier("discoverScene") as! DiscoverViewController
+        discoverScene.myDelegate = self
+        
+        changeMainTo(discoverScene)
+    }
+    
+    func mainMenuTableMyToastsPressed() {
+        let toastsScene = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
+        toastsScene.myFriend = PFUser.currentUser()
+        
+        changeMainTo(toastsScene)
+    }
+    
+    func mainMenuTableContributePressed() {
+        let contributeScene = self.storyboard?.instantiateViewControllerWithIdentifier("contributeScene") as! UIViewController
+        self.showDetailViewController(contributeScene, sender: nil)
+    }
+    
+    private func changeMainTo(newVC:UIViewController){
+        mainNav?.setViewControllers([newVC], animated: false)
+        closeMenu()
+    }
+    
+    private func closeMenu(){
+        discoverMenuPressed()
     }
 }

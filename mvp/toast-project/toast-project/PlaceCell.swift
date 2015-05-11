@@ -9,13 +9,18 @@
 import Foundation
 import UIKit
 import Parse
-import Alamofire
+import Haneke
 
 protocol PlaceCellDelegate{
     func placeCellDidScroll(#tableView:UITableView,place:PFObject)
     func placeCellDidPressed(#place:PFObject)
     func placeCellReviewDidPressed(#toast:PFObject,place: PFObject)
     func placeCellReviewerDidPress(#user:PFUser)
+    
+    func placeCellAskedForHashtags(placeId:String)->[PFObject]?
+    func placeCellAskedForReviews(placeId:String)->[PFObject]?
+    func placeCellDidGetHashtags(placeId:String,hashtags:[PFObject])
+    func placeCellDidGetReviews(placeId:String,reviews:[PFObject])
 }
 
 class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
@@ -67,23 +72,28 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     func configurePicture(){
-        let firstPhotoString = (myPlace!["photos"] as! [String])[0]
-        Alamofire.request(.GET, firstPhotoString).response({ (request, response, data, error) -> Void in
-            if error == nil{
-                self.myBackgroundView.insertImage(UIImage(data: data as! NSData)!,withOpacity: 0)
-            }else{
-                NSLog("%@", error!.description)
-            }
+        let firstPhotoURL = (myPlace!["photos"] as! [String])[0]
+        let cache = Shared.imageCache
+        
+        cache.fetch(URL: NSURL(string:firstPhotoURL)!, failure: { (error) -> () in
+            NSLog("configurePicture error: \(error!.description)")
+            }, success: {(image) -> () in
+            self.myBackgroundView.insertImage(image,withOpacity: 0)
         })
     }
     
     func configureHashtags(){
-        
-        PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":myPlace!.objectId,"limit":10]) { (result, error) -> Void in
-            if error == nil{
-                self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: result as! [PFObject], myDelegate: nil)
-            }else{
-                NSLog("%@", error.description)
+        if let localHashtags = myDelegate?.placeCellAskedForHashtags(myPlace!.objectId){
+            self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: localHashtags, myDelegate: nil)
+        }else{
+            PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":myPlace!.objectId,"limit":10]) { (result, error) -> Void in
+                if error == nil{
+                    let hashtags = result as! [PFObject]
+                    self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: hashtags, myDelegate: nil)
+                    self.myDelegate?.placeCellDidGetHashtags(self.myPlace!.objectId, hashtags: hashtags)
+                }else{
+                    NSLog("%@", error.description)
+                }
             }
         }
     }
@@ -95,16 +105,26 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     func configureReviews(){
-        let othertoastQuery = myPlace!.relationForKey("toasts").query()
-        othertoastQuery.includeKey("user")
-        othertoastQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
-            if error == nil{
-                self.reviewsTableView.rowHeight = UITableViewAutomaticDimension
-                self.reviewsDataSource = ReviewsTableViewDataSource(toasts: result as! [PFObject],delegate: self)
-                self.configureToastCount(result as! [PFObject])
-                
-            }else{
-                NSLog("%@", error.description)
+        self.reviewsTableView.rowHeight = UITableViewAutomaticDimension
+        
+        if let localReviews = myDelegate?.placeCellAskedForReviews(myPlace!.objectId){
+            self.reviewsDataSource = ReviewsTableViewDataSource(toasts: localReviews,delegate: self)
+            self.configureToastCount(localReviews)
+            self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: localReviews)
+        }else{
+            let othertoastQuery = myPlace!.relationForKey("toasts").query()
+            othertoastQuery.includeKey("user")
+            othertoastQuery.orderByDescending("createdAt");
+            othertoastQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
+                if error == nil{
+                    let reviews = result as! [PFObject]
+                    self.reviewsDataSource = ReviewsTableViewDataSource(toasts: reviews,delegate: self)
+                    self.configureToastCount(reviews)
+                    self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: reviews)
+                    
+                }else{
+                    NSLog("%@", error.description)
+                }
             }
         }
     }
