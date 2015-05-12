@@ -23,14 +23,15 @@ class FriendHeaderCell: ReviewHeaderCell {
     
     private func configurePicture(user:PFUser){
         configureReviewerPicture(friendPictureButton.layer)
-        let pictureURL = user["pictureURL"] as! String
-        let cache = Shared.imageCache
-        
-        cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
-            NSLog("configurePicture error: \(error!.description)")
-            }, success: {(image) -> () in
-                self.friendPictureButton.myImage = image
-        })
+        if let pictureURL = user["pictureURL"] as? String{
+            let cache = Shared.imageCache
+            
+            cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
+                NSLog("configurePicture error: \(error!.description)")
+                }, success: {(image) -> () in
+                    self.friendPictureButton.myImage = image
+            })
+        }
     }
     
     private func configureName(user:PFUser){

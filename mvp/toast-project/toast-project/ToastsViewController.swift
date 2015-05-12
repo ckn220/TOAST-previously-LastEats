@@ -111,14 +111,6 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        for place in myPlaces!{
-            PFCloud.clearCachedResult("placeTopHashtags", withParameters: ["placeId":place.objectId])
-        }
-    }
-    
-    
     //MARK: - CollectionView datasource methods
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1

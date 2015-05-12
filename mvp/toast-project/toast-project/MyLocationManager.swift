@@ -45,7 +45,6 @@ class MyLocationManager: NSObject,CLLocationManagerDelegate {
     }
     
     // MARK: - CLLocationManagerDelegate
-    
     func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         switch status{

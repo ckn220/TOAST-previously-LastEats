@@ -74,7 +74,7 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
     //MARK: - Tableview delegate methods
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        adjustSingleReviewButtons(scrollView.contentOffset.y)
+        //adjustSingleReviewButtons(scrollView.contentOffset.y)
         myDelegate?.reviewDataSourceDidScroll(contentOffset: scrollView.contentOffset)
     }
     

@@ -72,14 +72,18 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     func configurePicture(){
-        let firstPhotoURL = (myPlace!["photos"] as! [String])[0]
-        let cache = Shared.imageCache
-        
-        cache.fetch(URL: NSURL(string:firstPhotoURL)!, failure: { (error) -> () in
-            NSLog("configurePicture error: \(error!.description)")
-            }, success: {(image) -> () in
-            self.myBackgroundView.insertImage(image,withOpacity: 0)
-        })
+        if let photos = myPlace!["photos"] as? [String]{
+            if photos.count > 0{
+                let firstPhotoURL = (myPlace!["photos"] as! [String])[0]
+                let cache = Shared.imageCache
+                
+                cache.fetch(URL: NSURL(string:firstPhotoURL)!, failure: { (error) -> () in
+                    NSLog("configurePicture error: \(error!.description)")
+                    }, success: {(image) -> () in
+                        self.myBackgroundView.insertImage(image,withOpacity: 0)
+                })
+            }
+        }
     }
     
     func configureHashtags(){

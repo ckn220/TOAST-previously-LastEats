@@ -7,7 +7,7 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>A315FC28-91A5-42AB-A428-3ED587BFC5B1</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>toast-project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>14AA7F984303839A14ED6AD32A301A4CF162F881</key>
@@ -22,7 +22,7 @@
 		<string>https://github.com/ckn220/TOAST-previously-LastEats.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>mvp/toast-project/toast-project.xcodeproj/project.xcworkspace</string>
+	<string>mvp/toast-project/toast-project.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>14AA7F984303839A14ED6AD32A301A4CF162F881</key>

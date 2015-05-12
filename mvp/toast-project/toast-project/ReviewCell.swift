@@ -110,7 +110,6 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
     
     private func setReview(review:String){
         reviewTextLabel.text = review
-        self.layoutIfNeeded()
     }
     
     private func setLinkableReview(review:String){
@@ -124,9 +123,11 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
         }
         finalReview.appendAttributedString(attributedWord("\""))
         reviewLinkTextView.attributedText = finalReview
+        reviewLinkTextView.layoutIfNeeded()
     }
     
     private func configureLinkView(){
+        reviewLinkTextView.scrollEnabled = false
         reviewLinkTextView.linkTextAttributes = [NSForegroundColorAttributeName:UIColor(hue:0.555, saturation:0.45, brightness:1, alpha:1)]
         reviewLinkTextView.linkTextTouchAttributes = [NSForegroundColorAttributeName:UIColor(hue:0.555, saturation:0.45, brightness:0.7, alpha:1),NSBackgroundColorAttributeName:UIColor.clearColor()]
     }

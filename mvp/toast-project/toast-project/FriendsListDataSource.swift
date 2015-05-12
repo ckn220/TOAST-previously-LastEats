@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class FriendsListDataSource: NSObject,UITableViewDataSource,UITableViewDelegate {
     var friends:[PFObject]!

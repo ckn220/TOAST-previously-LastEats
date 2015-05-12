@@ -1290,7 +1290,7 @@
                                                             <blurEffect style="light"/>
                                                         </visualEffectView>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="bottom" secondItem="Frq-dW-f73" secondAttribute="bottom" id="Ec3-be-1HZ"/>
                                                         <constraint firstItem="5LZ-OC-dvA" firstAttribute="top" secondItem="E4T-iu-pr3" secondAttribute="bottom" constant="4" id="Kog-OG-Mvb"/>
@@ -1561,22 +1561,22 @@ Name from Facebook</string>
                                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nth-Cw-o6q">
+                                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nth-Cw-o6q" userLabel="separatorLine">
                                                                                 <rect key="frame" x="0.0" y="452" width="260" height="1"/>
                                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="1" id="LQe-Fd-LLt"/>
                                                                                 </constraints>
                                                                             </view>
-                                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XtL-k6-oGb">
+                                                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XtL-k6-oGb" userLabel="headerView">
                                                                                 <rect key="frame" x="0.0" y="0.0" width="260" height="106"/>
                                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="height" constant="106" id="99x-9K-XPd"/>
                                                                                 </constraints>
                                                                             </view>
-                                                                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cji-zx-cUS" customClass="HeartButton" customModule="toast_project" customModuleProvider="target">
-                                                                                <rect key="frame" x="0.0" y="143" width="94" height="40"/>
+                                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cji-zx-cUS" customClass="HeartButton" customModule="toast_project" customModuleProvider="target">
+                                                                                <rect key="frame" x="0.0" y="164" width="94" height="40"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="94" id="jER-DD-8Dh"/>
                                                                                     <constraint firstAttribute="height" constant="40" id="qB3-zQ-SbH"/>
@@ -1591,8 +1591,8 @@ Name from Facebook</string>
                                                                                     <action selector="heartButtonPressed:" destination="qMR-38-RYV" eventType="touchUpInside" id="aZP-TH-d8l"/>
                                                                                 </connections>
                                                                             </button>
-                                                                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9SX-jt-i2P" customClass="FollowButton" customModule="toast_project" customModuleProvider="target">
-                                                                                <rect key="frame" x="110" y="143" width="100" height="40"/>
+                                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9SX-jt-i2P" customClass="FollowButton" customModule="toast_project" customModuleProvider="target">
+                                                                                <rect key="frame" x="110" y="164" width="100" height="40"/>
                                                                                 <constraints>
                                                                                     <constraint firstAttribute="width" constant="100" id="ita-IQ-96p"/>
                                                                                 </constraints>
@@ -1605,9 +1605,12 @@ Name from Facebook</string>
                                                                                     <action selector="followButtonPressed:" destination="qMR-38-RYV" eventType="touchUpInside" id="Cuf-cW-Y86"/>
                                                                                 </connections>
                                                                             </button>
-                                                                            <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VtA-Y3-VUo" customClass="CCHLinkTextView">
-                                                                                <rect key="frame" x="-5" y="98" width="270" height="354"/>
+                                                                            <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="50" translatesAutoresizingMaskIntoConstraints="NO" id="VtA-Y3-VUo" customClass="CCHLinkTextView">
+                                                                                <rect key="frame" x="-5" y="98" width="270" height="50"/>
                                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                                                <constraints>
+                                                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="24" id="iNu-0m-aqT"/>
+                                                                                </constraints>
                                                                             </view>
                                                                         </subviews>
                                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1617,8 +1620,7 @@ Name from Facebook</string>
                                                                             <constraint firstItem="nth-Cw-o6q" firstAttribute="leading" secondItem="b13-at-QRc" secondAttribute="leading" id="HC6-34-pBB"/>
                                                                             <constraint firstAttribute="bottom" secondItem="nth-Cw-o6q" secondAttribute="bottom" id="L8M-d8-XjB"/>
                                                                             <constraint firstItem="8KN-IQ-k0r" firstAttribute="top" secondItem="XtL-k6-oGb" secondAttribute="bottom" id="LE5-ua-Sph"/>
-                                                                            <constraint firstItem="Cji-zx-cUS" firstAttribute="top" secondItem="8KN-IQ-k0r" secondAttribute="bottom" constant="15" id="TPF-cM-V7W"/>
-                                                                            <constraint firstItem="nth-Cw-o6q" firstAttribute="top" secondItem="VtA-Y3-VUo" secondAttribute="bottom" id="Tmy-CV-dIo"/>
+                                                                            <constraint firstItem="Cji-zx-cUS" firstAttribute="top" secondItem="VtA-Y3-VUo" secondAttribute="bottom" constant="16" id="QAX-0M-wLO"/>
                                                                             <constraint firstItem="XtL-k6-oGb" firstAttribute="leading" secondItem="b13-at-QRc" secondAttribute="leading" id="Vd0-U3-H0V"/>
                                                                             <constraint firstItem="XtL-k6-oGb" firstAttribute="trailing" secondItem="VtA-Y3-VUo" secondAttribute="trailing" constant="-5" id="Wgi-IK-zoK"/>
                                                                             <constraint firstItem="9SX-jt-i2P" firstAttribute="leading" secondItem="Cji-zx-cUS" secondAttribute="trailing" constant="16" id="XSV-WK-6mu"/>

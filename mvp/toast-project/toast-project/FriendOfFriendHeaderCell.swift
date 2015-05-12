@@ -36,14 +36,15 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
     //MARK: - Friend methods
     private func configureFriendPicture(friend:PFUser){
         configureReviewerPicture(friendPictureView.layer)
-        let pictureURL = friend["pictureURL"] as! String
-        let cache = Shared.imageCache
-        
-        cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
-            NSLog("configurePicture error: \(error!.description)")
-            }, success: {(image) -> () in
-                self.friendPictureView.myImage = image
-        })
+        if let pictureURL = friend["pictureURL"] as? String{
+            let cache = Shared.imageCache
+            
+            cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
+                NSLog("configurePicture error: \(error!.description)")
+                }, success: {(image) -> () in
+                    self.friendPictureView.myImage = image
+            })
+        }
     }
     
     private func configureFriendName(friend:PFUser){
@@ -54,14 +55,15 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
     //MARK: - Friend of friend methods
     private func configureFriendOfFriendPicture(friendFriend:PFUser){
         configureReviewerPicture(friendFriendPictureButton.layer)
-        let pictureURL = friendFriend["pictureURL"] as! String
-        let cache = Shared.imageCache
-        
-        cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
-            NSLog("configurePicture error: \(error!.description)")
-            }, success: {(image) -> () in
-                self.friendFriendPictureButton.myImage = image
-        })
+        if let pictureURL = friendFriend["pictureURL"] as? String{
+            let cache = Shared.imageCache
+            
+            cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
+                NSLog("configurePicture error: \(error!.description)")
+                }, success: {(image) -> () in
+                    self.friendFriendPictureButton.myImage = image
+            })
+        }
     }
 
     private func configureFriendOfFriendName(friendFriend:PFUser){

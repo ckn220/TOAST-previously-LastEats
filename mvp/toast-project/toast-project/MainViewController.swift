@@ -198,6 +198,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     func mainMenuTableMyToastsPressed() {
         let toastsScene = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
         toastsScene.myFriend = PFUser.currentUser()
+        toastsScene.myDelegate = self
         
         changeMainTo(toastsScene)
     }
