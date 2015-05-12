@@ -28,6 +28,10 @@ class ProfileDetailViewController: UIViewController {
             myTableView.dataSource = profileDataSource
             myTableView.delegate = profileDataSource
             myTableView.reloadData()
+            /*
+            var newRect = myTableView.bounds
+            newRect.origin.y += 500
+            myTableView.scrollRectToVisible(newRect, animated: false)*/
         }
     }
     
@@ -52,8 +56,7 @@ class ProfileDetailViewController: UIViewController {
     private func loadTopToast(#group: dispatch_group_t){
         if let topToast = self.myUser["topToast"] as? PFObject{
             dispatch_group_enter(group)
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-                topToast.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
+            topToast.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
                     if error == nil{
                         self.topToast = result as PFObject
                     }else{
@@ -61,7 +64,6 @@ class ProfileDetailViewController: UIViewController {
                     }
                     dispatch_group_leave(group)
                 }
-            })
         }
     }
     
@@ -81,7 +83,7 @@ class ProfileDetailViewController: UIViewController {
     }
     
     private func configureUserToastsCompletion(#group: dispatch_group_t){
-        dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { () -> Void in
+        dispatch_group_notify(group, dispatch_get_main_queue()) { () -> Void in
             self.profileDataSource = ProfileToastsDataSource(toasts: self.toasts!,user:self.myUser,topToast:self.topToast)
         }
     }

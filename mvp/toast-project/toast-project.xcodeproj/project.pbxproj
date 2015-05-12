@@ -1619,7 +1619,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "51831064-dad4-4b51-94bb-51c1d0448599";
+				PROVISIONING_PROFILE = "c17aed4e-ae52-45b9-b9e3-686c06e03945";
 				SWIFT_OBJC_BRIDGING_HEADER = "toast-project/toast-project-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1630,8 +1630,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Diego Cruz (Y2X429E8XQ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Diego Cruz (Y2X429E8XQ)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/toast-project",
@@ -1642,7 +1642,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "51831064-dad4-4b51-94bb-51c1d0448599";
+				PROVISIONING_PROFILE = "c17aed4e-ae52-45b9-b9e3-686c06e03945";
 				SWIFT_OBJC_BRIDGING_HEADER = "toast-project/toast-project-Bridging-Header.h";
 			};
 			name = Release;

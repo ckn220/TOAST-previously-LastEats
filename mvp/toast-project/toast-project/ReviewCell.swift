@@ -97,10 +97,10 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
     //MARK: - Configure Review methods
     private func configureReview(#item:PFObject,isSingle:Bool){
         myToast = item
-        
         if let review = item["review"] as? String{
             if isSingle {
-                setReview("\""+review+"\"")
+                setLinkableReview(review)
+                //setReview("\""+review+"\"")
             }else{
                 setReview(review)
             }
@@ -111,6 +111,49 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
     private func setReview(review:String){
         reviewTextLabel.text = review
         self.layoutIfNeeded()
+    }
+    
+    private func setLinkableReview(review:String){
+        configureLinkView()
+        var words = review.componentsSeparatedByString(" ")
+        var finalReview = NSMutableAttributedString(string: "")
+        finalReview.appendAttributedString(attributedWord("\""))
+        for word in words{
+            finalReview.appendAttributedString(attributedWord(word))
+            finalReview.appendAttributedString(attributedWord(" "))
+        }
+        finalReview.appendAttributedString(attributedWord("\""))
+        reviewLinkTextView.attributedText = finalReview
+    }
+    
+    private func configureLinkView(){
+        reviewLinkTextView.linkTextAttributes = [NSForegroundColorAttributeName:UIColor(hue:0.555, saturation:0.45, brightness:1, alpha:1)]
+        reviewLinkTextView.linkTextTouchAttributes = [NSForegroundColorAttributeName:UIColor(hue:0.555, saturation:0.45, brightness:0.7, alpha:1),NSBackgroundColorAttributeName:UIColor.clearColor()]
+    }
+    
+    private func attributedWord(word:String)->NSAttributedString{
+        if let hashIndex = find(word,"#"){
+            return attributedHashtag(word)
+        }else{
+            return attributedNormal(word)
+        }
+    }
+    
+    private func attributedNormal(word:String)->NSAttributedString{
+        return NSAttributedString(string: word, attributes: myAttributes())
+    }
+    
+    private func attributedHashtag(hashtag:String)->NSAttributedString{
+        var attr = myAttributes()
+        attr[CCHLinkAttributeName] = 0
+        return NSAttributedString(string: hashtag, attributes: attr)
+    }
+    
+    private func myAttributes() -> [NSObject:AnyObject]{
+        var attributes = [NSObject:AnyObject]()
+        attributes[NSFontAttributeName] = UIFont(name: "Avenir-Medium", size: 16)
+        attributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        return attributes
     }
     
     //MARK: - Configure Separator line methods
@@ -165,6 +208,10 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
         myDelegate?.reviewCellReviewerPressed(reviewIndex)
     }
     
+    @IBAction func reviewerPressed(sender: UIButton) {
+        myDelegate?.reviewCellReviewerPressed(reviewIndex)
+    }
+ 
     //MARK: - Actions buttons methods
     @IBAction func heartButtonPressed(sender: HeartButton) {
         var heartFunction = "heartToast"

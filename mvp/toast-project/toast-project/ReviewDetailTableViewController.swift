@@ -24,6 +24,7 @@ class ReviewDetailTableViewController: UITableViewController {
     }
     
     func configure(){
+        tableView.estimatedRowHeight = 44
         tableView.rowHeight = UITableViewAutomaticDimension
         configureHashtags()
         configureButtons()
@@ -118,7 +119,7 @@ class ReviewDetailTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return 2 + myHashtags.count
+        return 2
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -169,8 +170,51 @@ class ReviewDetailTableViewController: UITableViewController {
     }
     
     func configureReview(#cell:UITableViewCell){
-        let reviewLabel = cell.viewWithTag(101) as! UILabel
-        reviewLabel.text = "\""+(myToast?["review"] as! String)+"\""
+        let reviewLinkView = cell.viewWithTag(1001) as! CCHLinkTextView
+        let reviewString = myToast!["review"] as! String
+        setLinkableReview(reviewString, view: reviewLinkView)
+    }
+    
+    private func setLinkableReview(review:String,view:CCHLinkTextView){
+        configureLinkView(view)
+        var words = review.componentsSeparatedByString(" ")
+        var finalReview = NSMutableAttributedString(string: "")
+        for word in words{
+            finalReview.appendAttributedString(attributedWord(word))
+            finalReview.appendAttributedString(attributedWord(" "))
+        }
+        view.attributedText = finalReview
+        view.layoutIfNeeded()
+    }
+    
+    private func configureLinkView(view:CCHLinkTextView){
+        view.linkTextAttributes = [NSForegroundColorAttributeName:UIColor(hue:0.555, saturation:0.45, brightness:1, alpha:1)]
+        view.linkTextTouchAttributes = [NSForegroundColorAttributeName:UIColor(hue:0.555, saturation:0.45, brightness:0.7, alpha:1),NSBackgroundColorAttributeName:UIColor.clearColor()]
+    }
+    
+    private func attributedWord(word:String)->NSAttributedString{
+        if let hashIndex = find(word,"#"){
+            return attributedHashtag(word)
+        }else{
+            return attributedNormal(word)
+        }
+    }
+    
+    private func attributedNormal(word:String)->NSAttributedString{
+        return NSAttributedString(string: word, attributes: myAttributes())
+    }
+    
+    private func attributedHashtag(hashtag:String)->NSAttributedString{
+        var attr = myAttributes()
+        attr[CCHLinkAttributeName] = 0
+        return NSAttributedString(string: hashtag, attributes: attr)
+    }
+    
+    private func myAttributes() -> [NSObject:AnyObject]{
+        var attributes = [NSObject:AnyObject]()
+        attributes[NSFontAttributeName] = UIFont(name: "Avenir-Medium", size: 16)
+        attributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        return attributes
     }
     
     func configureHashtag(#cell:UITableViewCell,index:Int){
