@@ -18,8 +18,8 @@ protocol DiscoverDelegate {
 
 class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLocationManagerDelegate {
 
+    @IBOutlet weak var myBG: BackgroundImageView!
     @IBOutlet weak var loadingLabel: UILabel!
-    @IBOutlet weak var profilePictureView: BackgroundImageView!
     @IBOutlet weak var sentenceLabel: UILabel!
     @IBOutlet weak var discoverCarousel: iCarousel!
     var myDelegate:DiscoverDelegate?
@@ -42,7 +42,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     
     func configure(){
         configureInitialBG()
-        configureUserPicture()
+        //configureUserPicture()
         configureLocation()
         configureCarouselData()
     }
@@ -50,7 +50,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     private func configureInitialBG(){
         changeBGTo(nil)
     }
-    
+    /*
     private func configureUserPicture(){
         if let pictureURL = PFUser.currentUser()["pictureURL"] as? String{
             let genericCache = Shared.imageCache
@@ -60,7 +60,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
                     self.profilePictureView.myImage = image
             })
         }
-    }
+    }*/
     
     func configureLocation(){
         locationManager = MyLocationManager(myDelegate: self)
@@ -145,9 +145,8 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
         cache.fetch(key: neighName, failure: { (error) -> () in
             NSLog("changeBGTo error: %@",error!.description)
             }, success: {(image) -> () in
-                let myBG = self.view as! BackgroundImageView
-                UIView.transitionWithView(myBG, duration: 0.4, options: .TransitionCrossDissolve, animations: { () -> Void in
-                    myBG.insertImage(image, withOpacity: 0.65)
+                UIView.transitionWithView(self.myBG, duration: 0.4, options: .TransitionCrossDissolve, animations: { () -> Void in
+                    self.myBG.insertImage(image, withOpacity: 0.65)
                 }, completion: nil)
         })
     }

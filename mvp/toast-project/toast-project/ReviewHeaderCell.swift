@@ -10,18 +10,18 @@ import UIKit
 import Parse
 
 protocol ReviewHeaderDelegate{
-    func friendPicturePressed()
+    func friendPicturePressed(ffriend:PFUser?)
 }
 
 class ReviewHeaderCell: UITableViewCell {
 
     var myDelegate:ReviewHeaderDelegate?
     
-    func configure(#friend:PFUser,myDelegate:ReviewHeaderDelegate){
+    func configure(#friend:PFUser,myDelegate:ReviewHeaderDelegate,isTopToast: Bool){
         self.myDelegate = myDelegate
     }
     
-    func configure(#friend:PFUser,friendFriend:PFUser,myDelegate:ReviewHeaderDelegate){
+    func configure(#friend:PFUser,friendFriend:PFUser,myDelegate:ReviewHeaderDelegate,isTopToast: Bool){
         self.myDelegate = myDelegate
     }
     
@@ -37,7 +37,7 @@ class ReviewHeaderCell: UITableViewCell {
     }
 
     func configureReviewerPicture(pictureLayer:CALayer){
-        pictureLayer.cornerRadius = CGRectGetWidth(pictureLayer.bounds)/2
+        pictureLayer.cornerRadius = CGRectGetWidth(pictureLayer.bounds)/2.0
         pictureLayer.borderWidth = 1
         pictureLayer.borderColor = UIColor(white: 1, alpha: 0.7).CGColor
         pictureLayer.shouldRasterize = true
@@ -57,6 +57,6 @@ class ReviewHeaderCell: UITableViewCell {
     
     //MARK: - Action methods
     @IBAction func reviewerButtonPressed(sender: ReviewerButton) {
-        myDelegate?.friendPicturePressed()
+        myDelegate?.friendPicturePressed(nil)
     }
 }

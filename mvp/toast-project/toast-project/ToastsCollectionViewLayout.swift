@@ -35,7 +35,7 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
         return (CGRectGetWidth(collectionView!.bounds) / 2)
     }
     
-    /*
+    
     override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         
         var offsetAdjustment = 10000.0 as CGFloat
@@ -55,8 +55,9 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
         }
         
         return CGPointMake(proposedContentOffset.x + offsetAdjustment, proposedContentOffset.y)
-    }*/
+    }
     
+    /*
     override func targetContentOffsetForProposedContentOffset(proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
         let collectionViewSize = self.collectionView!.bounds.size;
         let proposedContentOffsetCenterX = proposedContentOffset.x + self.collectionView!.bounds.size.width * 0.5;
@@ -81,7 +82,7 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
         }
         
         return CGPointMake(candidateAttributes!.center.x - self.collectionView!.bounds.size.width * 0.5, proposedContentOffset.y);
-    }
+    }*/
     
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [AnyObject]? {
         let attributes = super.layoutAttributesForElementsInRect(rect) as! [UICollectionViewLayoutAttributes]

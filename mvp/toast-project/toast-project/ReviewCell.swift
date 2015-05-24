@@ -11,7 +11,8 @@ import Parse
 import Haneke
 
 protocol ReviewCellDelegate{
-    func reviewCellReviewerPressed(index:Int)
+    func reviewCellReviewerPressed(index:Int,ffriend:PFUser?)
+    func reviewCellHashtagPressed(name:String)
 }
 
 protocol ReviewCellHeaderSource{
@@ -19,7 +20,7 @@ protocol ReviewCellHeaderSource{
     func dequeueFriendOfFriendHeader() -> ReviewHeaderCell
 }
 
-class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
+class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
 
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var reviewTextLabel: UILabel!
@@ -27,7 +28,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
     @IBOutlet weak var reviewLinkTextView: CCHLinkTextView!
     
     @IBOutlet weak var heartButton: HeartButton!
-    @IBOutlet weak var followButton: FollowButton!
+    @IBOutlet weak var heartCount: LikeCountView!
     
     var myToast:PFObject!
     var myHeaderSource:ReviewCellHeaderSource?
@@ -39,7 +40,6 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
         configureUser(item: item)
         configureReview(item: item,isSingle: lastIndex == 0)
         configureSeparatorLine(isLastItem: lastIndex == index)
-        configureActionButtons(item, isSingle: lastIndex == 0)
     }
     
     //MARK: - Configure methods
@@ -50,17 +50,17 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
     //MARK: - Configure User methods
     private func configureUser(#item:PFObject){
         if let user = item["user"] as? PFUser{
-            friendOfFriend(user)
+            friendOfFriend(user,toast:item)
         }
     }
     
-    private func friendOfFriend(friendFriend:PFUser){
+    private func friendOfFriend(friendFriend:PFUser,toast:PFObject){
         PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":friendFriend.objectId]) { (result, error) -> Void in
             if error == nil{
                 if let friend = result as? PFUser{
-                    self.configureFriendOfFriendHeader(friend,friendFriend: friendFriend)
+                    self.configureFriendOfFriendHeader(friend,friendFriend: friendFriend,toast:toast)
                 }else{
-                    self.configureFriendHeader(friendFriend)
+                    self.configureFriendHeader(friendFriend,toast:toast)
                 }
             }else{
                 NSLog("friendOfFriend error: %@",error.description)
@@ -69,17 +69,25 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
         }
     }
     
-    private func configureFriendHeader(friend:PFUser){
+    private func configureFriendHeader(friend:PFUser,toast:PFObject){
         let header = myHeaderSource?.dequeueFriendHeader()
-        header?.configure(friend: friend,myDelegate:self)
+        header?.configure(friend: friend,myDelegate:self,isTopToast:isTopToast(friend, toast: toast))
         insertHeader(header!)
     }
     
-    private func configureFriendOfFriendHeader(friend:PFUser,friendFriend:PFUser){
+    private func configureFriendOfFriendHeader(friend:PFUser,friendFriend:PFUser,toast:PFObject){
         let header = myHeaderSource?.dequeueFriendOfFriendHeader()
         
-        header?.configure(friend: friend, friendFriend: friendFriend,myDelegate:self)
+        header?.configure(friend: friend, friendFriend: friendFriend,myDelegate:self,isTopToast: isTopToast(friendFriend, toast: toast))
         insertHeader(header!)
+    }
+    
+    private func isTopToast(user:PFUser,toast:PFObject) -> Bool{
+        if let topToast = user["topToast"] as? PFObject{
+            return topToast.objectId == toast.objectId
+        }else{
+            return false
+        }
     }
     
     private func insertHeader(header:ReviewHeaderCell){
@@ -100,7 +108,8 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
         if let review = item["review"] as? String{
             if isSingle {
                 setLinkableReview(review)
-                //setReview("\""+review+"\"")
+                setHeartCount(forItem: item)
+                configureActionButtons(item, isSingle: isSingle)
             }else{
                 setReview(review)
             }
@@ -110,6 +119,18 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
     
     private func setReview(review:String){
         reviewTextLabel.text = review
+    }
+    
+    private func setHeartCount(forItem item:PFObject){
+        let userQuery = PFQuery(className: "_User")
+        userQuery.whereKey("hearts", equalTo: item)
+        userQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
+            if error == nil{
+                self.heartCount.count = Int(count)
+            }else{
+                NSLog("setHeartCount error:%@",error.description)
+            }
+        }
     }
     
     private func setLinkableReview(review:String){
@@ -127,6 +148,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
     }
     
     private func configureLinkView(){
+        reviewLinkTextView.linkDelegate = self
         reviewLinkTextView.scrollEnabled = false
         reviewLinkTextView.linkTextAttributes = [NSForegroundColorAttributeName:UIColor(hue:0.555, saturation:0.45, brightness:1, alpha:1)]
         reviewLinkTextView.linkTextTouchAttributes = [NSForegroundColorAttributeName:UIColor(hue:0.555, saturation:0.45, brightness:0.7, alpha:1),NSBackgroundColorAttributeName:UIColor.clearColor()]
@@ -146,7 +168,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
     
     private func attributedHashtag(hashtag:String)->NSAttributedString{
         var attr = myAttributes()
-        attr[CCHLinkAttributeName] = 0
+        attr[CCHLinkAttributeName] = hashtag.componentsSeparatedByString("#")[1]
         return NSAttributedString(string: hashtag, attributes: attr)
     }
     
@@ -169,55 +191,62 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
     //MARK: - Configure ActionButton methods
     private func configureActionButtons(item:PFObject,isSingle:Bool){
         if isSingle{
-            getUserActions(toast: item, completion: { (actions) -> Void in
-                self.heartButton.isOn = actions[0] as! Bool
-                self.followButton.isOn = actions[1] as! Bool
+            getHasHeart(toast: item, completion: { (hasHeart) -> Void in
+                self.heartButton.isOn = hasHeart
             })
         }
     }
     
-    private func getUserActions(#toast:PFObject,completion:(actions:NSArray) -> Void){
-        let cache = Cache<NSArray>(name:"userActions")
+    private func getHasHeart(#toast:PFObject,completion:(hasHeart:Bool) -> Void){
+        let cache = Cache<String>(name:"hasHearts")
         cache.fetch(key: toast.objectId, failure: { (error) -> () in
-            self.requestUserActions(toast: toast, completion: completion)
-            }, success: { (actions) -> () in
-            completion(actions: actions)
+            self.requestHasHeart(toast: toast, completion: completion)
+            }, success: { (result) -> () in
+            completion(hasHeart: (result as String).toInt()! == 1)
         })
     }
     
-    private func requestUserActions(#toast:PFObject,completion:(actions:NSArray) -> Void){
-        PFCloud.callFunctionInBackground("userActionsForToast", withParameters: ["toastId":toast.objectId]) { (result, error) -> Void in
+    private func requestHasHeart(#toast:PFObject,completion:(hasHeart:Bool) -> Void){
+        let heartsQuery = PFUser.currentUser().relationForKey("hearts").query()
+        heartsQuery.whereKey("objectId", equalTo: myToast.objectId)
+        heartsQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
             if error == nil{
-                let actions = result as! NSArray
-                self.saveActions(actions,toast:toast)
-                completion(actions: actions)
+                self.saveHasHeart("\(count)", toast: toast)
+                completion(hasHeart: count == 1)
             }else{
-                NSLog("requestUserActions error: %@", error.description)
-                let errorActions = [0,0]
-                completion(actions: errorActions)
+                NSLog("requestHasHeart error: %@",error.description)
             }
         }
     }
     
-    private func saveActions(actions:NSArray,toast:PFObject){
-        let cache = Cache<NSArray>(name:"userActions")
-        cache.set(value: actions, key: toast.objectId, success: nil)
+    private func saveHasHeart(hasHeart:String,toast:PFObject){
+        let cache = Cache<String>(name:"hasHearts")
+        cache.set(value: hasHeart, key: toast.objectId, success: nil)
     }
     
     //MARK: - Review  Header delegate methods
-    func friendPicturePressed() {
-        myDelegate?.reviewCellReviewerPressed(reviewIndex)
+    func friendPicturePressed(ffriend:PFUser?) {
+        myDelegate?.reviewCellReviewerPressed(reviewIndex,ffriend:ffriend)
     }
     
     @IBAction func reviewerPressed(sender: UIButton) {
-        myDelegate?.reviewCellReviewerPressed(reviewIndex)
+        let reviewHeader = headerView.subviews[0] as! ReviewHeaderCell
+        var ffriend:PFUser?
+        if let friendOfFriendHeader = reviewHeader as? FriendOfFriendHeaderCell{
+            ffriend = friendOfFriendHeader.friend
+        }
+        myDelegate?.reviewCellReviewerPressed(reviewIndex,ffriend:ffriend)
     }
  
     //MARK: - Actions buttons methods
     @IBAction func heartButtonPressed(sender: HeartButton) {
-        var heartFunction = "heartToast"
-        if !sender.isOn{
+        var heartFunction:String
+        if sender.isOn{
+            heartFunction = "heartToast"
+            heartCount.count++
+        }else{
             heartFunction = "unheartToast"
+            heartCount.count--
         }
         
         PFCloud.callFunctionInBackground(heartFunction, withParameters: ["toastId":myToast!.objectId]) { (result, error) -> Void in
@@ -239,5 +268,10 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate {
                 NSLog("followButtonPressed error: %@",error.description)
             }
         }
+    }
+    
+    //MARK: - CCHLinkTextView delegate methods
+    func linkTextView(linkTextView: CCHLinkTextView!, didTapLinkWithValue value: AnyObject!) {
+        myDelegate?.reviewCellHashtagPressed(value as! String)
     }
 }

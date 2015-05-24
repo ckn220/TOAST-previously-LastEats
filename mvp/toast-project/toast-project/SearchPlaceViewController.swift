@@ -112,12 +112,12 @@ class SearchPlaceViewController: UIViewController,UISearchBarDelegate,UITableVie
                 var llKey = "ll="
                 var llValue = ""
                 
-                if let userLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint {
+                /*if let userLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint {
                     llValue = "\(userLocation.latitude),\(userLocation.longitude)"
-                }else{
+                }else{*/
                     llKey = "near="
                     llValue = "New,York,City,NY"
-                }
+                //}
                 
                 let foursquareRequestString = "https://api.foursquare.com/v2/venues/suggestCompletion?"+llKey+llValue+"&client_id="+foursquareClientId+"&client_secret="+foursquareClientSecret+"&v=20150207&locale=en&m=foursquare&categoryId=4d4b7105d754a06374d81259&limit=5&query="
                 

@@ -7,3 +7,6 @@
 #import "InstagramKit.h"
 #import "iCarousel.h"
 #import "CCHLinkTextView.h"
+#import "CCHLinkTextViewDelegate.h"
+#import "UIColor+RHInterpolationAdditions.h"
+#import "UIImage+ImageEffects.h"

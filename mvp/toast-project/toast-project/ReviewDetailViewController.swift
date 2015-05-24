@@ -10,16 +10,15 @@ import UIKit
 import Parse
 import Haneke
 
-class ReviewDetailViewController: UIViewController {
+class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate {
 
     @IBOutlet weak var titleLabel: UILabel!
-    
-    @IBOutlet weak var userPictureView: BackgroundImageView!
-    @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var reviewLinkView: CCHLinkTextView!
     @IBOutlet weak var heartButton: HeartButton!
-    @IBOutlet weak var followButton: FollowButton!
+    @IBOutlet weak var heartCountView: LikeCountView!
+    @IBOutlet weak var headerParentView: UIView!
     
+    var myOldParentHeader:UIView!
     var myToast:PFObject?
     var titleString: String?
     
@@ -31,9 +30,9 @@ class ReviewDetailViewController: UIViewController {
     //MARK: - Configure methods
     private func configure(){
         configureTitle()
-        configureUser()
+        configureHeader()
         configureReview()
-        configureActions()
+        configureActionButtons()
     }
     
     private func configureTitle(){
@@ -43,34 +42,16 @@ class ReviewDetailViewController: UIViewController {
     }
     
     //MARK: Configure user methods
-    private func configureUser(){
-        let user = myToast!["user"] as! PFUser
-        configureUserPicture(user)
-        configureUserName(user)
-    }
-    
-    private func configureUserPicture(user:PFUser){
-        initUserPicture()
-        let pictureURL = user["pictureURL"] as! String
-        let cache = Shared.imageCache
-        
-        cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
-            NSLog("configureUserPicture error: \(error!.description)")
-            }, success: {(image) -> () in
-                self.userPictureView.myImage = image
-        })
-    }
-    
-    private func initUserPicture(){
-        let layer = userPictureView.layer
-        layer.cornerRadius = CGRectGetWidth(layer.frame)/2
-        layer.borderColor = UIColor(white: 1, alpha: 0.7).CGColor
-        layer.borderWidth = 1.0
-    }
-    
-    private func configureUserName(user:PFUser){
-        let name = user["name"] as! String
-        userNameLabel.text = name
+    private func configureHeader(){
+        let myHeaderView = myOldParentHeader.subviews[0] as? UIView
+        if let ffHeader = myHeaderView as? FriendOfFriendHeaderCell{
+            ffHeader.subtitleHeightConstraint.constant = 34
+            ffHeader.friendFriendPictureButton.enabled = false
+        }else{
+            let fHeader = myHeaderView as! FriendHeaderCell
+            fHeader.friendPictureButton.enabled = false
+        }
+        myHeaderView!.layoutIfNeeded()
     }
     
     //MARK: Configure review methods
@@ -88,6 +69,7 @@ class ReviewDetailViewController: UIViewController {
     }
     
     private func initLinkView(view:CCHLinkTextView){
+        view.linkDelegate = self
         view.linkTextAttributes = [NSForegroundColorAttributeName:UIColor(hue:0.555, saturation:0.45, brightness:1, alpha:1)]
         view.linkTextTouchAttributes = [NSForegroundColorAttributeName:UIColor(hue:0.555, saturation:0.45, brightness:0.7, alpha:1),NSBackgroundColorAttributeName:UIColor.clearColor()]
     }
@@ -106,7 +88,7 @@ class ReviewDetailViewController: UIViewController {
     
     private func attributedHashtag(hashtag:String)->NSAttributedString{
         var attr = myAttributes()
-        attr[CCHLinkAttributeName] = 0
+        attr[CCHLinkAttributeName] = hashtag.componentsSeparatedByString("#")[1]
         return NSAttributedString(string: hashtag, attributes: attr)
     }
     
@@ -118,39 +100,35 @@ class ReviewDetailViewController: UIViewController {
     }
     
     //MARK: Configure actions methods
-    private func configureActions(){
-        getUserActions(toast: myToast!, completion: { (actions) -> Void in
-            self.heartButton.isOn = actions[0] as! Bool
-            self.followButton.isOn = actions[1] as! Bool
+    private func configureActionButtons(){
+        requestHasHeart(toast: myToast!, completion: { (hasHeart) -> Void in
+                self.heartButton.isOn = hasHeart
         })
-    }
-
-    private func getUserActions(#toast:PFObject,completion:(actions:NSArray) -> Void){
-        let cache = Cache<NSArray>(name:"userActions")
-        cache.fetch(key: toast.objectId, failure: { (error) -> () in
-            self.requestUserActions(toast: toast, completion: completion)
-            }, success: { (actions) -> () in
-                completion(actions: actions)
-        })
+        setHeartCount(forItem: myToast!)
     }
     
-    private func requestUserActions(#toast:PFObject,completion:(actions:NSArray) -> Void){
-        PFCloud.callFunctionInBackground("userActionsForToast", withParameters: ["toastId":toast.objectId]) { (result, error) -> Void in
+    private func requestHasHeart(#toast:PFObject,completion:(hasHeart:Bool) -> Void){
+        let heartsQuery = PFUser.currentUser().relationForKey("hearts").query()
+        heartsQuery.whereKey("objectId", equalTo: myToast!.objectId)
+        heartsQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
             if error == nil{
-                let actions = result as! NSArray
-                self.saveActions(actions,toast:toast)
-                completion(actions: actions)
+                completion(hasHeart: count == 1)
             }else{
-                NSLog("requestUserActions error: %@", error.description)
-                let errorActions = [0,0]
-                completion(actions: errorActions)
+                NSLog("requestHasHeart error: %@",error.description)
             }
         }
     }
     
-    private func saveActions(actions:NSArray,toast:PFObject){
-        let cache = Cache<NSArray>(name:"userActions")
-        cache.set(value: actions, key: toast.objectId, success: nil)
+    private func setHeartCount(forItem item:PFObject){
+        let userQuery = PFQuery(className: "_User")
+        userQuery.whereKey("hearts", equalTo: item)
+        userQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
+            if error == nil{
+                self.heartCountView.count = Int(count)
+            }else{
+                NSLog("setHeartCount error:%@",error.description)
+            }
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -161,6 +139,11 @@ class ReviewDetailViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        setBG()
+        setHeader()
+    }
+    
+    private func setBG(){
         let cache = Cache<UIImage>(name: "neighborhoods")
         cache.fetch(key: "default", failure: { (error) -> () in
             NSLog("viewWillAppear error: %@",error!.description)
@@ -169,6 +152,33 @@ class ReviewDetailViewController: UIViewController {
                 myBG.insertImage(image, withOpacity: 0.65)
         })
     }
+    
+    private func setHeader(){
+        let myHeaderView = myOldParentHeader.subviews[0] as? UIView
+        myHeaderView?.frame = headerParentView.bounds
+        headerParentView.addSubview(myHeaderView!)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        unsetBG()
+    }
+    
+    private func unsetBG(){
+        let myHeaderView = headerParentView.subviews[0] as? UIView
+        if let ffHeader = myHeaderView as? FriendOfFriendHeaderCell{
+            ffHeader.subtitleHeightConstraint.constant = 17
+            ffHeader.friendFriendPictureButton.enabled = true
+        }else{
+            let fHeader = myHeaderView as! FriendHeaderCell
+            fHeader.friendPictureButton.enabled = true
+        }
+        myHeaderView!.layoutIfNeeded()
+        myHeaderView!.removeFromSuperview()
+        myHeaderView!.frame = myOldParentHeader.bounds
+        myOldParentHeader.addSubview(myHeaderView!)
+    }
 
     //MARK: - Action methods
     @IBAction func backPressed(sender: UIButton) {
@@ -176,9 +186,13 @@ class ReviewDetailViewController: UIViewController {
     }
     
     @IBAction func heartButtonPressed(sender: HeartButton) {
-        var heartFunction = "heartToast"
-        if !sender.isOn{
+        var heartFunction:String
+        if sender.isOn{
+            heartFunction = "heartToast"
+            heartCountView.count++
+        }else{
             heartFunction = "unheartToast"
+            heartCountView.count--
         }
         
         PFCloud.callFunctionInBackground(heartFunction, withParameters: ["toastId":myToast!.objectId]) { (result, error) -> Void in
@@ -188,17 +202,10 @@ class ReviewDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func followButtonPressed(sender: FollowButton) {
-        var followFunction = "followUser"
-        if !sender.isOn{
-            followFunction = "unfollowUser"
-        }
-        
-        let user = (myToast!["user"] as! PFUser).objectId
-        PFCloud.callFunctionInBackground(followFunction, withParameters: ["userId":user]) { (result, error) -> Void in
-            if error != nil{
-                NSLog("%@",error.description)
-            }
-        }
+    //MARK: - LinkTextView delegate methods
+    func linkTextView(linkTextView: CCHLinkTextView!, didTapLinkWithValue value: AnyObject!) {
+        let destination = storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
+        destination.myHashtagName = value as? String
+        self.showViewController(destination, sender: self)
     }
 }

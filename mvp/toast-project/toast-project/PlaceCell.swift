@@ -10,12 +10,14 @@ import Foundation
 import UIKit
 import Parse
 import Haneke
+import Alamofire
 
 protocol PlaceCellDelegate{
     func placeCellDidScroll(#tableView:UITableView,place:PFObject)
     func placeCellDidPressed(#place:PFObject)
-    func placeCellReviewDidPressed(#toast:PFObject,place: PFObject)
-    func placeCellReviewerDidPress(#user:PFUser)
+    func placeCellReviewDidPressed(#toast:PFObject,place: PFObject,parentHeader:UIView)
+    func placeCellReviewerDidPress(#user:PFUser,friend:PFUser?)
+    func placeCellHashtagPressed(name:String)
     
     func placeCellAskedForHashtags(placeId:String)->[PFObject]?
     func placeCellAskedForReviews(placeId:String)->[PFObject]?
@@ -37,6 +39,9 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var reviewsTableView: UITableView!
     
+    let hashtagQueue = NSOperationQueue()
+    let reviewQueue = NSOperationQueue()
+    
     var hashtagDataSource: HashtagCollectionViewDataSource?{
         didSet{
             self.hashtagsCollectionView.dataSource = self.hashtagDataSource
@@ -57,10 +62,10 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     var myPlace:PFObject?{
         didSet{
             configureName()
-            configurePicture()
+            //configurePicture()
             configureHashtags()
             configureInformationBar()
-            configureReviews()
+            //configureReviews()
         }
     }
     var myDelegate:PlaceCellDelegate?
@@ -75,6 +80,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         if let photos = myPlace!["photos"] as? [String]{
             if photos.count > 0{
                 let firstPhotoURL = (myPlace!["photos"] as! [String])[0]
+                
                 let cache = Shared.imageCache
                 
                 cache.fetch(URL: NSURL(string:firstPhotoURL)!, failure: { (error) -> () in
@@ -82,21 +88,33 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
                     }, success: {(image) -> () in
                         self.myBackgroundView.insertImage(image,withOpacity: 0)
                 })
+                /*
+                Alamofire.request(.GET,firstPhotoURL).response({ (request, response, data, error) -> Void in
+                    if error == nil{
+                        self.myBackgroundView.myImage = UIImage(data: data as! NSData)
+                    }
+                })*/
             }
         }
     }
     
     func configureHashtags(){
-        if let localHashtags = myDelegate?.placeCellAskedForHashtags(myPlace!.objectId){
-            self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: localHashtags, myDelegate: nil)
-        }else{
-            PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":myPlace!.objectId,"limit":10]) { (result, error) -> Void in
-                if error == nil{
-                    let hashtags = result as! [PFObject]
-                    self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: hashtags, myDelegate: nil)
-                    self.myDelegate?.placeCellDidGetHashtags(self.myPlace!.objectId, hashtags: hashtags)
-                }else{
-                    NSLog("%@", error.description)
+        hashtagQueue.addOperationWithBlock { () -> Void in
+            if let localHashtags = self.myDelegate?.placeCellAskedForHashtags(self.myPlace!.objectId){
+                self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: localHashtags, myDelegate: nil)
+            }else{
+                PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":self.myPlace!.objectId,"limit":10]) { (result, error) -> Void in
+                    if error == nil{
+                        let hashtags = result as! [PFObject]
+                        let mainQueue = NSOperationQueue.mainQueue()
+                        mainQueue.addOperationWithBlock({ () -> Void in
+                            self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: hashtags, myDelegate: nil)
+                        })
+                        
+                        self.myDelegate?.placeCellDidGetHashtags(self.myPlace!.objectId, hashtags: hashtags)
+                    }else{
+                        NSLog("%@", error.description)
+                    }
                 }
             }
         }
@@ -111,32 +129,42 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     func configureReviews(){
         self.reviewsTableView.rowHeight = UITableViewAutomaticDimension
         
-        if let localReviews = myDelegate?.placeCellAskedForReviews(myPlace!.objectId){
-            self.reviewsDataSource = ReviewsTableViewDataSource(toasts: localReviews,delegate: self)
-            self.configureToastCount(localReviews)
-            self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: localReviews)
-        }else{
-            let othertoastQuery = myPlace!.relationForKey("toasts").query()
-            othertoastQuery.includeKey("user")
-            othertoastQuery.orderByDescending("createdAt");
-            othertoastQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
-                if error == nil{
-                    let reviews = result as! [PFObject]
-                    self.reviewsDataSource = ReviewsTableViewDataSource(toasts: reviews,delegate: self)
-                    self.configureToastCount(reviews)
-                    self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: reviews)
-                    
-                }else{
-                    NSLog("%@", error.description)
+        reviewQueue.addOperationWithBlock { () -> Void in
+            if let localReviews = self.myDelegate?.placeCellAskedForReviews(self.myPlace!.objectId){
+                NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                    self.reviewsDataSource = ReviewsTableViewDataSource(toasts: localReviews,delegate: self)
+                })
+                
+                self.configureToastCount(localReviews)
+                self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: localReviews)
+            }else{
+                let othertoastQuery = self.myPlace!.relationForKey("toasts").query()
+                othertoastQuery.includeKey("user")
+                othertoastQuery.orderByDescending("createdAt");
+                othertoastQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
+                    if error == nil{
+                        let reviews = result as! [PFObject]
+                        
+                        NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                            self.reviewsDataSource = ReviewsTableViewDataSource(toasts: reviews,delegate: self)
+                            self.configureToastCount(reviews)
+                        })
+                        
+                        self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: reviews)
+                        
+                    }else{
+                        NSLog("%@", error.description)
+                    }
                 }
             }
         }
+        
     }
     
     private func configureToastCount(toasts:[PFObject]){
         if toasts.count > 1{
             toastCountView.alpha = 1
-            toastCountLabel.text = "\(toasts.count) Friends Toasts"
+            toastCountLabel.text = "\(toasts.count) Friends Toast"
         }else{
             toastCountView.alpha = 0
         }
@@ -242,11 +270,15 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         myDelegate?.placeCellDidPressed(place: myPlace!)
     }
     
-    func reviewDataSourceReviewDidPressed(#toast: PFObject) {
-        myDelegate?.placeCellReviewDidPressed(toast: toast,place: myPlace!)
+    func reviewDataSourceReviewDidPressed(#toast: PFObject,parentHeader: UIView) {
+        myDelegate?.placeCellReviewDidPressed(toast: toast,place: myPlace!,parentHeader:parentHeader)
     }
     
-    func reviewDataSourceReviewerDidPress(#user: PFUser) {
-        myDelegate?.placeCellReviewerDidPress(user: user)
+    func reviewDataSourceReviewerDidPress(#user: PFUser,friend: PFUser?) {
+        myDelegate?.placeCellReviewerDidPress(user: user,friend:friend)
+    }
+    
+    func reviewDataSourceHashtagPressed(name: String) {
+        myDelegate?.placeCellHashtagPressed(name)
     }
 }

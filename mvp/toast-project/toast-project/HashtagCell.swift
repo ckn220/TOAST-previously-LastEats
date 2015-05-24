@@ -15,7 +15,7 @@ class HashtagCell: UICollectionViewCell {
     
     func configure(#item:PFObject,index:Int) {
         configureLabel(item: item,index:index)
-        insertSmallShadow(self.hashtagLabel)
+        //insertSmallShadow(self.hashtagLabel)
     }
     
     func configureLabel(#item:PFObject,index:Int){

@@ -1,40 +1,33 @@
 //
-//  ReviewDetailButton.swift
+//  PostButton.swift
 //  toast-project
 //
-//  Created by Diego Cruz on 4/18/15.
+//  Created by Diego Cruz on 5/15/15.
 //  Copyright (c) 2015 Diego Cruz. All rights reserved.
 //
 
 import UIKit
 
 @IBDesignable
-class ReviewDetailButton: UIButton {
+class PostButton: UIButton {
 
     var buttonPath:UIBezierPath!
-    var isOn:Bool = false {
+    var myColor:UIColor = UIColor.whiteColor(){
         didSet{
+            self.setTitleColor(myColor, forState: .Normal)
             self.setNeedsDisplay()
         }
     }
     
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
-        toggleButton()
-        super.touchesEnded(touches, withEvent: event)
-    }
-    
-    func toggleButton(){
-        isOn = !isOn
-    }
-    
     override func drawRect(rect: CGRect) {
+        // Drawing code
         drawBase()
     }
     
     func drawBase(){
         //// Rectangle Drawing
-        buttonPath = UIBezierPath(roundedRect: baseFrame(), cornerRadius: 19)
-        UIColor(white: 1, alpha: 0.6).setStroke()
+        buttonPath = UIBezierPath(roundedRect: baseFrame(), cornerRadius: 2)
+        myColor.setStroke()
         buttonPath.lineWidth = 0.5
         buttonPath.stroke()
     }

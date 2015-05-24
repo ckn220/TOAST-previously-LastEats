@@ -8,7 +8,7 @@
 
 import UIKit
 import Parse
-import Alamofire
+import Haneke
 import MapKit
 import CoreLocation
 import AddressBook
@@ -22,7 +22,7 @@ protocol PlaceDetailDelegate{
     func placeDetailCategoryPressed()
 }
 
-class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,HashtagDelegate {
+class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,HashtagDelegate,PlacePicturesDelegate {
     
     var myDelegate:PlaceDetailDelegate?
     var placeGeoPoint:PFGeoPoint?
@@ -40,18 +40,29 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
             hashtagCollectionView.reloadData()
         }
     }
+    var myPicturesDataSource:PlacePicturesDataSource?{
+        didSet{
+            picturesCollectionView.dataSource = myPicturesDataSource
+            picturesCollectionView.delegate = myPicturesDataSource
+            picturesCollectionView.reloadData()
+        }
+    }
     
     @IBOutlet weak var cateogoryLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     
-    @IBOutlet weak var placePictureView:BackgroundImageView!
     @IBOutlet weak var placeMapView: MKMapView!
     
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var callLabel: UILabel!
     @IBOutlet weak var hoursLabel: UILabel!
     @IBOutlet weak var hashtagCollectionView: UICollectionView!
+    
+    @IBOutlet weak var hashtagCollectionViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var picturesPageControl: UIPageControl!
+    @IBOutlet weak var picturesCollectionView: UICollectionView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +82,7 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        configurePlacePicture()
+        configurePlacePictures()
         configureMap()
         configureCategory()
         configurePrice()
@@ -82,11 +93,15 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
         configureHashtags()
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        myPicturesDataSource?.myCache.removeAll()
+    }
+    
     //MARK: Place properties methods
-    func configurePlacePicture(){
-        if let pic = myPlacePicture {
-            self.placePictureView.myImage = pic
-        }
+    func configurePlacePictures(){
+        let pictures = myPlace!["photos"] as! [String]
+        picturesPageControl.numberOfPages = pictures.count
+        myPicturesDataSource = PlacePicturesDataSource(items:pictures,delegate:self)
     }
     
     func configureMap(){
@@ -165,6 +180,9 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     }
     
     func configureHashtags(){
+        
+        let newHeight = (floor((Double(placeHashtags!.count)/2.0)+1))*22
+        hashtagCollectionViewHeightConstraint.constant = CGFloat(min(newHeight, 66.0))
         hashtagsDataSource = HashtagCollectionViewDataSource(hashtags: placeHashtags!, myDelegate: self)
     }
     
@@ -264,4 +282,8 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
         return .LightContent
     }
     
+    //MARK: - PlacePictures delegate methods
+    func placePicturesChangeCurrent(currentIndex: Int) {
+        picturesPageControl.currentPage = currentIndex
+    }
 }

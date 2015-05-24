@@ -44,7 +44,6 @@
 		08363FAC1A57799C007A6827 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08363FAB1A57799C007A6827 /* libsqlite3.dylib */; };
 		08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08363FB01A577C63007A6827 /* LoginViewController.swift */; };
 		084C145F1AA100B3005FB0E9 /* SearchPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */; };
-		0858BF121AB9B18100DCEBA6 /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0858BF111AB9B18100DCEBA6 /* ReviewCell.swift */; };
 		0858BF141AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0858BF131AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift */; };
 		086CFB321A734CD500E321F7 /* InstagramEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB201A734CD500E321F7 /* InstagramEngine.m */; };
 		086CFB331A734CD500E321F7 /* InstagramKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 086CFB221A734CD500E321F7 /* InstagramKit.plist */; };
@@ -63,45 +62,6 @@
 		086E18211AFF7D0400964405 /* DictionaryHaneke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E18201AFF7D0400964405 /* DictionaryHaneke.swift */; };
 		086E18281B001CEC00964405 /* CCHLinkGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 086E18241B001CEC00964405 /* CCHLinkGestureRecognizer.m */; };
 		086E18291B001CEC00964405 /* CCHLinkTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 086E18261B001CEC00964405 /* CCHLinkTextView.m */; };
-		086E18511B002DE900964405 /* Alphabet City.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E182A1B002DE900964405 /* Alphabet City.jpg */; };
-		086E18521B002DE900964405 /* Alphabet City@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E182B1B002DE900964405 /* Alphabet City@2x.jpg */; };
-		086E18531B002DE900964405 /* Alphabet City@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E182C1B002DE900964405 /* Alphabet City@3x.jpg */; };
-		086E18541B002DE900964405 /* Chinatown.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E182D1B002DE900964405 /* Chinatown.jpg */; };
-		086E18551B002DE900964405 /* Chinatown@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E182E1B002DE900964405 /* Chinatown@2x.jpg */; };
-		086E18561B002DE900964405 /* Chinatown@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E182F1B002DE900964405 /* Chinatown@3x.jpg */; };
-		086E18571B002DE900964405 /* defaultBG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18301B002DE900964405 /* defaultBG.jpg */; };
-		086E18581B002DE900964405 /* defaultBG@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18311B002DE900964405 /* defaultBG@2x.jpg */; };
-		086E18591B002DE900964405 /* defaultBG@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18321B002DE900964405 /* defaultBG@3x.jpg */; };
-		086E185A1B002DE900964405 /* East Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18331B002DE900964405 /* East Village.jpg */; };
-		086E185B1B002DE900964405 /* East Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18341B002DE900964405 /* East Village@2x.jpg */; };
-		086E185C1B002DE900964405 /* East Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18351B002DE900964405 /* East Village@3x.jpg */; };
-		086E185D1B002DE900964405 /* Greenwich Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18361B002DE900964405 /* Greenwich Village.jpg */; };
-		086E185E1B002DE900964405 /* Greenwich Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18371B002DE900964405 /* Greenwich Village@2x.jpg */; };
-		086E185F1B002DE900964405 /* Greenwich Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18381B002DE900964405 /* Greenwich Village@3x.jpg */; };
-		086E18601B002DE900964405 /* Lower East Side.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18391B002DE900964405 /* Lower East Side.jpg */; };
-		086E18611B002DE900964405 /* Lower East Side@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E183A1B002DE900964405 /* Lower East Side@2x.jpg */; };
-		086E18621B002DE900964405 /* Lower East Side@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E183B1B002DE900964405 /* Lower East Side@3x.jpg */; };
-		086E18631B002DE900964405 /* NoHo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E183C1B002DE900964405 /* NoHo.jpg */; };
-		086E18641B002DE900964405 /* NoHo@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E183D1B002DE900964405 /* NoHo@2x.jpg */; };
-		086E18651B002DE900964405 /* NoHo@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E183E1B002DE900964405 /* NoHo@3x.jpg */; };
-		086E18661B002DE900964405 /* Nolita.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E183F1B002DE900964405 /* Nolita.jpg */; };
-		086E18671B002DE900964405 /* Nolita@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18401B002DE900964405 /* Nolita@2x.jpg */; };
-		086E18681B002DE900964405 /* Nolita@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18411B002DE900964405 /* Nolita@3x.jpg */; };
-		086E18691B002DE900964405 /* SoHo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18421B002DE900964405 /* SoHo.jpg */; };
-		086E186A1B002DE900964405 /* SoHo@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18431B002DE900964405 /* SoHo@2x.jpg */; };
-		086E186B1B002DE900964405 /* SoHo@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18441B002DE900964405 /* SoHo@3x.jpg */; };
-		086E186C1B002DE900964405 /* Tribeca.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18451B002DE900964405 /* Tribeca.jpg */; };
-		086E186D1B002DE900964405 /* Tribeca@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18461B002DE900964405 /* Tribeca@2x.jpg */; };
-		086E186E1B002DE900964405 /* Tribeca@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18471B002DE900964405 /* Tribeca@3x.jpg */; };
-		086E186F1B002DE900964405 /* Union Square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18481B002DE900964405 /* Union Square.jpg */; };
-		086E18701B002DE900964405 /* Union Square@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18491B002DE900964405 /* Union Square@2x.jpg */; };
-		086E18711B002DE900964405 /* Union Square@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E184A1B002DE900964405 /* Union Square@3x.jpg */; };
-		086E18721B002DE900964405 /* West Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E184B1B002DE900964405 /* West Village.jpg */; };
-		086E18731B002DE900964405 /* West Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E184C1B002DE900964405 /* West Village@2x.jpg */; };
-		086E18741B002DE900964405 /* West Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E184D1B002DE900964405 /* West Village@3x.jpg */; };
-		086E18751B002DE900964405 /* Williamsburg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E184E1B002DE900964405 /* Williamsburg.jpg */; };
-		086E18761B002DE900964405 /* Williamsburg@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E184F1B002DE900964405 /* Williamsburg@2x.jpg */; };
-		086E18771B002DE900964405 /* Williamsburg@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 086E18501B002DE900964405 /* Williamsburg@3x.jpg */; };
 		086E18791B002E4000964405 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 086E18781B002E4000964405 /* Images.xcassets */; };
 		0881884D1AC9645C00559DC8 /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0881884C1AC9645C00559DC8 /* ProfileDetailViewController.swift */; };
 		0881884F1AC9647400559DC8 /* ProfileToastsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0881884E1AC9647400559DC8 /* ProfileToastsDataSource.swift */; };
@@ -138,7 +98,6 @@
 		08C993851ABC4ADA00692721 /* ReviewDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C993841ABC4ADA00692721 /* ReviewDetailTableViewController.swift */; };
 		08C993871ABCAAC700692721 /* ReviewerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C993861ABCAAC700692721 /* ReviewerButton.swift */; };
 		08D6D1031ABE565B0013C045 /* MyLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6D1021ABE565B0013C045 /* MyLocationManager.swift */; };
-		08DB82461A87B6AA00AEE163 /* Discover1ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB82451A87B6AA00AEE163 /* Discover1ViewController.swift */; };
 		08DB82481A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB82471A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift */; };
 		08DB824A1A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB82491A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift */; };
 		08E184B81A90BFFC00C9A956 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E184B71A90BFFC00C9A956 /* MainViewController.swift */; };
@@ -149,9 +108,56 @@
 		08E38FF41AF5025B002736A2 /* ArrayHaneke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E38FF31AF5025B002736A2 /* ArrayHaneke.swift */; };
 		08E68AD41ACE2E70008609D4 /* PostContributeTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E68AD31ACE2E70008609D4 /* PostContributeTransitioning.swift */; };
 		08E68AD61AD085BE008609D4 /* PostContributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E68AD51AD085BE008609D4 /* PostContributeViewController.swift */; };
+		08EB0BBA1B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0BB91B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m */; };
+		08EB0C111B04F1BC002143DE /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C101B04F1BC002143DE /* UIImage+ImageEffects.m */; };
+		08EB0C391B04F8A0002143DE /* Alphabet City.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C121B04F8A0002143DE /* Alphabet City.jpg */; };
+		08EB0C3A1B04F8A0002143DE /* Alphabet City@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C131B04F8A0002143DE /* Alphabet City@2x.jpg */; };
+		08EB0C3B1B04F8A0002143DE /* Alphabet City@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C141B04F8A0002143DE /* Alphabet City@3x.jpg */; };
+		08EB0C3C1B04F8A0002143DE /* Chinatown.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C151B04F8A0002143DE /* Chinatown.jpg */; };
+		08EB0C3D1B04F8A0002143DE /* Chinatown@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C161B04F8A0002143DE /* Chinatown@2x.jpg */; };
+		08EB0C3E1B04F8A0002143DE /* Chinatown@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C171B04F8A0002143DE /* Chinatown@3x.jpg */; };
+		08EB0C3F1B04F8A0002143DE /* default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C181B04F8A0002143DE /* default.jpg */; };
+		08EB0C401B04F8A0002143DE /* default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C191B04F8A0002143DE /* default@2x.jpg */; };
+		08EB0C411B04F8A0002143DE /* default@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1A1B04F8A0002143DE /* default@3x.jpg */; };
+		08EB0C421B04F8A0002143DE /* East Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1B1B04F8A0002143DE /* East Village.jpg */; };
+		08EB0C431B04F8A0002143DE /* East Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1C1B04F8A0002143DE /* East Village@2x.jpg */; };
+		08EB0C441B04F8A0002143DE /* East Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1D1B04F8A0002143DE /* East Village@3x.jpg */; };
+		08EB0C451B04F8A0002143DE /* Greenwich Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1E1B04F8A0002143DE /* Greenwich Village.jpg */; };
+		08EB0C461B04F8A0002143DE /* Greenwich Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1F1B04F8A0002143DE /* Greenwich Village@2x.jpg */; };
+		08EB0C471B04F8A0002143DE /* Greenwich Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C201B04F8A0002143DE /* Greenwich Village@3x.jpg */; };
+		08EB0C481B04F8A0002143DE /* Lower East Side.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C211B04F8A0002143DE /* Lower East Side.jpg */; };
+		08EB0C491B04F8A0002143DE /* Lower East Side@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C221B04F8A0002143DE /* Lower East Side@2x.jpg */; };
+		08EB0C4A1B04F8A0002143DE /* Lower East Side@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C231B04F8A0002143DE /* Lower East Side@3x.jpg */; };
+		08EB0C4B1B04F8A0002143DE /* NoHo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C241B04F8A0002143DE /* NoHo.jpg */; };
+		08EB0C4C1B04F8A0002143DE /* NoHo@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C251B04F8A0002143DE /* NoHo@2x.jpg */; };
+		08EB0C4D1B04F8A0002143DE /* NoHo@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C261B04F8A0002143DE /* NoHo@3x.jpg */; };
+		08EB0C4E1B04F8A0002143DE /* Nolita.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C271B04F8A0002143DE /* Nolita.jpg */; };
+		08EB0C4F1B04F8A0002143DE /* Nolita@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C281B04F8A0002143DE /* Nolita@2x.jpg */; };
+		08EB0C501B04F8A0002143DE /* Nolita@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C291B04F8A0002143DE /* Nolita@3x.jpg */; };
+		08EB0C511B04F8A0002143DE /* SoHo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2A1B04F8A0002143DE /* SoHo.jpg */; };
+		08EB0C521B04F8A0002143DE /* SoHo@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2B1B04F8A0002143DE /* SoHo@2x.jpg */; };
+		08EB0C531B04F8A0002143DE /* SoHo@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2C1B04F8A0002143DE /* SoHo@3x.jpg */; };
+		08EB0C541B04F8A0002143DE /* Tribeca.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2D1B04F8A0002143DE /* Tribeca.jpg */; };
+		08EB0C551B04F8A0002143DE /* Tribeca@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2E1B04F8A0002143DE /* Tribeca@2x.jpg */; };
+		08EB0C561B04F8A0002143DE /* Tribeca@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2F1B04F8A0002143DE /* Tribeca@3x.jpg */; };
+		08EB0C571B04F8A0002143DE /* Union Square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C301B04F8A0002143DE /* Union Square.jpg */; };
+		08EB0C581B04F8A0002143DE /* Union Square@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C311B04F8A0002143DE /* Union Square@2x.jpg */; };
+		08EB0C591B04F8A0002143DE /* Union Square@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C321B04F8A0002143DE /* Union Square@3x.jpg */; };
+		08EB0C5A1B04F8A0002143DE /* West Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C331B04F8A0002143DE /* West Village.jpg */; };
+		08EB0C5B1B04F8A0002143DE /* West Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C341B04F8A0002143DE /* West Village@2x.jpg */; };
+		08EB0C5C1B04F8A0002143DE /* West Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C351B04F8A0002143DE /* West Village@3x.jpg */; };
+		08EB0C5D1B04F8A0002143DE /* Williamsburg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C361B04F8A0002143DE /* Williamsburg.jpg */; };
+		08EB0C5E1B04F8A0002143DE /* Williamsburg@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C371B04F8A0002143DE /* Williamsburg@2x.jpg */; };
+		08EB0C5F1B04F8A0002143DE /* Williamsburg@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C381B04F8A0002143DE /* Williamsburg@3x.jpg */; };
+		08EB0C611B0665E2002143DE /* ToastLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C601B0665E2002143DE /* ToastLogo.swift */; };
+		08EB0C631B06892F002143DE /* PostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C621B06892F002143DE /* PostButton.swift */; };
+		08EB0C651B06949F002143DE /* PostActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C641B06949F002143DE /* PostActionsViewController.swift */; };
+		08EB0C671B06F166002143DE /* LikeCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C661B06F166002143DE /* LikeCountView.swift */; };
+		08EB0C691B08B38C002143DE /* ReviewDetailHeaders.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C681B08B38B002143DE /* ReviewDetailHeaders.xib */; };
+		08EB0C6D1B0A13C5002143DE /* StarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C6C1B0A13C5002143DE /* StarButton.swift */; };
+		08EB0C741B0AA401002143DE /* PlacePicturesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C731B0AA401002143DE /* PlacePicturesDataSource.swift */; };
+		08EB0C781B0B5DEF002143DE /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C771B0B5DEF002143DE /* ReviewCell.swift */; };
 		08EDB0FE1A9D072300D94CF7 /* MyLoginButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB0FD1A9D072300D94CF7 /* MyLoginButtonView.swift */; };
-		08EDB1001A9DFDBC00D94CF7 /* SelectMoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB0FF1A9DFDBC00D94CF7 /* SelectMoodViewController.swift */; };
-		08EDB1051A9E538B00D94CF7 /* DiscoverTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1041A9E538B00D94CF7 /* DiscoverTransitioning.swift */; };
 		08EDB10E1AA0010200D94CF7 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB10D1AA0010200D94CF7 /* iCarousel.m */; };
 		08EDB1131AA00A7400D94CF7 /* ToastNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1121AA00A7400D94CF7 /* ToastNameView.swift */; };
 		08EDB1151AA00AA100D94CF7 /* ToastMoodsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1141AA00AA100D94CF7 /* ToastMoodsView.swift */; };
@@ -308,7 +314,6 @@
 		08363FAB1A57799C007A6827 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		08363FB01A577C63007A6827 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPlaceViewController.swift; sourceTree = "<group>"; };
-		0858BF111AB9B18100DCEBA6 /* ReviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		0858BF131AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewDataSource.swift; sourceTree = "<group>"; };
 		086CFB1F1A734CD500E321F7 /* InstagramEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramEngine.h; sourceTree = "<group>"; };
 		086CFB201A734CD500E321F7 /* InstagramEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramEngine.m; sourceTree = "<group>"; };
@@ -339,45 +344,6 @@
 		086E18251B001CEC00964405 /* CCHLinkTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCHLinkTextView.h; sourceTree = "<group>"; };
 		086E18261B001CEC00964405 /* CCHLinkTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCHLinkTextView.m; sourceTree = "<group>"; };
 		086E18271B001CEC00964405 /* CCHLinkTextViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCHLinkTextViewDelegate.h; sourceTree = "<group>"; };
-		086E182A1B002DE900964405 /* Alphabet City.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City.jpg"; sourceTree = "<group>"; };
-		086E182B1B002DE900964405 /* Alphabet City@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@2x.jpg"; sourceTree = "<group>"; };
-		086E182C1B002DE900964405 /* Alphabet City@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@3x.jpg"; sourceTree = "<group>"; };
-		086E182D1B002DE900964405 /* Chinatown.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Chinatown.jpg; sourceTree = "<group>"; };
-		086E182E1B002DE900964405 /* Chinatown@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown@2x.jpg"; sourceTree = "<group>"; };
-		086E182F1B002DE900964405 /* Chinatown@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown@3x.jpg"; sourceTree = "<group>"; };
-		086E18301B002DE900964405 /* defaultBG.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = defaultBG.jpg; sourceTree = "<group>"; };
-		086E18311B002DE900964405 /* defaultBG@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "defaultBG@2x.jpg"; sourceTree = "<group>"; };
-		086E18321B002DE900964405 /* defaultBG@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "defaultBG@3x.jpg"; sourceTree = "<group>"; };
-		086E18331B002DE900964405 /* East Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village.jpg"; sourceTree = "<group>"; };
-		086E18341B002DE900964405 /* East Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village@2x.jpg"; sourceTree = "<group>"; };
-		086E18351B002DE900964405 /* East Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village@3x.jpg"; sourceTree = "<group>"; };
-		086E18361B002DE900964405 /* Greenwich Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village.jpg"; sourceTree = "<group>"; };
-		086E18371B002DE900964405 /* Greenwich Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village@2x.jpg"; sourceTree = "<group>"; };
-		086E18381B002DE900964405 /* Greenwich Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village@3x.jpg"; sourceTree = "<group>"; };
-		086E18391B002DE900964405 /* Lower East Side.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side.jpg"; sourceTree = "<group>"; };
-		086E183A1B002DE900964405 /* Lower East Side@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side@2x.jpg"; sourceTree = "<group>"; };
-		086E183B1B002DE900964405 /* Lower East Side@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side@3x.jpg"; sourceTree = "<group>"; };
-		086E183C1B002DE900964405 /* NoHo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = NoHo.jpg; sourceTree = "<group>"; };
-		086E183D1B002DE900964405 /* NoHo@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo@2x.jpg"; sourceTree = "<group>"; };
-		086E183E1B002DE900964405 /* NoHo@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo@3x.jpg"; sourceTree = "<group>"; };
-		086E183F1B002DE900964405 /* Nolita.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Nolita.jpg; sourceTree = "<group>"; };
-		086E18401B002DE900964405 /* Nolita@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita@2x.jpg"; sourceTree = "<group>"; };
-		086E18411B002DE900964405 /* Nolita@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita@3x.jpg"; sourceTree = "<group>"; };
-		086E18421B002DE900964405 /* SoHo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SoHo.jpg; sourceTree = "<group>"; };
-		086E18431B002DE900964405 /* SoHo@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo@2x.jpg"; sourceTree = "<group>"; };
-		086E18441B002DE900964405 /* SoHo@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo@3x.jpg"; sourceTree = "<group>"; };
-		086E18451B002DE900964405 /* Tribeca.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Tribeca.jpg; sourceTree = "<group>"; };
-		086E18461B002DE900964405 /* Tribeca@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca@2x.jpg"; sourceTree = "<group>"; };
-		086E18471B002DE900964405 /* Tribeca@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca@3x.jpg"; sourceTree = "<group>"; };
-		086E18481B002DE900964405 /* Union Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square.jpg"; sourceTree = "<group>"; };
-		086E18491B002DE900964405 /* Union Square@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square@2x.jpg"; sourceTree = "<group>"; };
-		086E184A1B002DE900964405 /* Union Square@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square@3x.jpg"; sourceTree = "<group>"; };
-		086E184B1B002DE900964405 /* West Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village.jpg"; sourceTree = "<group>"; };
-		086E184C1B002DE900964405 /* West Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village@2x.jpg"; sourceTree = "<group>"; };
-		086E184D1B002DE900964405 /* West Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village@3x.jpg"; sourceTree = "<group>"; };
-		086E184E1B002DE900964405 /* Williamsburg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Williamsburg.jpg; sourceTree = "<group>"; };
-		086E184F1B002DE900964405 /* Williamsburg@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg@2x.jpg"; sourceTree = "<group>"; };
-		086E18501B002DE900964405 /* Williamsburg@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg@3x.jpg"; sourceTree = "<group>"; };
 		086E18781B002E4000964405 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0881884C1AC9645C00559DC8 /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
 		0881884E1AC9647400559DC8 /* ProfileToastsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileToastsDataSource.swift; sourceTree = "<group>"; };
@@ -433,7 +399,6 @@
 		08C993841ABC4ADA00692721 /* ReviewDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewDetailTableViewController.swift; sourceTree = "<group>"; };
 		08C993861ABCAAC700692721 /* ReviewerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewerButton.swift; sourceTree = "<group>"; };
 		08D6D1021ABE565B0013C045 /* MyLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLocationManager.swift; sourceTree = "<group>"; };
-		08DB82451A87B6AA00AEE163 /* Discover1ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Discover1ViewController.swift; sourceTree = "<group>"; };
 		08DB82471A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoodsHeaderTableViewCell.swift; sourceTree = "<group>"; };
 		08DB82491A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsLikeCollectionViewCell.swift; sourceTree = "<group>"; };
 		08E184B71A90BFFC00C9A956 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -444,9 +409,58 @@
 		08E38FF31AF5025B002736A2 /* ArrayHaneke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrayHaneke.swift; sourceTree = "<group>"; };
 		08E68AD31ACE2E70008609D4 /* PostContributeTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContributeTransitioning.swift; sourceTree = "<group>"; };
 		08E68AD51AD085BE008609D4 /* PostContributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostContributeViewController.swift; sourceTree = "<group>"; };
+		08EB0BB81B04CAFD002143DE /* UIColor+RHInterpolationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RHInterpolationAdditions.h"; sourceTree = "<group>"; };
+		08EB0BB91B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RHInterpolationAdditions.m"; sourceTree = "<group>"; };
+		08EB0C0F1B04F1BC002143DE /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		08EB0C101B04F1BC002143DE /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		08EB0C121B04F8A0002143DE /* Alphabet City.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City.jpg"; sourceTree = "<group>"; };
+		08EB0C131B04F8A0002143DE /* Alphabet City@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C141B04F8A0002143DE /* Alphabet City@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C151B04F8A0002143DE /* Chinatown.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Chinatown.jpg; sourceTree = "<group>"; };
+		08EB0C161B04F8A0002143DE /* Chinatown@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C171B04F8A0002143DE /* Chinatown@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C181B04F8A0002143DE /* default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default.jpg; sourceTree = "<group>"; };
+		08EB0C191B04F8A0002143DE /* default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C1A1B04F8A0002143DE /* default@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C1B1B04F8A0002143DE /* East Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village.jpg"; sourceTree = "<group>"; };
+		08EB0C1C1B04F8A0002143DE /* East Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C1D1B04F8A0002143DE /* East Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C1E1B04F8A0002143DE /* Greenwich Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village.jpg"; sourceTree = "<group>"; };
+		08EB0C1F1B04F8A0002143DE /* Greenwich Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C201B04F8A0002143DE /* Greenwich Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C211B04F8A0002143DE /* Lower East Side.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side.jpg"; sourceTree = "<group>"; };
+		08EB0C221B04F8A0002143DE /* Lower East Side@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C231B04F8A0002143DE /* Lower East Side@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C241B04F8A0002143DE /* NoHo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = NoHo.jpg; sourceTree = "<group>"; };
+		08EB0C251B04F8A0002143DE /* NoHo@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C261B04F8A0002143DE /* NoHo@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C271B04F8A0002143DE /* Nolita.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Nolita.jpg; sourceTree = "<group>"; };
+		08EB0C281B04F8A0002143DE /* Nolita@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C291B04F8A0002143DE /* Nolita@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C2A1B04F8A0002143DE /* SoHo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SoHo.jpg; sourceTree = "<group>"; };
+		08EB0C2B1B04F8A0002143DE /* SoHo@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C2C1B04F8A0002143DE /* SoHo@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C2D1B04F8A0002143DE /* Tribeca.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Tribeca.jpg; sourceTree = "<group>"; };
+		08EB0C2E1B04F8A0002143DE /* Tribeca@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C2F1B04F8A0002143DE /* Tribeca@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C301B04F8A0002143DE /* Union Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square.jpg"; sourceTree = "<group>"; };
+		08EB0C311B04F8A0002143DE /* Union Square@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C321B04F8A0002143DE /* Union Square@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C331B04F8A0002143DE /* West Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village.jpg"; sourceTree = "<group>"; };
+		08EB0C341B04F8A0002143DE /* West Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C351B04F8A0002143DE /* West Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C361B04F8A0002143DE /* Williamsburg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Williamsburg.jpg; sourceTree = "<group>"; };
+		08EB0C371B04F8A0002143DE /* Williamsburg@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg@2x.jpg"; sourceTree = "<group>"; };
+		08EB0C381B04F8A0002143DE /* Williamsburg@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg@3x.jpg"; sourceTree = "<group>"; };
+		08EB0C601B0665E2002143DE /* ToastLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastLogo.swift; sourceTree = "<group>"; };
+		08EB0C621B06892F002143DE /* PostButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostButton.swift; sourceTree = "<group>"; };
+		08EB0C641B06949F002143DE /* PostActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostActionsViewController.swift; sourceTree = "<group>"; };
+		08EB0C661B06F166002143DE /* LikeCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeCountView.swift; sourceTree = "<group>"; };
+		08EB0C681B08B38B002143DE /* ReviewDetailHeaders.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewDetailHeaders.xib; sourceTree = "<group>"; };
+		08EB0C6C1B0A13C5002143DE /* StarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarButton.swift; sourceTree = "<group>"; };
+		08EB0C731B0AA401002143DE /* PlacePicturesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacePicturesDataSource.swift; sourceTree = "<group>"; };
+		08EB0C771B0B5DEF002143DE /* ReviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
 		08EDB0FD1A9D072300D94CF7 /* MyLoginButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLoginButtonView.swift; sourceTree = "<group>"; };
-		08EDB0FF1A9DFDBC00D94CF7 /* SelectMoodViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectMoodViewController.swift; sourceTree = "<group>"; };
-		08EDB1041A9E538B00D94CF7 /* DiscoverTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverTransitioning.swift; sourceTree = "<group>"; };
 		08EDB10C1AA0010200D94CF7 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
 		08EDB10D1AA0010200D94CF7 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		08EDB1121AA00A7400D94CF7 /* ToastNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastNameView.swift; sourceTree = "<group>"; };
@@ -540,6 +554,7 @@
 		0812C9251A645BDD004A115B /* General */ = {
 			isa = PBXGroup;
 			children = (
+				08EB0C0E1B04F1A2002143DE /* UIImageEffects */,
 				086E18221B001CEC00964405 /* CCHLinkTextView */,
 				08B623E61ADE9CEF00DBC674 /* AFNetworking */,
 				08B623FA1ADE9CEF00DBC674 /* UIKit+AFNetworking */,
@@ -553,6 +568,9 @@
 				08E38FF31AF5025B002736A2 /* ArrayHaneke.swift */,
 				086E18201AFF7D0400964405 /* DictionaryHaneke.swift */,
 				086E17BF1AFBB86200964405 /* BlackGradientView.swift */,
+				08EB0BB81B04CAFD002143DE /* UIColor+RHInterpolationAdditions.h */,
+				08EB0BB91B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m */,
+				08EB0C601B0665E2002143DE /* ToastLogo.swift */,
 			);
 			name = General;
 			sourceTree = "<group>";
@@ -707,9 +725,10 @@
 		0858BF101AB9B16900DCEBA6 /* Reviews */ = {
 			isa = PBXGroup;
 			children = (
-				0858BF111AB9B18100DCEBA6 /* ReviewCell.swift */,
+				08EB0C771B0B5DEF002143DE /* ReviewCell.swift */,
 				0858BF131AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift */,
 				08C993861ABCAAC700692721 /* ReviewerButton.swift */,
+				08EB0C661B06F166002143DE /* LikeCountView.swift */,
 				08E38FDF1AF18FC6002736A2 /* FriendHeaders */,
 			);
 			name = Reviews;
@@ -771,45 +790,45 @@
 		086E17C71AFE39F400964405 /* Neighborhoods */ = {
 			isa = PBXGroup;
 			children = (
-				086E182A1B002DE900964405 /* Alphabet City.jpg */,
-				086E182B1B002DE900964405 /* Alphabet City@2x.jpg */,
-				086E182C1B002DE900964405 /* Alphabet City@3x.jpg */,
-				086E182D1B002DE900964405 /* Chinatown.jpg */,
-				086E182E1B002DE900964405 /* Chinatown@2x.jpg */,
-				086E182F1B002DE900964405 /* Chinatown@3x.jpg */,
-				086E18301B002DE900964405 /* defaultBG.jpg */,
-				086E18311B002DE900964405 /* defaultBG@2x.jpg */,
-				086E18321B002DE900964405 /* defaultBG@3x.jpg */,
-				086E18331B002DE900964405 /* East Village.jpg */,
-				086E18341B002DE900964405 /* East Village@2x.jpg */,
-				086E18351B002DE900964405 /* East Village@3x.jpg */,
-				086E18361B002DE900964405 /* Greenwich Village.jpg */,
-				086E18371B002DE900964405 /* Greenwich Village@2x.jpg */,
-				086E18381B002DE900964405 /* Greenwich Village@3x.jpg */,
-				086E18391B002DE900964405 /* Lower East Side.jpg */,
-				086E183A1B002DE900964405 /* Lower East Side@2x.jpg */,
-				086E183B1B002DE900964405 /* Lower East Side@3x.jpg */,
-				086E183C1B002DE900964405 /* NoHo.jpg */,
-				086E183D1B002DE900964405 /* NoHo@2x.jpg */,
-				086E183E1B002DE900964405 /* NoHo@3x.jpg */,
-				086E183F1B002DE900964405 /* Nolita.jpg */,
-				086E18401B002DE900964405 /* Nolita@2x.jpg */,
-				086E18411B002DE900964405 /* Nolita@3x.jpg */,
-				086E18421B002DE900964405 /* SoHo.jpg */,
-				086E18431B002DE900964405 /* SoHo@2x.jpg */,
-				086E18441B002DE900964405 /* SoHo@3x.jpg */,
-				086E18451B002DE900964405 /* Tribeca.jpg */,
-				086E18461B002DE900964405 /* Tribeca@2x.jpg */,
-				086E18471B002DE900964405 /* Tribeca@3x.jpg */,
-				086E18481B002DE900964405 /* Union Square.jpg */,
-				086E18491B002DE900964405 /* Union Square@2x.jpg */,
-				086E184A1B002DE900964405 /* Union Square@3x.jpg */,
-				086E184B1B002DE900964405 /* West Village.jpg */,
-				086E184C1B002DE900964405 /* West Village@2x.jpg */,
-				086E184D1B002DE900964405 /* West Village@3x.jpg */,
-				086E184E1B002DE900964405 /* Williamsburg.jpg */,
-				086E184F1B002DE900964405 /* Williamsburg@2x.jpg */,
-				086E18501B002DE900964405 /* Williamsburg@3x.jpg */,
+				08EB0C121B04F8A0002143DE /* Alphabet City.jpg */,
+				08EB0C131B04F8A0002143DE /* Alphabet City@2x.jpg */,
+				08EB0C141B04F8A0002143DE /* Alphabet City@3x.jpg */,
+				08EB0C151B04F8A0002143DE /* Chinatown.jpg */,
+				08EB0C161B04F8A0002143DE /* Chinatown@2x.jpg */,
+				08EB0C171B04F8A0002143DE /* Chinatown@3x.jpg */,
+				08EB0C181B04F8A0002143DE /* default.jpg */,
+				08EB0C191B04F8A0002143DE /* default@2x.jpg */,
+				08EB0C1A1B04F8A0002143DE /* default@3x.jpg */,
+				08EB0C1B1B04F8A0002143DE /* East Village.jpg */,
+				08EB0C1C1B04F8A0002143DE /* East Village@2x.jpg */,
+				08EB0C1D1B04F8A0002143DE /* East Village@3x.jpg */,
+				08EB0C1E1B04F8A0002143DE /* Greenwich Village.jpg */,
+				08EB0C1F1B04F8A0002143DE /* Greenwich Village@2x.jpg */,
+				08EB0C201B04F8A0002143DE /* Greenwich Village@3x.jpg */,
+				08EB0C211B04F8A0002143DE /* Lower East Side.jpg */,
+				08EB0C221B04F8A0002143DE /* Lower East Side@2x.jpg */,
+				08EB0C231B04F8A0002143DE /* Lower East Side@3x.jpg */,
+				08EB0C241B04F8A0002143DE /* NoHo.jpg */,
+				08EB0C251B04F8A0002143DE /* NoHo@2x.jpg */,
+				08EB0C261B04F8A0002143DE /* NoHo@3x.jpg */,
+				08EB0C271B04F8A0002143DE /* Nolita.jpg */,
+				08EB0C281B04F8A0002143DE /* Nolita@2x.jpg */,
+				08EB0C291B04F8A0002143DE /* Nolita@3x.jpg */,
+				08EB0C2A1B04F8A0002143DE /* SoHo.jpg */,
+				08EB0C2B1B04F8A0002143DE /* SoHo@2x.jpg */,
+				08EB0C2C1B04F8A0002143DE /* SoHo@3x.jpg */,
+				08EB0C2D1B04F8A0002143DE /* Tribeca.jpg */,
+				08EB0C2E1B04F8A0002143DE /* Tribeca@2x.jpg */,
+				08EB0C2F1B04F8A0002143DE /* Tribeca@3x.jpg */,
+				08EB0C301B04F8A0002143DE /* Union Square.jpg */,
+				08EB0C311B04F8A0002143DE /* Union Square@2x.jpg */,
+				08EB0C321B04F8A0002143DE /* Union Square@3x.jpg */,
+				08EB0C331B04F8A0002143DE /* West Village.jpg */,
+				08EB0C341B04F8A0002143DE /* West Village@2x.jpg */,
+				08EB0C351B04F8A0002143DE /* West Village@3x.jpg */,
+				08EB0C361B04F8A0002143DE /* Williamsburg.jpg */,
+				08EB0C371B04F8A0002143DE /* Williamsburg@2x.jpg */,
+				08EB0C381B04F8A0002143DE /* Williamsburg@3x.jpg */,
 			);
 			name = Neighborhoods;
 			sourceTree = "<group>";
@@ -833,6 +852,7 @@
 				0881884E1AC9647400559DC8 /* ProfileToastsDataSource.swift */,
 				088188501AC9649F00559DC8 /* ProfileToastCell.swift */,
 				088188521AC96CC400559DC8 /* ProfileHeaderCell.swift */,
+				08EB0C6C1B0A13C5002143DE /* StarButton.swift */,
 				086E17B81AFAE0F400964405 /* FriendsList */,
 			);
 			name = "Profile Detail";
@@ -844,6 +864,7 @@
 				089C52931AD1440400054037 /* PostRelatedPlaceCell.swift */,
 				089C52951AD15A3100054037 /* PostRelatedViewController.swift */,
 				089C52971AD17E0000054037 /* Related Places Header */,
+				08EB0C641B06949F002143DE /* PostActionsViewController.swift */,
 			);
 			name = "Post-Related";
 			sourceTree = "<group>";
@@ -873,9 +894,6 @@
 				08059CEA1ABE407D004A5A78 /* DiscoverViewController.swift */,
 				08059CF91ABE4205004A5A78 /* Cell */,
 				08059CEE1ABE4092004A5A78 /* Data Sources */,
-				08DB82451A87B6AA00AEE163 /* Discover1ViewController.swift */,
-				08EDB0FF1A9DFDBC00D94CF7 /* SelectMoodViewController.swift */,
-				08EDB1011A9E534100D94CF7 /* TransitioningHelpers */,
 				08DB824B1A87BA9A00AEE163 /* FriendsLike */,
 			);
 			name = Discover;
@@ -955,6 +973,7 @@
 			children = (
 				08C993821ABC4AC900692721 /* ReviewDetailViewController.swift */,
 				08C993841ABC4ADA00692721 /* ReviewDetailTableViewController.swift */,
+				08EB0C681B08B38B002143DE /* ReviewDetailHeaders.xib */,
 				08C1FDE21AE32448009F1FB8 /* Buttons */,
 			);
 			name = "Review Detail";
@@ -985,8 +1004,18 @@
 				08E68AD31ACE2E70008609D4 /* PostContributeTransitioning.swift */,
 				08E68AD51AD085BE008609D4 /* PostContributeViewController.swift */,
 				089C52901AD143D500054037 /* Post-Related */,
+				08EB0C621B06892F002143DE /* PostButton.swift */,
 			);
 			name = "Post-Contribution";
+			sourceTree = "<group>";
+		};
+		08EB0C0E1B04F1A2002143DE /* UIImageEffects */ = {
+			isa = PBXGroup;
+			children = (
+				08EB0C0F1B04F1BC002143DE /* UIImage+ImageEffects.h */,
+				08EB0C101B04F1BC002143DE /* UIImage+ImageEffects.m */,
+			);
+			name = UIImageEffects;
 			sourceTree = "<group>";
 		};
 		08EDB0FA1A9D070800D94CF7 /* Views */ = {
@@ -995,14 +1024,6 @@
 				08EDB0FD1A9D072300D94CF7 /* MyLoginButtonView.swift */,
 			);
 			name = Views;
-			sourceTree = "<group>";
-		};
-		08EDB1011A9E534100D94CF7 /* TransitioningHelpers */ = {
-			isa = PBXGroup;
-			children = (
-				08EDB1041A9E538B00D94CF7 /* DiscoverTransitioning.swift */,
-			);
-			name = TransitioningHelpers;
 			sourceTree = "<group>";
 		};
 		08EDB10B1AA0010200D94CF7 /* iCarousel */ = {
@@ -1059,6 +1080,7 @@
 			children = (
 				08F85AE91A8E395900C01CC9 /* PlaceDetailViewController.swift */,
 				08F85AEB1A8E397000C01CC9 /* PlaceDetailTableViewController.swift */,
+				08EB0C731B0AA401002143DE /* PlacePicturesDataSource.swift */,
 				080193871A8FFF9300CAA770 /* GenericWebViewController.swift */,
 			);
 			name = "Place Detail";
@@ -1219,55 +1241,56 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				086E18611B002DE900964405 /* Lower East Side@2x.jpg in Resources */,
-				086E18671B002DE900964405 /* Nolita@2x.jpg in Resources */,
-				086E18541B002DE900964405 /* Chinatown.jpg in Resources */,
+				08EB0C4E1B04F8A0002143DE /* Nolita.jpg in Resources */,
+				08EB0C521B04F8A0002143DE /* SoHo@2x.jpg in Resources */,
+				08EB0C441B04F8A0002143DE /* East Village@3x.jpg in Resources */,
+				08EB0C461B04F8A0002143DE /* Greenwich Village@2x.jpg in Resources */,
+				08EB0C421B04F8A0002143DE /* East Village.jpg in Resources */,
+				08EB0C3D1B04F8A0002143DE /* Chinatown@2x.jpg in Resources */,
+				08EB0C581B04F8A0002143DE /* Union Square@2x.jpg in Resources */,
 				08B905EB1AA14AB1009F3B21 /* ToastHashtagCell.xib in Resources */,
+				08EB0C591B04F8A0002143DE /* Union Square@3x.jpg in Resources */,
 				08363F791A5778E4007A6827 /* Main.storyboard in Resources */,
-				086E186D1B002DE900964405 /* Tribeca@2x.jpg in Resources */,
-				086E18701B002DE900964405 /* Union Square@2x.jpg in Resources */,
-				086E18711B002DE900964405 /* Union Square@3x.jpg in Resources */,
-				086E18681B002DE900964405 /* Nolita@3x.jpg in Resources */,
-				086E18641B002DE900964405 /* NoHo@2x.jpg in Resources */,
 				08363F7E1A5778E4007A6827 /* LaunchScreen.xib in Resources */,
+				08EB0C5D1B04F8A0002143DE /* Williamsburg.jpg in Resources */,
+				08EB0C411B04F8A0002143DE /* default@3x.jpg in Resources */,
+				08EB0C4B1B04F8A0002143DE /* NoHo.jpg in Resources */,
+				08EB0C5E1B04F8A0002143DE /* Williamsburg@2x.jpg in Resources */,
+				08EB0C4D1B04F8A0002143DE /* NoHo@3x.jpg in Resources */,
+				08EB0C401B04F8A0002143DE /* default@2x.jpg in Resources */,
+				08EB0C471B04F8A0002143DE /* Greenwich Village@3x.jpg in Resources */,
+				08EB0C3F1B04F8A0002143DE /* default.jpg in Resources */,
 				08059CF81ABE41FE004A5A78 /* DiscoverCell.xib in Resources */,
-				086E18551B002DE900964405 /* Chinatown@2x.jpg in Resources */,
-				086E186C1B002DE900964405 /* Tribeca.jpg in Resources */,
-				086E185C1B002DE900964405 /* East Village@3x.jpg in Resources */,
-				086E186A1B002DE900964405 /* SoHo@2x.jpg in Resources */,
-				086E18741B002DE900964405 /* West Village@3x.jpg in Resources */,
-				086E18591B002DE900964405 /* defaultBG@3x.jpg in Resources */,
-				086E18631B002DE900964405 /* NoHo.jpg in Resources */,
-				086E185D1B002DE900964405 /* Greenwich Village.jpg in Resources */,
-				086E185A1B002DE900964405 /* East Village.jpg in Resources */,
-				086E18771B002DE900964405 /* Williamsburg@3x.jpg in Resources */,
-				086E18661B002DE900964405 /* Nolita.jpg in Resources */,
-				086E18561B002DE900964405 /* Chinatown@3x.jpg in Resources */,
-				086E18751B002DE900964405 /* Williamsburg.jpg in Resources */,
-				086E185E1B002DE900964405 /* Greenwich Village@2x.jpg in Resources */,
-				086E185F1B002DE900964405 /* Greenwich Village@3x.jpg in Resources */,
+				08EB0C541B04F8A0002143DE /* Tribeca.jpg in Resources */,
+				08EB0C691B08B38C002143DE /* ReviewDetailHeaders.xib in Resources */,
+				08EB0C551B04F8A0002143DE /* Tribeca@2x.jpg in Resources */,
+				08EB0C561B04F8A0002143DE /* Tribeca@3x.jpg in Resources */,
+				08EB0C531B04F8A0002143DE /* SoHo@3x.jpg in Resources */,
+				08EB0C5A1B04F8A0002143DE /* West Village.jpg in Resources */,
+				08EB0C3E1B04F8A0002143DE /* Chinatown@3x.jpg in Resources */,
+				08EB0C451B04F8A0002143DE /* Greenwich Village.jpg in Resources */,
+				08EB0C431B04F8A0002143DE /* East Village@2x.jpg in Resources */,
+				08EB0C491B04F8A0002143DE /* Lower East Side@2x.jpg in Resources */,
+				08EB0C4F1B04F8A0002143DE /* Nolita@2x.jpg in Resources */,
 				086E18791B002E4000964405 /* Images.xcassets in Resources */,
-				086E18601B002DE900964405 /* Lower East Side.jpg in Resources */,
-				086E18511B002DE900964405 /* Alphabet City.jpg in Resources */,
-				086E18571B002DE900964405 /* defaultBG.jpg in Resources */,
-				086E18691B002DE900964405 /* SoHo.jpg in Resources */,
-				086E18621B002DE900964405 /* Lower East Side@3x.jpg in Resources */,
-				086E185B1B002DE900964405 /* East Village@2x.jpg in Resources */,
-				086E18531B002DE900964405 /* Alphabet City@3x.jpg in Resources */,
-				086E186E1B002DE900964405 /* Tribeca@3x.jpg in Resources */,
-				086E18731B002DE900964405 /* West Village@2x.jpg in Resources */,
-				086E186B1B002DE900964405 /* SoHo@3x.jpg in Resources */,
+				08EB0C5B1B04F8A0002143DE /* West Village@2x.jpg in Resources */,
+				08EB0C5C1B04F8A0002143DE /* West Village@3x.jpg in Resources */,
+				08EB0C3C1B04F8A0002143DE /* Chinatown.jpg in Resources */,
 				089C52991AD17E2700054037 /* RelatedPlacesHeaderView.xib in Resources */,
-				086E18581B002DE900964405 /* defaultBG@2x.jpg in Resources */,
-				086E18721B002DE900964405 /* West Village.jpg in Resources */,
+				08EB0C4C1B04F8A0002143DE /* NoHo@2x.jpg in Resources */,
 				08B905E71AA14A29009F3B21 /* ToastMoodCell.xib in Resources */,
+				08EB0C5F1B04F8A0002143DE /* Williamsburg@3x.jpg in Resources */,
 				086CFB331A734CD500E321F7 /* InstagramKit.plist in Resources */,
-				086E18521B002DE900964405 /* Alphabet City@2x.jpg in Resources */,
+				08EB0C391B04F8A0002143DE /* Alphabet City.jpg in Resources */,
 				08EDB11F1AA00B3000D94CF7 /* CarouselViews.xib in Resources */,
-				086E18651B002DE900964405 /* NoHo@3x.jpg in Resources */,
-				086E186F1B002DE900964405 /* Union Square.jpg in Resources */,
+				08EB0C4A1B04F8A0002143DE /* Lower East Side@3x.jpg in Resources */,
+				08EB0C3B1B04F8A0002143DE /* Alphabet City@3x.jpg in Resources */,
+				08EB0C501B04F8A0002143DE /* Nolita@3x.jpg in Resources */,
 				083467EA1AC83E78003B5803 /* ReviewAccesoryView.xib in Resources */,
-				086E18761B002DE900964405 /* Williamsburg@2x.jpg in Resources */,
+				08EB0C511B04F8A0002143DE /* SoHo.jpg in Resources */,
+				08EB0C3A1B04F8A0002143DE /* Alphabet City@2x.jpg in Resources */,
+				08EB0C481B04F8A0002143DE /* Lower East Side.jpg in Resources */,
+				08EB0C571B04F8A0002143DE /* Union Square.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1291,16 +1314,19 @@
 				08D6D1031ABE565B0013C045 /* MyLocationManager.swift in Sources */,
 				08C1FDE81AE32483009F1FB8 /* FollowButton.swift in Sources */,
 				083467EE1AC841EF003B5803 /* ReviewAccesoryView.swift in Sources */,
+				08EB0C611B0665E2002143DE /* ToastLogo.swift in Sources */,
 				08EDB10E1AA0010200D94CF7 /* iCarousel.m in Sources */,
 				08E184B81A90BFFC00C9A956 /* MainViewController.swift in Sources */,
 				08B624161ADE9CEF00DBC674 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				086CFB341A734CD500E321F7 /* IKUserInPhoto.m in Sources */,
 				08DB824A1A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift in Sources */,
+				08EB0C651B06949F002143DE /* PostActionsViewController.swift in Sources */,
 				088188531AC96CC400559DC8 /* ProfileHeaderCell.swift in Sources */,
 				08B6240E1ADE9CEF00DBC674 /* AFHTTPSessionManager.m in Sources */,
 				08B6240F1ADE9CEF00DBC674 /* AFNetworkReachabilityManager.m in Sources */,
 				086E17C01AFBB86200964405 /* BlackGradientView.swift in Sources */,
 				086CFB3E1A73CD4600E321F7 /* LoginInstagramViewController.swift in Sources */,
+				08EB0C741B0AA401002143DE /* PlacePicturesDataSource.swift in Sources */,
 				08F8389B1A88137400CFCAEF /* HashtagCell.swift in Sources */,
 				08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */,
 				08B6240C1ADE9CEF00DBC674 /* AFHTTPRequestOperation.m in Sources */,
@@ -1309,10 +1335,10 @@
 				08B624141ADE9CEF00DBC674 /* AFURLSessionManager.m in Sources */,
 				08C1FDE11AE32440009F1FB8 /* ReviewDetailButton.swift in Sources */,
 				08363F761A5778E4007A6827 /* ViewController.swift in Sources */,
+				08EB0C631B06892F002143DE /* PostButton.swift in Sources */,
 				08B624171ADE9CEF00DBC674 /* UIAlertView+AFNetworking.m in Sources */,
 				088188511AC9649F00559DC8 /* ProfileToastCell.swift in Sources */,
 				086CFB371A734CD500E321F7 /* InstagramModel.m in Sources */,
-				08EDB1001A9DFDBC00D94CF7 /* SelectMoodViewController.swift in Sources */,
 				08059CF01ABE40B0004A5A78 /* DiscoverDataSource.swift in Sources */,
 				086E18281B001CEC00964405 /* CCHLinkGestureRecognizer.m in Sources */,
 				080193861A8FE45F00CAA770 /* BookingService.swift in Sources */,
@@ -1320,6 +1346,7 @@
 				08DB82481A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift in Sources */,
 				08C2E8D41A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift in Sources */,
 				08F838941A87C83900CFCAEF /* ToastsViewController.swift in Sources */,
+				08EB0C6D1B0A13C5002143DE /* StarButton.swift in Sources */,
 				08B6241A1ADE9CEF00DBC674 /* UIProgressView+AFNetworking.m in Sources */,
 				08C1FDE61AE32470009F1FB8 /* HeartButton.swift in Sources */,
 				08B624131ADE9CEF00DBC674 /* AFURLResponseSerialization.m in Sources */,
@@ -1334,11 +1361,10 @@
 				08E38FF41AF5025B002736A2 /* ArrayHaneke.swift in Sources */,
 				08B624181ADE9CEF00DBC674 /* UIButton+AFNetworking.m in Sources */,
 				08E68AD41ACE2E70008609D4 /* PostContributeTransitioning.swift in Sources */,
-				08EDB1051A9E538B00D94CF7 /* DiscoverTransitioning.swift in Sources */,
 				08EDB1151AA00AA100D94CF7 /* ToastMoodsView.swift in Sources */,
 				080193881A8FFF9300CAA770 /* GenericWebViewController.swift in Sources */,
 				086E18291B001CEC00964405 /* CCHLinkTextView.m in Sources */,
-				08DB82461A87B6AA00AEE163 /* Discover1ViewController.swift in Sources */,
+				08EB0C671B06F166002143DE /* LikeCountView.swift in Sources */,
 				08F838991A88136100CFCAEF /* PlaceCell.swift in Sources */,
 				08B624191ADE9CEF00DBC674 /* UIImageView+AFNetworking.m in Sources */,
 				08B6241B1ADE9CEF00DBC674 /* UIRefreshControl+AFNetworking.m in Sources */,
@@ -1348,7 +1374,6 @@
 				0858BF141AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift in Sources */,
 				086E17BC1AFB2CC600964405 /* FriendCell.swift in Sources */,
 				08363F741A5778E4007A6827 /* AppDelegate.swift in Sources */,
-				0858BF121AB9B18100DCEBA6 /* ReviewCell.swift in Sources */,
 				08C993871ABCAAC700692721 /* ReviewerButton.swift in Sources */,
 				08F85ADE1A8CFEF600C01CC9 /* InstagramLocation.m in Sources */,
 				08E184BC1A90D63B00C9A956 /* MainMenuTableViewController.swift in Sources */,
@@ -1364,14 +1389,17 @@
 				08C993851ABC4ADA00692721 /* ReviewDetailTableViewController.swift in Sources */,
 				08F85AE31A8D5DD500C01CC9 /* BackgroundImageView.swift in Sources */,
 				086CFB351A734CD500E321F7 /* InstagramComment.m in Sources */,
+				08EB0C781B0B5DEF002143DE /* ReviewCell.swift in Sources */,
 				08E38FE11AF274D6002736A2 /* ReviewHeaderCell.swift in Sources */,
 				08C993831ABC4AC900692721 /* ReviewDetailViewController.swift in Sources */,
 				084C145F1AA100B3005FB0E9 /* SearchPlaceViewController.swift in Sources */,
 				089C52961AD15A3100054037 /* PostRelatedViewController.swift in Sources */,
 				08B624101ADE9CEF00DBC674 /* AFSecurityPolicy.m in Sources */,
+				08EB0C111B04F1BC002143DE /* UIImage+ImageEffects.m in Sources */,
 				086E18211AFF7D0400964405 /* DictionaryHaneke.swift in Sources */,
 				08B6241C1ADE9CEF00DBC674 /* UIWebView+AFNetworking.m in Sources */,
 				089C52941AD1440400054037 /* PostRelatedPlaceCell.swift in Sources */,
+				08EB0BBA1B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m in Sources */,
 				086CFB3A1A734CD500E321F7 /* InstagramUser.m in Sources */,
 				08E38FDE1AF18F95002736A2 /* FriendOfFriendHeaderCell.swift in Sources */,
 				08F85AEC1A8E397000C01CC9 /* PlaceDetailTableViewController.swift in Sources */,
@@ -1508,8 +1536,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Cruz (9N87B94U46)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Cruz (9N87B94U46)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/toast-project",

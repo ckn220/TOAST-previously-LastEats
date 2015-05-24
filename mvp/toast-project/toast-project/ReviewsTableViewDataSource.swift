@@ -12,8 +12,9 @@ protocol ReviewDataSourceDelegate {
     func reviewDataSourceDidScroll(#contentOffset: CGPoint)
     func reviewDataSourceDidEndScrolling(#contentOffset: CGPoint)
     func reviewDataSourcePlaceDidPressed()
-    func reviewDataSourceReviewDidPressed(#toast:PFObject)
-    func reviewDataSourceReviewerDidPress(#user:PFUser)
+    func reviewDataSourceReviewDidPressed(#toast:PFObject,parentHeader: UIView)
+    func reviewDataSourceReviewerDidPress(#user:PFUser, friend:PFUser?)
+    func reviewDataSourceHashtagPressed(name:String)
 }
 
 class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDelegate,ReviewCellDelegate,ReviewCellHeaderSource
@@ -84,7 +85,6 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
             let singleCell = reviewTableView.cellForRowAtIndexPath((NSIndexPath(forRow: 1, inSection: 0))) as! ReviewCell
             let newAlpha = 1 - (( maxOffset - offsetY)/100)
             singleCell.heartButton.alpha = newAlpha
-            singleCell.followButton.alpha = newAlpha
         }
     }
     
@@ -100,14 +100,21 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
         case 0:
             myDelegate?.reviewDataSourcePlaceDidPressed()
         default:
-            myDelegate?.reviewDataSourceReviewDidPressed(toast:toasts[indexPath.row - 1])
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! ReviewCell
+            let parentHeader = cell.headerView
+            
+            myDelegate?.reviewDataSourceReviewDidPressed(toast:toasts[indexPath.row - 1], parentHeader: parentHeader)
         }
     }
     
     //MARK: - ReviewCell delegate methods
-    func reviewCellReviewerPressed(index: Int) {
+    func reviewCellReviewerPressed(index: Int,ffriend:PFUser?) {
         let selectedUser = toasts[index]["user"] as! PFUser
-        myDelegate?.reviewDataSourceReviewerDidPress(user: selectedUser)
+        myDelegate?.reviewDataSourceReviewerDidPress(user: selectedUser,friend:ffriend)
+    }
+    
+    func reviewCellHashtagPressed(name: String) {
+        myDelegate?.reviewDataSourceHashtagPressed(name)
     }
     
     //MARK: - ReviewCell headersource methods

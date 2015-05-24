@@ -13,7 +13,7 @@ import Haneke
 class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,PlaceCellDelegate {
     
     var myMood:PFObject?
-    var myHashtag:PFObject?
+    var myHashtagName:String?
     var myCategory: PFObject?
     var myPlaces:[PFObject]?
     var myFriend:PFObject?
@@ -23,8 +23,14 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     var localHashtags = [String:[PFObject]]()
     var localReviews = [String:[PFObject]]()
     var myDelegate:DiscoverDelegate?
+    @IBOutlet weak var myBG: BackgroundImageView!
     
-    var lastBG = ""
+    var lastBG = ""{
+        didSet{
+            lastBG = lastBG + "-blur"
+        }
+    }
+    let bgQueue = NSOperationQueue()
     
     @IBOutlet weak var myBlurBG: UIVisualEffectView!
     @IBOutlet weak var myBG1: BackgroundImageView!
@@ -53,8 +59,8 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         var titleText = ""
         if myMood != nil{
             titleText = myMood!["name"] as! String
-        }else if myHashtag != nil{
-            titleText = myHashtag!["name"] as! String
+        }else if myHashtagName != nil{
+            titleText = "#\(myHashtagName!)"
         }else if myFriend != nil{
             if myFriend?.objectId == PFUser.currentUser().objectId{
                 titleText = "My Toasts"
@@ -97,10 +103,10 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             if myNeighborhood != nil{
                 parameters["neighborhoodId"]=myNeighborhood!.objectId
             }
-        }else{
-            if myFriend != nil{
+        }else if myFriend != nil{
                 parameters["ownerId"] = myFriend!.objectId
-            }
+        }else if myHashtagName != nil{
+                parameters["hashtagName"] = myHashtagName
         }
         
         return parameters
@@ -109,6 +115,11 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        let cache = Cache<String>(name:"hasHearts")
+        cache.removeAll()
     }
     
     //MARK: - CollectionView datasource methods
@@ -155,31 +166,38 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     private func configureBG(#place:PFObject){
-        if let neighborhood = place["neighborhood"] as? PFObject{
-            let BGname = neighborhood["name"] as! String
-            changeBGTo(BGname)
-        }else{
-            changeBGTo("default")
+        bgQueue.addOperationWithBlock { () -> Void in
+            if let neighborhood = place["neighborhood"] as? PFObject{
+                let BGname = neighborhood["name"] as! String
+                self.changeBGTo(BGname)
+            }else{
+                self.changeBGTo("default")
+            }
         }
+        
     }
     
     //MARK: Updating Neighborhood Background
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        let currentP = currentPlace(scrollView: scrollView)
-        if let currentNeighborhood = currentP?["neighborhood"] as? PFObject{
-            let currentBG = currentNeighborhood["name"] as! String
-            if currentBG != lastBG{
-                changeBGTo(currentBG)
+        
+        let opQueue = NSOperationQueue.mainQueue()
+        opQueue.addOperationWithBlock { () -> Void in
+            let currentP = self.currentPlace(scrollView: scrollView)
+            if let currentNeighborhood = currentP?["neighborhood"] as? PFObject{
+                let currentBG = currentNeighborhood["name"] as! String
+                if currentBG != self.lastBG{
+                    self.changeBGTo(currentBG)
+                }
+            }else if(self.lastBG != "default"){
+                self.changeBGTo("default")
             }
-        }else if(lastBG != "default"){
-            changeBGTo("default")
         }
     }
     
     private func changeBGTo(newBG:String){
         lastBG = newBG
-        updateBG()
+        //updateBG()
     }
     
     private func updateBG(){
@@ -193,19 +211,16 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     private func updateBGToDefault(){
         lastBG = "default"
-        let cache = Cache<UIImage>(name: "neighborhoods")
-        cache.fetch(key: "default", failure: { (error) -> () in
-            NSLog(error!.description)
-            }, success: { (image) -> () in
-                self.setBG(image)
-        })
+        updateBG()
     }
     
     private func setBG(image:UIImage){
-        let myBG = self.view as! BackgroundImageView
-        UIView.transitionWithView(myBG, duration: 0.4, options: .TransitionCrossDissolve, animations: { () -> Void in
-                    myBG.insertImage(image, withOpacity: 0.65)
-        },completion:nil)
+        let mainQueue = NSOperationQueue.mainQueue()
+        mainQueue.addOperationWithBlock { () -> Void in
+            UIView.transitionWithView(self.myBG, duration: 0.4, options: .TransitionCrossDissolve, animations: { () -> Void in
+                self.myBG.insertImage(image, withOpacity: 0.65)
+                },completion:nil)
+        }
     }
     
     //MARK: Toggle BottomBar buttons
@@ -334,16 +349,24 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         self.performSegueWithIdentifier("placeDetailSegue", sender: self)
     }
     
-    func placeCellReviewDidPressed(#toast: PFObject,place: PFObject) {
+    func placeCellReviewDidPressed(#toast: PFObject,place: PFObject, parentHeader: UIView) {
         let destination = self.storyboard?.instantiateViewControllerWithIdentifier("reviewDetailScene") as! ReviewDetailViewController
         destination.myToast = toast
         destination.titleString = place["name"] as! String!
+        destination.myOldParentHeader = parentHeader
         self.showViewController(destination, sender: self)
     }
     
-    func placeCellReviewerDidPress(#user: PFUser) {
+    func placeCellReviewerDidPress(#user: PFUser,friend:PFUser?) {
         let destination = self.storyboard?.instantiateViewControllerWithIdentifier("profileDetailScene") as! ProfileDetailViewController
         destination.myUser = user
+        destination.myFriend = friend
+        self.showViewController(destination, sender: self)
+    }
+    
+    func placeCellHashtagPressed(name: String) {
+        let destination = storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
+        destination.myHashtagName = name
         self.showViewController(destination, sender: self)
     }
     

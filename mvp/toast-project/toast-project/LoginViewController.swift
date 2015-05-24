@@ -13,14 +13,9 @@ import Alamofire
 
 class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInstagramDelegate {
     
-    var myDateFormatter : NSDateFormatter?
-    var myWeather:(temperature:Int,state:Int,date:NSDate)?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        myDateFormatter = NSDateFormatter()
-        myDateFormatter!.dateStyle = .ShortStyle
     }
     
     override func didReceiveMemoryWarning() {
@@ -30,12 +25,13 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        configureBG()
         //validateFacebookSession()
     }
     
-    func insertVisualEffect(#button:UIView){
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.whiteColor().CGColor
+    private func configureBG(){
+        let myBG = self.view as! BackgroundImageView
+        myBG.insertImage(UIImage(named: "loginBG")!, withOpacity: 0.35)
     }
     /*
     func validateFacebookSession(){

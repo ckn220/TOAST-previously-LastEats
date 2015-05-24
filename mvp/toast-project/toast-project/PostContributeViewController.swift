@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class PostContributeViewController: UIViewController,UIViewControllerTransitioningDelegate,PostRelatedDelegate {
+class PostContributeViewController: UIViewController,UIViewControllerTransitioningDelegate,PostActionsDelegate {
 
     @IBOutlet weak var messageHeader: UILabel!
     @IBOutlet weak var welcomeMessageView: UIView!
@@ -101,17 +101,25 @@ class PostContributeViewController: UIViewController,UIViewControllerTransitioni
     
     //MARK: - Segue methods
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "postRelatedSegue"{
-            postRelatedVC = segue.destinationViewController as! PostRelatedViewController
-            postRelatedVC.myTempToast = tempToast
-            postRelatedVC.myDelegate = self
+        if segue.identifier == "postActionsSegue"{
+            let destination = segue.destinationViewController as! PostActionsViewController
+            destination.myTempToast = tempToast
+            destination.myDelegate = self
         }
     }
     
-    //MARK: - PostRelatedViewController delegate methods
-    func postRelatedDidScroll(offset: CGFloat) {
-        let newAlpha = 1 - (offset/150.0)
-        messageHeader.alpha = newAlpha
+    //MARK: - PostActionsDelegate methods
+    func postActionsAddAnotherPressed() {
+        if let presentingParent = self.presentingViewController?.presentingViewController{
+            presentingParent.dismissViewControllerAnimated(true, completion: { () -> Void in
+                let contributeScene = self.storyboard?.instantiateViewControllerWithIdentifier("contributeScene") as! UIViewController
+                presentingParent.showDetailViewController(contributeScene, sender: presentingParent)
+            })
+        }
+    }
+    
+    func postActionsDonePressed() {
+        self.presentingViewController?.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     //MARK - Action methods

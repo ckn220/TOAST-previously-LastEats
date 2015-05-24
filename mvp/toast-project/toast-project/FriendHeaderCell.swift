@@ -14,11 +14,22 @@ class FriendHeaderCell: ReviewHeaderCell {
 
     @IBOutlet weak var friendPictureButton: ReviewerButton!
     @IBOutlet weak var friendNameLabel: UILabel!
+    @IBOutlet weak var topToastHeightConstraint: NSLayoutConstraint!
     
-    override func configure(#friend: PFUser,myDelegate:ReviewHeaderDelegate) {
-        super.configure(friend: friend, myDelegate: myDelegate)
+    override func configure(#friend: PFUser,myDelegate:ReviewHeaderDelegate,isTopToast: Bool) {
+        super.configure(friend: friend, myDelegate: myDelegate,isTopToast:isTopToast)
+        configureTopToast(isTopToast)
         configurePicture(friend)
         configureName(friend)
+    }
+    
+    private func configureTopToast(isTopToast:Bool){
+        if isTopToast{
+            topToastHeightConstraint.constant = 22
+        }else{
+            topToastHeightConstraint.constant = 0
+        }
+        self.layoutIfNeeded()
     }
     
     private func configurePicture(user:PFUser){
@@ -37,6 +48,10 @@ class FriendHeaderCell: ReviewHeaderCell {
     private func configureName(user:PFUser){
         let name = user["name"] as! String
         friendNameLabel.text = correctedName(name)
+        
+        if topToastHeightConstraint.constant > 0{
+            friendNameLabel.text = friendNameLabel.text!+"'s"
+        }
     }
     
 }

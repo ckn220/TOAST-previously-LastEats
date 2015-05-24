@@ -15,7 +15,7 @@ class ProfileToastCell: UITableViewCell {
     @IBOutlet weak var placeImageView: BackgroundImageView!
     @IBOutlet weak var placeNameLabel: UILabel!
     @IBOutlet weak var placeReviewLabel: UILabel!
-    @IBOutlet weak var topToastSignal: UIImageView!
+    @IBOutlet weak var topToastView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -72,12 +72,12 @@ class ProfileToastCell: UITableViewCell {
         
         if let top = topToast {
             if toast.objectId == top.objectId{
-                topToastSignal.alpha = 1
+                topToastView.alpha = 1
             }else{
-                topToastSignal.alpha = 0
+                topToastView.alpha = 0
             }
         }else{
-            topToastSignal.alpha = 0
+            topToastView.alpha = 0
         }
     }
     

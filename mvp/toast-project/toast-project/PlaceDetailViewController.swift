@@ -29,7 +29,7 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    
         configurePlaceName()
         configureBottomBar()
     }

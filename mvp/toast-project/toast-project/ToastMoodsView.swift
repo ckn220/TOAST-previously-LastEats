@@ -61,11 +61,8 @@ class ToastMoodsView: ToastCarouselView,UICollectionViewDataSource,UICollectionV
         }
         moodLabel.textAlignment = newAligment
         
-        if let selectedIndex = find(selectedMoods,item) {
-            moodLabel.textColor = selectedColor
-        }else{
-            moodLabel.textColor = UIColor.whiteColor()
-        }
+        let isSelected = find(selectedMoods,item) != nil
+        applySelectedStyle(moodLabel, selected: isSelected)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -74,13 +71,23 @@ class ToastMoodsView: ToastCarouselView,UICollectionViewDataSource,UICollectionV
         
         if let selectedIndex = find(selectedMoods,moods[indexPath.row]) {
             selectedMoods.removeAtIndex(selectedIndex)
-            selectedLabel.textColor = UIColor.whiteColor()
+            applySelectedStyle(selectedLabel, selected: true)
         }else{
             selectedMoods.append(moods[indexPath.row])
-            selectedLabel.textColor = selectedColor
+            applySelectedStyle(selectedLabel, selected: false)
         }
         
         myDelegate?.toastCarouselViewMoodsSelected(selectedMoods)
+    }
+    
+    private func applySelectedStyle(label:UILabel,selected:Bool){
+        if selected{
+            label.textColor = selectedColor
+            label.font = UIFont(name: "Avenir-Heavy", size: 16)
+        }else{
+            label.textColor = UIColor.whiteColor()
+            label.font = UIFont(name: "Avenir-Roman", size: 16)
+        }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {

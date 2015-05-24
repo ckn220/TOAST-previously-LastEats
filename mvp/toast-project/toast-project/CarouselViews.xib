@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14D113c" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14E11f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -65,21 +65,12 @@
                         <outlet property="delegate" destination="ell-SO-jT5" id="vUY-fo-n9G"/>
                     </connections>
                 </collectionView>
-                <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Great for:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rim-CD-cPR">
+                <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select one or more moods" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rim-CD-cPR">
                     <rect key="frame" x="20" y="36" width="280" height="24"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="VhJ-Sh-Osu"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="14"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select one or more moods for this place." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cTa-hh-HJn">
-                    <rect key="frame" x="20" y="254" width="280" height="24"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="24" id="KPh-x4-gJe"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="14"/>
+                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="16"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -87,13 +78,10 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="QQc-wI-Yhl" secondAttribute="centerX" id="1g1-sY-1Rj"/>
-                <constraint firstItem="cTa-hh-HJn" firstAttribute="top" secondItem="QQc-wI-Yhl" secondAttribute="bottom" constant="6" id="ErX-Ci-3at"/>
                 <constraint firstItem="rim-CD-cPR" firstAttribute="leading" secondItem="ell-SO-jT5" secondAttribute="leading" constant="20" id="GjJ-dm-17b"/>
-                <constraint firstItem="cTa-hh-HJn" firstAttribute="trailing" secondItem="QQc-wI-Yhl" secondAttribute="trailing" id="S3B-yk-Kvo"/>
                 <constraint firstAttribute="trailing" secondItem="rim-CD-cPR" secondAttribute="trailing" constant="20" id="l3g-Tt-QFH"/>
                 <constraint firstItem="QQc-wI-Yhl" firstAttribute="top" secondItem="rim-CD-cPR" secondAttribute="bottom" constant="12" id="nfe-Tc-0Q5"/>
                 <constraint firstAttribute="centerY" secondItem="QQc-wI-Yhl" secondAttribute="centerY" id="re4-3z-n11"/>
-                <constraint firstItem="cTa-hh-HJn" firstAttribute="leading" secondItem="QQc-wI-Yhl" secondAttribute="leading" id="xEe-0b-xjC"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

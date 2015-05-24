@@ -20,31 +20,30 @@ class HeartButton: ReviewDetailButton {
         let selectedColor = UIColor(red: 0.987, green: 0.250, blue: 0.500, alpha: 1.000)
         let selectedBG = UIColor(white: 1, alpha: 0.2)
         
-        //// Bezier Drawing
-        var bezierPath = UIBezierPath()
-        bezierPath.moveToPoint(CGPointMake(56.43, 12.98))
-        bezierPath.addCurveToPoint(CGPointMake(48.69, 12.98), controlPoint1: CGPointMake(54.29, 11.04), controlPoint2: CGPointMake(50.83, 11.04))
-        bezierPath.addLineToPoint(CGPointMake(47.24, 14.3))
-        bezierPath.addLineToPoint(CGPointMake(45.79, 12.98))
-        bezierPath.addCurveToPoint(CGPointMake(38.05, 12.98), controlPoint1: CGPointMake(43.65, 11.04), controlPoint2: CGPointMake(40.19, 11.04))
-        bezierPath.addCurveToPoint(CGPointMake(38.05, 20.89), controlPoint1: CGPointMake(35.65, 15.17), controlPoint2: CGPointMake(35.65, 18.7))
-        bezierPath.addLineToPoint(CGPointMake(47.24, 29.25))
-        bezierPath.addLineToPoint(CGPointMake(56.43, 20.89))
-        bezierPath.addCurveToPoint(CGPointMake(56.43, 12.98), controlPoint1: CGPointMake(58.83, 18.7), controlPoint2: CGPointMake(58.83, 15.17))
-        bezierPath.addLineToPoint(CGPointMake(56.43, 12.98))
-        bezierPath.closePath()
+        //// heartBezier Drawing
+        var heartBezierPath = UIBezierPath()
+        heartBezierPath.moveToPoint(CGPointMake(35.76, 7.54))
+        heartBezierPath.addCurveToPoint(CGPointMake(30.43, 7.54), controlPoint1: CGPointMake(34.29, 6.17), controlPoint2: CGPointMake(31.9, 6.17))
+        heartBezierPath.addLineToPoint(CGPointMake(29.43, 8.47))
+        heartBezierPath.addLineToPoint(CGPointMake(28.43, 7.54))
+        heartBezierPath.addCurveToPoint(CGPointMake(23.1, 7.54), controlPoint1: CGPointMake(26.96, 6.17), controlPoint2: CGPointMake(24.57, 6.17))
+        heartBezierPath.addCurveToPoint(CGPointMake(23.1, 13.11), controlPoint1: CGPointMake(21.45, 9.08), controlPoint2: CGPointMake(21.45, 11.57))
+        heartBezierPath.addLineToPoint(CGPointMake(29.43, 19))
+        heartBezierPath.addLineToPoint(CGPointMake(35.76, 13.11))
+        heartBezierPath.addCurveToPoint(CGPointMake(35.76, 7.54), controlPoint1: CGPointMake(37.41, 11.57), controlPoint2: CGPointMake(37.41, 9.08))
+        heartBezierPath.addLineToPoint(CGPointMake(35.76, 7.54))
         
         
         if isOn{
             selectedColor.setFill()
-            bezierPath.fill()
+            heartBezierPath.fill()
             
             selectedBG.setFill()
             buttonPath.fill()
         }else{
             strokeColor.setStroke()
-            bezierPath.lineWidth = 0.5
-            bezierPath.stroke()
+            heartBezierPath.lineWidth = 0.5
+            heartBezierPath.stroke()
         }
 
     }

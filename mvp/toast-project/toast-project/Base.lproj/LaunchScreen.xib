@@ -13,20 +13,11 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBG" translatesAutoresizingMaskIntoConstraints="NO" id="9Cs-tE-jdh">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="toastLogo" translatesAutoresizingMaskIntoConstraints="NO" id="ACa-aa-bch">
-                    <rect key="frame" x="52" y="81" width="217" height="68"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="217" id="1no-S1-Vwb"/>
-                        <constraint firstAttribute="height" constant="68" id="RJA-Kx-1F1"/>
-                    </constraints>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="9Cs-tE-jdh" secondAttribute="bottom" id="D20-El-dGm"/>
-                <constraint firstItem="9Cs-tE-jdh" firstAttribute="top" secondItem="ACa-aa-bch" secondAttribute="bottom" constant="-149" id="Xci-7w-a6L"/>
                 <constraint firstItem="9Cs-tE-jdh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fkZ-ip-mCA"/>
-                <constraint firstItem="9Cs-tE-jdh" firstAttribute="centerX" secondItem="ACa-aa-bch" secondAttribute="centerX" id="i6t-FF-glh"/>
                 <constraint firstAttribute="trailing" secondItem="9Cs-tE-jdh" secondAttribute="trailing" id="zaB-dG-E7i"/>
                 <constraint firstItem="9Cs-tE-jdh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="zkF-OI-Wxn"/>
             </constraints>
@@ -37,6 +28,5 @@
     </objects>
     <resources>
         <image name="loginBG" width="320" height="568"/>
-        <image name="toastLogo" width="207" height="66"/>
     </resources>
 </document>

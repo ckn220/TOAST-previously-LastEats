@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configure(#application: UIApplication){
         configureParse()
         configurePushNotifications(application: application)
-        configureNeighborhoods()
+        //configureNeighborhoods()
     }
     
     private func configureParse(){
@@ -74,7 +74,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let resourceName = correctedName(name, scale: scale)
             let picturePath = NSBundle.mainBundle().pathForResource(resourceName, ofType: ".jpg")
             let pictureData = NSData(contentsOfFile: picturePath!)
+            let picture = UIImage(data: pictureData!)!
+            let blurPicture = picture.applyBlurWithRadius(8, tintColor: nil, saturationDeltaFactor: 1, maskImage: nil)
             cache.set(value: UIImage(data: pictureData!)!, key: name, success: nil)
+            cache.set(value: blurPicture, key: name+"-blur", success: nil)
         }
     }
     

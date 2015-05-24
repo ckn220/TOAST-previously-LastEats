@@ -14,9 +14,59 @@ class BackgroundImageView: UIView {
     var myImage: UIImage?{
         didSet{
             self.setNeedsDisplay()
+            //drawInBackground()
         }
     }
     var myOpacity:CGFloat = 0.0
+    let myQueue = NSOperationQueue()
+    let myLayer = CALayer()
+    
+    //MARK: - Drawing using CALayer
+    private func drawInBackground(){
+        myQueue.addOperationWithBlock { () -> Void in
+            let layerImage = self.drawMyImage()
+            NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
+                self.insertIntoMyLayer(layerImage)
+            })
+        }
+    }
+    
+    private func insertIntoMyLayer(i:UIImage){
+        validateMyLayer()
+        let an = CABasicAnimation(keyPath: "contents")
+        an.fromValue = self.myLayer.contents
+        an.toValue = i.CGImage
+        an.duration = 0.3
+        self.myLayer.addAnimation(an, forKey: "myBGAnimation")
+        
+        self.myLayer.contents = i.CGImage
+        
+    }
+    
+    private func validateMyLayer(){
+        if self.myLayer.superlayer == nil{
+            self.myLayer.frame = self.layer.bounds
+            self.layer.insertSublayer(self.myLayer, atIndex: 0)
+        }
+    }
+    
+    private func drawMyImage() -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(self.bounds.size, true, 0)
+        let rectanglePath = UIBezierPath(rect: self.bounds)
+        rectanglePath.addClip()
+        
+        self.drawImage()
+        if self.myOpacity > 0{
+            self.drawOpacity()
+        }
+        
+        let i = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        return i;
+
+    }
+    //MARK: -
+    
     
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
