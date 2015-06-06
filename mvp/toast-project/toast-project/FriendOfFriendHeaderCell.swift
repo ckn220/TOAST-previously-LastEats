@@ -12,16 +12,17 @@ import Haneke
 
 class FriendOfFriendHeaderCell: ReviewHeaderCell {
 
-    @IBOutlet weak var friendFriendPictureButton: ReviewerButton!
+    @IBOutlet weak var friendFriendPictureView: BackgroundImageView!
     @IBOutlet weak var friendfriendNameLabel: UILabel!
     @IBOutlet weak var friendfriendSubtitleLabel: UILabel!
     @IBOutlet weak var friendPictureView: BackgroundImageView!
     @IBOutlet weak var topToastHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var subtitleHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var topToastBottomSpacingConstraint: NSLayoutConstraint!
     var friend:PFUser?
 
-    override func configure(#friend: PFUser, friendFriend: PFUser,myDelegate:ReviewHeaderDelegate,isTopToast: Bool) {
-        super.configure(friend: friend, friendFriend: friendFriend, myDelegate: myDelegate,isTopToast: isTopToast)
+    override func configure(#friend: PFUser, friendFriend: PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool) {
+        super.configure(friend: friend, friendFriend: friendFriend, myDelegate: myDelegate,superView:superView,isTopToast: isTopToast)
         configureTopToast(isTopToast)
         configureFriend(friend)
         configureFriendofFriend(friendFriend)
@@ -31,8 +32,10 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
         if isTopToast{
             topToastHeightConstraint.constant = 22
             subtitleHeightConstraint.constant = 17
+            topToastBottomSpacingConstraint.constant = 4
         }else{
             topToastHeightConstraint.constant = 0
+            topToastBottomSpacingConstraint.constant = 0
             subtitleHeightConstraint.constant = 34
         }
         self.layoutIfNeeded()
@@ -53,13 +56,7 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
     private func configureFriendPicture(friend:PFUser){
         configureReviewerPicture(friendPictureView.layer)
         if let pictureURL = friend["pictureURL"] as? String{
-            let cache = Shared.imageCache
-            
-            cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
-                NSLog("configurePicture error: \(error!.description)")
-                }, success: {(image) -> () in
-                    self.friendPictureView.myImage = image
-            })
+            friendPictureView.setImage(URL: pictureURL)
         }
     }
     
@@ -70,14 +67,10 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
     
     //MARK: - Friend of friend methods
     private func configureFriendOfFriendPicture(friendFriend:PFUser){
-        configureReviewerPicture(friendFriendPictureButton.layer)
+        configureReviewerPicture(friendFriendPictureView.layer)
         if let pictureURL = friendFriend["pictureURL"] as? String{
-            let cache = Shared.imageCache
-            
-            cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
-                NSLog("configurePicture error: \(error!.description)")
-                }, success: {(image) -> () in
-                    self.friendFriendPictureButton.myImage = image
+            self.friendFriendPictureView.setImage(URL: pictureURL, completion: { () -> Void in
+                self.myDelegate?.reviewHeaderDoneLoading()
             })
         }
     }

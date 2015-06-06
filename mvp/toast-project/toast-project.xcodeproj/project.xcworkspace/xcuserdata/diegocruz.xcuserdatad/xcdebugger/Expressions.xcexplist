@@ -33,13 +33,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.LoginViewController.(getProfilePicture (toast_project.LoginViewController) -&gt; (url : Swift.String, isFB : Swift.Bool) -&gt; ()).(closure #1):LoginViewController.swift">
+         contextName = "-[UICollectionViewLeftAlignedLayout layoutAttributesForItemAtIndexPath:]:UICollectionViewLeftAlignedLayout.m">
          <PersistentStrings>
             <PersistentString
-               value = "request.URL.absoluteString">
-            </PersistentString>
-            <PersistentString
-               value = "PFUser.currentUser()">
+               value = "previousItem">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -60,6 +57,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "toast_project.LoginViewController.(getProfilePicture (toast_project.LoginViewController) -&gt; (url : Swift.String, isFB : Swift.Bool) -&gt; ()).(closure #1):LoginViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "request.URL.absoluteString">
+            </PersistentString>
+            <PersistentString
+               value = "PFUser.currentUser()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "toast_project.Contribute1TableViewController.tableView (toast_project.Contribute1TableViewController)(ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:Contribute1TableViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -72,6 +80,14 @@
       </ContextState>
       <ContextState
          contextName = "toast_project.LoginViewController.(loginInstagramDidClose (toast_project.LoginViewController) -&gt; (token : Swift.String) -&gt; ()).(closure #1):LoginViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ToastsViewController.(updatesForCurrentPlace in _2A6FD6D8D23BEE593C45CE7497DE3380) (toast_project.ToastsViewController)() -&gt; ():ToastsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.myPlaces.count">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "toast_project.ReviewDetailTableViewController.setProfilePicture (toast_project.ReviewDetailTableViewController)(cell : ObjectiveC.UITableViewCell) -&gt; ():ReviewDetailTableViewController.swift">
@@ -172,13 +188,13 @@
          contextName = "toast_project.PlaceDetailViewController.reservePressed (toast_project.PlaceDetailViewController)(ObjectiveC.UIButton) -&gt; ():PlaceDetailViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "myPlace![&quot;address&quot;] as String">
+            </PersistentString>
+            <PersistentString
                value = "myPlace![&quot;postalCode&quot;] as String">
             </PersistentString>
             <PersistentString
                value = "myPlace![&quot;name&quot;] as String">
-            </PersistentString>
-            <PersistentString
-               value = "myPlace![&quot;address&quot;] as String">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -255,6 +271,14 @@
          <PersistentStrings>
             <PersistentString
                value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ProfileDetailViewController.(loadTopToast in _AF2C7AE3331A065D3F6935430A689F18) (toast_project.ProfileDetailViewController)(group : ObjectiveC.NSObject) -&gt; ():ProfileDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.titleLabel">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -403,6 +427,14 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "toast_project.ToastsViewController.(getPlaces (toast_project.ToastsViewController) -&gt; () -&gt; ()).(closure #1):ToastsViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.myPlaces">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "toast_project.Discover1ViewController.viewDidLoad (toast_project.Discover1ViewController)() -&gt; ():Discover1ViewController.swift">
       </ContextState>
       <ContextState
@@ -410,6 +442,14 @@
          <PersistentStrings>
             <PersistentString
                value = "myPlace![&quot;picture&quot;] as String">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.ReviewerButton.imageURL.didset : Swift.ImplicitlyUnwrappedOptional&lt;Swift.String&gt;:ReviewerButton.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.imageView!">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

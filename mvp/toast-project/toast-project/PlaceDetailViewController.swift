@@ -78,12 +78,7 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     //MARK: - Configure methods
     func configure(){
         if bgName != nil{
-            let cache = Cache<UIImage>(name:"neighborhoods")
-            cache.fetch(key: bgName!, failure: { (error) -> () in
-                NSLog("configure error: %@",error!.description)
-                }, success: {(image) -> () in
-                    self.myBlurBG.insertImage(image, withOpacity: 0.65)
-            })
+            myBlurBG.setImage(bgName!, opacity: 0.35)
         }
     }
     
@@ -203,7 +198,7 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
         let navDestination = storyboard?.instantiateViewControllerWithIdentifier("deliveryWebViewNavScene") as! UINavigationController
         let destination = navDestination.viewControllers[0] as! GenericWebViewController
         destination.myURL = link
-        destination.title = title
+        destination.tempTitle = title
         
         self.showDetailViewController(navDestination, sender: nil)
     }

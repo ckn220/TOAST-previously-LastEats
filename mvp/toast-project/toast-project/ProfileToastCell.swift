@@ -10,12 +10,22 @@ import UIKit
 import Parse
 import Haneke
 
+protocol ProfileToastCellDelegate{
+    func profileToastCellGotPlace(place:PFObject?,atIndex index:Int)
+    func getPlace(index:Int) -> PFObject?
+}
+
 class ProfileToastCell: UITableViewCell {
 
     @IBOutlet weak var placeImageView: BackgroundImageView!
     @IBOutlet weak var placeNameLabel: UILabel!
     @IBOutlet weak var placeReviewLabel: UILabel!
     @IBOutlet weak var topToastView: UIView!
+    
+    var myIndex:Int!
+    var myPlace:PFObject?
+    let imageQueue = NSOperationQueue()
+    var myDelegate:ProfileToastCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,40 +38,67 @@ class ProfileToastCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(toast:PFObject,topToast:PFObject?){
+    func configureCell(index:Int,toast:PFObject,topToast:PFObject?,myDelegate:ProfileToastCellDelegate){
+        self.myDelegate = myDelegate
+        self.myIndex = index
+        toggleAlpha(0, duration: 0)
         placeFromToast(toast, completion: { (place) -> Void in
-            self.configureImage(place)
-            self.configureName(place)
+            self.setPlace(place)
         })
         configureReview(toast)
         configureTopToastSignal(toast, topToast: topToast)
     }
     
-    private func placeFromToast(toast:PFObject,completion:(place:PFObject)->Void){
+    private func placeFromToast(toast:PFObject,completion:(place:PFObject?)->Void){
+        if let localPlace = myDelegate!.getPlace(myIndex){
+            completion(place:localPlace)
+        }else{
+            requestPlace(toast, completion: { (place) -> Void in
+                completion(place:place)
+            })
+        }
+    }
+    
+    private func requestPlace(toast:PFObject,completion:(place:PFObject?)->Void){
         let query = PFQuery(className: "Place")
+        query.includeKey("neighborhood")
         query.whereKey("toasts", equalTo: toast)
         query.getFirstObjectInBackgroundWithBlock { (result, error) -> Void in
-            if error == nil{
-                completion(place:result as PFObject)
-            }else{
+            if error != nil{
                 NSLog("placeFromToast error: %@",error.description)
+            }
+            completion(place:result)
+        }
+    }
+    
+    private func setPlace(place:PFObject?){
+        myDelegate?.profileToastCellGotPlace(place,atIndex:myIndex)
+        if place != nil{
+            myPlace = place
+            self.configureImage()
+            self.configureName()
+        }
+    }
+    
+    private func configureImage(){
+        let photosArray = myPlace!["photos"] as! NSArray
+        if photosArray.count > 0{
+            let imageURL = photosArray[0] as! String
+            placeImageView.setImage(URL: imageURL) { () -> Void in
+                self.toggleAlpha(1)
             }
         }
     }
     
-    private func configureImage(place:PFObject){
-        let imageURL = (place["photos"] as! NSArray)[0] as! String
-        let cache = Shared.imageCache
-        cache.fetch(URL: NSURL(string: imageURL)!, failure: { (error) -> () in
-            NSLog("configureImage error: %@",error!.description)
-            }, success: {(image) -> () in
-                self.placeImageView.myImage = image
-        })
+    private func configureName(){
+        //insertShadow(placeNameLabel)
+        placeNameLabel.text = myPlace!["name"] as! String!
     }
     
-    private func configureName(place:PFObject){
-        //insertShadow(placeNameLabel)
-        placeNameLabel.text = place["name"] as! String!
+    private func toggleAlpha(alpha:CGFloat,duration:NSTimeInterval=0){
+        UIView.animateWithDuration(duration, animations: { () -> Void in
+            self.placeImageView?.alpha = alpha
+        })
     }
     
     private func configureReview(toast:PFObject){

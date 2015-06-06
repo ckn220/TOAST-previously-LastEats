@@ -13,6 +13,7 @@ import Foundation
 
 class ContributeViewController: UIViewController, iCarouselDataSource, iCarouselDelegate,ToastCarouselViewDelegate,SearchPlaceDelegate {
 
+    @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var myNavBar: UIView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var myCarousel:iCarousel!
@@ -20,6 +21,8 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     @IBOutlet weak var goToReviewButton: UIButton!
     @IBOutlet weak var changeNameButton: UIButton!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var reviewView: ToastReviewView!
+    @IBOutlet weak var reviewTopConstraint: NSLayoutConstraint!
     
     
     var isStatusBarHidden = true
@@ -38,8 +41,14 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
 
         // Do any additional setup after loading the view.
         myCarousel.type = .Cylinder
+        myCarousel.scrollEnabled = false
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        
+        reviewView.myDelegate = self
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        reviewTopConstraint.constant = (CGRectGetHeight(self.myCarousel.bounds)+20)
     }
 
     override func didReceiveMemoryWarning() {
@@ -129,11 +138,11 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         case .ShowBackfaces:
             return 0
         case .FadeMin:
-            return -0.2
+            return -0.1
         case .FadeMax:
-            return 0.2
+            return 0.1
         case .FadeRange:
-            return 1.2
+            return 1
         default:
             return value
         }
@@ -188,7 +197,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
             myCarousel.insertItemAtIndex(2, animated: true)
         }else if !isVisible && itemsCount == 3{
             if myCarousel.itemViewAtIndex(2) != nil{
-                let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
+                //let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
                 reviewView.toggleFocus(false)
             }
             itemsCount = 2
@@ -214,16 +223,20 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     private func currentItemChanged(index:Int){
         
         if myCarousel.numberOfItems == 3{
-            let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
+            //let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
             reviewView.toggleFocus(index == 2)
             if index == 2{
+                toggleReviewVisibility(0)
                 reviewView.moods = tempToast["moods"] as! [PFObject]
+            }else{
+                toggleReviewVisibility(1)
+                restartMoods()
+                restartReview()
             }
         }
         
         if index == 0{
             toggleNavBar(isVisible: false)
-            restartMoods()
             toggleReviewItem(false)
             toggleGoToReview(false)
             searchNameContainerView.alpha = 1
@@ -231,6 +244,25 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         }else{
             toggleNavBar(isVisible: true)
         }
+        
+        toggleCloseButton(isClose: index != 2)
+    }
+    
+    private func toggleCloseButton(#isClose:Bool){
+        var closeIcon = "backIcon"
+        if isClose{
+            closeIcon = "closeIcon"
+        }
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            self.closeButton.setImage(UIImage(named: closeIcon), forState: .Normal)
+        })
+    }
+    
+    private func toggleReviewVisibility(hidden:CGFloat){
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.reviewTopConstraint.constant = CGRectGetHeight(self.myCarousel.bounds).advancedBy(20) * hidden
+            self.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     private func restartMoods(){
@@ -238,6 +270,13 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
             let moodsView = myCarousel.itemViewAtIndex(1) as! ToastMoodsView
             moodsView.restartMoods()
         }
+    }
+    
+    private func restartReview(){
+        let reviewTextView = reviewView.reviewTextView
+        reviewTextView.text = ""
+        reviewView.textViewDidChange(reviewTextView)
+        reviewView.togglePlaceHolder(0)
     }
     
     func toastCarouselViewReviewEditing(text: String) {
@@ -290,7 +329,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     
     //MARK: ReviewPlace delegate methods
     func reviewPlaceDoneEditing(#review: String?,hashtags:[PFObject]) {
-        let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
+        //let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
         if let reviewValue = review {
             tempToast["review"] = review
             reviewView.reviewTextView.text = review
@@ -331,27 +370,36 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     }
     
     @IBAction func closePressed(sender: UIButton) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        if myCarousel.currentItemIndex == 2{
+            dismissReview({ () -> Void in
+                self.myCarousel.scrollToItemAtIndex(1, animated: true)
+            })
+        }else{
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
     }
     
     //MARK: - Submit methods
     @IBAction func submitPressed(sender: AnyObject) {
-        let reviewTextView = (myCarousel.itemViewAtIndex(2) as! ToastReviewView).reviewTextView
-        tempReview = reviewTextView.text
+        let reviewTextView = reviewView.reviewTextView
+        tempReview = reviewTextView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         createToast()
-        
-        CATransaction.begin()
-        CATransaction.setCompletionBlock { () -> Void in
+        dismissReview { () -> Void in
             let post = self.storyboard?.instantiateViewControllerWithIdentifier("postContributeScene") as! PostContributeViewController!
             post.transitioningDelegate = post
             post.tempToast = self.tempToast
             self.showDetailViewController(post, sender: self)
         }
-        reviewTextView.resignFirstResponder()
+    }
+    
+    private func dismissReview(completion:(()-> Void)?){
+        CATransaction.begin()
+        CATransaction.setCompletionBlock { () -> Void in
+            completion?()
+        }
+        reviewView.reviewTextView.resignFirstResponder()
         CATransaction.commit()
-        
-        
-        //self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func createToast(){
@@ -400,7 +448,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     }
     
     func insertReview(){
-        let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
+        //let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
         newToast?["review"] = reviewView.reviewTextView.text
     }
     
@@ -735,7 +783,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
                         self.insertFoursquarePicture(result, inPlace: myPlace)
                         self.insertMenuLink(result, inPlace: myPlace)
                         self.insertWebsite(result, inPlace: myPlace)
-                        self.insertSchedule(result, inPlace: myPlace)
+                        //self.insertSchedule(result, inPlace: myPlace)
                         self.insertReservationPlace(result, inPlace: myPlace){(success) -> Void in
                             self.insertPlace(myPlace)
                         }
@@ -821,7 +869,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         if let userInfo = sender.userInfo {
             if let keyboardHeight = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue().size.height {
                 if myCarousel.itemViewAtIndex(2) != nil {
-                    let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
+                    //let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
                     reviewView.keyboargHeight = keyboardHeight
                 }
                 

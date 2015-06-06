@@ -26,10 +26,12 @@ class PostContributeTransitioning: NSObject, UIViewControllerAnimatedTransitioni
         //Dissapearing fromVC elements
         let fromNavBar = fromVC.myNavBar
         let fromCarousel = fromVC.myCarousel
+        let fromReviewView = fromVC.reviewView
         UIView.animateKeyframesWithDuration(myDuration, delay: 0, options: .CalculationModeLinear, animations: { () -> Void in
             
             UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 1, animations: { () -> Void in
                 fromCarousel.layer.transform = CATransform3DMakeScale(0.001, 0.001, 1)
+                fromReviewView.layer.transform = CATransform3DMakeScale(0.001, 0.001, 1)
             })
             
             UIView.addKeyframeWithRelativeStartTime(0.5, relativeDuration: 0.5, animations: { () -> Void in

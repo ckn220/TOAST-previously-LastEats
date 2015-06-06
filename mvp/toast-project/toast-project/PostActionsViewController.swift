@@ -26,17 +26,18 @@ class PostActionsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        configureVenueName()
     }
     
     private func configureVenueName(){
-        let name = myTempToast["name"] as! String
+        let name = myTempToast["placeName"] as! String
         let firstText = "Want to make "
         let lastText = " your Top Toast?"
         
         var finalText = NSMutableAttributedString(string: firstText)
         finalText.appendAttributedString(nameString(name))
         finalText.appendAttributedString(normalString(lastText))
+        postQuestionLabel.attributedText = finalText
     }
     
     private func normalString(text:String)->NSAttributedString{

@@ -46,13 +46,7 @@ class PostRelatedPlaceCell: UITableViewCell {
         let photos = place["photos"] as! NSArray
         if photos.count > 0{
             let imageURL = photos[0] as! String
-            Alamofire.request(.GET, imageURL).response({ (request, response, data, error) -> Void in
-                if error == nil{
-                    self.placeImageView.myImage = UIImage(data: data as! NSData)!
-                }else{
-                    NSLog("%@", error!.description)
-                }
-            })
+            placeImageView.setImage(URL: imageURL)
         }
     }
     

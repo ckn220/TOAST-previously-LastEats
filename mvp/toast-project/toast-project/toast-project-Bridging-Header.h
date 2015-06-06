@@ -10,3 +10,4 @@
 #import "CCHLinkTextViewDelegate.h"
 #import "UIColor+RHInterpolationAdditions.h"
 #import "UIImage+ImageEffects.h"
+#import "UICollectionViewLeftAlignedLayout.h"

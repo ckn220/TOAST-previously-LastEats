@@ -12,12 +12,13 @@ import Haneke
 
 class FriendHeaderCell: ReviewHeaderCell {
 
-    @IBOutlet weak var friendPictureButton: ReviewerButton!
+
+    @IBOutlet weak var friendPictureView: BackgroundImageView!
     @IBOutlet weak var friendNameLabel: UILabel!
     @IBOutlet weak var topToastHeightConstraint: NSLayoutConstraint!
     
-    override func configure(#friend: PFUser,myDelegate:ReviewHeaderDelegate,isTopToast: Bool) {
-        super.configure(friend: friend, myDelegate: myDelegate,isTopToast:isTopToast)
+    override func configure(#friend: PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool) {
+        super.configure(friend: friend, myDelegate: myDelegate,superView:superView,isTopToast:isTopToast)
         configureTopToast(isTopToast)
         configurePicture(friend)
         configureName(friend)
@@ -33,14 +34,10 @@ class FriendHeaderCell: ReviewHeaderCell {
     }
     
     private func configurePicture(user:PFUser){
-        configureReviewerPicture(friendPictureButton.layer)
+        configureReviewerPicture(friendPictureView.layer)
         if let pictureURL = user["pictureURL"] as? String{
-            let cache = Shared.imageCache
-            
-            cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
-                NSLog("configurePicture error: \(error!.description)")
-                }, success: {(image) -> () in
-                    self.friendPictureButton.myImage = image
+            friendPictureView.setImage(URL: pictureURL, completion: { () -> Void in
+                self.myDelegate?.reviewHeaderDoneLoading()
             })
         }
     }

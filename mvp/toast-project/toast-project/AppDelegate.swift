@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let defaults = NSUserDefaults.standardUserDefaults()
         if !defaults.boolForKey("neighborhoodsLoaded"){
             
-            let operationQueue = NSOperationQueue.mainQueue()
+            let operationQueue = NSOperationQueue()
             operationQueue.addOperationWithBlock({ () -> Void in
                 self.loadNeighborhoods()
                 defaults.setBool(true, forKey: "neighborhoodsLoaded")
@@ -76,7 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let pictureData = NSData(contentsOfFile: picturePath!)
             let picture = UIImage(data: pictureData!)!
             let blurPicture = picture.applyBlurWithRadius(8, tintColor: nil, saturationDeltaFactor: 1, maskImage: nil)
-            cache.set(value: UIImage(data: pictureData!)!, key: name, success: nil)
             cache.set(value: blurPicture, key: name+"-blur", success: nil)
         }
     }

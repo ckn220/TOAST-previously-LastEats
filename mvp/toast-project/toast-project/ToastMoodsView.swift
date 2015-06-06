@@ -71,10 +71,10 @@ class ToastMoodsView: ToastCarouselView,UICollectionViewDataSource,UICollectionV
         
         if let selectedIndex = find(selectedMoods,moods[indexPath.row]) {
             selectedMoods.removeAtIndex(selectedIndex)
-            applySelectedStyle(selectedLabel, selected: true)
+            applySelectedStyle(selectedLabel, selected: false)
         }else{
             selectedMoods.append(moods[indexPath.row])
-            applySelectedStyle(selectedLabel, selected: false)
+            applySelectedStyle(selectedLabel, selected: true)
         }
         
         myDelegate?.toastCarouselViewMoodsSelected(selectedMoods)
@@ -83,7 +83,7 @@ class ToastMoodsView: ToastCarouselView,UICollectionViewDataSource,UICollectionV
     private func applySelectedStyle(label:UILabel,selected:Bool){
         if selected{
             label.textColor = selectedColor
-            label.font = UIFont(name: "Avenir-Heavy", size: 16)
+            label.font = UIFont(name: "Avenir-Roman", size: 16)
         }else{
             label.textColor = UIColor.whiteColor()
             label.font = UIFont(name: "Avenir-Roman", size: 16)

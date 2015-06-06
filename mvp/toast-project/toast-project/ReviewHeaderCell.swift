@@ -11,17 +11,21 @@ import Parse
 
 protocol ReviewHeaderDelegate{
     func friendPicturePressed(ffriend:PFUser?)
+    func reviewHeaderDoneLoading()
 }
 
 class ReviewHeaderCell: UITableViewCell {
 
     var myDelegate:ReviewHeaderDelegate?
     
-    func configure(#friend:PFUser,myDelegate:ReviewHeaderDelegate,isTopToast: Bool){
+    func configure(#friend:PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool){
+        self.frame = superView.bounds
+        //superView.addSubview(self)
         self.myDelegate = myDelegate
     }
     
-    func configure(#friend:PFUser,friendFriend:PFUser,myDelegate:ReviewHeaderDelegate,isTopToast: Bool){
+    func configure(#friend:PFUser,friendFriend:PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool){
+        self.frame = superView.bounds
         self.myDelegate = myDelegate
     }
     
@@ -40,7 +44,7 @@ class ReviewHeaderCell: UITableViewCell {
         pictureLayer.cornerRadius = CGRectGetWidth(pictureLayer.bounds)/2.0
         pictureLayer.borderWidth = 1
         pictureLayer.borderColor = UIColor(white: 1, alpha: 0.7).CGColor
-        pictureLayer.shouldRasterize = true
+        //pictureLayer.shouldRasterize = true
     }
     
     func correctedName(name:String)->String{

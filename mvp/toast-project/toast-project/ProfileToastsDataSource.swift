@@ -9,17 +9,24 @@
 import UIKit
 import Parse
 
-class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegate {
+protocol ProfileToastsDelegate{
+    func profileToastsCellPressed(indexPressed:Int,place:PFObject?)
+}
+
+class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegate,ProfileToastCellDelegate {
     var toasts: [PFObject]!
     var user:PFUser!
     var topToast: PFObject?
     var isCurrentUser=false
+    var myDelegate:ProfileToastsDelegate?
+    var placesTemp = [Int:PFObject]()
     
-    init(toasts:[PFObject],user:PFUser,topToast: PFObject?){
+    init(toasts:[PFObject],user:PFUser,topToast: PFObject?,myDelegate:ProfileToastsDelegate){
         super.init()
         self.toasts = toasts
         self.user = user
         self.topToast = topToast
+        self.myDelegate = myDelegate
         configure()
     }
     
@@ -33,10 +40,12 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
     }
     
     private func sortToast(){
-        if let top = topToast{
-            if let topIndex = find(toasts, top){
-                toasts.removeAtIndex(topIndex)
-                toasts.insert(top, atIndex: 0)
+        for k in 0...(toasts.count-1){
+            let toast = toasts[k]
+            if toast.objectId == topToast?.objectId{
+                toasts.removeAtIndex(k)
+                toasts.insert(toast, atIndex: 0)
+                break
             }
         }
     }
@@ -51,7 +60,7 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("toastCell") as! ProfileToastCell
-        cell.configureCell(toasts[indexPath.row],topToast: topToast)
+        cell.configureCell(indexPath.row,toast:toasts[indexPath.row],topToast: topToast,myDelegate:self)
         
         return cell
     }
@@ -84,5 +93,20 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
                 }
             })
         }
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! ProfileToastCell
+        myDelegate?.profileToastsCellPressed(indexPath.row,place:cell.myPlace)
+    }
+    
+    //MARK: - Cell delegate
+    func profileToastCellGotPlace(place:PFObject?,atIndex index:Int) {
+        placesTemp[index] = place
+    }
+    
+    func getPlace(index: Int) -> PFObject? {
+        return placesTemp[index]
     }
 }

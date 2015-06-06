@@ -13,6 +13,7 @@ import MapKit
 import CoreLocation
 import AddressBook
 import Foundation
+import Alamofire
 
 protocol PlaceDetailDelegate{
     func placeDetailMenuPressed()
@@ -32,6 +33,9 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     var placeReviewFriends : [PFObject]?
     var reservationURL: String?
     var menuURL: String?
+    
+    let foursquareClientId = "2EDPPGSKXYRS3TIW4TIDKRXEGBNMIVMCC5HF4FAEZEHISGI4"
+    let foursquareClientSecret = "H2GC5EERWD3RHBLMSGVEY55TI5JPA5HXZD4MRLO4XILVJ4HB"
     
     var hashtagsDataSource:HashtagCollectionViewDataSource?{
         didSet{
@@ -99,23 +103,29 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     
     //MARK: Place properties methods
     func configurePlacePictures(){
-        let pictures = myPlace!["photos"] as! [String]
-        picturesPageControl.numberOfPages = pictures.count
-        myPicturesDataSource = PlacePicturesDataSource(items:pictures,delegate:self)
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            let pictures = self.myPlace!["photos"] as! [String]
+            self.picturesPageControl.numberOfPages = pictures.count
+            self.myPicturesDataSource = PlacePicturesDataSource(items:pictures,delegate:self)
+        }
+        
     }
     
     func configureMap(){
-        placeGeoPoint = myPlace?["location"] as? PFGeoPoint
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            self.placeGeoPoint = self.myPlace?["location"] as? PFGeoPoint
         let placeAnnotation = MKPointAnnotation()
-        placeAnnotation.coordinate = CLLocationCoordinate2DMake(placeGeoPoint!.latitude, placeGeoPoint!.longitude)
-        placeMapView.addAnnotation(placeAnnotation)
+        placeAnnotation.coordinate = CLLocationCoordinate2DMake(self.placeGeoPoint!.latitude, self.placeGeoPoint!.longitude)
+        self.placeMapView.addAnnotation(placeAnnotation)
         
         let squareRegion = MKCoordinateRegionMakeWithDistance(placeAnnotation.coordinate, 200, 200)
-        placeMapView.setRegion(squareRegion, animated: false)
+        self.placeMapView.setRegion(squareRegion, animated: false)
+        }
     }
     
     func configureCategory(){
-        if let category = myPlace?["category"] as? PFObject{
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+        if let category = self.myPlace?["category"] as? PFObject{
             category.fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
                 if error == nil {
                     let placeName = (result["name"] as? String)
@@ -125,7 +135,7 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
         }else{
             self.cateogoryLabel.text = ""
         }
-        
+        }
     }
     
     func configurePrice(){
@@ -164,13 +174,23 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     }
     
     func configureHours(){
-        PFCloud.callFunctionInBackground("openStatusForPlace", withParameters: ["placeId":myPlace!.objectId]) { (result, error) -> Void in
+        let myPlaceID = myPlace!["foursquarePlaceId"] as! String
+        
+        Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/"+myPlaceID+"?&client_id="+self.foursquareClientId+"&client_secret="+self.foursquareClientSecret+"&v=20150207&locale=en").responseJSON(options:nil, completionHandler: { (request, response, JSON, error) -> Void in
+            
             if error == nil{
-                self.hoursLabel.text = result as? String
+                if let imResponse = ((JSON as! NSDictionary)["response"] as? NSDictionary){
+                    let result = imResponse["venue"] as! NSDictionary
+                    let hours = result["hours"] as! NSDictionary
+                    let status = hours["status"] as! String
+                    
+                    self.hoursLabel.text = status
+                }
             }else{
-                NSLog("Configure Hours: %@", error.description)
+                NSLog("configureHours error: %@",error!.description)
             }
-        }
+            
+        })
     }
     
     func configureCall(){
@@ -180,10 +200,11 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     }
     
     func configureHashtags(){
-        
-        let newHeight = (floor((Double(placeHashtags!.count)/2.0)+1))*22
-        hashtagCollectionViewHeightConstraint.constant = CGFloat(min(newHeight, 66.0))
-        hashtagsDataSource = HashtagCollectionViewDataSource(hashtags: placeHashtags!, myDelegate: self)
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+        let newHeight = (floor((Double(self.placeHashtags!.count)/2.0)))*22
+        self.hashtagCollectionViewHeightConstraint.constant = CGFloat(min(newHeight, 66.0))
+       self.hashtagsDataSource = HashtagCollectionViewDataSource(hashtags: self.placeHashtags!, myDelegate: self)
+        }
     }
     
     //MARK MapView delegate methods
@@ -269,7 +290,9 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     
     //MARK: - HashtagDataSource delegate methods
     func hashtagSelected(hashtag: PFObject) {
-        
+        let destination = storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
+        destination.myHashtagName = hashtag["name"] as? String
+        self.showViewController(destination, sender: self)
     }
     
     //MARK: - Actions methods

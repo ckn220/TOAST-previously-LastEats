@@ -22,9 +22,11 @@
 		082256531B02596200511527 /* Haneke.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082256481B02592300511527 /* Haneke.framework */; };
 		082256541B02596200511527 /* Haneke.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 082256481B02592300511527 /* Haneke.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		082256571B02598700511527 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0822564D1B02594E00511527 /* FacebookSDK.framework */; };
+		08247F661B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 08247F651B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m */; };
 		08255F131A75626B00ABA356 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F101A75626B00ABA356 /* Bolts.framework */; };
 		08255F141A75626B00ABA356 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F111A75626B00ABA356 /* Parse.framework */; };
 		08255F151A75626B00ABA356 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */; };
+		082ED7781B1EA944003F250E /* ReviewDetailHeaders.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082ED7771B1EA944003F250E /* ReviewDetailHeaders.xib */; };
 		083467EA1AC83E78003B5803 /* ReviewAccesoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083467E91AC83E78003B5803 /* ReviewAccesoryView.xib */; };
 		083467EE1AC841EF003B5803 /* ReviewAccesoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083467ED1AC841EF003B5803 /* ReviewAccesoryView.swift */; };
 		08363F741A5778E4007A6827 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08363F731A5778E4007A6827 /* AppDelegate.swift */; };
@@ -63,10 +65,90 @@
 		086E18281B001CEC00964405 /* CCHLinkGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 086E18241B001CEC00964405 /* CCHLinkGestureRecognizer.m */; };
 		086E18291B001CEC00964405 /* CCHLinkTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 086E18261B001CEC00964405 /* CCHLinkTextView.m */; };
 		086E18791B002E4000964405 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 086E18781B002E4000964405 /* Images.xcassets */; };
+		087EA0B41B13C43500BF66A1 /* Alphabet City.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0651B13C43400BF66A1 /* Alphabet City.jpg */; };
+		087EA0B51B13C43500BF66A1 /* Alphabet City@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0661B13C43400BF66A1 /* Alphabet City@2x.jpg */; };
+		087EA0B61B13C43500BF66A1 /* Alphabet City@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0671B13C43400BF66A1 /* Alphabet City@3x.jpg */; };
+		087EA0B71B13C43500BF66A1 /* Alphabet City-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0691B13C43400BF66A1 /* Alphabet City-blur.jpg */; };
+		087EA0B81B13C43500BF66A1 /* Alphabet City-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA06A1B13C43400BF66A1 /* Alphabet City-blur@2x.jpg */; };
+		087EA0B91B13C43500BF66A1 /* Alphabet City-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA06B1B13C43400BF66A1 /* Alphabet City-blur@3x.jpg */; };
+		087EA0BA1B13C43500BF66A1 /* Chinatown-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA06C1B13C43400BF66A1 /* Chinatown-blur.jpg */; };
+		087EA0BB1B13C43500BF66A1 /* Chinatown-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA06D1B13C43400BF66A1 /* Chinatown-blur@2x.jpg */; };
+		087EA0BC1B13C43500BF66A1 /* Chinatown-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA06E1B13C43400BF66A1 /* Chinatown-blur@3x.jpg */; };
+		087EA0BD1B13C43500BF66A1 /* East Village-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA06F1B13C43400BF66A1 /* East Village-blur.jpg */; };
+		087EA0BE1B13C43500BF66A1 /* East Village-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0701B13C43400BF66A1 /* East Village-blur@2x.jpg */; };
+		087EA0BF1B13C43500BF66A1 /* East Village-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0711B13C43400BF66A1 /* East Village-blur@3x.jpg */; };
+		087EA0C01B13C43500BF66A1 /* Greenwich Village-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0721B13C43400BF66A1 /* Greenwich Village-blur.jpg */; };
+		087EA0C11B13C43500BF66A1 /* Greenwich Village-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0731B13C43400BF66A1 /* Greenwich Village-blur@2x.jpg */; };
+		087EA0C21B13C43500BF66A1 /* Greenwich Village-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0741B13C43400BF66A1 /* Greenwich Village-blur@3x.jpg */; };
+		087EA0C31B13C43500BF66A1 /* Lower East Side-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0751B13C43400BF66A1 /* Lower East Side-blur.jpg */; };
+		087EA0C41B13C43500BF66A1 /* Lower East Side-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0761B13C43400BF66A1 /* Lower East Side-blur@2x.jpg */; };
+		087EA0C51B13C43500BF66A1 /* Lower East Side-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0771B13C43400BF66A1 /* Lower East Side-blur@3x.jpg */; };
+		087EA0C61B13C43500BF66A1 /* NoHo-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0781B13C43400BF66A1 /* NoHo-blur.jpg */; };
+		087EA0C71B13C43500BF66A1 /* NoHo-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0791B13C43400BF66A1 /* NoHo-blur@2x.jpg */; };
+		087EA0C81B13C43500BF66A1 /* NoHo-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA07A1B13C43400BF66A1 /* NoHo-blur@3x.jpg */; };
+		087EA0C91B13C43500BF66A1 /* Nolita-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA07B1B13C43400BF66A1 /* Nolita-blur.jpg */; };
+		087EA0CA1B13C43500BF66A1 /* Nolita-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA07C1B13C43400BF66A1 /* Nolita-blur@2x.jpg */; };
+		087EA0CB1B13C43500BF66A1 /* Nolita-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA07D1B13C43400BF66A1 /* Nolita-blur@3x.jpg */; };
+		087EA0CC1B13C43500BF66A1 /* SoHo-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA07E1B13C43400BF66A1 /* SoHo-blur.jpg */; };
+		087EA0CD1B13C43500BF66A1 /* SoHo-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA07F1B13C43400BF66A1 /* SoHo-blur@2x.jpg */; };
+		087EA0CE1B13C43500BF66A1 /* SoHo-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0801B13C43400BF66A1 /* SoHo-blur@3x.jpg */; };
+		087EA0CF1B13C43500BF66A1 /* Tribeca-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0811B13C43400BF66A1 /* Tribeca-blur.jpg */; };
+		087EA0D01B13C43500BF66A1 /* Tribeca-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0821B13C43400BF66A1 /* Tribeca-blur@2x.jpg */; };
+		087EA0D11B13C43500BF66A1 /* Tribeca-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0831B13C43400BF66A1 /* Tribeca-blur@3x.jpg */; };
+		087EA0D21B13C43500BF66A1 /* Union Square-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0841B13C43400BF66A1 /* Union Square-blur.jpg */; };
+		087EA0D31B13C43500BF66A1 /* Union Square-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0851B13C43400BF66A1 /* Union Square-blur@2x.jpg */; };
+		087EA0D41B13C43500BF66A1 /* Union Square-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0861B13C43400BF66A1 /* Union Square-blur@3x.jpg */; };
+		087EA0D51B13C43500BF66A1 /* West Village-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0871B13C43400BF66A1 /* West Village-blur.jpg */; };
+		087EA0D61B13C43500BF66A1 /* West Village-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0881B13C43400BF66A1 /* West Village-blur@2x.jpg */; };
+		087EA0D71B13C43500BF66A1 /* West Village-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0891B13C43400BF66A1 /* West Village-blur@3x.jpg */; };
+		087EA0D81B13C43500BF66A1 /* Williamsburg-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA08A1B13C43400BF66A1 /* Williamsburg-blur.jpg */; };
+		087EA0D91B13C43500BF66A1 /* Williamsburg-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA08B1B13C43400BF66A1 /* Williamsburg-blur@2x.jpg */; };
+		087EA0DA1B13C43500BF66A1 /* Williamsburg-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA08C1B13C43400BF66A1 /* Williamsburg-blur@3x.jpg */; };
+		087EA0DB1B13C43500BF66A1 /* Chinatown.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA08D1B13C43400BF66A1 /* Chinatown.jpg */; };
+		087EA0DC1B13C43500BF66A1 /* Chinatown@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA08E1B13C43400BF66A1 /* Chinatown@2x.jpg */; };
+		087EA0DD1B13C43500BF66A1 /* Chinatown@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA08F1B13C43400BF66A1 /* Chinatown@3x.jpg */; };
+		087EA0DE1B13C43500BF66A1 /* default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0901B13C43400BF66A1 /* default.jpg */; };
+		087EA0DF1B13C43500BF66A1 /* default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0911B13C43400BF66A1 /* default@2x.jpg */; };
+		087EA0E01B13C43500BF66A1 /* default@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0921B13C43400BF66A1 /* default@3x.jpg */; };
+		087EA0E11B13C43500BF66A1 /* East Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0931B13C43400BF66A1 /* East Village.jpg */; };
+		087EA0E21B13C43500BF66A1 /* East Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0941B13C43400BF66A1 /* East Village@2x.jpg */; };
+		087EA0E31B13C43500BF66A1 /* East Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0951B13C43400BF66A1 /* East Village@3x.jpg */; };
+		087EA0E41B13C43500BF66A1 /* Greenwich Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0961B13C43400BF66A1 /* Greenwich Village.jpg */; };
+		087EA0E51B13C43500BF66A1 /* Greenwich Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0971B13C43400BF66A1 /* Greenwich Village@2x.jpg */; };
+		087EA0E61B13C43500BF66A1 /* Greenwich Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0981B13C43400BF66A1 /* Greenwich Village@3x.jpg */; };
+		087EA0E71B13C43500BF66A1 /* loginBG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0991B13C43400BF66A1 /* loginBG.jpg */; };
+		087EA0E81B13C43500BF66A1 /* loginBG@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA09A1B13C43400BF66A1 /* loginBG@2x.jpg */; };
+		087EA0E91B13C43500BF66A1 /* loginBG@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA09B1B13C43400BF66A1 /* loginBG@3x.jpg */; };
+		087EA0EA1B13C43500BF66A1 /* Lower East Side.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA09C1B13C43400BF66A1 /* Lower East Side.jpg */; };
+		087EA0EB1B13C43500BF66A1 /* Lower East Side@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA09D1B13C43400BF66A1 /* Lower East Side@2x.jpg */; };
+		087EA0EC1B13C43500BF66A1 /* Lower East Side@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA09E1B13C43400BF66A1 /* Lower East Side@3x.jpg */; };
+		087EA0ED1B13C43500BF66A1 /* NoHo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA09F1B13C43400BF66A1 /* NoHo.jpg */; };
+		087EA0EE1B13C43500BF66A1 /* NoHo@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0A01B13C43400BF66A1 /* NoHo@2x.jpg */; };
+		087EA0EF1B13C43500BF66A1 /* NoHo@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0A11B13C43400BF66A1 /* NoHo@3x.jpg */; };
+		087EA0F01B13C43500BF66A1 /* Nolita.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0A21B13C43400BF66A1 /* Nolita.jpg */; };
+		087EA0F11B13C43500BF66A1 /* Nolita@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0A31B13C43400BF66A1 /* Nolita@2x.jpg */; };
+		087EA0F21B13C43500BF66A1 /* Nolita@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0A41B13C43400BF66A1 /* Nolita@3x.jpg */; };
+		087EA0F31B13C43500BF66A1 /* SoHo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0A51B13C43400BF66A1 /* SoHo.jpg */; };
+		087EA0F41B13C43500BF66A1 /* SoHo@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0A61B13C43400BF66A1 /* SoHo@2x.jpg */; };
+		087EA0F51B13C43500BF66A1 /* SoHo@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0A71B13C43400BF66A1 /* SoHo@3x.jpg */; };
+		087EA0F61B13C43500BF66A1 /* Tribeca.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0A81B13C43400BF66A1 /* Tribeca.jpg */; };
+		087EA0F71B13C43500BF66A1 /* Tribeca@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0A91B13C43400BF66A1 /* Tribeca@2x.jpg */; };
+		087EA0F81B13C43500BF66A1 /* Tribeca@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0AA1B13C43400BF66A1 /* Tribeca@3x.jpg */; };
+		087EA0F91B13C43500BF66A1 /* Union Square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0AB1B13C43400BF66A1 /* Union Square.jpg */; };
+		087EA0FA1B13C43500BF66A1 /* Union Square@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0AC1B13C43400BF66A1 /* Union Square@2x.jpg */; };
+		087EA0FB1B13C43500BF66A1 /* Union Square@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0AD1B13C43400BF66A1 /* Union Square@3x.jpg */; };
+		087EA0FC1B13C43500BF66A1 /* West Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0AE1B13C43400BF66A1 /* West Village.jpg */; };
+		087EA0FD1B13C43500BF66A1 /* West Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0AF1B13C43400BF66A1 /* West Village@2x.jpg */; };
+		087EA0FE1B13C43500BF66A1 /* West Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0B01B13C43400BF66A1 /* West Village@3x.jpg */; };
+		087EA0FF1B13C43500BF66A1 /* Williamsburg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0B11B13C43400BF66A1 /* Williamsburg.jpg */; };
+		087EA1001B13C43500BF66A1 /* Williamsburg@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0B21B13C43400BF66A1 /* Williamsburg@2x.jpg */; };
+		087EA1011B13C43500BF66A1 /* Williamsburg@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0B31B13C43400BF66A1 /* Williamsburg@3x.jpg */; };
+		087EA1051B13C67000BF66A1 /* default-blur.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA1021B13C67000BF66A1 /* default-blur.jpg */; };
+		087EA1061B13C67000BF66A1 /* default-blur@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA1031B13C67000BF66A1 /* default-blur@2x.jpg */; };
+		087EA1071B13C67000BF66A1 /* default-blur@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA1041B13C67000BF66A1 /* default-blur@3x.jpg */; };
 		0881884D1AC9645C00559DC8 /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0881884C1AC9645C00559DC8 /* ProfileDetailViewController.swift */; };
 		0881884F1AC9647400559DC8 /* ProfileToastsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0881884E1AC9647400559DC8 /* ProfileToastsDataSource.swift */; };
 		088188511AC9649F00559DC8 /* ProfileToastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088188501AC9649F00559DC8 /* ProfileToastCell.swift */; };
-		088188531AC96CC400559DC8 /* ProfileHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088188521AC96CC400559DC8 /* ProfileHeaderCell.swift */; };
 		089C52941AD1440400054037 /* PostRelatedPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C52931AD1440400054037 /* PostRelatedPlaceCell.swift */; };
 		089C52961AD15A3100054037 /* PostRelatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C52951AD15A3100054037 /* PostRelatedViewController.swift */; };
 		089C52991AD17E2700054037 /* RelatedPlacesHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 089C52981AD17E2700054037 /* RelatedPlacesHeaderView.xib */; };
@@ -95,7 +177,6 @@
 		08C1FDE81AE32483009F1FB8 /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C1FDE71AE32483009F1FB8 /* FollowButton.swift */; };
 		08C2E8D41A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */; };
 		08C993831ABC4AC900692721 /* ReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C993821ABC4AC900692721 /* ReviewDetailViewController.swift */; };
-		08C993851ABC4ADA00692721 /* ReviewDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C993841ABC4ADA00692721 /* ReviewDetailTableViewController.swift */; };
 		08C993871ABCAAC700692721 /* ReviewerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C993861ABCAAC700692721 /* ReviewerButton.swift */; };
 		08D6D1031ABE565B0013C045 /* MyLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6D1021ABE565B0013C045 /* MyLocationManager.swift */; };
 		08DB82481A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB82471A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift */; };
@@ -110,50 +191,10 @@
 		08E68AD61AD085BE008609D4 /* PostContributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08E68AD51AD085BE008609D4 /* PostContributeViewController.swift */; };
 		08EB0BBA1B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0BB91B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m */; };
 		08EB0C111B04F1BC002143DE /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C101B04F1BC002143DE /* UIImage+ImageEffects.m */; };
-		08EB0C391B04F8A0002143DE /* Alphabet City.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C121B04F8A0002143DE /* Alphabet City.jpg */; };
-		08EB0C3A1B04F8A0002143DE /* Alphabet City@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C131B04F8A0002143DE /* Alphabet City@2x.jpg */; };
-		08EB0C3B1B04F8A0002143DE /* Alphabet City@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C141B04F8A0002143DE /* Alphabet City@3x.jpg */; };
-		08EB0C3C1B04F8A0002143DE /* Chinatown.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C151B04F8A0002143DE /* Chinatown.jpg */; };
-		08EB0C3D1B04F8A0002143DE /* Chinatown@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C161B04F8A0002143DE /* Chinatown@2x.jpg */; };
-		08EB0C3E1B04F8A0002143DE /* Chinatown@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C171B04F8A0002143DE /* Chinatown@3x.jpg */; };
-		08EB0C3F1B04F8A0002143DE /* default.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C181B04F8A0002143DE /* default.jpg */; };
-		08EB0C401B04F8A0002143DE /* default@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C191B04F8A0002143DE /* default@2x.jpg */; };
-		08EB0C411B04F8A0002143DE /* default@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1A1B04F8A0002143DE /* default@3x.jpg */; };
-		08EB0C421B04F8A0002143DE /* East Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1B1B04F8A0002143DE /* East Village.jpg */; };
-		08EB0C431B04F8A0002143DE /* East Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1C1B04F8A0002143DE /* East Village@2x.jpg */; };
-		08EB0C441B04F8A0002143DE /* East Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1D1B04F8A0002143DE /* East Village@3x.jpg */; };
-		08EB0C451B04F8A0002143DE /* Greenwich Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1E1B04F8A0002143DE /* Greenwich Village.jpg */; };
-		08EB0C461B04F8A0002143DE /* Greenwich Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C1F1B04F8A0002143DE /* Greenwich Village@2x.jpg */; };
-		08EB0C471B04F8A0002143DE /* Greenwich Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C201B04F8A0002143DE /* Greenwich Village@3x.jpg */; };
-		08EB0C481B04F8A0002143DE /* Lower East Side.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C211B04F8A0002143DE /* Lower East Side.jpg */; };
-		08EB0C491B04F8A0002143DE /* Lower East Side@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C221B04F8A0002143DE /* Lower East Side@2x.jpg */; };
-		08EB0C4A1B04F8A0002143DE /* Lower East Side@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C231B04F8A0002143DE /* Lower East Side@3x.jpg */; };
-		08EB0C4B1B04F8A0002143DE /* NoHo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C241B04F8A0002143DE /* NoHo.jpg */; };
-		08EB0C4C1B04F8A0002143DE /* NoHo@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C251B04F8A0002143DE /* NoHo@2x.jpg */; };
-		08EB0C4D1B04F8A0002143DE /* NoHo@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C261B04F8A0002143DE /* NoHo@3x.jpg */; };
-		08EB0C4E1B04F8A0002143DE /* Nolita.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C271B04F8A0002143DE /* Nolita.jpg */; };
-		08EB0C4F1B04F8A0002143DE /* Nolita@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C281B04F8A0002143DE /* Nolita@2x.jpg */; };
-		08EB0C501B04F8A0002143DE /* Nolita@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C291B04F8A0002143DE /* Nolita@3x.jpg */; };
-		08EB0C511B04F8A0002143DE /* SoHo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2A1B04F8A0002143DE /* SoHo.jpg */; };
-		08EB0C521B04F8A0002143DE /* SoHo@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2B1B04F8A0002143DE /* SoHo@2x.jpg */; };
-		08EB0C531B04F8A0002143DE /* SoHo@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2C1B04F8A0002143DE /* SoHo@3x.jpg */; };
-		08EB0C541B04F8A0002143DE /* Tribeca.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2D1B04F8A0002143DE /* Tribeca.jpg */; };
-		08EB0C551B04F8A0002143DE /* Tribeca@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2E1B04F8A0002143DE /* Tribeca@2x.jpg */; };
-		08EB0C561B04F8A0002143DE /* Tribeca@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C2F1B04F8A0002143DE /* Tribeca@3x.jpg */; };
-		08EB0C571B04F8A0002143DE /* Union Square.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C301B04F8A0002143DE /* Union Square.jpg */; };
-		08EB0C581B04F8A0002143DE /* Union Square@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C311B04F8A0002143DE /* Union Square@2x.jpg */; };
-		08EB0C591B04F8A0002143DE /* Union Square@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C321B04F8A0002143DE /* Union Square@3x.jpg */; };
-		08EB0C5A1B04F8A0002143DE /* West Village.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C331B04F8A0002143DE /* West Village.jpg */; };
-		08EB0C5B1B04F8A0002143DE /* West Village@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C341B04F8A0002143DE /* West Village@2x.jpg */; };
-		08EB0C5C1B04F8A0002143DE /* West Village@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C351B04F8A0002143DE /* West Village@3x.jpg */; };
-		08EB0C5D1B04F8A0002143DE /* Williamsburg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C361B04F8A0002143DE /* Williamsburg.jpg */; };
-		08EB0C5E1B04F8A0002143DE /* Williamsburg@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C371B04F8A0002143DE /* Williamsburg@2x.jpg */; };
-		08EB0C5F1B04F8A0002143DE /* Williamsburg@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C381B04F8A0002143DE /* Williamsburg@3x.jpg */; };
 		08EB0C611B0665E2002143DE /* ToastLogo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C601B0665E2002143DE /* ToastLogo.swift */; };
 		08EB0C631B06892F002143DE /* PostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C621B06892F002143DE /* PostButton.swift */; };
 		08EB0C651B06949F002143DE /* PostActionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C641B06949F002143DE /* PostActionsViewController.swift */; };
 		08EB0C671B06F166002143DE /* LikeCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C661B06F166002143DE /* LikeCountView.swift */; };
-		08EB0C691B08B38C002143DE /* ReviewDetailHeaders.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08EB0C681B08B38B002143DE /* ReviewDetailHeaders.xib */; };
 		08EB0C6D1B0A13C5002143DE /* StarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C6C1B0A13C5002143DE /* StarButton.swift */; };
 		08EB0C741B0AA401002143DE /* PlacePicturesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C731B0AA401002143DE /* PlacePicturesDataSource.swift */; };
 		08EB0C781B0B5DEF002143DE /* ReviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB0C771B0B5DEF002143DE /* ReviewCell.swift */; };
@@ -288,9 +329,12 @@
 		082256261B0258F600511527 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		082256411B02592300511527 /* Haneke.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Haneke.xcodeproj; path = HanekeSwift/Haneke.xcodeproj; sourceTree = "<group>"; };
 		0822564D1B02594E00511527 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		08247F641B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
+		08247F651B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
 		08255F101A75626B00ABA356 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		08255F111A75626B00ABA356 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
+		082ED7771B1EA944003F250E /* ReviewDetailHeaders.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewDetailHeaders.xib; sourceTree = "<group>"; };
 		083467E91AC83E78003B5803 /* ReviewAccesoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewAccesoryView.xib; sourceTree = "<group>"; };
 		083467ED1AC841EF003B5803 /* ReviewAccesoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewAccesoryView.swift; sourceTree = "<group>"; };
 		08363F6E1A5778E4007A6827 /* toast-project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "toast-project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -345,10 +389,90 @@
 		086E18261B001CEC00964405 /* CCHLinkTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCHLinkTextView.m; sourceTree = "<group>"; };
 		086E18271B001CEC00964405 /* CCHLinkTextViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCHLinkTextViewDelegate.h; sourceTree = "<group>"; };
 		086E18781B002E4000964405 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		087EA0651B13C43400BF66A1 /* Alphabet City.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City.jpg"; sourceTree = "<group>"; };
+		087EA0661B13C43400BF66A1 /* Alphabet City@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@2x.jpg"; sourceTree = "<group>"; };
+		087EA0671B13C43400BF66A1 /* Alphabet City@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@3x.jpg"; sourceTree = "<group>"; };
+		087EA0691B13C43400BF66A1 /* Alphabet City-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City-blur.jpg"; sourceTree = "<group>"; };
+		087EA06A1B13C43400BF66A1 /* Alphabet City-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA06B1B13C43400BF66A1 /* Alphabet City-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA06C1B13C43400BF66A1 /* Chinatown-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown-blur.jpg"; sourceTree = "<group>"; };
+		087EA06D1B13C43400BF66A1 /* Chinatown-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA06E1B13C43400BF66A1 /* Chinatown-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA06F1B13C43400BF66A1 /* East Village-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village-blur.jpg"; sourceTree = "<group>"; };
+		087EA0701B13C43400BF66A1 /* East Village-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA0711B13C43400BF66A1 /* East Village-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA0721B13C43400BF66A1 /* Greenwich Village-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village-blur.jpg"; sourceTree = "<group>"; };
+		087EA0731B13C43400BF66A1 /* Greenwich Village-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA0741B13C43400BF66A1 /* Greenwich Village-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA0751B13C43400BF66A1 /* Lower East Side-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side-blur.jpg"; sourceTree = "<group>"; };
+		087EA0761B13C43400BF66A1 /* Lower East Side-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA0771B13C43400BF66A1 /* Lower East Side-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA0781B13C43400BF66A1 /* NoHo-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo-blur.jpg"; sourceTree = "<group>"; };
+		087EA0791B13C43400BF66A1 /* NoHo-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA07A1B13C43400BF66A1 /* NoHo-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA07B1B13C43400BF66A1 /* Nolita-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita-blur.jpg"; sourceTree = "<group>"; };
+		087EA07C1B13C43400BF66A1 /* Nolita-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA07D1B13C43400BF66A1 /* Nolita-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA07E1B13C43400BF66A1 /* SoHo-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo-blur.jpg"; sourceTree = "<group>"; };
+		087EA07F1B13C43400BF66A1 /* SoHo-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA0801B13C43400BF66A1 /* SoHo-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA0811B13C43400BF66A1 /* Tribeca-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca-blur.jpg"; sourceTree = "<group>"; };
+		087EA0821B13C43400BF66A1 /* Tribeca-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA0831B13C43400BF66A1 /* Tribeca-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA0841B13C43400BF66A1 /* Union Square-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square-blur.jpg"; sourceTree = "<group>"; };
+		087EA0851B13C43400BF66A1 /* Union Square-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA0861B13C43400BF66A1 /* Union Square-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA0871B13C43400BF66A1 /* West Village-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village-blur.jpg"; sourceTree = "<group>"; };
+		087EA0881B13C43400BF66A1 /* West Village-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA0891B13C43400BF66A1 /* West Village-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA08A1B13C43400BF66A1 /* Williamsburg-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg-blur.jpg"; sourceTree = "<group>"; };
+		087EA08B1B13C43400BF66A1 /* Williamsburg-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA08C1B13C43400BF66A1 /* Williamsburg-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg-blur@3x.jpg"; sourceTree = "<group>"; };
+		087EA08D1B13C43400BF66A1 /* Chinatown.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Chinatown.jpg; sourceTree = "<group>"; };
+		087EA08E1B13C43400BF66A1 /* Chinatown@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown@2x.jpg"; sourceTree = "<group>"; };
+		087EA08F1B13C43400BF66A1 /* Chinatown@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown@3x.jpg"; sourceTree = "<group>"; };
+		087EA0901B13C43400BF66A1 /* default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default.jpg; sourceTree = "<group>"; };
+		087EA0911B13C43400BF66A1 /* default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default@2x.jpg"; sourceTree = "<group>"; };
+		087EA0921B13C43400BF66A1 /* default@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default@3x.jpg"; sourceTree = "<group>"; };
+		087EA0931B13C43400BF66A1 /* East Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village.jpg"; sourceTree = "<group>"; };
+		087EA0941B13C43400BF66A1 /* East Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village@2x.jpg"; sourceTree = "<group>"; };
+		087EA0951B13C43400BF66A1 /* East Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village@3x.jpg"; sourceTree = "<group>"; };
+		087EA0961B13C43400BF66A1 /* Greenwich Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village.jpg"; sourceTree = "<group>"; };
+		087EA0971B13C43400BF66A1 /* Greenwich Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village@2x.jpg"; sourceTree = "<group>"; };
+		087EA0981B13C43400BF66A1 /* Greenwich Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village@3x.jpg"; sourceTree = "<group>"; };
+		087EA0991B13C43400BF66A1 /* loginBG.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loginBG.jpg; sourceTree = "<group>"; };
+		087EA09A1B13C43400BF66A1 /* loginBG@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "loginBG@2x.jpg"; sourceTree = "<group>"; };
+		087EA09B1B13C43400BF66A1 /* loginBG@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "loginBG@3x.jpg"; sourceTree = "<group>"; };
+		087EA09C1B13C43400BF66A1 /* Lower East Side.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side.jpg"; sourceTree = "<group>"; };
+		087EA09D1B13C43400BF66A1 /* Lower East Side@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side@2x.jpg"; sourceTree = "<group>"; };
+		087EA09E1B13C43400BF66A1 /* Lower East Side@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side@3x.jpg"; sourceTree = "<group>"; };
+		087EA09F1B13C43400BF66A1 /* NoHo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = NoHo.jpg; sourceTree = "<group>"; };
+		087EA0A01B13C43400BF66A1 /* NoHo@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo@2x.jpg"; sourceTree = "<group>"; };
+		087EA0A11B13C43400BF66A1 /* NoHo@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo@3x.jpg"; sourceTree = "<group>"; };
+		087EA0A21B13C43400BF66A1 /* Nolita.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Nolita.jpg; sourceTree = "<group>"; };
+		087EA0A31B13C43400BF66A1 /* Nolita@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita@2x.jpg"; sourceTree = "<group>"; };
+		087EA0A41B13C43400BF66A1 /* Nolita@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita@3x.jpg"; sourceTree = "<group>"; };
+		087EA0A51B13C43400BF66A1 /* SoHo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SoHo.jpg; sourceTree = "<group>"; };
+		087EA0A61B13C43400BF66A1 /* SoHo@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo@2x.jpg"; sourceTree = "<group>"; };
+		087EA0A71B13C43400BF66A1 /* SoHo@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo@3x.jpg"; sourceTree = "<group>"; };
+		087EA0A81B13C43400BF66A1 /* Tribeca.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Tribeca.jpg; sourceTree = "<group>"; };
+		087EA0A91B13C43400BF66A1 /* Tribeca@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca@2x.jpg"; sourceTree = "<group>"; };
+		087EA0AA1B13C43400BF66A1 /* Tribeca@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca@3x.jpg"; sourceTree = "<group>"; };
+		087EA0AB1B13C43400BF66A1 /* Union Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square.jpg"; sourceTree = "<group>"; };
+		087EA0AC1B13C43400BF66A1 /* Union Square@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square@2x.jpg"; sourceTree = "<group>"; };
+		087EA0AD1B13C43400BF66A1 /* Union Square@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square@3x.jpg"; sourceTree = "<group>"; };
+		087EA0AE1B13C43400BF66A1 /* West Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village.jpg"; sourceTree = "<group>"; };
+		087EA0AF1B13C43400BF66A1 /* West Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village@2x.jpg"; sourceTree = "<group>"; };
+		087EA0B01B13C43400BF66A1 /* West Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village@3x.jpg"; sourceTree = "<group>"; };
+		087EA0B11B13C43400BF66A1 /* Williamsburg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Williamsburg.jpg; sourceTree = "<group>"; };
+		087EA0B21B13C43400BF66A1 /* Williamsburg@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg@2x.jpg"; sourceTree = "<group>"; };
+		087EA0B31B13C43400BF66A1 /* Williamsburg@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg@3x.jpg"; sourceTree = "<group>"; };
+		087EA1021B13C67000BF66A1 /* default-blur.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default-blur.jpg"; sourceTree = "<group>"; };
+		087EA1031B13C67000BF66A1 /* default-blur@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default-blur@2x.jpg"; sourceTree = "<group>"; };
+		087EA1041B13C67000BF66A1 /* default-blur@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default-blur@3x.jpg"; sourceTree = "<group>"; };
 		0881884C1AC9645C00559DC8 /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
 		0881884E1AC9647400559DC8 /* ProfileToastsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileToastsDataSource.swift; sourceTree = "<group>"; };
 		088188501AC9649F00559DC8 /* ProfileToastCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileToastCell.swift; sourceTree = "<group>"; };
-		088188521AC96CC400559DC8 /* ProfileHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileHeaderCell.swift; sourceTree = "<group>"; };
 		089C52931AD1440400054037 /* PostRelatedPlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRelatedPlaceCell.swift; sourceTree = "<group>"; };
 		089C52951AD15A3100054037 /* PostRelatedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRelatedViewController.swift; sourceTree = "<group>"; };
 		089C52981AD17E2700054037 /* RelatedPlacesHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelatedPlacesHeaderView.xib; sourceTree = "<group>"; };
@@ -396,7 +520,6 @@
 		08C1FDE71AE32483009F1FB8 /* FollowButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
 		08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		08C993821ABC4AC900692721 /* ReviewDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewDetailViewController.swift; sourceTree = "<group>"; };
-		08C993841ABC4ADA00692721 /* ReviewDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewDetailTableViewController.swift; sourceTree = "<group>"; };
 		08C993861ABCAAC700692721 /* ReviewerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewerButton.swift; sourceTree = "<group>"; };
 		08D6D1021ABE565B0013C045 /* MyLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLocationManager.swift; sourceTree = "<group>"; };
 		08DB82471A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoodsHeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -413,50 +536,10 @@
 		08EB0BB91B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RHInterpolationAdditions.m"; sourceTree = "<group>"; };
 		08EB0C0F1B04F1BC002143DE /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		08EB0C101B04F1BC002143DE /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
-		08EB0C121B04F8A0002143DE /* Alphabet City.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City.jpg"; sourceTree = "<group>"; };
-		08EB0C131B04F8A0002143DE /* Alphabet City@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C141B04F8A0002143DE /* Alphabet City@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C151B04F8A0002143DE /* Chinatown.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Chinatown.jpg; sourceTree = "<group>"; };
-		08EB0C161B04F8A0002143DE /* Chinatown@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C171B04F8A0002143DE /* Chinatown@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Chinatown@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C181B04F8A0002143DE /* default.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default.jpg; sourceTree = "<group>"; };
-		08EB0C191B04F8A0002143DE /* default@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C1A1B04F8A0002143DE /* default@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "default@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C1B1B04F8A0002143DE /* East Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village.jpg"; sourceTree = "<group>"; };
-		08EB0C1C1B04F8A0002143DE /* East Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C1D1B04F8A0002143DE /* East Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "East Village@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C1E1B04F8A0002143DE /* Greenwich Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village.jpg"; sourceTree = "<group>"; };
-		08EB0C1F1B04F8A0002143DE /* Greenwich Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C201B04F8A0002143DE /* Greenwich Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Greenwich Village@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C211B04F8A0002143DE /* Lower East Side.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side.jpg"; sourceTree = "<group>"; };
-		08EB0C221B04F8A0002143DE /* Lower East Side@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C231B04F8A0002143DE /* Lower East Side@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Lower East Side@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C241B04F8A0002143DE /* NoHo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = NoHo.jpg; sourceTree = "<group>"; };
-		08EB0C251B04F8A0002143DE /* NoHo@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C261B04F8A0002143DE /* NoHo@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "NoHo@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C271B04F8A0002143DE /* Nolita.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Nolita.jpg; sourceTree = "<group>"; };
-		08EB0C281B04F8A0002143DE /* Nolita@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C291B04F8A0002143DE /* Nolita@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Nolita@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C2A1B04F8A0002143DE /* SoHo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = SoHo.jpg; sourceTree = "<group>"; };
-		08EB0C2B1B04F8A0002143DE /* SoHo@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C2C1B04F8A0002143DE /* SoHo@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SoHo@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C2D1B04F8A0002143DE /* Tribeca.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Tribeca.jpg; sourceTree = "<group>"; };
-		08EB0C2E1B04F8A0002143DE /* Tribeca@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C2F1B04F8A0002143DE /* Tribeca@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Tribeca@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C301B04F8A0002143DE /* Union Square.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square.jpg"; sourceTree = "<group>"; };
-		08EB0C311B04F8A0002143DE /* Union Square@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C321B04F8A0002143DE /* Union Square@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Union Square@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C331B04F8A0002143DE /* West Village.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village.jpg"; sourceTree = "<group>"; };
-		08EB0C341B04F8A0002143DE /* West Village@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C351B04F8A0002143DE /* West Village@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "West Village@3x.jpg"; sourceTree = "<group>"; };
-		08EB0C361B04F8A0002143DE /* Williamsburg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Williamsburg.jpg; sourceTree = "<group>"; };
-		08EB0C371B04F8A0002143DE /* Williamsburg@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg@2x.jpg"; sourceTree = "<group>"; };
-		08EB0C381B04F8A0002143DE /* Williamsburg@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Williamsburg@3x.jpg"; sourceTree = "<group>"; };
 		08EB0C601B0665E2002143DE /* ToastLogo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastLogo.swift; sourceTree = "<group>"; };
 		08EB0C621B06892F002143DE /* PostButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostButton.swift; sourceTree = "<group>"; };
 		08EB0C641B06949F002143DE /* PostActionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostActionsViewController.swift; sourceTree = "<group>"; };
 		08EB0C661B06F166002143DE /* LikeCountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeCountView.swift; sourceTree = "<group>"; };
-		08EB0C681B08B38B002143DE /* ReviewDetailHeaders.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewDetailHeaders.xib; sourceTree = "<group>"; };
 		08EB0C6C1B0A13C5002143DE /* StarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarButton.swift; sourceTree = "<group>"; };
 		08EB0C731B0AA401002143DE /* PlacePicturesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacePicturesDataSource.swift; sourceTree = "<group>"; };
 		08EB0C771B0B5DEF002143DE /* ReviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewCell.swift; sourceTree = "<group>"; };
@@ -546,7 +629,7 @@
 		0812C9221A6432A8004A115B /* img */ = {
 			isa = PBXGroup;
 			children = (
-				086E17C71AFE39F400964405 /* Neighborhoods */,
+				087EA0641B13C43400BF66A1 /* neighBGs */,
 			);
 			name = img;
 			sourceTree = "<group>";
@@ -602,6 +685,26 @@
 				0822564C1B02592300511527 /* HanekeDemo.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		08247F6C1B16243900E5CC24 /* ReviewAccesoryView */ = {
+			isa = PBXGroup;
+			children = (
+				083467ED1AC841EF003B5803 /* ReviewAccesoryView.swift */,
+				083467E91AC83E78003B5803 /* ReviewAccesoryView.xib */,
+				08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */,
+				08247F641B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.h */,
+				08247F651B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m */,
+			);
+			name = ReviewAccesoryView;
+			sourceTree = "<group>";
+		};
+		082ED7711B1EA920003F250E /* HeaderCells */ = {
+			isa = PBXGroup;
+			children = (
+				082ED7771B1EA944003F250E /* ReviewDetailHeaders.xib */,
+			);
+			name = HeaderCells;
 			sourceTree = "<group>";
 		};
 		08363F651A5778E4007A6827 = {
@@ -787,52 +890,6 @@
 			name = FriendsList;
 			sourceTree = "<group>";
 		};
-		086E17C71AFE39F400964405 /* Neighborhoods */ = {
-			isa = PBXGroup;
-			children = (
-				08EB0C121B04F8A0002143DE /* Alphabet City.jpg */,
-				08EB0C131B04F8A0002143DE /* Alphabet City@2x.jpg */,
-				08EB0C141B04F8A0002143DE /* Alphabet City@3x.jpg */,
-				08EB0C151B04F8A0002143DE /* Chinatown.jpg */,
-				08EB0C161B04F8A0002143DE /* Chinatown@2x.jpg */,
-				08EB0C171B04F8A0002143DE /* Chinatown@3x.jpg */,
-				08EB0C181B04F8A0002143DE /* default.jpg */,
-				08EB0C191B04F8A0002143DE /* default@2x.jpg */,
-				08EB0C1A1B04F8A0002143DE /* default@3x.jpg */,
-				08EB0C1B1B04F8A0002143DE /* East Village.jpg */,
-				08EB0C1C1B04F8A0002143DE /* East Village@2x.jpg */,
-				08EB0C1D1B04F8A0002143DE /* East Village@3x.jpg */,
-				08EB0C1E1B04F8A0002143DE /* Greenwich Village.jpg */,
-				08EB0C1F1B04F8A0002143DE /* Greenwich Village@2x.jpg */,
-				08EB0C201B04F8A0002143DE /* Greenwich Village@3x.jpg */,
-				08EB0C211B04F8A0002143DE /* Lower East Side.jpg */,
-				08EB0C221B04F8A0002143DE /* Lower East Side@2x.jpg */,
-				08EB0C231B04F8A0002143DE /* Lower East Side@3x.jpg */,
-				08EB0C241B04F8A0002143DE /* NoHo.jpg */,
-				08EB0C251B04F8A0002143DE /* NoHo@2x.jpg */,
-				08EB0C261B04F8A0002143DE /* NoHo@3x.jpg */,
-				08EB0C271B04F8A0002143DE /* Nolita.jpg */,
-				08EB0C281B04F8A0002143DE /* Nolita@2x.jpg */,
-				08EB0C291B04F8A0002143DE /* Nolita@3x.jpg */,
-				08EB0C2A1B04F8A0002143DE /* SoHo.jpg */,
-				08EB0C2B1B04F8A0002143DE /* SoHo@2x.jpg */,
-				08EB0C2C1B04F8A0002143DE /* SoHo@3x.jpg */,
-				08EB0C2D1B04F8A0002143DE /* Tribeca.jpg */,
-				08EB0C2E1B04F8A0002143DE /* Tribeca@2x.jpg */,
-				08EB0C2F1B04F8A0002143DE /* Tribeca@3x.jpg */,
-				08EB0C301B04F8A0002143DE /* Union Square.jpg */,
-				08EB0C311B04F8A0002143DE /* Union Square@2x.jpg */,
-				08EB0C321B04F8A0002143DE /* Union Square@3x.jpg */,
-				08EB0C331B04F8A0002143DE /* West Village.jpg */,
-				08EB0C341B04F8A0002143DE /* West Village@2x.jpg */,
-				08EB0C351B04F8A0002143DE /* West Village@3x.jpg */,
-				08EB0C361B04F8A0002143DE /* Williamsburg.jpg */,
-				08EB0C371B04F8A0002143DE /* Williamsburg@2x.jpg */,
-				08EB0C381B04F8A0002143DE /* Williamsburg@3x.jpg */,
-			);
-			name = Neighborhoods;
-			sourceTree = "<group>";
-		};
 		086E18221B001CEC00964405 /* CCHLinkTextView */ = {
 			isa = PBXGroup;
 			children = (
@@ -845,13 +902,108 @@
 			path = CCHLinkTextView;
 			sourceTree = "<group>";
 		};
+		087EA0641B13C43400BF66A1 /* neighBGs */ = {
+			isa = PBXGroup;
+			children = (
+				087EA0651B13C43400BF66A1 /* Alphabet City.jpg */,
+				087EA0661B13C43400BF66A1 /* Alphabet City@2x.jpg */,
+				087EA0671B13C43400BF66A1 /* Alphabet City@3x.jpg */,
+				087EA0681B13C43400BF66A1 /* blurred */,
+				087EA08D1B13C43400BF66A1 /* Chinatown.jpg */,
+				087EA08E1B13C43400BF66A1 /* Chinatown@2x.jpg */,
+				087EA08F1B13C43400BF66A1 /* Chinatown@3x.jpg */,
+				087EA0901B13C43400BF66A1 /* default.jpg */,
+				087EA0911B13C43400BF66A1 /* default@2x.jpg */,
+				087EA0921B13C43400BF66A1 /* default@3x.jpg */,
+				087EA0931B13C43400BF66A1 /* East Village.jpg */,
+				087EA0941B13C43400BF66A1 /* East Village@2x.jpg */,
+				087EA0951B13C43400BF66A1 /* East Village@3x.jpg */,
+				087EA0961B13C43400BF66A1 /* Greenwich Village.jpg */,
+				087EA0971B13C43400BF66A1 /* Greenwich Village@2x.jpg */,
+				087EA0981B13C43400BF66A1 /* Greenwich Village@3x.jpg */,
+				087EA0991B13C43400BF66A1 /* loginBG.jpg */,
+				087EA09A1B13C43400BF66A1 /* loginBG@2x.jpg */,
+				087EA09B1B13C43400BF66A1 /* loginBG@3x.jpg */,
+				087EA09C1B13C43400BF66A1 /* Lower East Side.jpg */,
+				087EA09D1B13C43400BF66A1 /* Lower East Side@2x.jpg */,
+				087EA09E1B13C43400BF66A1 /* Lower East Side@3x.jpg */,
+				087EA09F1B13C43400BF66A1 /* NoHo.jpg */,
+				087EA0A01B13C43400BF66A1 /* NoHo@2x.jpg */,
+				087EA0A11B13C43400BF66A1 /* NoHo@3x.jpg */,
+				087EA0A21B13C43400BF66A1 /* Nolita.jpg */,
+				087EA0A31B13C43400BF66A1 /* Nolita@2x.jpg */,
+				087EA0A41B13C43400BF66A1 /* Nolita@3x.jpg */,
+				087EA0A51B13C43400BF66A1 /* SoHo.jpg */,
+				087EA0A61B13C43400BF66A1 /* SoHo@2x.jpg */,
+				087EA0A71B13C43400BF66A1 /* SoHo@3x.jpg */,
+				087EA0A81B13C43400BF66A1 /* Tribeca.jpg */,
+				087EA0A91B13C43400BF66A1 /* Tribeca@2x.jpg */,
+				087EA0AA1B13C43400BF66A1 /* Tribeca@3x.jpg */,
+				087EA0AB1B13C43400BF66A1 /* Union Square.jpg */,
+				087EA0AC1B13C43400BF66A1 /* Union Square@2x.jpg */,
+				087EA0AD1B13C43400BF66A1 /* Union Square@3x.jpg */,
+				087EA0AE1B13C43400BF66A1 /* West Village.jpg */,
+				087EA0AF1B13C43400BF66A1 /* West Village@2x.jpg */,
+				087EA0B01B13C43400BF66A1 /* West Village@3x.jpg */,
+				087EA0B11B13C43400BF66A1 /* Williamsburg.jpg */,
+				087EA0B21B13C43400BF66A1 /* Williamsburg@2x.jpg */,
+				087EA0B31B13C43400BF66A1 /* Williamsburg@3x.jpg */,
+			);
+			path = neighBGs;
+			sourceTree = "<group>";
+		};
+		087EA0681B13C43400BF66A1 /* blurred */ = {
+			isa = PBXGroup;
+			children = (
+				087EA1021B13C67000BF66A1 /* default-blur.jpg */,
+				087EA1031B13C67000BF66A1 /* default-blur@2x.jpg */,
+				087EA1041B13C67000BF66A1 /* default-blur@3x.jpg */,
+				087EA0691B13C43400BF66A1 /* Alphabet City-blur.jpg */,
+				087EA06A1B13C43400BF66A1 /* Alphabet City-blur@2x.jpg */,
+				087EA06B1B13C43400BF66A1 /* Alphabet City-blur@3x.jpg */,
+				087EA06C1B13C43400BF66A1 /* Chinatown-blur.jpg */,
+				087EA06D1B13C43400BF66A1 /* Chinatown-blur@2x.jpg */,
+				087EA06E1B13C43400BF66A1 /* Chinatown-blur@3x.jpg */,
+				087EA06F1B13C43400BF66A1 /* East Village-blur.jpg */,
+				087EA0701B13C43400BF66A1 /* East Village-blur@2x.jpg */,
+				087EA0711B13C43400BF66A1 /* East Village-blur@3x.jpg */,
+				087EA0721B13C43400BF66A1 /* Greenwich Village-blur.jpg */,
+				087EA0731B13C43400BF66A1 /* Greenwich Village-blur@2x.jpg */,
+				087EA0741B13C43400BF66A1 /* Greenwich Village-blur@3x.jpg */,
+				087EA0751B13C43400BF66A1 /* Lower East Side-blur.jpg */,
+				087EA0761B13C43400BF66A1 /* Lower East Side-blur@2x.jpg */,
+				087EA0771B13C43400BF66A1 /* Lower East Side-blur@3x.jpg */,
+				087EA0781B13C43400BF66A1 /* NoHo-blur.jpg */,
+				087EA0791B13C43400BF66A1 /* NoHo-blur@2x.jpg */,
+				087EA07A1B13C43400BF66A1 /* NoHo-blur@3x.jpg */,
+				087EA07B1B13C43400BF66A1 /* Nolita-blur.jpg */,
+				087EA07C1B13C43400BF66A1 /* Nolita-blur@2x.jpg */,
+				087EA07D1B13C43400BF66A1 /* Nolita-blur@3x.jpg */,
+				087EA07E1B13C43400BF66A1 /* SoHo-blur.jpg */,
+				087EA07F1B13C43400BF66A1 /* SoHo-blur@2x.jpg */,
+				087EA0801B13C43400BF66A1 /* SoHo-blur@3x.jpg */,
+				087EA0811B13C43400BF66A1 /* Tribeca-blur.jpg */,
+				087EA0821B13C43400BF66A1 /* Tribeca-blur@2x.jpg */,
+				087EA0831B13C43400BF66A1 /* Tribeca-blur@3x.jpg */,
+				087EA0841B13C43400BF66A1 /* Union Square-blur.jpg */,
+				087EA0851B13C43400BF66A1 /* Union Square-blur@2x.jpg */,
+				087EA0861B13C43400BF66A1 /* Union Square-blur@3x.jpg */,
+				087EA0871B13C43400BF66A1 /* West Village-blur.jpg */,
+				087EA0881B13C43400BF66A1 /* West Village-blur@2x.jpg */,
+				087EA0891B13C43400BF66A1 /* West Village-blur@3x.jpg */,
+				087EA08A1B13C43400BF66A1 /* Williamsburg-blur.jpg */,
+				087EA08B1B13C43400BF66A1 /* Williamsburg-blur@2x.jpg */,
+				087EA08C1B13C43400BF66A1 /* Williamsburg-blur@3x.jpg */,
+			);
+			path = blurred;
+			sourceTree = "<group>";
+		};
 		088188491AC9642E00559DC8 /* Profile Detail */ = {
 			isa = PBXGroup;
 			children = (
 				0881884C1AC9645C00559DC8 /* ProfileDetailViewController.swift */,
 				0881884E1AC9647400559DC8 /* ProfileToastsDataSource.swift */,
 				088188501AC9649F00559DC8 /* ProfileToastCell.swift */,
-				088188521AC96CC400559DC8 /* ProfileHeaderCell.swift */,
 				08EB0C6C1B0A13C5002143DE /* StarButton.swift */,
 				086E17B81AFAE0F400964405 /* FriendsList */,
 			);
@@ -972,8 +1124,7 @@
 			isa = PBXGroup;
 			children = (
 				08C993821ABC4AC900692721 /* ReviewDetailViewController.swift */,
-				08C993841ABC4ADA00692721 /* ReviewDetailTableViewController.swift */,
-				08EB0C681B08B38B002143DE /* ReviewDetailHeaders.xib */,
+				082ED7711B1EA920003F250E /* HeaderCells */,
 				08C1FDE21AE32448009F1FB8 /* Buttons */,
 			);
 			name = "Review Detail";
@@ -1042,11 +1193,9 @@
 				08EDB1141AA00AA100D94CF7 /* ToastMoodsView.swift */,
 				08EDB11A1AA00AED00D94CF7 /* ToastReviewView.swift */,
 				08EDB1201AA00E4E00D94CF7 /* ToastCarouselView.swift */,
-				083467ED1AC841EF003B5803 /* ReviewAccesoryView.swift */,
-				083467E91AC83E78003B5803 /* ReviewAccesoryView.xib */,
 				08EDB11E1AA00B3000D94CF7 /* CarouselViews.xib */,
 				08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */,
-				08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */,
+				08247F6C1B16243900E5CC24 /* ReviewAccesoryView */,
 			);
 			name = CarouselViews;
 			sourceTree = "<group>";
@@ -1241,56 +1390,98 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				08EB0C4E1B04F8A0002143DE /* Nolita.jpg in Resources */,
-				08EB0C521B04F8A0002143DE /* SoHo@2x.jpg in Resources */,
-				08EB0C441B04F8A0002143DE /* East Village@3x.jpg in Resources */,
-				08EB0C461B04F8A0002143DE /* Greenwich Village@2x.jpg in Resources */,
-				08EB0C421B04F8A0002143DE /* East Village.jpg in Resources */,
-				08EB0C3D1B04F8A0002143DE /* Chinatown@2x.jpg in Resources */,
-				08EB0C581B04F8A0002143DE /* Union Square@2x.jpg in Resources */,
+				087EA0F01B13C43500BF66A1 /* Nolita.jpg in Resources */,
+				087EA0DB1B13C43500BF66A1 /* Chinatown.jpg in Resources */,
+				087EA0F31B13C43500BF66A1 /* SoHo.jpg in Resources */,
+				087EA0F11B13C43500BF66A1 /* Nolita@2x.jpg in Resources */,
+				087EA0D01B13C43500BF66A1 /* Tribeca-blur@2x.jpg in Resources */,
+				087EA0C91B13C43500BF66A1 /* Nolita-blur.jpg in Resources */,
+				087EA1051B13C67000BF66A1 /* default-blur.jpg in Resources */,
+				087EA0C81B13C43500BF66A1 /* NoHo-blur@3x.jpg in Resources */,
+				087EA0F21B13C43500BF66A1 /* Nolita@3x.jpg in Resources */,
+				087EA0C11B13C43500BF66A1 /* Greenwich Village-blur@2x.jpg in Resources */,
+				087EA0C41B13C43500BF66A1 /* Lower East Side-blur@2x.jpg in Resources */,
+				087EA0D91B13C43500BF66A1 /* Williamsburg-blur@2x.jpg in Resources */,
+				087EA1071B13C67000BF66A1 /* default-blur@3x.jpg in Resources */,
+				087EA0DF1B13C43500BF66A1 /* default@2x.jpg in Resources */,
+				087EA0B61B13C43500BF66A1 /* Alphabet City@3x.jpg in Resources */,
+				087EA0E81B13C43500BF66A1 /* loginBG@2x.jpg in Resources */,
+				087EA0FF1B13C43500BF66A1 /* Williamsburg.jpg in Resources */,
+				087EA0D61B13C43500BF66A1 /* West Village-blur@2x.jpg in Resources */,
+				087EA0D41B13C43500BF66A1 /* Union Square-blur@3x.jpg in Resources */,
+				087EA0FA1B13C43500BF66A1 /* Union Square@2x.jpg in Resources */,
+				087EA0D81B13C43500BF66A1 /* Williamsburg-blur.jpg in Resources */,
+				087EA0E61B13C43500BF66A1 /* Greenwich Village@3x.jpg in Resources */,
+				087EA0F81B13C43500BF66A1 /* Tribeca@3x.jpg in Resources */,
 				08B905EB1AA14AB1009F3B21 /* ToastHashtagCell.xib in Resources */,
-				08EB0C591B04F8A0002143DE /* Union Square@3x.jpg in Resources */,
+				087EA0EF1B13C43500BF66A1 /* NoHo@3x.jpg in Resources */,
+				087EA0E21B13C43500BF66A1 /* East Village@2x.jpg in Resources */,
+				087EA0E31B13C43500BF66A1 /* East Village@3x.jpg in Resources */,
+				087EA0BE1B13C43500BF66A1 /* East Village-blur@2x.jpg in Resources */,
+				087EA0E11B13C43500BF66A1 /* East Village.jpg in Resources */,
 				08363F791A5778E4007A6827 /* Main.storyboard in Resources */,
+				087EA0F41B13C43500BF66A1 /* SoHo@2x.jpg in Resources */,
+				087EA0B41B13C43500BF66A1 /* Alphabet City.jpg in Resources */,
+				087EA0BB1B13C43500BF66A1 /* Chinatown-blur@2x.jpg in Resources */,
 				08363F7E1A5778E4007A6827 /* LaunchScreen.xib in Resources */,
-				08EB0C5D1B04F8A0002143DE /* Williamsburg.jpg in Resources */,
-				08EB0C411B04F8A0002143DE /* default@3x.jpg in Resources */,
-				08EB0C4B1B04F8A0002143DE /* NoHo.jpg in Resources */,
-				08EB0C5E1B04F8A0002143DE /* Williamsburg@2x.jpg in Resources */,
-				08EB0C4D1B04F8A0002143DE /* NoHo@3x.jpg in Resources */,
-				08EB0C401B04F8A0002143DE /* default@2x.jpg in Resources */,
-				08EB0C471B04F8A0002143DE /* Greenwich Village@3x.jpg in Resources */,
-				08EB0C3F1B04F8A0002143DE /* default.jpg in Resources */,
+				087EA0DA1B13C43500BF66A1 /* Williamsburg-blur@3x.jpg in Resources */,
+				087EA0D11B13C43500BF66A1 /* Tribeca-blur@3x.jpg in Resources */,
+				087EA0CB1B13C43500BF66A1 /* Nolita-blur@3x.jpg in Resources */,
+				087EA0E01B13C43500BF66A1 /* default@3x.jpg in Resources */,
 				08059CF81ABE41FE004A5A78 /* DiscoverCell.xib in Resources */,
-				08EB0C541B04F8A0002143DE /* Tribeca.jpg in Resources */,
-				08EB0C691B08B38C002143DE /* ReviewDetailHeaders.xib in Resources */,
-				08EB0C551B04F8A0002143DE /* Tribeca@2x.jpg in Resources */,
-				08EB0C561B04F8A0002143DE /* Tribeca@3x.jpg in Resources */,
-				08EB0C531B04F8A0002143DE /* SoHo@3x.jpg in Resources */,
-				08EB0C5A1B04F8A0002143DE /* West Village.jpg in Resources */,
-				08EB0C3E1B04F8A0002143DE /* Chinatown@3x.jpg in Resources */,
-				08EB0C451B04F8A0002143DE /* Greenwich Village.jpg in Resources */,
-				08EB0C431B04F8A0002143DE /* East Village@2x.jpg in Resources */,
-				08EB0C491B04F8A0002143DE /* Lower East Side@2x.jpg in Resources */,
-				08EB0C4F1B04F8A0002143DE /* Nolita@2x.jpg in Resources */,
+				087EA0FE1B13C43500BF66A1 /* West Village@3x.jpg in Resources */,
+				087EA0CA1B13C43500BF66A1 /* Nolita-blur@2x.jpg in Resources */,
+				087EA0EE1B13C43500BF66A1 /* NoHo@2x.jpg in Resources */,
+				087EA0CC1B13C43500BF66A1 /* SoHo-blur.jpg in Resources */,
+				087EA0EC1B13C43500BF66A1 /* Lower East Side@3x.jpg in Resources */,
+				087EA0E51B13C43500BF66A1 /* Greenwich Village@2x.jpg in Resources */,
+				087EA0BC1B13C43500BF66A1 /* Chinatown-blur@3x.jpg in Resources */,
 				086E18791B002E4000964405 /* Images.xcassets in Resources */,
-				08EB0C5B1B04F8A0002143DE /* West Village@2x.jpg in Resources */,
-				08EB0C5C1B04F8A0002143DE /* West Village@3x.jpg in Resources */,
-				08EB0C3C1B04F8A0002143DE /* Chinatown.jpg in Resources */,
+				087EA0C51B13C43500BF66A1 /* Lower East Side-blur@3x.jpg in Resources */,
+				087EA1011B13C43500BF66A1 /* Williamsburg@3x.jpg in Resources */,
+				087EA0E41B13C43500BF66A1 /* Greenwich Village.jpg in Resources */,
+				087EA0B91B13C43500BF66A1 /* Alphabet City-blur@3x.jpg in Resources */,
+				087EA0DC1B13C43500BF66A1 /* Chinatown@2x.jpg in Resources */,
+				087EA0EB1B13C43500BF66A1 /* Lower East Side@2x.jpg in Resources */,
+				087EA0D21B13C43500BF66A1 /* Union Square-blur.jpg in Resources */,
+				087EA0D31B13C43500BF66A1 /* Union Square-blur@2x.jpg in Resources */,
+				087EA0E91B13C43500BF66A1 /* loginBG@3x.jpg in Resources */,
+				087EA0EA1B13C43500BF66A1 /* Lower East Side.jpg in Resources */,
 				089C52991AD17E2700054037 /* RelatedPlacesHeaderView.xib in Resources */,
-				08EB0C4C1B04F8A0002143DE /* NoHo@2x.jpg in Resources */,
+				087EA0F51B13C43500BF66A1 /* SoHo@3x.jpg in Resources */,
+				087EA0DD1B13C43500BF66A1 /* Chinatown@3x.jpg in Resources */,
+				087EA0BA1B13C43500BF66A1 /* Chinatown-blur.jpg in Resources */,
+				087EA0C71B13C43500BF66A1 /* NoHo-blur@2x.jpg in Resources */,
+				087EA0FC1B13C43500BF66A1 /* West Village.jpg in Resources */,
+				087EA0E71B13C43500BF66A1 /* loginBG.jpg in Resources */,
 				08B905E71AA14A29009F3B21 /* ToastMoodCell.xib in Resources */,
-				08EB0C5F1B04F8A0002143DE /* Williamsburg@3x.jpg in Resources */,
 				086CFB331A734CD500E321F7 /* InstagramKit.plist in Resources */,
-				08EB0C391B04F8A0002143DE /* Alphabet City.jpg in Resources */,
+				087EA0BF1B13C43500BF66A1 /* East Village-blur@3x.jpg in Resources */,
 				08EDB11F1AA00B3000D94CF7 /* CarouselViews.xib in Resources */,
-				08EB0C4A1B04F8A0002143DE /* Lower East Side@3x.jpg in Resources */,
-				08EB0C3B1B04F8A0002143DE /* Alphabet City@3x.jpg in Resources */,
-				08EB0C501B04F8A0002143DE /* Nolita@3x.jpg in Resources */,
+				087EA0ED1B13C43500BF66A1 /* NoHo.jpg in Resources */,
+				087EA0F61B13C43500BF66A1 /* Tribeca.jpg in Resources */,
+				087EA0CE1B13C43500BF66A1 /* SoHo-blur@3x.jpg in Resources */,
+				082ED7781B1EA944003F250E /* ReviewDetailHeaders.xib in Resources */,
+				087EA0D51B13C43500BF66A1 /* West Village-blur.jpg in Resources */,
+				087EA1001B13C43500BF66A1 /* Williamsburg@2x.jpg in Resources */,
+				087EA0DE1B13C43500BF66A1 /* default.jpg in Resources */,
+				087EA0CF1B13C43500BF66A1 /* Tribeca-blur.jpg in Resources */,
+				087EA0F91B13C43500BF66A1 /* Union Square.jpg in Resources */,
+				087EA0C21B13C43500BF66A1 /* Greenwich Village-blur@3x.jpg in Resources */,
+				087EA0CD1B13C43500BF66A1 /* SoHo-blur@2x.jpg in Resources */,
 				083467EA1AC83E78003B5803 /* ReviewAccesoryView.xib in Resources */,
-				08EB0C511B04F8A0002143DE /* SoHo.jpg in Resources */,
-				08EB0C3A1B04F8A0002143DE /* Alphabet City@2x.jpg in Resources */,
-				08EB0C481B04F8A0002143DE /* Lower East Side.jpg in Resources */,
-				08EB0C571B04F8A0002143DE /* Union Square.jpg in Resources */,
+				087EA0C01B13C43500BF66A1 /* Greenwich Village-blur.jpg in Resources */,
+				087EA0BD1B13C43500BF66A1 /* East Village-blur.jpg in Resources */,
+				087EA0D71B13C43500BF66A1 /* West Village-blur@3x.jpg in Resources */,
+				087EA0C31B13C43500BF66A1 /* Lower East Side-blur.jpg in Resources */,
+				087EA0B51B13C43500BF66A1 /* Alphabet City@2x.jpg in Resources */,
+				087EA1061B13C67000BF66A1 /* default-blur@2x.jpg in Resources */,
+				087EA0FD1B13C43500BF66A1 /* West Village@2x.jpg in Resources */,
+				087EA0F71B13C43500BF66A1 /* Tribeca@2x.jpg in Resources */,
+				087EA0B81B13C43500BF66A1 /* Alphabet City-blur@2x.jpg in Resources */,
+				087EA0C61B13C43500BF66A1 /* NoHo-blur.jpg in Resources */,
+				087EA0FB1B13C43500BF66A1 /* Union Square@3x.jpg in Resources */,
+				087EA0B71B13C43500BF66A1 /* Alphabet City-blur.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1321,7 +1512,6 @@
 				086CFB341A734CD500E321F7 /* IKUserInPhoto.m in Sources */,
 				08DB824A1A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift in Sources */,
 				08EB0C651B06949F002143DE /* PostActionsViewController.swift in Sources */,
-				088188531AC96CC400559DC8 /* ProfileHeaderCell.swift in Sources */,
 				08B6240E1ADE9CEF00DBC674 /* AFHTTPSessionManager.m in Sources */,
 				08B6240F1ADE9CEF00DBC674 /* AFNetworkReachabilityManager.m in Sources */,
 				086E17C01AFBB86200964405 /* BlackGradientView.swift in Sources */,
@@ -1386,7 +1576,6 @@
 				086E17BE1AFB2CE400964405 /* FriendsListDataSource.swift in Sources */,
 				0812C9661A64651F004A115B /* Model.xcdatamodeld in Sources */,
 				08059CEB1ABE407D004A5A78 /* DiscoverViewController.swift in Sources */,
-				08C993851ABC4ADA00692721 /* ReviewDetailTableViewController.swift in Sources */,
 				08F85AE31A8D5DD500C01CC9 /* BackgroundImageView.swift in Sources */,
 				086CFB351A734CD500E321F7 /* InstagramComment.m in Sources */,
 				08EB0C781B0B5DEF002143DE /* ReviewCell.swift in Sources */,
@@ -1396,6 +1585,7 @@
 				089C52961AD15A3100054037 /* PostRelatedViewController.swift in Sources */,
 				08B624101ADE9CEF00DBC674 /* AFSecurityPolicy.m in Sources */,
 				08EB0C111B04F1BC002143DE /* UIImage+ImageEffects.m in Sources */,
+				08247F661B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				086E18211AFF7D0400964405 /* DictionaryHaneke.swift in Sources */,
 				08B6241C1ADE9CEF00DBC674 /* UIWebView+AFNetworking.m in Sources */,
 				089C52941AD1440400054037 /* PostRelatedPlaceCell.swift in Sources */,

@@ -24,10 +24,10 @@ class ToastsCollectionViewLayout: UICollectionViewFlowLayout {
     func setup(){
         let deviceWidth = CGRectGetWidth(UIScreen.mainScreen().bounds)
         
-        minimumLineSpacing = 0
+        minimumLineSpacing = -2
         minimumInteritemSpacing = 0
         scrollDirection = .Horizontal
-        let itemWidth = 260*deviceWidth/320
+        let itemWidth = 272*deviceWidth/320
         sectionInset = UIEdgeInsetsMake(0,(deviceWidth/2) - (itemWidth/2), 0,(deviceWidth/2) - (itemWidth/2));
     }
     

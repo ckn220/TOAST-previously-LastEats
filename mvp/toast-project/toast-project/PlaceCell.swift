@@ -62,16 +62,17 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     var myPlace:PFObject?{
         didSet{
             configureName()
-            //configurePicture()
+            configurePicture()
             configureHashtags()
             configureInformationBar()
-            //configureReviews()
+            configureReviews()
         }
     }
     var myDelegate:PlaceCellDelegate?
     
     //MARK: - Configure methods
     func configureName(){
+        toggleAlpha(alpha: 0,duration:0, views: placeNameLabel,hashtagsCollectionView)
         placeNameLabel.text = (myPlace!["name"] as? String)
         insertSmallShadow(placeNameLabel)
     }
@@ -80,20 +81,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         if let photos = myPlace!["photos"] as? [String]{
             if photos.count > 0{
                 let firstPhotoURL = (myPlace!["photos"] as! [String])[0]
-                
-                let cache = Shared.imageCache
-                
-                cache.fetch(URL: NSURL(string:firstPhotoURL)!, failure: { (error) -> () in
-                    NSLog("configurePicture error: \(error!.description)")
-                    }, success: {(image) -> () in
-                        self.myBackgroundView.insertImage(image,withOpacity: 0)
-                })
-                /*
-                Alamofire.request(.GET,firstPhotoURL).response({ (request, response, data, error) -> Void in
-                    if error == nil{
-                        self.myBackgroundView.myImage = UIImage(data: data as! NSData)
-                    }
-                })*/
+                myBackgroundView.setImage(URL: firstPhotoURL)
             }
         }
     }
@@ -102,15 +90,16 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         hashtagQueue.addOperationWithBlock { () -> Void in
             if let localHashtags = self.myDelegate?.placeCellAskedForHashtags(self.myPlace!.objectId){
                 self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: localHashtags, myDelegate: nil)
+                self.toggleAlpha(alpha: 1, views: self.placeNameLabel,self.hashtagsCollectionView)
             }else{
-                PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":self.myPlace!.objectId,"limit":10]) { (result, error) -> Void in
+                PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":self.myPlace!.objectId,"limit":4]) { (result, error) -> Void in
                     if error == nil{
                         let hashtags = result as! [PFObject]
                         let mainQueue = NSOperationQueue.mainQueue()
                         mainQueue.addOperationWithBlock({ () -> Void in
                             self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: hashtags, myDelegate: nil)
                         })
-                        
+                        self.toggleAlpha(alpha: 1, views: self.placeNameLabel,self.hashtagsCollectionView)
                         self.myDelegate?.placeCellDidGetHashtags(self.myPlace!.objectId, hashtags: hashtags)
                     }else{
                         NSLog("%@", error.description)
@@ -127,6 +116,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     func configureReviews(){
+        toggleAlpha(alpha: 0, duration: 0, views: reviewsTableView,toastCountView)
         self.reviewsTableView.rowHeight = UITableViewAutomaticDimension
         
         reviewQueue.addOperationWithBlock { () -> Void in
@@ -138,10 +128,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
                 self.configureToastCount(localReviews)
                 self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: localReviews)
             }else{
-                let othertoastQuery = self.myPlace!.relationForKey("toasts").query()
-                othertoastQuery.includeKey("user")
-                othertoastQuery.orderByDescending("createdAt");
-                othertoastQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
+                PFCloud.callFunctionInBackground("reviewsFromToast", withParameters: ["placeId":self.myPlace!.objectId], block: { (result, error) -> Void in
                     if error == nil{
                         let reviews = result as! [PFObject]
                         
@@ -151,23 +138,40 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
                         })
                         
                         self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: reviews)
-                        
                     }else{
-                        NSLog("%@", error.description)
+                        NSLog("configureReviews error: %@", error.description)
                     }
-                }
+                })
             }
         }
         
     }
     
     private func configureToastCount(toasts:[PFObject]){
-        if toasts.count > 1{
-            toastCountView.alpha = 1
-            toastCountLabel.text = "\(toasts.count) Friends Toast"
+        let toastCount = countFriendsToast(toasts)
+        if toastCount > 0{
+            var friendText = "Friends"
+            if toastCount == 1{
+                friendText = "Friend"
+            }
+            toastCountLabel.text = "\(toastCount) \(friendText) Toast"
+            toggleAlpha(alpha: 1, views: reviewsTableView,toastCountView)
         }else{
-            toastCountView.alpha = 0
+            toggleAlpha(alpha: 1, views: reviewsTableView)
         }
+    }
+    
+    private func countFriendsToast(toasts:[PFObject]) -> Int{
+        let currentUser = PFUser.currentUser()
+        var count = 0
+        for t in toasts{
+            let tUser = t["user"] as! PFUser
+            if tUser.objectId != currentUser.objectId {
+                count++
+            }
+        }
+        
+        return count
     }
     
     //MARK - Information bar methods
@@ -198,25 +202,37 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     
     func configureDistance(){
         let userLastLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint
-        let placeLocation = myPlace!["location"] as? PFGeoPoint
-        
-        let distance = placeLocation?.distanceInMilesTo(userLastLocation)
-        
-        let milesPerMinuteWalkingSpeed = 0.05216
-        let walkingTime = distance!/milesPerMinuteWalkingSpeed
-        var walkingString = ""
-        if walkingTime/60 > 24{
-            walkingString = String(format: "%0.0f", walkingTime/(60*24)) + "-DAY WALK"
-        }else if walkingTime/60 >= 1 {
-            walkingString = String(format: "%0.0f", walkingTime/(60)) + " HRS WALK"
-        }else{
-            walkingString = String(format: "%0.0f", walkingTime) + " MIN WALK"
+        if let placeLocation = myPlace!["location"] as? PFGeoPoint {
+            let distance = placeLocation.distanceInMilesTo(userLastLocation)
+            
+            let milesPerMinuteWalkingSpeed = 0.05216
+            let walkingTime = distance/milesPerMinuteWalkingSpeed
+            var walkingString = ""
+            if walkingTime/60 > 24{
+                walkingString = String(format: "%0.0f", walkingTime/(60*24)) + "-DAY WALK"
+            }else if walkingTime/60 >= 1 {
+                walkingString = String(format: "%0.0f", walkingTime/(60)) + " HRS WALK"
+            }else{
+                walkingString = String(format: "%0.0f", walkingTime) + " MIN WALK"
+            }
+            
+            walkLabel.text = walkingString
         }
-        
-        walkLabel.text = walkingString
     }
     
     //MARK: - Misc methods
+    func toggleAlpha(#alpha:CGFloat,duration:CGFloat=0.3,completion:(()->Void)?=nil,views:UIView...){
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                for view in views{
+                    view.alpha = alpha
+                }
+                }) { (success) -> Void in
+                    completion
+            }
+        }
+    }
+    
     func getCapitalString(original:String) -> String{
         return prefix(original, 1).capitalizedString + suffix(original, count(original) - 1)
     }

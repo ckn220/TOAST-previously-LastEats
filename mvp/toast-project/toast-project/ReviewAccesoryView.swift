@@ -28,6 +28,7 @@ class ReviewAccesoryView: UIView,UICollectionViewDataSource,UICollectionViewDele
     func configure(){
         
         hashtagCollectionView.registerNib(UINib(nibName: "ToastHashtagCell", bundle: nil), forCellWithReuseIdentifier: "hashtagCell")
+        //configureCollectionView()
         configureHashtags()
     }
     
@@ -39,12 +40,13 @@ class ReviewAccesoryView: UIView,UICollectionViewDataSource,UICollectionViewDele
     private func configureHashtags(){
         
         let objectsId = objectsIdArray(moods: moods)
-        PFCloud.callFunctionInBackground("moodsTopHashtags", withParameters: ["moods":objectsId,"limit":16]) { (results, error) -> Void in
+        PFCloud.callFunctionInBackground(/*"moodsTopHashtags"*/"defaultHashtags", withParameters: ["moods":objectsId,"limit":45]) { (results, error) -> Void in
             if error == nil{
                 self.myHashtags = results as! [PFObject]
+                NSLog("Hashtags count: %d", self.myHashtags.count)
                 self.hashtagCollectionView.reloadData()
             }else{
-                NSLog("%@",error.description)
+                NSLog("configureHashtags error: %@",error.description)
             }
         }
     }
@@ -79,9 +81,21 @@ class ReviewAccesoryView: UIView,UICollectionViewDataSource,UICollectionViewDele
         label.text = "#"+(item["name"] as! String)
     }
     
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(0, 10, 0, 10)
+    }
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let width = CGRectGetWidth(collectionView.bounds)
-        return CGSizeMake(width/2, 30)
+        let itemWidth = CGRectGetWidth(collectionView.bounds) * 0.4
+        return CGSizeMake(itemWidth, 30)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {

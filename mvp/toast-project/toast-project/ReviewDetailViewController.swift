@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import Haneke
 
-class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate {
+class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,ReviewHeaderDelegate {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var reviewLinkView: CCHLinkTextView!
@@ -18,9 +18,12 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate {
     @IBOutlet weak var heartCountView: LikeCountView!
     @IBOutlet weak var headerParentView: UIView!
     
-    var myOldParentHeader:UIView!
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    var myOldParentHeader:UIView?
     var myToast:PFObject?
     var titleString: String?
+    let headerQueue = NSOperationQueue()
+    var isTopToast = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,15 +46,65 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate {
     
     //MARK: Configure user methods
     private func configureHeader(){
-        let myHeaderView = myOldParentHeader.subviews[0] as? UIView
-        if let ffHeader = myHeaderView as? FriendOfFriendHeaderCell{
-            ffHeader.subtitleHeightConstraint.constant = 34
-            ffHeader.friendFriendPictureButton.enabled = false
+        if myOldParentHeader != nil{
+            let myHeaderView = myOldParentHeader!.subviews[0] as! ReviewHeaderCell
+            setHeaderToDetail(myHeaderView)
+            loadingView.alpha = 0
         }else{
-            let fHeader = myHeaderView as! FriendHeaderCell
-            fHeader.friendPictureButton.enabled = false
+            requestHeaders()
         }
-        myHeaderView!.layoutIfNeeded()
+    }
+    
+    private func setHeaderToDetail(header:ReviewHeaderCell){
+        if let ffHeader = header as? FriendOfFriendHeaderCell{
+            ffHeader.subtitleHeightConstraint.constant = 34
+        }else{
+            let fHeader = header as! FriendHeaderCell
+        }
+        header.layoutIfNeeded()
+    }
+    
+    private func requestHeaders(){
+        headerQueue.addOperationWithBlock { () -> Void in
+            let user = self.myToast!["user"] as! PFUser
+            PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":user.objectId]) { (result, error) -> Void in
+                if error == nil{
+                    if let friend = result as? PFUser{
+                        self.configureFriendOfFriendHeader(friend:friend,friendOfFriend: user)
+                    }else{
+                        self.configureFriendHeader(friend:user)
+                    }
+                }else{
+                    NSLog("friendOfFriend error: %@",error.description)
+                }
+                
+            }
+        }
+        
+    }
+    
+    private func configureFriendHeader(#friend:PFUser){
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            let header = self.getFriendHeaderView()
+            header.configure(friend: friend,myDelegate:self,superView:self.headerParentView,isTopToast: self.isTopToast)
+            self.headerParentView.addSubview(header)
+        }
+    }
+    
+    private func configureFriendOfFriendHeader(#friend:PFUser,friendOfFriend:PFUser){
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            let header = self.getFriendOfFriendHeaderView()
+            header.configure(friend: friend, friendFriend: friendOfFriend,myDelegate:self,superView:self.headerParentView, isTopToast: self.isTopToast)
+            self.headerParentView.addSubview(header)
+        }
+    }
+    
+    private func getFriendHeaderView() -> ReviewHeaderCell{
+        return NSBundle.mainBundle().loadNibNamed("ReviewDetailHeaders", owner: nil, options: nil)[0] as! ReviewHeaderCell
+    }
+    
+    private func getFriendOfFriendHeaderView() -> ReviewHeaderCell{
+        return NSBundle.mainBundle().loadNibNamed("ReviewDetailHeaders", owner: nil, options: nil)[1] as! ReviewHeaderCell
     }
     
     //MARK: Configure review methods
@@ -65,6 +118,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate {
             finalReview.appendAttributedString(attributedWord(" "))
         }
         reviewLinkView.attributedText = finalReview
+        reviewLinkView.scrollEnabled = false
         reviewLinkView.layoutIfNeeded()
     }
     
@@ -144,40 +198,39 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate {
     }
     
     private func setBG(){
-        let cache = Cache<UIImage>(name: "neighborhoods")
-        cache.fetch(key: "default", failure: { (error) -> () in
-            NSLog("viewWillAppear error: %@",error!.description)
-            }, success: {(image) -> () in
-                let myBG = self.view as! BackgroundImageView
-                myBG.insertImage(image, withOpacity: 0.65)
-        })
+        let myBG = self.view as! BackgroundImageView
+        myBG.setImage("default", opacity: 0.6)
     }
     
     private func setHeader(){
-        let myHeaderView = myOldParentHeader.subviews[0] as? UIView
-        myHeaderView?.frame = headerParentView.bounds
-        headerParentView.addSubview(myHeaderView!)
+        if myOldParentHeader != nil{
+            let myHeaderView = myOldParentHeader!.subviews[0] as? UIView
+            myHeaderView?.frame = headerParentView.bounds
+            headerParentView.addSubview(myHeaderView!)
+        }
+        
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
-        unsetBG()
+        unsetHeader()
     }
     
-    private func unsetBG(){
-        let myHeaderView = headerParentView.subviews[0] as? UIView
-        if let ffHeader = myHeaderView as? FriendOfFriendHeaderCell{
-            ffHeader.subtitleHeightConstraint.constant = 17
-            ffHeader.friendFriendPictureButton.enabled = true
-        }else{
-            let fHeader = myHeaderView as! FriendHeaderCell
-            fHeader.friendPictureButton.enabled = true
+    private func unsetHeader(){
+        if myOldParentHeader != nil{
+            let myHeaderView = headerParentView.subviews[1] as? UIView
+            if let ffHeader = myHeaderView as? FriendOfFriendHeaderCell{
+                ffHeader.subtitleHeightConstraint.constant = 17
+            }else{
+                let fHeader = myHeaderView as! FriendHeaderCell
+            }
+            myHeaderView!.layoutIfNeeded()
+            myHeaderView!.removeFromSuperview()
+            myHeaderView!.frame = myOldParentHeader!.bounds
+            myOldParentHeader!.addSubview(myHeaderView!)
         }
-        myHeaderView!.layoutIfNeeded()
-        myHeaderView!.removeFromSuperview()
-        myHeaderView!.frame = myOldParentHeader.bounds
-        myOldParentHeader.addSubview(myHeaderView!)
+        
     }
 
     //MARK: - Action methods
@@ -207,5 +260,16 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate {
         let destination = storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
         destination.myHashtagName = value as? String
         self.showViewController(destination, sender: self)
+    }
+    
+    //MARK: - ReviewHeader delegate methods
+    func friendPicturePressed(ffriend: PFUser?) {
+        
+    }
+    
+    func reviewHeaderDoneLoading() {
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            self.loadingView.alpha = 0
+        }
     }
 }

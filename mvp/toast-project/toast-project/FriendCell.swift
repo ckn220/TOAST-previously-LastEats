@@ -12,6 +12,8 @@ import Haneke
 
 class FriendCell: UITableViewCell {
 
+    @IBOutlet weak var highlightView: UIView!
+    @IBOutlet weak var topLinewView: UIView!
     @IBOutlet weak var friendPicture: BackgroundImageView!
     @IBOutlet weak var friendNameLabel: UILabel!
     
@@ -26,20 +28,31 @@ class FriendCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
-    func configure(friend:PFObject){
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        
+        if highlighted{
+            self.highlightView.alpha = 0.3
+        }else{
+            self.highlightView.alpha = 0
+        }
+    }
+    
+    
+    func configure(friend:PFObject,isFirstRow:Bool){
+        configureTopLine(!isFirstRow)
         configurePicture(friend)
         configureName(friend)
+    }
+    
+    private func configureTopLine(visible:Bool){
+        topLinewView.hidden = !visible
     }
     
     private func configurePicture(friend:PFObject){
         initPicture()
         let pictureURL = friend["pictureURL"] as! String
-        let cache = Shared.imageCache
-        cache.fetch(URL: NSURL(string:pictureURL)!, failure: { (error) -> () in
-            NSLog("configurePicture error: %@",error!.description)
-            }, success: {(image) -> () in
-                self.friendPicture.myImage = image
-        })
+        friendPicture.setImage(URL: pictureURL)
     }
     
     private func initPicture(){

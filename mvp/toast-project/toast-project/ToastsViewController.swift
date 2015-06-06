@@ -17,6 +17,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     var myCategory: PFObject?
     var myPlaces:[PFObject]?
     var myFriend:PFObject?
+    var myCurrentPlace: PFObject?
     var myNeighborhood:PFObject?
     var currentReviewsTableView:UITableView?
     var currentIndexPath:NSIndexPath?
@@ -80,20 +81,17 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func getPlaces(){
-        
-        PFCloud.callFunctionInBackground("discoverPlaces", withParameters: placesParameters()) { (result, error) -> Void in
-            if error == nil{
-                self.myPlaces = result as? [PFObject]
-                self.toastsCollectionView.reloadData()
-                if self.myPlaces?.count > 0{
-                    self.currentIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-                    let firstPlace = self.myPlaces![0]
-                    self.updatesForCurrentPlace(firstPlace)
+            PFCloud.callFunctionInBackground("discoverPlaces", withParameters: placesParameters()) { (result, error) -> Void in
+                if error == nil{
+                    self.myPlaces = result as? [PFObject]
+                    self.toastsCollectionView.reloadData()
+                    if self.myPlaces?.count > 0{
+                        self.updatesForCurrentPlace()
+                    }
+                }else{
+                    NSLog("getPlaces error: %@",error.description)
                 }
-            }else{
-                NSLog("getPlaces error: %@",error.description)
             }
-        }
     }
     
     private func placesParameters()->[String:AnyObject]{
@@ -143,7 +141,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     //MARK: CollectionView delegate methods
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         
-        return CGSizeMake(260*CGRectGetWidth(collectionView.bounds)/320, CGRectGetHeight(collectionView.bounds))
+        return CGSizeMake(272*CGRectGetWidth(collectionView.bounds)/320, CGRectGetHeight(collectionView.bounds))
         
     }
     
@@ -160,9 +158,38 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         }
     }
     
-    private func updatesForCurrentPlace(place:PFObject){
-        configureBottomBar(place: place)
-        configureBG(place: place)
+    private func updatesForCurrentPlace(){
+        var firstPlace:PFObject
+        var currentRow:Int?
+        if myCurrentPlace != nil{
+            firstPlace = myCurrentPlace!
+            let row = myFind(myPlaces!,item:myCurrentPlace!)
+            if row != nil{
+                currentRow = row
+            }else{
+                currentRow = 0
+                firstPlace = myPlaces![currentRow!]
+            }
+        }else{
+            currentRow = 0
+            firstPlace = myPlaces![currentRow!]
+        }
+        self.currentIndexPath = NSIndexPath(forRow: currentRow!, inSection: 0)
+        
+        toastsCollectionView.scrollToItemAtIndexPath(currentIndexPath!, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+        configureBottomBar(place: firstPlace)
+        configureBG(place: firstPlace)
+    }
+    
+    private func myFind(array:[PFObject],item:PFObject) -> Int?{
+        var index:Int?=nil
+        for k in 0...array.count{
+            if array[k].objectId == item.objectId{
+                index = k
+                break
+            }
+        }
+        return index
     }
     
     private func configureBG(#place:PFObject){
@@ -197,30 +224,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     private func changeBGTo(newBG:String){
         lastBG = newBG
-        //updateBG()
-    }
-    
-    private func updateBG(){
-        let cache = Cache<UIImage>(name: "neighborhoods")
-        cache.fetch(key: lastBG, failure: { (error) -> () in
-            self.updateBGToDefault()
-            }, success: { (image) -> () in
-                self.setBG(image)
-        })
-    }
-    
-    private func updateBGToDefault(){
-        lastBG = "default"
-        updateBG()
-    }
-    
-    private func setBG(image:UIImage){
-        let mainQueue = NSOperationQueue.mainQueue()
-        mainQueue.addOperationWithBlock { () -> Void in
-            UIView.transitionWithView(self.myBG, duration: 0.4, options: .TransitionCrossDissolve, animations: { () -> Void in
-                self.myBG.insertImage(image, withOpacity: 0.65)
-                },completion:nil)
-        }
+        myBG.setImage(lastBG, opacity: 0.6)
     }
     
     //MARK: Toggle BottomBar buttons
@@ -264,7 +268,6 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             let selectedIndexPath = toastsCollectionView.indexPathsForSelectedItems()[0] as! NSIndexPath
             let selectedPlace = myPlaces?[selectedIndexPath.row]
             let selectedCell = toastsCollectionView.cellForItemAtIndexPath(selectedIndexPath) as! PlaceCell
-            destination.myPlacePicture = selectedCell.myBackgroundView.myImage
             destination.myPlace = selectedPlace
             destination.placeHashtags = selectedCell.hashtagDataSource?.hashtags
             destination.bgName = lastBG
@@ -395,7 +398,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         let navDestination = storyboard?.instantiateViewControllerWithIdentifier("deliveryWebViewNavScene") as! UINavigationController
         let destination = navDestination.viewControllers[0] as! GenericWebViewController
         destination.myURL = link
-        destination.title = title
+        destination.tempTitle = title
         
         self.showDetailViewController(navDestination, sender: nil)
     }

@@ -31,7 +31,7 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     
     private func configureBG(){
         let myBG = self.view as! BackgroundImageView
-        myBG.insertImage(UIImage(named: "loginBG")!, withOpacity: 0.35)
+        myBG.setImage("loginBG", opacity: 0.35)
     }
     /*
     func validateFacebookSession(){
@@ -88,7 +88,7 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     }
     
     func facebookDidSignup(){
-        PFUser.currentUser()["signedUp"] = 1
+        PFUser.currentUser()["savedFirstTime"] = 1
         var group = dispatch_group_create()
         dispatch_group_enter(group)
         getFacebookDetails(group: group)

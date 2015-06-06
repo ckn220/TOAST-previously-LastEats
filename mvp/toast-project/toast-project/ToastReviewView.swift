@@ -27,7 +27,7 @@ class ToastReviewView: ToastCarouselView,UITextViewDelegate,ReviewAccesoryViewDe
         if isVisible{
             toggleAlpha(1)
         }else{
-            toggleAlpha(0.2)
+            toggleAlpha(0)
         }
     }
     
@@ -85,7 +85,7 @@ class ToastReviewView: ToastCarouselView,UITextViewDelegate,ReviewAccesoryViewDe
         return true
     }
     
-    private func togglePlaceHolder(newLength:Int){
+    func togglePlaceHolder(newLength:Int){
         if newLength == 0{
             placeholderView.alpha = 1
         }else{

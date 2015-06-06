@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class FriendsListViewController: UIViewController {
+class FriendsListViewController: UIViewController,FriendsDataSourceDelegate {
 
     @IBOutlet weak var friendsTableView: UITableView!
     @IBOutlet weak var myTitleLabel: UILabel!
@@ -49,9 +49,10 @@ class FriendsListViewController: UIViewController {
     private func configureFriends(){
         let friendsQuery = myUser.relationForKey("friends").query()
         friendsQuery.orderByAscending("name")
+        friendsQuery.includeKey("topToast")
         friendsQuery.findObjectsInBackgroundWithBlock { (friends, error) -> Void in
             if error == nil{
-                self.friendsDataSource = FriendsListDataSource(friends:friends as! [PFObject])
+                self.friendsDataSource = FriendsListDataSource(friends:friends as! [PFUser],myDelegate:self)
             }else{
                 NSLog("configureFriends error: %@",error.description)
             }
@@ -71,5 +72,13 @@ class FriendsListViewController: UIViewController {
             myDelegate?.discoverMenuPressed()
         }
         
+    }
+    
+    //MARK: - FriendsDataSource delegate methods
+    func friendsDataSourceDelegateFriendSelected(friend: PFUser) {
+        let destination = storyboard?.instantiateViewControllerWithIdentifier("profileDetailScene") as! ProfileDetailViewController
+        destination.myDelegate = nil
+        destination.myUser = friend
+        showViewController(destination, sender: self)
     }
 }

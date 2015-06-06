@@ -49,4 +49,15 @@ class HashtagCollectionViewDataSource: NSObject,UICollectionViewDataSource,UICol
         myDelegate?.hashtagSelected(selectedItem)
     }
     
+    func collectionView(collectionView: UICollectionView, shouldHighlightItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! HashtagCell
+        cell.hashtagLabel.textColor = UIColor(hue:0.555, saturation:0.45, brightness:0.7, alpha:1)
+        
+        return true
+    }
+    
+    func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! HashtagCell
+        cell.hashtagLabel.textColor = UIColor(hue:0.555, saturation:0.45, brightness:1, alpha:1)
+    }
 }

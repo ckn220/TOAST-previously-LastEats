@@ -18,8 +18,10 @@ protocol DiscoverDelegate {
 
 class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLocationManagerDelegate {
 
+    @IBOutlet var senteceSwipeGestureRecognizer: UISwipeGestureRecognizer!
+    @IBOutlet var sentenceTapGestureRecognizer: UITapGestureRecognizer!
     @IBOutlet weak var myBG: BackgroundImageView!
-    @IBOutlet weak var loadingLabel: UILabel!
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
     @IBOutlet weak var sentenceLabel: UILabel!
     @IBOutlet weak var discoverCarousel: iCarousel!
     var myDelegate:DiscoverDelegate?
@@ -67,27 +69,10 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     }
     
     func configureCarouselData(){
-        initLoadingTimer()
         var group = dispatch_group_create()
         configureMoods(group)
         configureNeighborhoods(group)
         configureCarouselDataCompletion(group)
-    }
-    
-    func initLoadingTimer(){
-        loadingTimer = NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: "applyLoadingTimer:", userInfo: nil, repeats: true)
-    }
-    
-    func applyLoadingTimer(timer:NSTimer){
-        dotCount++
-        if dotCount > 2{
-            dotCount = 0
-        }
-        var loadingText = "Loading"
-        for k in (0...dotCount){
-            loadingText = loadingText+"."
-        }
-        self.loadingLabel.text = loadingText
     }
     
     func configureMoods(group:dispatch_group_t){
@@ -105,7 +90,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     }
     
     func configureNeighborhoods(group:dispatch_group_t){
-        dispatch_group_enter(group)
+        //dispatch_group_enter(group)
             let neighborhoodsQuery = PFQuery(className: "Neighborhood")
             neighborhoodsQuery.whereKey("visible", equalTo: true)
             neighborhoodsQuery.orderByAscending("order")
@@ -113,7 +98,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
                 if error == nil{
                     let neighs = result as! [PFObject]
                     self.neighborhoodDataSource = DiscoverDataSource(items: neighs, myDelegate: self, isMood: false)
-                    dispatch_group_leave(group)
+                    //dispatch_group_leave(group)
                 }else{
                     NSLog("configureNeighborhoods error: %@", error.description)
                 }
@@ -122,7 +107,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     
     private func configureCarouselDataCompletion(group:dispatch_group_t){
         dispatch_group_notify(group, dispatch_get_main_queue()) { () -> Void in
-            self.loadingLabel.alpha = 0
+            self.loadingView.alpha = 0
             self.discoverCarousel.type = .Cylinder
             self.discoverCarousel.dataSource = self.moodDataSource
             self.discoverCarousel.delegate = self.moodDataSource
@@ -140,15 +125,8 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
         }else{
            neighName = "default"
         }
-        
-        
-        cache.fetch(key: neighName, failure: { (error) -> () in
-            NSLog("changeBGTo error: %@",error!.description)
-            }, success: {(image) -> () in
-                UIView.transitionWithView(self.myBG, duration: 0.4, options: .TransitionCrossDissolve, animations: { () -> Void in
-                    self.myBG.insertImage(image, withOpacity: 0.65)
-                }, completion: nil)
-        })
+
+        self.myBG.setImage(neighName, opacity: 0.6)
     }
     
     override func didReceiveMemoryWarning() {
@@ -239,6 +217,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
             self.discoverCarousel.dataSource = datasource
             self.discoverCarousel.delegate = datasource
             self.discoverCarousel.reloadData()
+            self.toggleSentenceGestureRecognizers(!datasource.isMood)
             
             UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveLinear, animations: { () -> Void in
                 self.discoverCarousel.alpha = 1
@@ -250,6 +229,11 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
                 }
             }, completion: nil)
         }
+    }
+    
+    func toggleSentenceGestureRecognizers(enabled:Bool){
+        sentenceTapGestureRecognizer.enabled = enabled
+        senteceSwipeGestureRecognizer.enabled = enabled
     }
     
     func neighborhoodsDataSourceItemSelected(#index: Int) {
@@ -272,6 +256,9 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
         changeToDataSource(moodDataSource!)
     }
     
+    @IBAction func discoverSwiped(sender: UISwipeGestureRecognizer) {
+        changeToDataSource(moodDataSource!)
+    }
     //MARK: - Action methods
     @IBAction func menuPressed(sender: AnyObject) {
         myDelegate?.discoverMenuPressed()

@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import Haneke
 
-class ProfileDetailViewController: UIViewController {
+class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
 
     @IBOutlet weak var myTableView: UITableView!
     
@@ -25,6 +25,8 @@ class ProfileDetailViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var userSubtitleLabel: UILabel!
     
+    var fromContribute = true
+    var myDelegate:DiscoverDelegate?
     var toasts: [PFObject]?
     var topToast: PFObject?
     var myUser:PFUser!
@@ -37,15 +39,19 @@ class ProfileDetailViewController: UIViewController {
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configure()
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if fromContribute{
+            configure()
+            fromContribute = false
+        }
     }
     
     private func configure(){
         configureTitles()
         configureUserHeader()
         configureUserToasts()
+        setStarButton()
     }
     
     private func configureTitles(){
@@ -108,16 +114,14 @@ class ProfileDetailViewController: UIViewController {
     }
     
     private func loadTopToast(#group: dispatch_group_t){
-        if let topToast = self.myUser["topToast"] as? PFObject{
-            dispatch_group_enter(group)
-            topToast.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
-                    if error == nil{
-                        self.topToast = result as PFObject
-                    }else{
-                        NSLog("loadTopToast error: %@",error.description)
-                    }
-                    dispatch_group_leave(group)
-                }
+        dispatch_group_enter(group)
+        PFCloud.callFunctionInBackground("topToastFromUser", withParameters: ["userId":myUser.objectId]) { (topToast, error) -> Void in
+            if error == nil{
+                self.topToast = topToast as? PFObject
+            }else{
+                NSLog("loadTopToast error: %@",error.description)
+            }
+            dispatch_group_leave(group)
         }
     }
     
@@ -126,6 +130,7 @@ class ProfileDetailViewController: UIViewController {
         let query = PFQuery(className: "Toast")
         query.whereKey("user", equalTo: myUser)
         query.orderByDescending("createdAt")
+        query.includeKey("user")
         query.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
                 self.toasts = result as? [PFObject]
@@ -138,7 +143,7 @@ class ProfileDetailViewController: UIViewController {
     
     private func configureUserToastsCompletion(#group: dispatch_group_t){
         dispatch_group_notify(group, dispatch_get_main_queue()) { () -> Void in
-            self.profileDataSource = ProfileToastsDataSource(toasts: self.toasts!,user:self.myUser,topToast:self.topToast)
+            self.profileDataSource = ProfileToastsDataSource(toasts: self.toasts!,user:self.myUser,topToast:self.topToast,myDelegate:self)
         }
     }
     
@@ -162,14 +167,16 @@ class ProfileDetailViewController: UIViewController {
     }
     
     private func getPicture(fromUser user:PFUser,toBgView bgView:BackgroundImageView){
+        initPictureView(bgView)
         let imageURL = user["pictureURL"] as! String
-        let cache = Shared.imageCache
-        cache.fetch(URL: NSURL(string: imageURL)!, failure: { (error) -> () in
-            NSLog("getPicture error: %@",error!.description)
-            }, success: { (image) -> () in
-                bgView.myImage = image
-                self.configurePicture(bgView.layer)
-        })
+        bgView.setImage(URL: imageURL)
+    }
+    
+    private func initPictureView(pictureView:BackgroundImageView){
+        let pictureLayer = pictureView.layer
+        pictureLayer.cornerRadius = CGRectGetWidth(pictureLayer.bounds)/2
+        pictureLayer.borderWidth = 1
+        pictureLayer.borderColor = UIColor.whiteColor().CGColor
     }
     
     private func configureProfileName(user:PFUser){
@@ -233,11 +240,6 @@ class ProfileDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        setStarButton()
-    }
-    
     private func setStarButton(){
         if myUser.objectId == PFUser.currentUser().objectId{ //currentUser
             starButton.alpha = 0
@@ -262,7 +264,11 @@ class ProfileDetailViewController: UIViewController {
 
     //MARK: - Action methods
     @IBAction func backPressed(sender: UIButton) {
-        self.navigationController?.popViewControllerAnimated(true)
+        if myDelegate == nil{
+            self.navigationController?.popViewControllerAnimated(true)
+        }else{
+            myDelegate?.discoverMenuPressed()
+        }
     }
     
     @IBAction func starButtonPressed(sender: StarButton) {
@@ -281,12 +287,13 @@ class ProfileDetailViewController: UIViewController {
         }
     }
     
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "friendsListSegue"{
             let destination = segue.destinationViewController as! FriendsListViewController
             destination.myUser = myUser
             destination.fromMain = false
+        }else if segue.identifier == "contributeSegue"{
+            fromContribute = true
         }
     }
     
@@ -295,6 +302,16 @@ class ProfileDetailViewController: UIViewController {
         pictureLayer.borderWidth = 1
         pictureLayer.borderColor = UIColor(white: 1, alpha: 0.7).CGColor
         pictureLayer.shouldRasterize = true
+    }
+    
+    //MARK: - ProfileToastsDelegate methods
+    func profileToastsCellPressed(indexPressed: Int,place:PFObject?) {
+        let destination = storyboard?.instantiateViewControllerWithIdentifier("reviewDetailScene") as! ReviewDetailViewController
+        let selectedToast = toasts![indexPressed]
+        destination.myToast = selectedToast
+        destination.isTopToast = topToast?.objectId == selectedToast.objectId
+        
+        self.showViewController(destination, sender: self)
     }
     
 }

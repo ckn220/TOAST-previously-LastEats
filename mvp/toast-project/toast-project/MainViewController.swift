@@ -11,6 +11,7 @@ import Parse
 
 class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegate, UIGestureRecognizerDelegate {
 
+    @IBOutlet var myPanGestureRecognizer: UIPanGestureRecognizer!
     @IBOutlet weak var menuContainerView: UIView!
     @IBOutlet weak var discoverContainerView: UIView!
     var animator:UIDynamicAnimator?
@@ -22,7 +23,6 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     
     var isOpen = false
     var totalOffset:CGFloat = 0
-    var canPan = true
     var hideStatusBar = false
     
     override func viewDidLoad() {
@@ -52,7 +52,6 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     
     //MARK: Pan Gesture methods
     @IBAction func handlePan(sender: UIPanGestureRecognizer) {
-        if canPan {
             if sender.state == .Began {
                 removeMySnaps()
                 updateMyStatusBar(hidden: true)
@@ -69,7 +68,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
                 }
             }
             sender.setTranslation(CGPointZero, inView: self.view)
-        } 
+        
     }
     
     func removeMySnaps(){
@@ -81,7 +80,9 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         animator?.addBehavior(discoverBehavior)
         
         isOpen = snap.isEqual(snapToSide)
+        
         updateMyStatusBar(hidden: isOpen)
+        evaluateMyPanDisabling()
     }
     
     func offsetIsValid(#offset:CGFloat)->Bool{
@@ -123,20 +124,30 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     
     //MARK: Discover delegate methods
     func discoverDidAppear() {
-        canPan = true
     }
     
     func discoverDidDissapear() {
-        canPan = false
     }
     
     func discoverMenuPressed() {
         removeMySnaps()
         if isOpen{
             addSnap(snapToCenter!)
+            
         }else{
             addSnap(snapToSide!)
+            myPanGestureRecognizer.enabled =  true
         }
+    }
+    
+    private func evaluateMyPanDisabling(){
+        if !isOpen {
+            let rootVC = mainNav?.viewControllers[0] as! UIViewController
+            if rootVC is DiscoverViewController{
+                myPanGestureRecognizer.enabled = false
+            }
+        }
+        
     }
     
     // MARK: - Navigation
@@ -175,7 +186,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
 
     //MARK: - Gesture recognizer delegate methods
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
-        return canPan
+        return true
     }
     
     //MARK: - MainMenuTable delegate methods
@@ -184,6 +195,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         friendsScene.myUser = PFUser.currentUser()
         friendsScene.fromMain = true
         friendsScene.myDelegate = self
+        myPanGestureRecognizer.enabled = true
         
         changeMainTo(friendsScene)
     }
@@ -191,14 +203,16 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     func mainMenuTableDiscoverPressed() {
         let discoverScene = self.storyboard?.instantiateViewControllerWithIdentifier("discoverScene") as! DiscoverViewController
         discoverScene.myDelegate = self
+        myPanGestureRecognizer.enabled = false
         
         changeMainTo(discoverScene)
     }
     
     func mainMenuTableMyToastsPressed() {
-        let toastsScene = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
-        toastsScene.myFriend = PFUser.currentUser()
+        let toastsScene = self.storyboard?.instantiateViewControllerWithIdentifier("profileDetailScene") as! ProfileDetailViewController
+        toastsScene.myUser = PFUser.currentUser()
         toastsScene.myDelegate = self
+        myPanGestureRecognizer.enabled = true
         
         changeMainTo(toastsScene)
     }

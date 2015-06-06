@@ -35,28 +35,25 @@ class PlacePicturesDataSource: NSObject, UICollectionViewDataSource,UICollection
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("pictureCell", forIndexPath: indexPath) as! UICollectionViewCell
-        let pictureView = cell.viewWithTag(101) as! BackgroundImageView
+        let pictureView = cell.viewWithTag(101) as! UIImageView
         let loadingView = cell.viewWithTag(501) as! UIActivityIndicatorView
         resetCell(pictureView: pictureView, loadingView: loadingView)
-        
-        myCache.fetch(URL: NSURL(string: pictureURLS[indexPath.row])!, failure: { (error) -> () in
-            NSLog("cellForItems error: %@",error!.description)
-            }, success: {(image) -> () in
-                pictureView.myImage = image
-                loadingView.alpha = 0
+        pictureView.hnk_setImageFromURL(NSURL(string: pictureURLS[indexPath.row])!, success: { (image) -> () in
+            pictureView.image = image
+            loadingView.alpha = 0
         })
         
         return cell
     }
     
-    private func resetCell(#pictureView:BackgroundImageView,loadingView:UIActivityIndicatorView){
-        pictureView.myImage = nil
+    private func resetCell(#pictureView:UIImageView,loadingView:UIActivityIndicatorView){
+        pictureView.image = nil
         loadingView.alpha = 1
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         let dim = UIScreen.mainScreen().bounds
-        return CGSizeMake(dim.width, dim.height)
+        return CGSizeMake(dim.width, dim.width)
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {

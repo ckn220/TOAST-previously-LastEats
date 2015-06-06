@@ -89,64 +89,13 @@
             </connections>
             <point key="canvasLocation" x="573" y="124"/>
         </view>
-        <view clipsSubviews="YES" contentMode="scaleToFill" id="hRz-q4-ojj" customClass="ToastReviewView" customModule="toast_project" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="hRz-q4-ojj" customClass="ToastCarouselView" customModule="toast_project" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="-4" width="320" height="324"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <subviews>
-                <view clipsSubviews="YES" alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PeN-Ab-kgt">
-                    <rect key="frame" x="16" y="16" width="288" height="288"/>
-                    <subviews>
-                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Give a toast... " translatesAutoresizingMaskIntoConstraints="NO" id="0PU-jE-d31" userLabel="placeholderView">
-                            <rect key="frame" x="10" y="4" width="268" height="280"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                        </textView>
-                        <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mAI-q5-Ng3">
-                            <rect key="frame" x="10" y="4" width="268" height="280"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            <connections>
-                                <outlet property="delegate" destination="hRz-q4-ojj" id="BU7-hx-6gn"/>
-                            </connections>
-                        </textView>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="mAI-q5-Ng3" firstAttribute="top" secondItem="PeN-Ab-kgt" secondAttribute="top" constant="4" id="0Fs-k1-asu"/>
-                        <constraint firstItem="mAI-q5-Ng3" firstAttribute="leading" secondItem="PeN-Ab-kgt" secondAttribute="leading" constant="10" id="AcM-EM-VH0"/>
-                        <constraint firstItem="0PU-jE-d31" firstAttribute="bottom" secondItem="mAI-q5-Ng3" secondAttribute="bottom" id="Df0-ee-e92"/>
-                        <constraint firstItem="0PU-jE-d31" firstAttribute="top" secondItem="mAI-q5-Ng3" secondAttribute="top" id="Mhf-uX-rVd"/>
-                        <constraint firstItem="0PU-jE-d31" firstAttribute="leading" secondItem="mAI-q5-Ng3" secondAttribute="leading" id="Us7-aR-9dU"/>
-                        <constraint firstAttribute="bottom" secondItem="mAI-q5-Ng3" secondAttribute="bottom" constant="4" id="nJA-3S-sHu"/>
-                        <constraint firstItem="0PU-jE-d31" firstAttribute="trailing" secondItem="mAI-q5-Ng3" secondAttribute="trailing" id="sTI-S0-zOT"/>
-                        <constraint firstAttribute="trailing" secondItem="mAI-q5-Ng3" secondAttribute="trailing" constant="10" id="ubQ-M2-ScM"/>
-                    </constraints>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                            <integer key="value" value="3"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                </view>
-            </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstAttribute="trailing" secondItem="PeN-Ab-kgt" secondAttribute="trailing" constant="16" id="6ia-9T-qHG"/>
-                <constraint firstItem="PeN-Ab-kgt" firstAttribute="top" secondItem="hRz-q4-ojj" secondAttribute="top" constant="16" id="Btr-RC-BAR"/>
-                <constraint firstAttribute="bottom" secondItem="PeN-Ab-kgt" secondAttribute="bottom" constant="16" id="NNd-VT-Bug"/>
-                <constraint firstItem="PeN-Ab-kgt" firstAttribute="leading" secondItem="hRz-q4-ojj" secondAttribute="leading" constant="16" id="cRg-Wd-4go"/>
-            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="containerView" destination="PeN-Ab-kgt" id="G1s-if-wmo"/>
-                <outlet property="placeholderView" destination="0PU-jE-d31" id="Uxo-Je-Mgo"/>
-                <outlet property="reviewTextView" destination="mAI-q5-Ng3" id="FdJ-jW-SSF"/>
-            </connections>
-            <point key="canvasLocation" x="989" y="124"/>
+            <point key="canvasLocation" x="989" y="122"/>
         </view>
     </objects>
 </document>

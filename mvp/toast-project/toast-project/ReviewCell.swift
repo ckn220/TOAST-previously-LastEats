@@ -35,6 +35,8 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     var myDelegate:ReviewCellDelegate?
     var reviewIndex:Int!
     
+    let headerQueue = NSOperationQueue()
+    
     func configure(item:PFObject,index:Int,lastIndex:Int){
         configure(index)
         configureUser(item: item)
@@ -45,6 +47,16 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     //MARK: - Configure methods
     private func configure(index:Int){
         reviewIndex = index
+        headerView.alpha = 0
+        if reviewLinkTextView != nil{
+            reviewLinkTextView.alpha = 0
+        }else{
+            reviewTextLabel.alpha = 0
+        }
+        
+        if separatorView != nil {
+            separatorView.alpha = 0
+        }
     }
     
     //MARK: - Configure User methods
@@ -55,31 +67,36 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     }
     
     private func friendOfFriend(friendFriend:PFUser,toast:PFObject){
-        PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":friendFriend.objectId]) { (result, error) -> Void in
-            if error == nil{
-                if let friend = result as? PFUser{
-                    self.configureFriendOfFriendHeader(friend,friendFriend: friendFriend,toast:toast)
+        headerQueue.addOperationWithBlock { () -> Void in
+            PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":friendFriend.objectId]) { (result, error) -> Void in
+                if error == nil{
+                    if let friend = result as? PFUser{
+                        self.configureFriendOfFriendHeader(friend,friendFriend: friendFriend,toast:toast)
+                    }else{
+                        self.configureFriendHeader(friendFriend,toast:toast)
+                    }
                 }else{
-                    self.configureFriendHeader(friendFriend,toast:toast)
+                    NSLog("friendOfFriend error: %@",error.description)
                 }
-            }else{
-                NSLog("friendOfFriend error: %@",error.description)
+                
             }
-            
         }
     }
     
     private func configureFriendHeader(friend:PFUser,toast:PFObject){
-        let header = myHeaderSource?.dequeueFriendHeader()
-        header?.configure(friend: friend,myDelegate:self,isTopToast:isTopToast(friend, toast: toast))
-        insertHeader(header!)
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            let header = self.myHeaderSource?.dequeueFriendHeader()
+            header?.configure(friend: friend,myDelegate:self,superView:self.headerView,isTopToast:self.isTopToast(friend, toast: toast))
+            self.insertHeader(header!)
+        }
     }
     
     private func configureFriendOfFriendHeader(friend:PFUser,friendFriend:PFUser,toast:PFObject){
-        let header = myHeaderSource?.dequeueFriendOfFriendHeader()
-        
-        header?.configure(friend: friend, friendFriend: friendFriend,myDelegate:self,isTopToast: isTopToast(friendFriend, toast: toast))
-        insertHeader(header!)
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            let header = self.myHeaderSource?.dequeueFriendOfFriendHeader()
+            header?.configure(friend: friend, friendFriend: friendFriend,myDelegate:self,superView:self.headerView, isTopToast: self.isTopToast(friendFriend, toast: toast))
+            self.insertHeader(header!)
+        }
     }
     
     private func isTopToast(user:PFUser,toast:PFObject) -> Bool{
@@ -91,9 +108,17 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     }
     
     private func insertHeader(header:ReviewHeaderCell){
-        removePreviousHeader()
-        header.frame = headerView.bounds
-        headerView.addSubview(header)
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            self.removePreviousHeader()
+            header.frame = self.headerView.bounds
+            self.headerView.addSubview(header)
+            self.toggleAlpha(alpha: 1, views: self.headerView)
+            if self.reviewLinkTextView != nil{
+                self.toggleAlpha(alpha: 1, views: self.reviewLinkTextView)
+            }else{
+                self.toggleAlpha(alpha: 1, views: self.reviewTextLabel)
+            }
+        }
     }
     
     private func removePreviousHeader(){
@@ -138,9 +163,12 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
         var words = review.componentsSeparatedByString(" ")
         var finalReview = NSMutableAttributedString(string: "")
         finalReview.appendAttributedString(attributedWord("\""))
-        for word in words{
+        for k in 0...words.count-1{
+            let word = words[k]
             finalReview.appendAttributedString(attributedWord(word))
-            finalReview.appendAttributedString(attributedWord(" "))
+            if k != 0 && k<words.count-1 {
+                finalReview.appendAttributedString(attributedWord(" "))
+            }
         }
         finalReview.appendAttributedString(attributedWord("\""))
         reviewLinkTextView.attributedText = finalReview
@@ -181,10 +209,8 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     
     //MARK: - Configure Separator line methods
     private func configureSeparatorLine(#isLastItem:Bool){
-        if isLastItem {
-            separatorView.alpha = 0
-        }else{
-            separatorView.alpha = 0.4
+        if !isLastItem {
+            toggleAlpha(alpha: 0.4, views: separatorView)
         }
     }
     
@@ -227,6 +253,10 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     //MARK: - Review  Header delegate methods
     func friendPicturePressed(ffriend:PFUser?) {
         myDelegate?.reviewCellReviewerPressed(reviewIndex,ffriend:ffriend)
+    }
+    
+    func reviewHeaderDoneLoading() {
+        
     }
     
     @IBAction func reviewerPressed(sender: UIButton) {
@@ -273,5 +303,19 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     //MARK: - CCHLinkTextView delegate methods
     func linkTextView(linkTextView: CCHLinkTextView!, didTapLinkWithValue value: AnyObject!) {
         myDelegate?.reviewCellHashtagPressed(value as! String)
+    }
+    
+    
+    //MARK: - Misc methods
+    func toggleAlpha(#alpha:CGFloat,duration:CGFloat=0.3,completion:(()->Void)?=nil,views:UIView...){
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                for view in views{
+                    view.alpha = alpha
+                }
+                }) { (success) -> Void in
+                    completion
+            }
+        }
     }
 }
