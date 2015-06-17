@@ -201,7 +201,8 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     
     func configureHashtags(){
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-        let newHeight = (floor((Double(self.placeHashtags!.count)/2.0)))*22
+        let roundedNumber = round(Double(self.placeHashtags!.count)/2)
+        let newHeight = roundedNumber*22
         self.hashtagCollectionViewHeightConstraint.constant = CGFloat(min(newHeight, 66.0))
        self.hashtagsDataSource = HashtagCollectionViewDataSource(hashtags: self.placeHashtags!, myDelegate: self)
         }

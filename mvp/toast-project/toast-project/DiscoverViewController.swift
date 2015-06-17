@@ -43,10 +43,19 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     }
     
     func configure(){
+        updateInitialData()
         configureInitialBG()
         //configureUserPicture()
         configureLocation()
         configureCarouselData()
+    }
+    
+    private func updateInitialData(){
+        PFCloud.callFunctionInBackground("setInitialDataIfNeeded", withParameters: nil) { (result, error) -> Void in
+            if error == nil{
+                NSLog("%@", result as! String)
+            }
+        }
     }
     
     private func configureInitialBG(){

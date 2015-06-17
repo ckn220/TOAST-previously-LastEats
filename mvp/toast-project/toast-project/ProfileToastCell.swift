@@ -77,17 +77,27 @@ class ProfileToastCell: UITableViewCell {
             myPlace = place
             self.configureImage()
             self.configureName()
+        }else{
+            self.placeImageView.myImageView.image = nil
+            self.placeNameLabel.text = ""
+            self.toggleAlpha(1)
         }
     }
     
     private func configureImage(){
-        let photosArray = myPlace!["photos"] as! NSArray
-        if photosArray.count > 0{
-            let imageURL = photosArray[0] as! String
-            placeImageView.setImage(URL: imageURL) { () -> Void in
+        if let photosArray = myPlace!["photos"] as? NSArray{
+            if photosArray.count > 0{
+                let imageURL = photosArray[0] as! String
+                placeImageView.setImage(URL: imageURL) { () -> Void in
+                    self.toggleAlpha(1)
+                }
+            }else{
                 self.toggleAlpha(1)
             }
+        }else{
+            self.toggleAlpha(1)
         }
+        
     }
     
     private func configureName(){

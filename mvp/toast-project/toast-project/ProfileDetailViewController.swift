@@ -27,7 +27,7 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     
     var fromContribute = true
     var myDelegate:DiscoverDelegate?
-    var toasts: [PFObject]?
+    var toasts: [PFObject]!
     var topToast: PFObject?
     var myUser:PFUser!
     var myFriend:PFUser?
@@ -70,7 +70,11 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     
     private func configureUserSubtitle(){
         var subtitleString:String
-        if myUser.objectId != PFUser.currentUser().objectId{ //Another user
+        if myUser.objectId == PFUser.currentUser().objectId{ // Current User
+            subtitleString = "Toasting since \(date(forUser: myUser))"
+        }else if myUser.objectId == "Ljr4MlYQP0"{ // Colin
+            subtitleString = "Founder of Top Toast Labs"
+        }else{
             if myFriend != nil{ //Friend of friend
                 let friendName = myFriend!["name"] as! String
                 subtitleString = "Friends with \(correctedName(friendName)) on Facebook"
@@ -79,9 +83,8 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
                 let nameComponents = name.componentsSeparatedByString(" ")
                 subtitleString = "You are friends with \(nameComponents[0]) on Facebook"
             }
-        }else{ //Current user
-            subtitleString = "Toasting since \(date(forUser: myUser))"
         }
+        
         userSubtitleLabel.text = subtitleString
     }
     
@@ -128,21 +131,37 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     private func loadToasts(#group: dispatch_group_t){
         dispatch_group_enter(group)
         let query = PFQuery(className: "Toast")
+        query.whereKey("active", equalTo: true)
         query.whereKey("user", equalTo: myUser)
         query.orderByDescending("createdAt")
         query.includeKey("user")
         query.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
-                self.toasts = result as? [PFObject]
+                self.toasts = result as! [PFObject]
             }else{
                 NSLog("loadToasts error: %@",error.description)
+                self.toasts = []
             }
+            
             dispatch_group_leave(group)
+        }
+    }
+    
+    private func sortToast(){
+        for k in 0...(toasts.count-1){
+            let toast = toasts![k]
+            if toast.objectId == topToast?.objectId{
+                toasts.removeAtIndex(k)
+                toasts.insert(toast, atIndex: 0)
+                break
+            }
         }
     }
     
     private func configureUserToastsCompletion(#group: dispatch_group_t){
         dispatch_group_notify(group, dispatch_get_main_queue()) { () -> Void in
+            self.sortToast()
+            self.updateToastCount()
             self.profileDataSource = ProfileToastsDataSource(toasts: self.toasts!,user:self.myUser,topToast:self.topToast,myDelegate:self)
         }
     }
@@ -198,16 +217,10 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     
     private func configureToastCount(user:PFUser){
         initCountLabel(toastCountLabel)
-        let toastQuery = PFQuery(className: "Toast")
-        toastQuery.whereKey("user", equalTo: user)
-        toastQuery.orderByDescending("createdAt")
-        toastQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
-            if error == nil{
-                self.toastCountLabel.text = String(format: "%02d", count)
-            }else{
-                NSLog("configureToastCount error: %@",error.description)
-            }
-        }
+    }
+    
+    private func updateToastCount(){
+        toastCountLabel.text = String(format:"%02d",toasts.count)
     }
     
     private func configureFriendCount(user:PFUser){
@@ -309,9 +322,17 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
         let destination = storyboard?.instantiateViewControllerWithIdentifier("reviewDetailScene") as! ReviewDetailViewController
         let selectedToast = toasts![indexPressed]
         destination.myToast = selectedToast
+        if place != nil{
+            destination.titleString = place!["name"] as! String
+        }
         destination.isTopToast = topToast?.objectId == selectedToast.objectId
         
         self.showViewController(destination, sender: self)
+    }
+    
+    func profileToastsItemDeleted(updatedToasts:[PFObject]) {
+        self.toasts = updatedToasts
+        updateToastCount()
     }
     
 }

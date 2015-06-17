@@ -210,8 +210,9 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         
         let opQueue = NSOperationQueue.mainQueue()
         opQueue.addOperationWithBlock { () -> Void in
-            let currentP = self.currentPlace(scrollView: scrollView)
-            if let currentNeighborhood = currentP?["neighborhood"] as? PFObject{
+            self.myCurrentPlace = self.currentPlace(scrollView: scrollView)
+            self.updatesForCurrentPlace()
+            if let currentNeighborhood = self.myCurrentPlace?["neighborhood"] as? PFObject{
                 let currentBG = currentNeighborhood["name"] as! String
                 if currentBG != self.lastBG{
                     self.changeBGTo(currentBG)
@@ -238,7 +239,8 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     private func configureReserveButton(#place:PFObject){
-        toggleBottomBarButton(reservationButton, enabled: place["reservationURL"] as! String != "")
+        let reservationURL = place["reservationURL"] as! String
+        toggleBottomBarButton(reservationButton, enabled: reservationURL != "")
     }
     
     private func toggleBottomBarButton(button:UIButton,enabled:Bool){

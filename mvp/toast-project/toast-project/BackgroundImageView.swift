@@ -18,14 +18,19 @@ class BackgroundImageView: UIView {
     
     //MARK: - setImage methods
     func setImage(name:String,opacity:Float = 0.0){
-        UIView.transitionWithView(myImageView, duration: 0.4, options: .TransitionCrossDissolve, animations: { () -> Void in
-            let imgPath = NSBundle.mainBundle().pathForResource(self.correctedName(name,scale: UIScreen.mainScreen().scale), ofType: "jpg")
-            self.myImageView.hnk_setImageFromFile(imgPath!, failure: { (error) -> () in
-                NSLog("setImageName error: %@",error!.description)
-                self.setImage("default", opacity: opacity)
-                }, success: nil)
-            self.myOpaqueLayer.opacity = opacity
-        }, completion: nil)
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            
+            self.delay(0.2, closure: { () -> () in
+                UIView.transitionWithView(self.myImageView, duration: 0.4, options: .TransitionCrossDissolve, animations: { () -> Void in
+                    let imgPath = NSBundle.mainBundle().pathForResource(self.correctedName(name,scale: UIScreen.mainScreen().scale), ofType: "jpg")
+                    self.myImageView.hnk_setImageFromFile(imgPath!, failure: { (error) -> () in
+                        NSLog("setImageName error: %@",error!.description)
+                        self.setImage("default", opacity: opacity)
+                        }, success: nil)
+                    self.myOpaqueLayer.opacity = opacity
+                    }, completion: nil)
+            })            
+        }
     }
     
     func setImage(URL url:String,opacity:Float = 0.0,completion:(()->Void)? = nil){
@@ -85,4 +90,13 @@ class BackgroundImageView: UIView {
         myOpaqueLayer.frame = self.bounds
     }
     //MARK: -
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
+    }
 }

@@ -996,7 +996,7 @@ or recommend the most right now.</string>
         <scene sceneID="P6k-Kl-afd">
             <objects>
                 <tableViewController id="kgQ-oG-kon" customClass="MainMenuTableViewController" customModule="toast_project" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hwV-RD-a95">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="hwV-RD-a95" customClass="MainMenuTableView" customModule="toast_project" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="260" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -2900,9 +2900,9 @@ from Facebook</string>
                                                             </cells>
                                                         </collectionView>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackGradient tall" translatesAutoresizingMaskIntoConstraints="NO" id="3Bh-DU-7a4">
-                                                            <rect key="frame" x="0.0" y="218" width="320" height="72"/>
+                                                            <rect key="frame" x="0.0" y="180" width="320" height="110"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="72" id="tcQ-5J-bIX"/>
+                                                                <constraint firstAttribute="height" constant="110" id="tcQ-5J-bIX"/>
                                                             </constraints>
                                                         </imageView>
                                                         <collectionView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="oHH-8a-8fW" userLabel="hashtagsCollectionView">
@@ -3541,13 +3541,13 @@ from Facebook</string>
         <image name="addIcon" width="27" height="28"/>
         <image name="backIcon" width="30" height="30"/>
         <image name="blackGradient" width="1" height="69"/>
-        <image name="blackGradient tall" width="1" height="72"/>
+        <image name="blackGradient tall" width="1" height="110"/>
         <image name="closeIcon" width="30" height="30"/>
         <image name="fbButton" width="268" height="51"/>
         <image name="hamIcon" width="44" height="44"/>
         <image name="toastLogo" width="192" height="59"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ztu-oG-iIR"/>
+        <segue reference="L6m-8G-8xO"/>
     </inferredMetricsTieBreakers>
 </document>

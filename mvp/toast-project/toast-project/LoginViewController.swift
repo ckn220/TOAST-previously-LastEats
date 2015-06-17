@@ -118,7 +118,7 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     
     func getFacebookDetails(#group: dispatch_group_t){
         
-        FBRequestConnection.startWithGraphPath("/me?fields=name", completionHandler: { (connection, result, error) -> Void in
+        FBRequestConnection.startWithGraphPath("/me?fields=name,email", completionHandler: { (connection, result, error) -> Void in
             
             if (error == nil){
                 let imUser = PFUser.currentUser()
@@ -126,6 +126,7 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
                 
                 imUser["name"] = myResult["name"]
                 imUser["facebookId"] = myResult["id"]
+                imUser["email"] = myResult["email"]
             }
             else {
                 NSLog("getFacebookDetails error: %@", error.description)
@@ -316,7 +317,8 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     }
       
     func goToSuccess(){
-        updatePushWithUser(PFUser.currentUser())
+        let user = PFUser.currentUser()
+        updatePushWithUser(user)
         
         let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("mainScene") as! UIViewController
         self.presentViewController(newSceneNav, animated: true, completion: nil)

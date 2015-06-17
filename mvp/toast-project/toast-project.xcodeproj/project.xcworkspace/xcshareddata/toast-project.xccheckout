@@ -22,9 +22,9 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>67620B5EFA902936DF04070AF595B76AB0333747</key>
-		<string>../../../..mvp/toast-project/toast-project/Alamofire/</string>
+		<string>../../../..mvp/toast-project/toast-project/Alamofire</string>
 		<key>C93564C1AFB8B50FF58188F21182F5D0EEAD1C3F</key>
-		<string>../../../..mvp/toast-project/toast-project/HanekeSwift/</string>
+		<string>../../../..mvp/toast-project/toast-project/HanekeSwift</string>
 		<key>F90710996CC30E635B8F5EC7DC7B7F972A849D41</key>
 		<string>../../../..</string>
 	</dict>

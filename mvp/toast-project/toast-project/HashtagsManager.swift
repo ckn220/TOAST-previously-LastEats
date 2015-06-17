@@ -16,7 +16,7 @@ class HashtagsManager: NSObject{
         var segments:[String] = review.componentsSeparatedByString(" ")
         for segment in segments{
             if isHashtag(segment){
-                let hashtagName = replaceStrings([".",",","#"], withString: "", from: segment)
+                let hashtagName = cleanHashtag(segment)
                 if !contains(tempHashTags, hashtagName){
                     tempHashTags.append(hashtagName)
                 }
@@ -28,6 +28,10 @@ class HashtagsManager: NSObject{
                 NSLog("%@",error.description)
             }
         }
+    }
+    
+    class func cleanHashtag(rawHashtag:String) -> String{
+        return replaceStrings([".",",","#",":",";"], withString: "", from: rawHashtag)
     }
     
     private class func distinct<T: Equatable>(source: [T]) -> [T] {

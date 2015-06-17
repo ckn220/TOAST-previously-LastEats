@@ -212,7 +212,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         let toastsScene = self.storyboard?.instantiateViewControllerWithIdentifier("profileDetailScene") as! ProfileDetailViewController
         toastsScene.myUser = PFUser.currentUser()
         toastsScene.myDelegate = self
-        myPanGestureRecognizer.enabled = true
+        myPanGestureRecognizer.enabled = false
         
         changeMainTo(toastsScene)
     }

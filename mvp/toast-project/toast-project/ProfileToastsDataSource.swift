@@ -11,6 +11,7 @@ import Parse
 
 protocol ProfileToastsDelegate{
     func profileToastsCellPressed(indexPressed:Int,place:PFObject?)
+    func profileToastsItemDeleted(updatedToasts:[PFObject])
 }
 
 class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegate,ProfileToastCellDelegate {
@@ -32,23 +33,11 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
     
     private func configure(){
         configureCurrentUser()
-        sortToast()
     }
     
     private func configureCurrentUser(){
         isCurrentUser = user.objectId == PFUser.currentUser().objectId
-    }
-    
-    private func sortToast(){
-        for k in 0...(toasts.count-1){
-            let toast = toasts[k]
-            if toast.objectId == topToast?.objectId{
-                toasts.removeAtIndex(k)
-                toasts.insert(toast, atIndex: 0)
-                break
-            }
-        }
-    }
+    }    
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -82,16 +71,35 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
         if editingStyle == .Delete{
             
             tableView.beginUpdates()
+            let toast = toasts[indexPath.row]
+            deleteFromCloud(toast)
             toasts.removeAtIndex(indexPath.row)
+            removePlace(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             tableView.endUpdates()
             
-            let toast = toasts[indexPath.row]
-            toast.deleteInBackgroundWithBlock({ (success, error) -> Void in
-                if error != nil{
-                    NSLog("%@",error.description)
-                }
-            })
+            
+        }
+    }
+    
+    private func deleteFromCloud(toast:PFObject){
+        PFCloud.callFunctionInBackground("deleteToast", withParameters: ["toastId":toast.objectId]) { (result, error) -> Void in
+            if error == nil{
+                self.myDelegate?.profileToastsItemDeleted(self.toasts)
+            }else{
+                NSLog("%@",error.description)
+            }
+        }
+    }
+    
+    private func removePlace(index: Int){
+        placesTemp[index] = nil
+        if index < placesTemp.count-1{
+            for k in (index+1...(placesTemp.count)){
+                var value = placesTemp[k]
+                placesTemp[k]=nil
+                placesTemp[k-1]=value
+            }
         }
     }
     

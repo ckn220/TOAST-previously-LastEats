@@ -302,7 +302,9 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     
     //MARK: - CCHLinkTextView delegate methods
     func linkTextView(linkTextView: CCHLinkTextView!, didTapLinkWithValue value: AnyObject!) {
-        myDelegate?.reviewCellHashtagPressed(value as! String)
+        let rawHashtag = value as! String
+        let cleanedHashtag = HashtagsManager.cleanHashtag(rawHashtag)
+        myDelegate?.reviewCellHashtagPressed(cleanedHashtag)
     }
     
     

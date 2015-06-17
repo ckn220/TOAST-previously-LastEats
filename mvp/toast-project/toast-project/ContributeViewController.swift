@@ -404,6 +404,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     
     func createToast(){
         newToast = PFObject(className: "Toast")
+        newToast!["active"] = true
         insertData()
         
         newToast?.saveInBackgroundWithBlock({ (success, error) -> Void in
@@ -594,157 +595,6 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         }
     }
     
-    func insertSchedule(json:NSDictionary,inPlace place:PFObject){
-        if let schedulesDic = json["hours"] as? NSDictionary{
-            let timeframes = schedulesDic["timeframes"] as! NSArray
-            var placeSchedules = schedules(timeframes: timeframes)
-            PFObject.saveAllInBackground(placeSchedules, block: { (success, error) -> Void in
-                if error == nil{
-                    var openKey = place.relationForKey("open")
-                    for schedule in placeSchedules{
-                        openKey.addObject(schedule)
-                    }
-                }else{
-                    NSLog("%@", error.description)
-                }
-            })
-        }
-    }
-    
-    func schedules(#timeframes:NSArray) -> [PFObject]{
-        var schedules = [PFObject]()
-        for timeframe in timeframes{
-            schedules.extend(schedulesForTimeframe(timeframe as! NSDictionary))
-        }
-        return schedules
-    }
-    
-    func schedulesForTimeframe(timeframe:NSDictionary) -> [PFObject]{
-        var hours = [PFObject]()
-        let myDays = days(timeframe["days"] as! String)
-        let myHours = openHours(timeframe["open"] as! NSArray)
-        for imDay in myDays{
-            for imHour in myHours{
-                hours.append(createSchedule(day: imDay, hour: imHour))
-            }
-        }
-        return hours
-    }
-    
-    func createSchedule(#day:Int,hour:Int) -> PFObject{
-        let newOpen = PFObject(className: "OpenSchedule")
-        newOpen["day"] = day
-        newOpen["hour"] = hour
-        return newOpen
-    }
-    
-    func days(daysTimeFrame:String)->[Int]{
-        let strings:[String] = daysTimeFrame.componentsSeparatedByString(", ")
-        var days = [Int]()
-        for s in strings{
-            if isDayRange(s){
-                let range:[String] = s.componentsSeparatedByString("–")
-                let firstDay = day(range[0])
-                let lastDay = day(range[1])
-                days.extend(allDays(from:firstDay,to:lastDay))
-            }else{
-                days.append(day(s))
-            }
-        }
-        return days
-
-    }
-    
-    func isDayRange(string:String)->Bool{
-        var dayStrings:[String] = string.componentsSeparatedByString("–")
-        if dayStrings.count > 1{
-            return true
-        }else{
-            return false
-        }
-    }
-    
-    func isDayList(string:String)->Bool{
-        var dayStrings:[String] = string.componentsSeparatedByString(", ")
-        if dayStrings.count > 1{
-            return true
-        }else{
-            return false
-        }
-    }
-    
-    func day(dayString:String)->Int{
-        let days = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"]
-        let correctedDay = replaceStrings([" "], withString: "", from: dayString)
-        return find(days,correctedDay)!
-    }
-    
-    func allDays(#from:Int,to:Int)-> [Int]{
-        var days = [Int]()
-        for d in from...to{
-            days.append(d)
-        }
-        return days
-    }
-    
-    func openHours(openArray:NSArray) -> [Int]{
-        var hours = [Int]()
-        for openItem in openArray{
-            let hoursString = (openItem as! NSDictionary)["renderedTime"] as! String
-            hours.extend(realHours(hoursString))
-        }
-        return hours
-    }
-    
-    func realHours(hoursTimeframe:String)->[Int]{
-        var hours = [Int]()
-        var hourStrings:[String] = hoursTimeframe.componentsSeparatedByString("–")
-        let firstH = realHour(hourStrings[0])
-        let lastH = realHour(hourStrings[1])
-        hours.extend(allHours(from:firstH,to:lastH))
-        
-        return hours
-    }
-    
-    func allHours(#from:Int,to:Int) -> [Int]{
-        var correctedTo = to
-        if from > to{
-            correctedTo = to + 24
-        }
-        var hours = [Int]()
-        for h in from..<correctedTo{
-            hours.append(h)
-        }
-        return hours
-    }
-    
-    func realHour(hourString:String)->Int{
-        if hourString != ""{
-            if hourString == "Midnight"{
-                return 24
-            }
-            
-            if hourString == "Noon"{
-                return 12
-            }
-            
-            if hourString == "24 hours"{
-                return 0
-            }
-            
-            let isPM = hourString.rangeOfString("PM") != nil
-            let h = hourString.componentsSeparatedByString(":")[0].toInt()!
-            
-            if isPM{
-                return h + 12
-            }else{
-                return h
-            }
-        }else{
-            return 25
-        }
-    }
-    
     private func insertReservationPlace(json:NSDictionary,inPlace place:PFObject,completion:(Bool)->Void){
         
         let name = place["name"] as? String
@@ -765,12 +615,13 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         
         let myPlace = PFObject(className: "Place")
         myPlace["name"] = tempToast["placeName"]
+        myPlace["topToastCount"] = 0
         
         if let myPlaceID = tempToast["placeId"] as? String{
             myPlace["foursquarePlaceId"] = myPlaceID
             
             Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/"+myPlaceID+"?&client_id="+self.foursquareClientId+"&client_secret="+self.foursquareClientSecret+"&v=20150207&locale=en").responseJSON(options:nil, completionHandler: { (request, response, JSON, error) -> Void in
-                
+
                 if error == nil{
                     
                     if let imResponse = ((JSON as! NSDictionary)["response"] as? NSDictionary){

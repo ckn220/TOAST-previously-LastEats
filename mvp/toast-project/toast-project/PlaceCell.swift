@@ -82,6 +82,8 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
             if photos.count > 0{
                 let firstPhotoURL = (myPlace!["photos"] as! [String])[0]
                 myBackgroundView.setImage(URL: firstPhotoURL)
+            }else{
+                myBackgroundView.myImageView.image = nil
             }
         }
     }
@@ -148,13 +150,9 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     private func configureToastCount(toasts:[PFObject]){
-        let toastCount = countFriendsToast(toasts)
-        if toastCount > 0{
-            var friendText = "Friends"
-            if toastCount == 1{
-                friendText = "Friend"
-            }
-            toastCountLabel.text = "\(toastCount) \(friendText) Toast"
+        let toastCount = toasts.count
+        if toastCount > 1{
+            toastCountLabel.text = "\(toastCount) toasts"
             toggleAlpha(alpha: 1, views: reviewsTableView,toastCountView)
         }else{
             toggleAlpha(alpha: 1, views: reviewsTableView)

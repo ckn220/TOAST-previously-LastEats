@@ -257,8 +257,11 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
     
     //MARK: - LinkTextView delegate methods
     func linkTextView(linkTextView: CCHLinkTextView!, didTapLinkWithValue value: AnyObject!) {
+        let rawHashtag = value as! String
+        let cleanedHashtag = HashtagsManager.cleanHashtag(rawHashtag)
+        
         let destination = storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
-        destination.myHashtagName = value as? String
+        destination.myHashtagName = cleanedHashtag
         self.showViewController(destination, sender: self)
     }
     

@@ -107,23 +107,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func showReview(#toastId:String){
-        PFQuery(className: "Toast").getObjectInBackgroundWithId(toastId, block: { (toast, error) -> Void in
+        
+        PFCloud.callFunctionInBackground("reviewDetailWithToastId", withParameters: ["toastId":toastId]) { (result, error) -> Void in
             if error == nil{
-                let destination = self.reviewDetailScene(toast: toast)
+                let params = result as! NSDictionary
+                let toast = params["toast"] as! PFObject
+                let place = params["place"] as! PFObject
+                
+                let destination = self.reviewDetailScene(toast: toast,place:place)
                 let nav = self.mainNav()
                 nav.pushViewController(destination, animated: true)
-                
             }else{
-                NSLog("%@",error.description)
+                NSLog("showReview error: %@", error.description)
                 self.handleLaunchFromNormal()
             }
-        })
+        }
     }
     
-    private func reviewDetailScene(#toast: PFObject) -> UIViewController {
+    private func reviewDetailScene(#toast: PFObject,place:PFObject) -> UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let destination = storyboard.instantiateViewControllerWithIdentifier("reviewDetailScene") as! ReviewDetailViewController
         destination.myToast = toast
+        destination.titleString = place["name"] as! String
         
         return destination
     }

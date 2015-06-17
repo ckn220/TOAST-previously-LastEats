@@ -88,7 +88,6 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
         }
     }
     
-    
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         myDelegate?.reviewDataSourceDidEndScrolling(contentOffset: scrollView.contentOffset)
     }
