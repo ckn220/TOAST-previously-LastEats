@@ -163,10 +163,11 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
         var words = review.componentsSeparatedByString(" ")
         var finalReview = NSMutableAttributedString(string: "")
         finalReview.appendAttributedString(attributedWord("\""))
-        for k in 0...words.count-1{
+        for (var k=0;k<words.count;k++){
             let word = words[k]
-            finalReview.appendAttributedString(attributedWord(word))
-            if k != 0 && k<words.count-1 {
+            let trimmedWord = word.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            finalReview.appendAttributedString(attributedWord(trimmedWord))
+            if k<words.count-1 {
                 finalReview.appendAttributedString(attributedWord(" "))
             }
         }

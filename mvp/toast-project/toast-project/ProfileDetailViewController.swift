@@ -148,12 +148,14 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     }
     
     private func sortToast(){
-        for k in 0...(toasts.count-1){
-            let toast = toasts![k]
-            if toast.objectId == topToast?.objectId{
+        if topToast != nil{
+            for (var k=0;k<toasts.count;k++){
+                let toast = toasts![k]
+                if toast.objectId == topToast?.objectId{
                 toasts.removeAtIndex(k)
                 toasts.insert(toast, atIndex: 0)
                 break
+                }
             }
         }
     }
@@ -237,13 +239,13 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     
     private func configureFollowerCount(user:PFUser){
         initCountLabel(followersCountLabel)
-        let followerQuery = PFQuery(className: "User")
-        followerQuery.whereKey("follows", equalTo: user)
-        followerQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
+        PFCloud.callFunctionInBackground("likesCountForUser", withParameters: ["userId":user.objectId]) { (results, error) -> Void in
             if error == nil{
-                self.followersCountLabel.text = String(format: "%02d", count)
+                if let count = results as? Int{
+                    self.followersCountLabel.text = String(format: "%02d", count)
+                }
             }else{
-                NSLog("configureFollowerCount error: %@",error.description)
+                NSLog("configureFollowerCount error: ", error.description)
             }
         }
     }

@@ -13,6 +13,7 @@ protocol MainMenuTableDelegate{
     func mainMenuTableMyToastsPressed()
     func mainMenuTableFriendsPressed()
     func mainMenuTableContributePressed()
+    func mainMenuTableContactUsPressed()
 }
 
 class MainMenuTableViewController: UITableViewController {
@@ -75,7 +76,7 @@ class MainMenuTableViewController: UITableViewController {
     }
     
     private func contactUsPressed(){
-        
+        myDelegate?.mainMenuTableContactUsPressed()
     }
     
     private func logoutPressed(){

@@ -625,19 +625,21 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
                 if error == nil{
                     
                     if let imResponse = ((JSON as! NSDictionary)["response"] as? NSDictionary){
-                        let result = imResponse["venue"] as! NSDictionary
-                        
-                        self.insertLocation(result, inPlace: myPlace)
-                        self.insertPhone(result, inPlace: myPlace)
-                        self.insertPrice(result, inPlace: myPlace)
-                        self.insertCategory(result, inPlace: myPlace)
-                        self.insertFoursquarePicture(result, inPlace: myPlace)
-                        self.insertMenuLink(result, inPlace: myPlace)
-                        self.insertWebsite(result, inPlace: myPlace)
-                        //self.insertSchedule(result, inPlace: myPlace)
-                        self.insertReservationPlace(result, inPlace: myPlace){(success) -> Void in
-                            self.insertPlace(myPlace)
+                        if let result = imResponse["venue"] as? NSDictionary{
+                            self.insertLocation(result, inPlace: myPlace)
+                            self.insertPhone(result, inPlace: myPlace)
+                            self.insertPrice(result, inPlace: myPlace)
+                            self.insertCategory(result, inPlace: myPlace)
+                            self.insertFoursquarePicture(result, inPlace: myPlace)
+                            self.insertMenuLink(result, inPlace: myPlace)
+                            self.insertWebsite(result, inPlace: myPlace)
+                            self.insertReservationPlace(result, inPlace: myPlace){(success) -> Void in
+                                self.insertPlace(myPlace)
+                            }
+                        }else{
+                            self.showErrorAlert()
                         }
+
                     }else{
                         self.showErrorAlert()
                     }

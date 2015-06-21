@@ -181,10 +181,12 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
             if error == nil{
                 if let imResponse = ((JSON as! NSDictionary)["response"] as? NSDictionary){
                     let result = imResponse["venue"] as! NSDictionary
-                    let hours = result["hours"] as! NSDictionary
-                    let status = hours["status"] as! String
+                    if let hours = result["hours"] as? NSDictionary{
+                        let status = hours["status"] as! String
+                        
+                        self.hoursLabel.text = status
+                    }
                     
-                    self.hoursLabel.text = status
                 }
             }else{
                 NSLog("configureHours error: %@",error!.description)

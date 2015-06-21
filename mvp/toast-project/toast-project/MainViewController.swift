@@ -8,8 +8,9 @@
 
 import UIKit
 import Parse
+import MessageUI
 
-class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegate, UIGestureRecognizerDelegate {
+class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegate, UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate {
 
     @IBOutlet var myPanGestureRecognizer: UIPanGestureRecognizer!
     @IBOutlet weak var menuContainerView: UIView!
@@ -20,6 +21,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     var discoverBehavior: UIDynamicItemBehavior?
     
     var mainNav:UINavigationController?
+    var mailScene:MFMailComposeViewController!
     
     var isOpen = false
     var totalOffset:CGFloat = 0
@@ -222,6 +224,18 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         self.showDetailViewController(contributeScene, sender: nil)
     }
     
+    func mainMenuTableContactUsPressed() {
+        closeMenu()
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            self.mailScene = MFMailComposeViewController()
+            self.mailScene.setToRecipients(["colin.narver@gmail.com"])
+            self.mailScene.setSubject("Toast Support")
+            self.mailScene.mailComposeDelegate = self
+            self.presentViewController(self.mailScene, animated: true, completion: nil)
+        }
+        
+    }
+    
     private func changeMainTo(newVC:UIViewController){
         mainNav?.setViewControllers([newVC], animated: false)
         closeMenu()
@@ -229,5 +243,10 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     
     private func closeMenu(){
         discoverMenuPressed()
+    }
+    
+    //MARK: - MailComposer delegate methods
+    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
     }
 }

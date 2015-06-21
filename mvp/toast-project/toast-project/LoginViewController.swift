@@ -126,7 +126,10 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
                 
                 imUser["name"] = myResult["name"]
                 imUser["facebookId"] = myResult["id"]
-                imUser["email"] = myResult["email"]
+                if let email = myResult["email"] as? String{
+                    imUser["email"] = myResult["email"]
+                }
+                
             }
             else {
                 NSLog("getFacebookDetails error: %@", error.description)

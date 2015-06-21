@@ -57,15 +57,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.LoginViewController.(getProfilePicture (toast_project.LoginViewController) -&gt; (url : Swift.String, isFB : Swift.Bool) -&gt; ()).(closure #1):LoginViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "request.URL.absoluteString">
-            </PersistentString>
-            <PersistentString
-               value = "PFUser.currentUser()">
-            </PersistentString>
-         </PersistentStrings>
+         contextName = "toast_project.Contribute2TableViewController.insertFoursquarePicture (toast_project.Contribute2TableViewController)(ObjectiveC.NSDictionary, inPlace : ObjectiveC.PFObject) -&gt; ():Contribute2TableViewController.swift">
       </ContextState>
       <ContextState
          contextName = "toast_project.Contribute1TableViewController.tableView (toast_project.Contribute1TableViewController)(ObjectiveC.UITableView, cellForRowAtIndexPath : ObjectiveC.NSIndexPath) -&gt; ObjectiveC.UITableViewCell:Contribute1TableViewController.swift">
@@ -188,13 +180,13 @@
          contextName = "toast_project.PlaceDetailViewController.reservePressed (toast_project.PlaceDetailViewController)(ObjectiveC.UIButton) -&gt; ():PlaceDetailViewController.swift">
          <PersistentStrings>
             <PersistentString
+               value = "myPlace![&quot;name&quot;] as String">
+            </PersistentString>
+            <PersistentString
                value = "myPlace![&quot;address&quot;] as String">
             </PersistentString>
             <PersistentString
                value = "myPlace![&quot;postalCode&quot;] as String">
-            </PersistentString>
-            <PersistentString
-               value = "myPlace![&quot;name&quot;] as String">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -263,6 +255,14 @@
          <PersistentStrings>
             <PersistentString
                value = "PFUser.currentUser()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "toast_project.AppDelegate.((showReview in _4898A4B271C046CF270AFAF637024DDC) (toast_project.AppDelegate) -&gt; (toastId : Swift.String) -&gt; ()).(closure #1):AppDelegate.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "result as! NSArray">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -471,7 +471,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "toast_project.Contribute2TableViewController.insertFoursquarePicture (toast_project.Contribute2TableViewController)(ObjectiveC.NSDictionary, inPlace : ObjectiveC.PFObject) -&gt; ():Contribute2TableViewController.swift">
+         contextName = "toast_project.LoginViewController.(getProfilePicture (toast_project.LoginViewController) -&gt; (url : Swift.String, isFB : Swift.Bool) -&gt; ()).(closure #1):LoginViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "request.URL.absoluteString">
+            </PersistentString>
+            <PersistentString
+               value = "PFUser.currentUser()">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>

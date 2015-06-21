@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         configure(application: application)
         handleLaunch(launchOptions)
-
+        
         return true
     }
     
@@ -134,8 +134,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func mainNav() -> UINavigationController {
-        let mainScene = window?.rootViewController as! MainViewController
-        return mainScene.mainNav!
+        if let mainScene = window!.rootViewController as? MainViewController{
+            return mainScene.mainNav!
+        }else{
+            goToDiscover()
+            return mainNav()
+        }
     }
     
     private func handleLaunchFromNormal(){

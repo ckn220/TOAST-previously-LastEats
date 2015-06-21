@@ -178,6 +178,7 @@
 		08C2E8D41A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */; };
 		08C993831ABC4AC900692721 /* ReviewDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C993821ABC4AC900692721 /* ReviewDetailViewController.swift */; };
 		08C993871ABCAAC700692721 /* ReviewerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C993861ABCAAC700692721 /* ReviewerButton.swift */; };
+		08D474481B36FF4200A8F571 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08D474471B36FF4200A8F571 /* MessageUI.framework */; };
 		08D5E1891B2D36BE00DD8CED /* MainMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D5E1881B2D36BE00DD8CED /* MainMenuTableView.swift */; };
 		08D6D1031ABE565B0013C045 /* MyLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D6D1021ABE565B0013C045 /* MyLocationManager.swift */; };
 		08DB82481A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DB82471A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift */; };
@@ -522,6 +523,7 @@
 		08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		08C993821ABC4AC900692721 /* ReviewDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewDetailViewController.swift; sourceTree = "<group>"; };
 		08C993861ABCAAC700692721 /* ReviewerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewerButton.swift; sourceTree = "<group>"; };
+		08D474471B36FF4200A8F571 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		08D5E1881B2D36BE00DD8CED /* MainMenuTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuTableView.swift; sourceTree = "<group>"; };
 		08D6D1021ABE565B0013C045 /* MyLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLocationManager.swift; sourceTree = "<group>"; };
 		08DB82471A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoodsHeaderTableViewCell.swift; sourceTree = "<group>"; };
@@ -571,6 +573,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08D474481B36FF4200A8F571 /* MessageUI.framework in Frameworks */,
 				081420751AAB895B003BEA9E /* AddressBook.framework in Frameworks */,
 				0822564F1B02595D00511527 /* Alamofire.framework in Frameworks */,
 				0801937E1A8E3EBC00CAA770 /* MapKit.framework in Frameworks */,
@@ -777,6 +780,7 @@
 		08363FAD1A5779A9007A6827 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08D474471B36FF4200A8F571 /* MessageUI.framework */,
 				081420741AAB895B003BEA9E /* AddressBook.framework */,
 				0801937D1A8E3EBC00CAA770 /* MapKit.framework */,
 				08F85AE61A8D5F0300C01CC9 /* AVFoundation.framework */,
