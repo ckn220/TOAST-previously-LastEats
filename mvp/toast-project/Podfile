@@ -1,0 +1,16 @@
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, "8.0"
+use_frameworks!
+
+target 'toast-project' do
+
+pod 'Alamofire', '~> 1.2'
+pod 'HanekeSwift'
+pod 'CCHLinkTextView'
+
+end
+
+target 'toast-projectTests' do
+
+end
+

@@ -1,0 +1,16 @@
+PODS:
+  - Alamofire (1.2.3)
+  - CCHLinkTextView (1.2.0)
+  - HanekeSwift (0.9.1)
+
+DEPENDENCIES:
+  - Alamofire (~> 1.2)
+  - CCHLinkTextView
+  - HanekeSwift
+
+SPEC CHECKSUMS:
+  Alamofire: 5550bf0b575ed1a4bf9be572f9463e1015cc169e
+  CCHLinkTextView: bfe688e0b7d34088375a466524158765832f7657
+  HanekeSwift: 50d37bfbc4432edc649167e538c259feccb4a2bb
+
+COCOAPODS: 0.37.2

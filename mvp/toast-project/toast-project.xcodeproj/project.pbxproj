@@ -15,15 +15,9 @@
 		08059CF01ABE40B0004A5A78 /* DiscoverDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08059CEF1ABE40B0004A5A78 /* DiscoverDataSource.swift */; };
 		08059CF61ABE4112004A5A78 /* DiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08059CF51ABE4112004A5A78 /* DiscoverCell.swift */; };
 		08059CF81ABE41FE004A5A78 /* DiscoverCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08059CF71ABE41FE004A5A78 /* DiscoverCell.xib */; };
-		0812C9661A64651F004A115B /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0812C9641A64651F004A115B /* Model.xcdatamodeld */; };
 		081420751AAB895B003BEA9E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081420741AAB895B003BEA9E /* AddressBook.framework */; };
-		0822564F1B02595D00511527 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0822562E1B0258F600511527 /* Alamofire.framework */; };
-		082256501B02595D00511527 /* Alamofire.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 0822562E1B0258F600511527 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		082256531B02596200511527 /* Haneke.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 082256481B02592300511527 /* Haneke.framework */; };
-		082256541B02596200511527 /* Haneke.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 082256481B02592300511527 /* Haneke.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		082256571B02598700511527 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0822564D1B02594E00511527 /* FacebookSDK.framework */; };
 		08247F661B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 08247F651B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m */; };
-		08255F131A75626B00ABA356 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F101A75626B00ABA356 /* Bolts.framework */; };
 		08255F141A75626B00ABA356 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F111A75626B00ABA356 /* Parse.framework */; };
 		08255F151A75626B00ABA356 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */; };
 		082ED7781B1EA944003F250E /* ReviewDetailHeaders.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082ED7771B1EA944003F250E /* ReviewDetailHeaders.xib */; };
@@ -47,14 +41,11 @@
 		08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08363FB01A577C63007A6827 /* LoginViewController.swift */; };
 		084C145F1AA100B3005FB0E9 /* SearchPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */; };
 		0858BF141AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0858BF131AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift */; };
-		086CFB3E1A73CD4600E321F7 /* LoginInstagramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB3D1A73CD4600E321F7 /* LoginInstagramViewController.swift */; };
 		086E17BA1AFB2CB100964405 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E17B91AFB2CB100964405 /* FriendsListViewController.swift */; };
 		086E17BC1AFB2CC600964405 /* FriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E17BB1AFB2CC600964405 /* FriendCell.swift */; };
 		086E17BE1AFB2CE400964405 /* FriendsListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E17BD1AFB2CE400964405 /* FriendsListDataSource.swift */; };
 		086E17C01AFBB86200964405 /* BlackGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E17BF1AFBB86200964405 /* BlackGradientView.swift */; };
 		086E18211AFF7D0400964405 /* DictionaryHaneke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E18201AFF7D0400964405 /* DictionaryHaneke.swift */; };
-		086E18281B001CEC00964405 /* CCHLinkGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 086E18241B001CEC00964405 /* CCHLinkGestureRecognizer.m */; };
-		086E18291B001CEC00964405 /* CCHLinkTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 086E18261B001CEC00964405 /* CCHLinkTextView.m */; };
 		086E18791B002E4000964405 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 086E18781B002E4000964405 /* Images.xcassets */; };
 		087EA0B41B13C43500BF66A1 /* Alphabet City.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0651B13C43400BF66A1 /* Alphabet City.jpg */; };
 		087EA0B51B13C43500BF66A1 /* Alphabet City@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0661B13C43400BF66A1 /* Alphabet City@2x.jpg */; };
@@ -140,26 +131,11 @@
 		0881884D1AC9645C00559DC8 /* ProfileDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0881884C1AC9645C00559DC8 /* ProfileDetailViewController.swift */; };
 		0881884F1AC9647400559DC8 /* ProfileToastsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0881884E1AC9647400559DC8 /* ProfileToastsDataSource.swift */; };
 		088188511AC9649F00559DC8 /* ProfileToastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088188501AC9649F00559DC8 /* ProfileToastCell.swift */; };
+		089123F01B44D8F400010241 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089123EF1B44D8F400010241 /* Social.framework */; };
+		089123F21B44D8FB00010241 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089123F11B44D8FB00010241 /* Accounts.framework */; };
 		089C52941AD1440400054037 /* PostRelatedPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C52931AD1440400054037 /* PostRelatedPlaceCell.swift */; };
 		089C52961AD15A3100054037 /* PostRelatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C52951AD15A3100054037 /* PostRelatedViewController.swift */; };
 		089C52991AD17E2700054037 /* RelatedPlacesHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 089C52981AD17E2700054037 /* RelatedPlacesHeaderView.xib */; };
-		08B6240C1ADE9CEF00DBC674 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623E81ADE9CEF00DBC674 /* AFHTTPRequestOperation.m */; };
-		08B6240D1ADE9CEF00DBC674 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623EA1ADE9CEF00DBC674 /* AFHTTPRequestOperationManager.m */; };
-		08B6240E1ADE9CEF00DBC674 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623EC1ADE9CEF00DBC674 /* AFHTTPSessionManager.m */; };
-		08B6240F1ADE9CEF00DBC674 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623EF1ADE9CEF00DBC674 /* AFNetworkReachabilityManager.m */; };
-		08B624101ADE9CEF00DBC674 /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623F11ADE9CEF00DBC674 /* AFSecurityPolicy.m */; };
-		08B624111ADE9CEF00DBC674 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623F31ADE9CEF00DBC674 /* AFURLConnectionOperation.m */; };
-		08B624121ADE9CEF00DBC674 /* AFURLRequestSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623F51ADE9CEF00DBC674 /* AFURLRequestSerialization.m */; };
-		08B624131ADE9CEF00DBC674 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623F71ADE9CEF00DBC674 /* AFURLResponseSerialization.m */; };
-		08B624141ADE9CEF00DBC674 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623F91ADE9CEF00DBC674 /* AFURLSessionManager.m */; };
-		08B624151ADE9CEF00DBC674 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623FC1ADE9CEF00DBC674 /* AFNetworkActivityIndicatorManager.m */; };
-		08B624161ADE9CEF00DBC674 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B623FE1ADE9CEF00DBC674 /* UIActivityIndicatorView+AFNetworking.m */; };
-		08B624171ADE9CEF00DBC674 /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B624001ADE9CEF00DBC674 /* UIAlertView+AFNetworking.m */; };
-		08B624181ADE9CEF00DBC674 /* UIButton+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B624021ADE9CEF00DBC674 /* UIButton+AFNetworking.m */; };
-		08B624191ADE9CEF00DBC674 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B624041ADE9CEF00DBC674 /* UIImageView+AFNetworking.m */; };
-		08B6241A1ADE9CEF00DBC674 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B624071ADE9CEF00DBC674 /* UIProgressView+AFNetworking.m */; };
-		08B6241B1ADE9CEF00DBC674 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B624091ADE9CEF00DBC674 /* UIRefreshControl+AFNetworking.m */; };
-		08B6241C1ADE9CEF00DBC674 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B6240B1ADE9CEF00DBC674 /* UIWebView+AFNetworking.m */; };
 		08B905E71AA14A29009F3B21 /* ToastMoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */; };
 		08B905EB1AA14AB1009F3B21 /* ToastHashtagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */; };
 		08B905ED1AA1E8D6009F3B21 /* HashtagsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */; };
@@ -207,72 +183,10 @@
 		08F85AE71A8D5F0300C01CC9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08F85AE61A8D5F0300C01CC9 /* AVFoundation.framework */; };
 		08F85AEA1A8E395900C01CC9 /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F85AE91A8E395900C01CC9 /* PlaceDetailViewController.swift */; };
 		08F85AEC1A8E397000C01CC9 /* PlaceDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F85AEB1A8E397000C01CC9 /* PlaceDetailTableViewController.swift */; };
+		834D241378344AD3EBB11161 /* Pods_toast_project.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4DD8D16F36DEEDB6CE0D2B /* Pods_toast_project.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0822562D1B0258F600511527 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 082256261B0258F600511527 /* Alamofire.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F8111E3319A95C8B0040E7D1;
-			remoteInfo = "Alamofire iOS";
-		};
-		0822562F1B0258F600511527 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 082256261B0258F600511527 /* Alamofire.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4DD67C0B1A5C55C900ED2280;
-			remoteInfo = "Alamofire OSX";
-		};
-		082256311B0258F600511527 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 082256261B0258F600511527 /* Alamofire.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F8111E3E19A95C8B0040E7D1;
-			remoteInfo = "Alamofire iOS Tests";
-		};
-		082256331B0258F600511527 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 082256261B0258F600511527 /* Alamofire.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F829C6B21A7A94F100A2CD59;
-			remoteInfo = "Alamofire OSX Tests";
-		};
-		082256471B02592300511527 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 082256411B02592300511527 /* Haneke.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A095C9561980418C00CD0F4C;
-			remoteInfo = Haneke;
-		};
-		082256491B02592300511527 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 082256411B02592300511527 /* Haneke.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A095C9611980418C00CD0F4C;
-			remoteInfo = HanekeTests;
-		};
-		0822564B1B02592300511527 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 082256411B02592300511527 /* Haneke.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = A0026E9A19C9BFBC004DE0C6;
-			remoteInfo = HanekeDemo;
-		};
-		082256511B02595D00511527 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 082256261B0258F600511527 /* Alamofire.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = F8111E3219A95C8B0040E7D1;
-			remoteInfo = "Alamofire iOS";
-		};
-		082256551B02596200511527 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 082256411B02592300511527 /* Haneke.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A095C9551980418C00CD0F4C;
-			remoteInfo = Haneke;
-		};
 		08363F841A5778E4007A6827 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 08363F661A5778E4007A6827 /* Project object */;
@@ -289,8 +203,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				082256541B02596200511527 /* Haneke.framework in Copy Frameworks */,
-				082256501B02595D00511527 /* Alamofire.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,15 +227,10 @@
 		08059CEF1ABE40B0004A5A78 /* DiscoverDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverDataSource.swift; sourceTree = "<group>"; };
 		08059CF51ABE4112004A5A78 /* DiscoverCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverCell.swift; sourceTree = "<group>"; };
 		08059CF71ABE41FE004A5A78 /* DiscoverCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscoverCell.xib; sourceTree = "<group>"; };
-		0812C9261A645C03004A115B /* toast-project-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "toast-project-Bridging-Header.h"; sourceTree = "<group>"; };
-		0812C9651A64651F004A115B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		081420741AAB895B003BEA9E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		082256261B0258F600511527 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = ../Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
-		082256411B02592300511527 /* Haneke.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Haneke.xcodeproj; path = ../HanekeSwift/Haneke.xcodeproj; sourceTree = "<group>"; };
 		0822564D1B02594E00511527 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		08247F641B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
 		08247F651B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
-		08255F101A75626B00ABA356 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		08255F111A75626B00ABA356 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		082ED7771B1EA944003F250E /* ReviewDetailHeaders.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewDetailHeaders.xib; sourceTree = "<group>"; };
@@ -351,17 +258,11 @@
 		08363FB01A577C63007A6827 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPlaceViewController.swift; sourceTree = "<group>"; };
 		0858BF131AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewDataSource.swift; sourceTree = "<group>"; };
-		086CFB3D1A73CD4600E321F7 /* LoginInstagramViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInstagramViewController.swift; sourceTree = "<group>"; };
 		086E17B91AFB2CB100964405 /* FriendsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
 		086E17BB1AFB2CC600964405 /* FriendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendCell.swift; sourceTree = "<group>"; };
 		086E17BD1AFB2CE400964405 /* FriendsListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListDataSource.swift; sourceTree = "<group>"; };
 		086E17BF1AFBB86200964405 /* BlackGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlackGradientView.swift; sourceTree = "<group>"; };
 		086E18201AFF7D0400964405 /* DictionaryHaneke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryHaneke.swift; sourceTree = "<group>"; };
-		086E18231B001CEC00964405 /* CCHLinkGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCHLinkGestureRecognizer.h; sourceTree = "<group>"; };
-		086E18241B001CEC00964405 /* CCHLinkGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCHLinkGestureRecognizer.m; sourceTree = "<group>"; };
-		086E18251B001CEC00964405 /* CCHLinkTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCHLinkTextView.h; sourceTree = "<group>"; };
-		086E18261B001CEC00964405 /* CCHLinkTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCHLinkTextView.m; sourceTree = "<group>"; };
-		086E18271B001CEC00964405 /* CCHLinkTextViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCHLinkTextViewDelegate.h; sourceTree = "<group>"; };
 		086E18781B002E4000964405 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		087EA0651B13C43400BF66A1 /* Alphabet City.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City.jpg"; sourceTree = "<group>"; };
 		087EA0661B13C43400BF66A1 /* Alphabet City@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@2x.jpg"; sourceTree = "<group>"; };
@@ -447,45 +348,12 @@
 		0881884C1AC9645C00559DC8 /* ProfileDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileDetailViewController.swift; sourceTree = "<group>"; };
 		0881884E1AC9647400559DC8 /* ProfileToastsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileToastsDataSource.swift; sourceTree = "<group>"; };
 		088188501AC9649F00559DC8 /* ProfileToastCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileToastCell.swift; sourceTree = "<group>"; };
+		089123EE1B44D12500010241 /* toast-project-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "toast-project-Bridging-Header.h"; sourceTree = "<group>"; };
+		089123EF1B44D8F400010241 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		089123F11B44D8FB00010241 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		089C52931AD1440400054037 /* PostRelatedPlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRelatedPlaceCell.swift; sourceTree = "<group>"; };
 		089C52951AD15A3100054037 /* PostRelatedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRelatedViewController.swift; sourceTree = "<group>"; };
 		089C52981AD17E2700054037 /* RelatedPlacesHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelatedPlacesHeaderView.xib; sourceTree = "<group>"; };
-		08B623E71ADE9CEF00DBC674 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
-		08B623E81ADE9CEF00DBC674 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
-		08B623E91ADE9CEF00DBC674 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
-		08B623EA1ADE9CEF00DBC674 /* AFHTTPRequestOperationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperationManager.m; sourceTree = "<group>"; };
-		08B623EB1ADE9CEF00DBC674 /* AFHTTPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPSessionManager.h; sourceTree = "<group>"; };
-		08B623EC1ADE9CEF00DBC674 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
-		08B623ED1ADE9CEF00DBC674 /* AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworking.h; sourceTree = "<group>"; };
-		08B623EE1ADE9CEF00DBC674 /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
-		08B623EF1ADE9CEF00DBC674 /* AFNetworkReachabilityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkReachabilityManager.m; sourceTree = "<group>"; };
-		08B623F01ADE9CEF00DBC674 /* AFSecurityPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFSecurityPolicy.h; sourceTree = "<group>"; };
-		08B623F11ADE9CEF00DBC674 /* AFSecurityPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFSecurityPolicy.m; sourceTree = "<group>"; };
-		08B623F21ADE9CEF00DBC674 /* AFURLConnectionOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLConnectionOperation.h; sourceTree = "<group>"; };
-		08B623F31ADE9CEF00DBC674 /* AFURLConnectionOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLConnectionOperation.m; sourceTree = "<group>"; };
-		08B623F41ADE9CEF00DBC674 /* AFURLRequestSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLRequestSerialization.h; sourceTree = "<group>"; };
-		08B623F51ADE9CEF00DBC674 /* AFURLRequestSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLRequestSerialization.m; sourceTree = "<group>"; };
-		08B623F61ADE9CEF00DBC674 /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
-		08B623F71ADE9CEF00DBC674 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
-		08B623F81ADE9CEF00DBC674 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
-		08B623F91ADE9CEF00DBC674 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
-		08B623FB1ADE9CEF00DBC674 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
-		08B623FC1ADE9CEF00DBC674 /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
-		08B623FD1ADE9CEF00DBC674 /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
-		08B623FE1ADE9CEF00DBC674 /* UIActivityIndicatorView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActivityIndicatorView+AFNetworking.m"; sourceTree = "<group>"; };
-		08B623FF1ADE9CEF00DBC674 /* UIAlertView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+AFNetworking.h"; sourceTree = "<group>"; };
-		08B624001ADE9CEF00DBC674 /* UIAlertView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+AFNetworking.m"; sourceTree = "<group>"; };
-		08B624011ADE9CEF00DBC674 /* UIButton+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+AFNetworking.h"; sourceTree = "<group>"; };
-		08B624021ADE9CEF00DBC674 /* UIButton+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+AFNetworking.m"; sourceTree = "<group>"; };
-		08B624031ADE9CEF00DBC674 /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
-		08B624041ADE9CEF00DBC674 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
-		08B624051ADE9CEF00DBC674 /* UIKit+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIKit+AFNetworking.h"; sourceTree = "<group>"; };
-		08B624061ADE9CEF00DBC674 /* UIProgressView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIProgressView+AFNetworking.h"; sourceTree = "<group>"; };
-		08B624071ADE9CEF00DBC674 /* UIProgressView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIProgressView+AFNetworking.m"; sourceTree = "<group>"; };
-		08B624081ADE9CEF00DBC674 /* UIRefreshControl+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIRefreshControl+AFNetworking.h"; sourceTree = "<group>"; };
-		08B624091ADE9CEF00DBC674 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
-		08B6240A1ADE9CEF00DBC674 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
-		08B6240B1ADE9CEF00DBC674 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastMoodCell.xib; sourceTree = "<group>"; };
 		08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastHashtagCell.xib; sourceTree = "<group>"; };
 		08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagsManager.swift; sourceTree = "<group>"; };
@@ -536,6 +404,9 @@
 		08F85AE61A8D5F0300C01CC9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		08F85AE91A8E395900C01CC9 /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
 		08F85AEB1A8E397000C01CC9 /* PlaceDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceDetailTableViewController.swift; sourceTree = "<group>"; };
+		DB4DD8D16F36DEEDB6CE0D2B /* Pods_toast_project.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toast_project.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E97FBB2853D08937AD878E21 /* Pods-toast-project.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toast-project.release.xcconfig"; path = "Pods/Target Support Files/Pods-toast-project/Pods-toast-project.release.xcconfig"; sourceTree = "<group>"; };
+		F052614694CAF4FF5737192E /* Pods-toast-project.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toast-project.debug.xcconfig"; path = "Pods/Target Support Files/Pods-toast-project/Pods-toast-project.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -543,9 +414,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				089123F21B44D8FB00010241 /* Accounts.framework in Frameworks */,
+				089123F01B44D8F400010241 /* Social.framework in Frameworks */,
 				08D474481B36FF4200A8F571 /* MessageUI.framework in Frameworks */,
 				081420751AAB895B003BEA9E /* AddressBook.framework in Frameworks */,
-				0822564F1B02595D00511527 /* Alamofire.framework in Frameworks */,
 				0801937E1A8E3EBC00CAA770 /* MapKit.framework in Frameworks */,
 				08F85AE71A8D5F0300C01CC9 /* AVFoundation.framework in Frameworks */,
 				08363FAC1A57799C007A6827 /* libsqlite3.dylib in Frameworks */,
@@ -555,14 +427,13 @@
 				082256571B02598700511527 /* FacebookSDK.framework in Frameworks */,
 				08363FA21A577962007A6827 /* QuartzCore.framework in Frameworks */,
 				08363FA01A57795A007A6827 /* MobileCoreServices.framework in Frameworks */,
-				08255F131A75626B00ABA356 /* Bolts.framework in Frameworks */,
 				08255F151A75626B00ABA356 /* ParseFacebookUtils.framework in Frameworks */,
 				08363F9E1A577952007A6827 /* CoreLocation.framework in Frameworks */,
 				08363F9C1A577949007A6827 /* CoreGraphics.framework in Frameworks */,
 				08255F141A75626B00ABA356 /* Parse.framework in Frameworks */,
 				08363F9A1A57793F007A6827 /* CFNetwork.framework in Frameworks */,
 				08363F981A577938007A6827 /* AudioToolbox.framework in Frameworks */,
-				082256531B02596200511527 /* Haneke.framework in Frameworks */,
+				834D241378344AD3EBB11161 /* Pods_toast_project.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,15 +484,9 @@
 			isa = PBXGroup;
 			children = (
 				08EB0C0E1B04F1A2002143DE /* UIImageEffects */,
-				086E18221B001CEC00964405 /* CCHLinkTextView */,
-				08B623E61ADE9CEF00DBC674 /* AFNetworking */,
-				08B623FA1ADE9CEF00DBC674 /* UIKit+AFNetworking */,
 				08EDB10B1AA0010200D94CF7 /* iCarousel */,
 				080193821A8FE43F00CAA770 /* Booking API */,
-				082256261B0258F600511527 /* Alamofire.xcodeproj */,
-				0812C9261A645C03004A115B /* toast-project-Bridging-Header.h */,
 				08D6D1021ABE565B0013C045 /* MyLocationManager.swift */,
-				082256411B02592300511527 /* Haneke.xcodeproj */,
 				08E38FF31AF5025B002736A2 /* ArrayHaneke.swift */,
 				086E18201AFF7D0400964405 /* DictionaryHaneke.swift */,
 				086E17BF1AFBB86200964405 /* BlackGradientView.swift */,
@@ -630,35 +495,6 @@
 				08EB0C601B0665E2002143DE /* ToastLogo.swift */,
 			);
 			path = General;
-			sourceTree = "<group>";
-		};
-		0812C9631A646510004A115B /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				0812C9641A64651F004A115B /* Model.xcdatamodeld */,
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
-		082256271B0258F600511527 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0822562E1B0258F600511527 /* Alamofire.framework */,
-				082256301B0258F600511527 /* Alamofire.framework */,
-				082256321B0258F600511527 /* Alamofire iOS Tests.xctest */,
-				082256341B0258F600511527 /* Alamofire OSX Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		082256421B02592300511527 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				082256481B02592300511527 /* Haneke.framework */,
-				0822564A1B02592300511527 /* HanekeTests.xctest */,
-				0822564C1B02592300511527 /* HanekeDemo.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		08247F6C1B16243900E5CC24 /* ReviewAccesoryView */ = {
@@ -688,6 +524,7 @@
 				08363F701A5778E4007A6827 /* toast-project */,
 				08363F861A5778E4007A6827 /* toast-projectTests */,
 				08363F6F1A5778E4007A6827 /* Products */,
+				EBAF27ABADF95CA51F6460B8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -703,7 +540,7 @@
 		08363F701A5778E4007A6827 /* toast-project */ = {
 			isa = PBXGroup;
 			children = (
-				0812C9631A646510004A115B /* CoreData */,
+				089123EE1B44D12500010241 /* toast-project-Bridging-Header.h */,
 				0812C9251A645BDD004A115B /* General */,
 				08B425D21A7C492E00A72C95 /* Discover */,
 				08F838901A87C81400CFCAEF /* Toasts */,
@@ -749,11 +586,12 @@
 		08363FAD1A5779A9007A6827 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				089123F11B44D8FB00010241 /* Accounts.framework */,
+				089123EF1B44D8F400010241 /* Social.framework */,
 				08D474471B36FF4200A8F571 /* MessageUI.framework */,
 				081420741AAB895B003BEA9E /* AddressBook.framework */,
 				0801937D1A8E3EBC00CAA770 /* MapKit.framework */,
 				08F85AE61A8D5F0300C01CC9 /* AVFoundation.framework */,
-				08255F101A75626B00ABA356 /* Bolts.framework */,
 				0822564D1B02594E00511527 /* FacebookSDK.framework */,
 				08255F111A75626B00ABA356 /* Parse.framework */,
 				08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */,
@@ -767,6 +605,7 @@
 				08363F9B1A577949007A6827 /* CoreGraphics.framework */,
 				08363F991A57793F007A6827 /* CFNetwork.framework */,
 				08363F971A577938007A6827 /* AudioToolbox.framework */,
+				DB4DD8D16F36DEEDB6CE0D2B /* Pods_toast_project.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -776,7 +615,6 @@
 			children = (
 				08EDB0FA1A9D070800D94CF7 /* Views */,
 				08363FB01A577C63007A6827 /* LoginViewController.swift */,
-				086CFB3D1A73CD4600E321F7 /* LoginInstagramViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -821,18 +659,6 @@
 				086E17BD1AFB2CE400964405 /* FriendsListDataSource.swift */,
 			);
 			path = FriendsList;
-			sourceTree = "<group>";
-		};
-		086E18221B001CEC00964405 /* CCHLinkTextView */ = {
-			isa = PBXGroup;
-			children = (
-				086E18231B001CEC00964405 /* CCHLinkGestureRecognizer.h */,
-				086E18241B001CEC00964405 /* CCHLinkGestureRecognizer.m */,
-				086E18251B001CEC00964405 /* CCHLinkTextView.h */,
-				086E18261B001CEC00964405 /* CCHLinkTextView.m */,
-				086E18271B001CEC00964405 /* CCHLinkTextViewDelegate.h */,
-			);
-			path = CCHLinkTextView;
 			sourceTree = "<group>";
 		};
 		087EA0641B13C43400BF66A1 /* neighBGs */ = {
@@ -984,56 +810,6 @@
 			path = Discover;
 			sourceTree = "<group>";
 		};
-		08B623E61ADE9CEF00DBC674 /* AFNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				08B623E71ADE9CEF00DBC674 /* AFHTTPRequestOperation.h */,
-				08B623E81ADE9CEF00DBC674 /* AFHTTPRequestOperation.m */,
-				08B623E91ADE9CEF00DBC674 /* AFHTTPRequestOperationManager.h */,
-				08B623EA1ADE9CEF00DBC674 /* AFHTTPRequestOperationManager.m */,
-				08B623EB1ADE9CEF00DBC674 /* AFHTTPSessionManager.h */,
-				08B623EC1ADE9CEF00DBC674 /* AFHTTPSessionManager.m */,
-				08B623ED1ADE9CEF00DBC674 /* AFNetworking.h */,
-				08B623EE1ADE9CEF00DBC674 /* AFNetworkReachabilityManager.h */,
-				08B623EF1ADE9CEF00DBC674 /* AFNetworkReachabilityManager.m */,
-				08B623F01ADE9CEF00DBC674 /* AFSecurityPolicy.h */,
-				08B623F11ADE9CEF00DBC674 /* AFSecurityPolicy.m */,
-				08B623F21ADE9CEF00DBC674 /* AFURLConnectionOperation.h */,
-				08B623F31ADE9CEF00DBC674 /* AFURLConnectionOperation.m */,
-				08B623F41ADE9CEF00DBC674 /* AFURLRequestSerialization.h */,
-				08B623F51ADE9CEF00DBC674 /* AFURLRequestSerialization.m */,
-				08B623F61ADE9CEF00DBC674 /* AFURLResponseSerialization.h */,
-				08B623F71ADE9CEF00DBC674 /* AFURLResponseSerialization.m */,
-				08B623F81ADE9CEF00DBC674 /* AFURLSessionManager.h */,
-				08B623F91ADE9CEF00DBC674 /* AFURLSessionManager.m */,
-			);
-			path = AFNetworking;
-			sourceTree = "<group>";
-		};
-		08B623FA1ADE9CEF00DBC674 /* UIKit+AFNetworking */ = {
-			isa = PBXGroup;
-			children = (
-				08B623FB1ADE9CEF00DBC674 /* AFNetworkActivityIndicatorManager.h */,
-				08B623FC1ADE9CEF00DBC674 /* AFNetworkActivityIndicatorManager.m */,
-				08B623FD1ADE9CEF00DBC674 /* UIActivityIndicatorView+AFNetworking.h */,
-				08B623FE1ADE9CEF00DBC674 /* UIActivityIndicatorView+AFNetworking.m */,
-				08B623FF1ADE9CEF00DBC674 /* UIAlertView+AFNetworking.h */,
-				08B624001ADE9CEF00DBC674 /* UIAlertView+AFNetworking.m */,
-				08B624011ADE9CEF00DBC674 /* UIButton+AFNetworking.h */,
-				08B624021ADE9CEF00DBC674 /* UIButton+AFNetworking.m */,
-				08B624031ADE9CEF00DBC674 /* UIImageView+AFNetworking.h */,
-				08B624041ADE9CEF00DBC674 /* UIImageView+AFNetworking.m */,
-				08B624051ADE9CEF00DBC674 /* UIKit+AFNetworking.h */,
-				08B624061ADE9CEF00DBC674 /* UIProgressView+AFNetworking.h */,
-				08B624071ADE9CEF00DBC674 /* UIProgressView+AFNetworking.m */,
-				08B624081ADE9CEF00DBC674 /* UIRefreshControl+AFNetworking.h */,
-				08B624091ADE9CEF00DBC674 /* UIRefreshControl+AFNetworking.m */,
-				08B6240A1ADE9CEF00DBC674 /* UIWebView+AFNetworking.h */,
-				08B6240B1ADE9CEF00DBC674 /* UIWebView+AFNetworking.m */,
-			);
-			path = "UIKit+AFNetworking";
-			sourceTree = "<group>";
-		};
 		08C1FDE21AE32448009F1FB8 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
@@ -1168,6 +944,15 @@
 			path = "Place Detail";
 			sourceTree = "<group>";
 		};
+		EBAF27ABADF95CA51F6460B8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F052614694CAF4FF5737192E /* Pods-toast-project.debug.xcconfig */,
+				E97FBB2853D08937AD878E21 /* Pods-toast-project.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1175,17 +960,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 08363F8D1A5778E4007A6827 /* Build configuration list for PBXNativeTarget "toast-project" */;
 			buildPhases = (
+				E251A11E1983CBD0D09E641C /* Check Pods Manifest.lock */,
 				08363F6A1A5778E4007A6827 /* Sources */,
 				08363F6B1A5778E4007A6827 /* Frameworks */,
 				08363F6C1A5778E4007A6827 /* Resources */,
 				0812C9D71A6478EB004A115B /* Copy Frameworks */,
 				08E38FF11AF4F557002736A2 /* CopyFiles */,
+				0619D16F01815709A431A67E /* Embed Pods Frameworks */,
+				37637FAFB8417A385BF28530 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				082256521B02595D00511527 /* PBXTargetDependency */,
-				082256561B02596200511527 /* PBXTargetDependency */,
 			);
 			name = "toast-project";
 			productName = "toast-project";
@@ -1216,6 +1002,7 @@
 		08363F661A5778E4007A6827 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Diego Cruz";
 				TargetAttributes = {
@@ -1248,16 +1035,6 @@
 			mainGroup = 08363F651A5778E4007A6827;
 			productRefGroup = 08363F6F1A5778E4007A6827 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 082256271B0258F600511527 /* Products */;
-					ProjectRef = 082256261B0258F600511527 /* Alamofire.xcodeproj */;
-				},
-				{
-					ProductGroup = 082256421B02592300511527 /* Products */;
-					ProjectRef = 082256411B02592300511527 /* Haneke.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				08363F6D1A5778E4007A6827 /* toast-project */,
@@ -1265,58 +1042,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		0822562E1B0258F600511527 /* Alamofire.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Alamofire.framework;
-			remoteRef = 0822562D1B0258F600511527 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		082256301B0258F600511527 /* Alamofire.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Alamofire.framework;
-			remoteRef = 0822562F1B0258F600511527 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		082256321B0258F600511527 /* Alamofire iOS Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Alamofire iOS Tests.xctest";
-			remoteRef = 082256311B0258F600511527 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		082256341B0258F600511527 /* Alamofire OSX Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "Alamofire OSX Tests.xctest";
-			remoteRef = 082256331B0258F600511527 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		082256481B02592300511527 /* Haneke.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Haneke.framework;
-			remoteRef = 082256471B02592300511527 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		0822564A1B02592300511527 /* HanekeTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = HanekeTests.xctest;
-			remoteRef = 082256491B02592300511527 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		0822564C1B02592300511527 /* HanekeDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = HanekeDemo.app;
-			remoteRef = 0822564B1B02592300511527 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		08363F6C1A5778E4007A6827 /* Resources */ = {
@@ -1426,6 +1151,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0619D16F01815709A431A67E /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-toast-project/Pods-toast-project-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		37637FAFB8417A385BF28530 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-toast-project/Pods-toast-project-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E251A11E1983CBD0D09E641C /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		08363F6A1A5778E4007A6827 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1439,36 +1212,25 @@
 				08EB0C611B0665E2002143DE /* ToastLogo.swift in Sources */,
 				08EDB10E1AA0010200D94CF7 /* iCarousel.m in Sources */,
 				08E184B81A90BFFC00C9A956 /* MainViewController.swift in Sources */,
-				08B624161ADE9CEF00DBC674 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				08DB824A1A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift in Sources */,
 				08EB0C651B06949F002143DE /* PostActionsViewController.swift in Sources */,
-				08B6240E1ADE9CEF00DBC674 /* AFHTTPSessionManager.m in Sources */,
-				08B6240F1ADE9CEF00DBC674 /* AFNetworkReachabilityManager.m in Sources */,
 				086E17C01AFBB86200964405 /* BlackGradientView.swift in Sources */,
-				086CFB3E1A73CD4600E321F7 /* LoginInstagramViewController.swift in Sources */,
 				08EB0C741B0AA401002143DE /* PlacePicturesDataSource.swift in Sources */,
 				08F8389B1A88137400CFCAEF /* HashtagCell.swift in Sources */,
 				08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */,
-				08B6240C1ADE9CEF00DBC674 /* AFHTTPRequestOperation.m in Sources */,
 				08F85AEA1A8E395900C01CC9 /* PlaceDetailViewController.swift in Sources */,
-				08B6240D1ADE9CEF00DBC674 /* AFHTTPRequestOperationManager.m in Sources */,
-				08B624141ADE9CEF00DBC674 /* AFURLSessionManager.m in Sources */,
 				08C1FDE11AE32440009F1FB8 /* ReviewDetailButton.swift in Sources */,
 				08363F761A5778E4007A6827 /* ViewController.swift in Sources */,
 				08EB0C631B06892F002143DE /* PostButton.swift in Sources */,
-				08B624171ADE9CEF00DBC674 /* UIAlertView+AFNetworking.m in Sources */,
 				088188511AC9649F00559DC8 /* ProfileToastCell.swift in Sources */,
 				08059CF01ABE40B0004A5A78 /* DiscoverDataSource.swift in Sources */,
-				086E18281B001CEC00964405 /* CCHLinkGestureRecognizer.m in Sources */,
 				080193861A8FE45F00CAA770 /* BookingService.swift in Sources */,
 				08EDB0FE1A9D072300D94CF7 /* MyLoginButtonView.swift in Sources */,
 				08DB82481A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift in Sources */,
 				08C2E8D41A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift in Sources */,
 				08F838941A87C83900CFCAEF /* ToastsViewController.swift in Sources */,
 				08EB0C6D1B0A13C5002143DE /* StarButton.swift in Sources */,
-				08B6241A1ADE9CEF00DBC674 /* UIProgressView+AFNetworking.m in Sources */,
 				08C1FDE61AE32470009F1FB8 /* HeartButton.swift in Sources */,
-				08B624131ADE9CEF00DBC674 /* AFURLResponseSerialization.m in Sources */,
 				0881884D1AC9645C00559DC8 /* ProfileDetailViewController.swift in Sources */,
 				086E17BA1AFB2CB100964405 /* FriendsListViewController.swift in Sources */,
 				08B905ED1AA1E8D6009F3B21 /* HashtagsManager.swift in Sources */,
@@ -1476,18 +1238,12 @@
 				08F838961A87C87500CFCAEF /* ToastsCollectionViewLayout.swift in Sources */,
 				08EDB1231AA017EB00D94CF7 /* ContributeViewController.swift in Sources */,
 				08EDB1131AA00A7400D94CF7 /* ToastNameView.swift in Sources */,
-				08B624151ADE9CEF00DBC674 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				08E38FF41AF5025B002736A2 /* ArrayHaneke.swift in Sources */,
-				08B624181ADE9CEF00DBC674 /* UIButton+AFNetworking.m in Sources */,
 				08E68AD41ACE2E70008609D4 /* PostContributeTransitioning.swift in Sources */,
 				08EDB1151AA00AA100D94CF7 /* ToastMoodsView.swift in Sources */,
 				080193881A8FFF9300CAA770 /* GenericWebViewController.swift in Sources */,
-				086E18291B001CEC00964405 /* CCHLinkTextView.m in Sources */,
 				08EB0C671B06F166002143DE /* LikeCountView.swift in Sources */,
 				08F838991A88136100CFCAEF /* PlaceCell.swift in Sources */,
-				08B624191ADE9CEF00DBC674 /* UIImageView+AFNetworking.m in Sources */,
-				08B6241B1ADE9CEF00DBC674 /* UIRefreshControl+AFNetworking.m in Sources */,
-				08B624111ADE9CEF00DBC674 /* AFURLConnectionOperation.m in Sources */,
 				08EDB1211AA00E4E00D94CF7 /* ToastCarouselView.swift in Sources */,
 				08E68AD61AD085BE008609D4 /* PostContributeViewController.swift in Sources */,
 				0858BF141AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift in Sources */,
@@ -1496,10 +1252,8 @@
 				08C993871ABCAAC700692721 /* ReviewerButton.swift in Sources */,
 				08E184BC1A90D63B00C9A956 /* MainMenuTableViewController.swift in Sources */,
 				080377511A7341ED00E75297 /* LoginSuccesViewController.swift in Sources */,
-				08B624121ADE9CEF00DBC674 /* AFURLRequestSerialization.m in Sources */,
 				0881884F1AC9647400559DC8 /* ProfileToastsDataSource.swift in Sources */,
 				086E17BE1AFB2CE400964405 /* FriendsListDataSource.swift in Sources */,
-				0812C9661A64651F004A115B /* Model.xcdatamodeld in Sources */,
 				08059CEB1ABE407D004A5A78 /* DiscoverViewController.swift in Sources */,
 				08F85AE31A8D5DD500C01CC9 /* BackgroundImageView.swift in Sources */,
 				08EB0C781B0B5DEF002143DE /* ReviewCell.swift in Sources */,
@@ -1507,11 +1261,9 @@
 				08C993831ABC4AC900692721 /* ReviewDetailViewController.swift in Sources */,
 				084C145F1AA100B3005FB0E9 /* SearchPlaceViewController.swift in Sources */,
 				089C52961AD15A3100054037 /* PostRelatedViewController.swift in Sources */,
-				08B624101ADE9CEF00DBC674 /* AFSecurityPolicy.m in Sources */,
 				08EB0C111B04F1BC002143DE /* UIImage+ImageEffects.m in Sources */,
 				08247F661B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				086E18211AFF7D0400964405 /* DictionaryHaneke.swift in Sources */,
-				08B6241C1ADE9CEF00DBC674 /* UIWebView+AFNetworking.m in Sources */,
 				08D5E1891B2D36BE00DD8CED /* MainMenuTableView.swift in Sources */,
 				089C52941AD1440400054037 /* PostRelatedPlaceCell.swift in Sources */,
 				08EB0BBA1B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m in Sources */,
@@ -1531,16 +1283,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		082256521B02595D00511527 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Alamofire iOS";
-			targetProxy = 082256511B02595D00511527 /* PBXContainerItemProxy */;
-		};
-		082256561B02596200511527 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Haneke;
-			targetProxy = 082256551B02596200511527 /* PBXContainerItemProxy */;
-		};
 		08363F851A5778E4007A6827 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 08363F6D1A5778E4007A6827 /* toast-project */;
@@ -1649,6 +1391,7 @@
 		};
 		08363F8E1A5778E4007A6827 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F052614694CAF4FF5737192E /* Pods-toast-project.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1672,6 +1415,7 @@
 		};
 		08363F8F1A5778E4007A6827 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E97FBB2853D08937AD878E21 /* Pods-toast-project.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1757,19 +1501,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		0812C9641A64651F004A115B /* Model.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				0812C9651A64651F004A115B /* Model.xcdatamodel */,
-			);
-			currentVersion = 0812C9651A64651F004A115B /* Model.xcdatamodel */;
-			path = Model.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 08363F661A5778E4007A6827 /* Project object */;
 }

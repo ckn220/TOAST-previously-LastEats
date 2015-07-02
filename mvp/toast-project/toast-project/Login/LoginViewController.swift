@@ -11,7 +11,7 @@ import Parse
 import CoreLocation
 import Alamofire
 
-class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInstagramDelegate {
+class LoginViewController: UIViewController,CLLocationManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -191,101 +191,6 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
         }
     }
     
-    
-    //MARK: - Instagram Authentication
-    @IBAction func instagramDidPressed(sender: UITapGestureRecognizer) {
-        animatePressed(buttonView: sender.view!.viewWithTag(301)!)
-        let destinationNav = storyboard?.instantiateViewControllerWithIdentifier("loginInstagramNavScene") as! UINavigationController
-        let destination = destinationNav.viewControllers[0] as! LoginInstagramViewController
-        destination.myDelegate = self
-        
-        self.showDetailViewController(destinationNav, sender: self)
-    }
-    
-    func loginInstagramDidClose(#token: String) {
-        if token.isEmpty == false {
-            
-            var query = PFQuery(className:"TokenStorage")
-            query.whereKey("accessToken", equalTo:token)
-            
-            query.findObjectsInBackgroundWithBlock({ (objects:[AnyObject]!, error) -> Void in
-                
-                if error == nil {
-                    
-                    if objects.count > 0 {
-                        
-                        let mySessionToken = objects[0]["userSessionToken"] as! String
-                        self.signinInstagram(sessionToken: mySessionToken)
-                    }
-                    else{
-                        self.signupInstagram(token: token)
-                    }
-                }
-                else{
-                    UIAlertView(title: "Instagram login failed", message: error.description, delegate: self, cancelButtonTitle: "OK").show()
-                }
-                
-            })
-            
-        }
-        
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    func signupInstagram(#token : String){
-        
-        let user = PFUser()
-        
-        let uuidUSer: CFUUIDRef = CFUUIDCreate(nil)
-        let newUsername: CFStringRef = CFUUIDCreateString(nil, uuidUSer)
-        
-        let uuidPass: CFUUIDRef = CFUUIDCreate(nil)
-        let newPassword: CFStringRef = CFUUIDCreateString(nil, uuidPass)
-        
-        user.username = newUsername as String
-        user.password = newPassword as String
-        
-        user.signUpInBackgroundWithBlock {
-            (succeeded: Bool, error: NSError!) -> Void in
-            if error == nil {
-                NSLog("Signed up in with Instagram")
-                
-                let newTokenStorage = PFObject(className: "TokenStorage")
-                newTokenStorage["accessToken"] = token
-                newTokenStorage["userSessionToken"] = user.sessionToken
-                newTokenStorage.saveInBackgroundWithBlock(nil)
-                
-                self.getInstagramUserDetails(user: user)
-            } else {
-                NSLog("%@", error.description)
-            }
-        }
-        
-        
-    }
-    
-    func signinInstagram(#sessionToken: String){
-        
-        PFUser.becomeInBackground(sessionToken, block: { (user, error) -> Void in
-            NSLog("Logged in with Instagram")
-            self.goToSuccess()
-            
-        })
-        
-    }
-    
-    func getInstagramUserDetails(#user: PFUser){
-        
-        InstagramEngine.sharedEngine().getSelfUserDetailsWithSuccess({ (user : InstagramUser!) -> Void in
-            
-            let imUser = PFUser.currentUser()
-            imUser["name"] = user.fullName
-            imUser["instagramId"] = user.Id
-            imUser["pictureURL"] = user.profilePictureURL.URLString
-            self.goToSuccess()
-        },failure: nil)
-    }
-    
     //MARK: - General login
     func animatePressed(#buttonView:UIView){
         UIView.animateKeyframesWithDuration(0.2, delay: 0, options: .CalculationModePaced, animations: { () -> Void in
@@ -307,16 +212,6 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate,LoginInsta
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        
-        if segue.identifier == "loginInstagramSegue" {
-            
-            let destinationNav = segue.destinationViewController as! UINavigationController
-            let destination = destinationNav.viewControllers[0] as! LoginInstagramViewController
-            
-            destination.myDelegate = self
-            
-        }
-        
     }
       
     func goToSuccess(){

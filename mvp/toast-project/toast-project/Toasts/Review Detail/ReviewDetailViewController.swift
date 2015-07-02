@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 import Haneke
+import CCHLinkTextView
 
 class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,ReviewHeaderDelegate {
 

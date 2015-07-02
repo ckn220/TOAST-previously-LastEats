@@ -4,10 +4,9 @@
 
 #import <FacebookSDK/FacebookSDK.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
-#import "InstagramKit.h"
 #import "iCarousel.h"
-#import "CCHLinkTextView.h"
-#import "CCHLinkTextViewDelegate.h"
+#import <CCHLinkTextView/CCHLinkTextView.h>
+#import <CCHLinkTextView/CCHLinkTextViewDelegate.h>
 #import "UIColor+RHInterpolationAdditions.h"
 #import "UIImage+ImageEffects.h"
 #import "UICollectionViewLeftAlignedLayout.h"

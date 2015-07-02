@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 import Haneke
+import CCHLinkTextView
 
 protocol ReviewCellDelegate{
     func reviewCellReviewerPressed(index:Int,ffriend:PFUser?)
