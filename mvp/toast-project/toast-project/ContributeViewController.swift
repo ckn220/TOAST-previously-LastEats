@@ -24,6 +24,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     @IBOutlet weak var reviewView: ToastReviewView!
     @IBOutlet weak var reviewTopConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
     
     var isStatusBarHidden = true
     var tempToast = [String:AnyObject]()
@@ -48,7 +49,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        reviewTopConstraint.constant = (CGRectGetHeight(self.myCarousel.bounds)+20)
+        reviewTopConstraint.constant = (CGRectGetHeight(self.view.bounds)+20)
     }
 
     override func didReceiveMemoryWarning() {
@@ -382,9 +383,56 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     
     //MARK: - Submit methods
     @IBAction func submitPressed(sender: AnyObject) {
+        toggleLoading(true)
         let reviewTextView = reviewView.reviewTextView
-        tempReview = reviewTextView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        createToast()
+        tempToast["review"] = reviewTextView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let tempDic = submitDic(tempToast)
+        PFCloud.callFunctionInBackground("submitToast", withParameters: tempDic) { (result, error) -> Void in
+            if error == nil{
+                self.loadingEnded()
+                self.toastSubmitted()
+            }else{
+                self.showErrorAlert()
+            }
+        }
+    }
+    
+    private func toggleLoading(visible:Bool){
+        if visible{
+            submitButton.alpha = 0
+            reviewView.reviewTextView.resignFirstResponder()
+            reviewView.reviewTextView.editable = false
+            
+            loadingView.alpha = 1
+        }else{
+            submitButton.alpha = 1
+            reviewView.reviewTextView.becomeFirstResponder()
+            reviewView.reviewTextView.editable = true
+            
+            loadingView.alpha = 0
+        }
+    }
+    
+    private func loadingEnded(){
+        loadingView.alpha=0
+    }
+    
+    private func submitDic(tempReview:[String:AnyObject]) -> [String:String]{
+        var dic = [String:String]()
+        dic["review"]=(tempReview["review"] as! String)
+        dic["placeFoursquareId"]=(tempReview["placeId"] as! String)
+        var moodsString=""
+        var moods = tempReview["moods"] as! [PFObject]
+        for mood in moods{
+            let moodName = mood["name"] as! String
+            moodsString = moodsString+moodName+", "
+        }
+        dic["moodsNames"] = moodsString
+        
+        return dic
+    }
+    
+    private func toastSubmitted(){
         dismissReview { () -> Void in
             let post = self.storyboard?.instantiateViewControllerWithIdentifier("postContributeScene") as! PostContributeViewController!
             post.transitioningDelegate = post
@@ -402,301 +450,11 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         CATransaction.commit()
     }
     
-    func createToast(){
-        newToast = PFObject(className: "Toast")
-        newToast!["active"] = true
-        insertData()
-        
-        newToast?.saveInBackgroundWithBlock({ (success, error) -> Void in
-            if error == nil{
-                self.newToast?.fetchIfNeededInBackgroundWithBlock({ (result, error) -> Void in
-                    if error == nil{
-                        self.newToast = result
-                        self.insertPlace()
-                    }else{
-                        NSLog("%@",error.description);
-                    }
-                })
-            }else{
-                NSLog("%@",error.description)
-            }
-            
-        })
-    }
-    
-    private func insertData(){
-        insertReview()
-        insertMoods()
-        insertUser()
-    }
-    
-    func insertUser(){
-        newToast?["user"]=PFUser.currentUser()
-    }
-    
-    func insertMoods(){
-        let moodsRelation = self.newToast!.relationForKey("moods")
-        if let myMoods = tempToast["moods"] as? [PFObject] {
-            for q:PFObject in myMoods{
-                moodsRelation.addObject(q)
-            }
-        }
-    }
-    
-    func insertHashtags(){
-        
-        HashtagsManager.hashtagsFromReview(tempReview!,toastID: newToast!.objectId)
-    }
-    
-    func insertReview(){
-        //let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
-        newToast?["review"] = reviewView.reviewTextView.text
-    }
-    
-    func insertPlace(){
-        if let myPlaceId = tempToast["placeId"] as? String {
-            let queryPlace = PFQuery(className: "Place")
-            queryPlace.whereKey("foursquarePlaceId", equalTo: myPlaceId)
-            queryPlace.getFirstObjectInBackgroundWithBlock { (object, error) -> Void in
-                
-                if object == nil{
-                    self.createNewPlace()
-                }else{
-                    self.insertPlace(object)
-                }
-                
-            }
-        }
-    }
-    
-    //MARK: Place properties methods
-    func insertLocation(json:NSDictionary,inPlace place: PFObject){
-        
-        if let location = json["location"] as? NSDictionary{
-            validateAndInsert("address", from: location, inPlace: place)
-            validateAndInsert("city", from: location, inPlace: place)
-            validateAndInsert("state", from: location, inPlace: place)
-            validateAndInsert("postalCode", from: location, inPlace: place)
-            
-            place["location"] = PFGeoPoint(latitude: location["lat"] as! Double, longitude: location["lng"] as! Double)
-        }
-    }
-    
-    func insertPhone(json:NSDictionary,inPlace place: PFObject){
-        if let contact = json["contact"] as? NSDictionary{
-            validateAndInsert("formattedPhone", from: contact, inPlace: place)
-            validateAndInsert("phone", from: contact, inPlace: place)
-        }
-        
-    }
-    
-    func insertPrice(json:NSDictionary,inPlace place: PFObject){
-        if let price = json["price"] as? NSDictionary{
-            place["price"] = price["tier"]
-        }
-    }
-    
-    func insertCategory(json:NSDictionary,inPlace place: PFObject){
-        if let categories = json["categories"] as? NSArray{
-            for cat in categories{
-                let imCategory = cat as! NSDictionary
-                if imCategory["primary"] as! Bool {
-                    searchForCategory(imCategory, forPlace: place)
-                    break
-                }
-            }
-        }
-    }
-    
-    func searchForCategory(category: NSDictionary, forPlace place:PFObject){
-        let categoryQuery = PFQuery(className: "Category")
-        categoryQuery.whereKey("foursquareId", equalTo: category["id"])
-        categoryQuery.getFirstObjectInBackgroundWithBlock { (result, error) -> Void in
-            if error == nil {
-                place["category"] = result
-            }else{
-                NSLog("%@",error.description)
-                self.insertNewCategory(category, inPlace: place)
-            }
-        }
-    }
-    
-    func insertNewCategory(category: NSDictionary, inPlace place: PFObject){
-        let newCategory = PFObject(className: "Category")
-        newCategory["foursquareId"] = category["id"]
-        newCategory["name"] = category["name"]
-        newCategory.saveInBackgroundWithBlock { (success, error) -> Void in
-            if error == nil{
-                place["category"] = newCategory
-            }else{
-                NSLog("%@", error.description)
-            }
-        }
-    }
-    
-    func insertFoursquarePicture(json:NSDictionary,inPlace place:PFObject){
-        
-        var photosURL = [String]()
-        var bestID:String = ""
-        let bestURL = bestPhotoURL(json,bestID: &bestID)
-        if bestURL != nil{
-            photosURL.append(bestURL!)
-        }
-        
-        let photos = json["photos"] as! NSDictionary
-        photosURL.extend(photosURLs(photos, bestID: bestID))
-        place["photos"] = photosURL
-    }
-    
-    private func bestPhotoURL(json:NSDictionary,inout bestID:String)->String?{
-        if let best = json["bestPhoto"] as? NSDictionary{
-            bestID = best["id"] as! String
-            return (best["prefix"] as! String) + "500x500" + (best["suffix"] as! String)
-        }else{
-            return nil
-        }
-    }
-    
-    private func photosURLs(photos:NSDictionary,bestID:String)-> [String]{
-        var urls = [String]()
-        if photos["count"] as! Int > 0{
-            let groups = photos["groups"] as! NSArray
-            var validGroup: NSDictionary?
-            for imGroup in groups{
-                if (imGroup as! NSDictionary)["count"] as! Int > 0{
-                    validGroup = imGroup as? NSDictionary
-                    let items = validGroup?["items"] as! NSArray
-                    for item in items{
-                        if (item["id"] as! String) != bestID {
-                            urls.append((item["prefix"] as! String) + "500x500" + (item["suffix"] as! String))
-                            
-                            if urls.count == 4{
-                                break
-                            }
-                        }
-                    }
-                    break
-                }
-            }
-        }
-        
-        return urls
-    }
-    
-    func insertMenuLink(json:NSDictionary,inPlace place:PFObject){
-        if let menu = json["menu"] as? NSDictionary {
-            place["menuURL"] = menu["mobileUrl"] as! String
-        }
-    }
-    
-    func insertWebsite(json:NSDictionary,inPlace place:PFObject){
-        if let url = json["url"] as? String{
-            place["url"] = url
-        }
-    }
-    
-    private func insertReservationPlace(json:NSDictionary,inPlace place:PFObject,completion:(Bool)->Void){
-        
-        let name = place["name"] as? String
-        let address = place["address"] as? String
-        let zipcode = place["postalCode"] as? String
-        
-        if name != nil && address != nil && zipcode != nil{
-            BookingService.getReservationURL(fromName:name!, address: address!, zipcode:zipcode!) { (url) -> () in
-                place["reservationURL"] = url as String
-                completion(true)
-            }
-        }else{
-            completion(false)
-        }
-    }
-    
-    func createNewPlace(){
-        
-        let myPlace = PFObject(className: "Place")
-        myPlace["name"] = tempToast["placeName"]
-        myPlace["topToastCount"] = 0
-        
-        if let myPlaceID = tempToast["placeId"] as? String{
-            myPlace["foursquarePlaceId"] = myPlaceID
-            
-            Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/"+myPlaceID+"?&client_id="+self.foursquareClientId+"&client_secret="+self.foursquareClientSecret+"&v=20150207&locale=en").responseJSON(options:nil, completionHandler: { (request, response, JSON, error) -> Void in
-
-                if error == nil{
-                    
-                    if let imResponse = ((JSON as! NSDictionary)["response"] as? NSDictionary){
-                        if let result = imResponse["venue"] as? NSDictionary{
-                            self.insertLocation(result, inPlace: myPlace)
-                            self.insertPhone(result, inPlace: myPlace)
-                            self.insertPrice(result, inPlace: myPlace)
-                            self.insertCategory(result, inPlace: myPlace)
-                            self.insertFoursquarePicture(result, inPlace: myPlace)
-                            self.insertMenuLink(result, inPlace: myPlace)
-                            self.insertWebsite(result, inPlace: myPlace)
-                            self.insertReservationPlace(result, inPlace: myPlace){(success) -> Void in
-                                self.insertPlace(myPlace)
-                            }
-                        }else{
-                            self.showErrorAlert()
-                        }
-
-                    }else{
-                        self.showErrorAlert()
-                    }
-                }else{
-                    NSLog("%@", error!.description)
-                }
-                
-            })
-        }else{
-            NSLog("Place not found in Foursquare.")
-        }
-    }
-    
-    func insertPlace(place: PFObject){
-        let toastsRelation = place.relationForKey("toasts")
-        toastsRelation.addObject(self.newToast)
-        place.saveInBackgroundWithBlock { (success, error) -> Void in
-            if error == nil{
-                self.insertHashtags()
-            }else{
-                NSLog("%@", error.description)
-            }
-        }
-    }
-    
-    func validateAndInsert(field:String,from dic:NSDictionary,inPlace place:PFObject){
-        if let value = dic[field] as? String{
-            place[field]=value
-        }
-    }
-    
-    func insertToastInHashtags(){
-        //Adding inverse relationship - Hashtags
-        
-        if let myHashtags = self.tempToast["hashtags"] as? [PFObject]{
-            for h:PFObject in myHashtags{
-                let oldCount = h["toastsCount"] as! Int
-                h["toastsCount"] = oldCount + 1
-                h.relationForKey("toasts").addObject(self.newToast)
-                h.saveEventually(nil)
-            }
-        }
-    }
-    
-    //MARK: - Misc methods
-    private func replaceStrings(strings:[String],withString: String,from source: String) -> String
-    {
-        var result:String = source
-        for s in strings{
-            result = result.stringByReplacingOccurrencesOfString(s, withString: withString, options: NSStringCompareOptions.LiteralSearch, range: nil)
-        }
-        return result
-    }
-    
     private func showErrorAlert(){
-        let a = UIAlertController(title: "Connection Error", message: "There has been a server error. Please try again in a moment.", preferredStyle: .Alert)
-        let okButton = UIAlertAction(title: "OK", style: .Default, handler: nil)
+        let a = UIAlertController(title: "Connection Error", message: "There has been an error retrieving the venue information. Please try again in a moment.", preferredStyle: .Alert)
+        let okButton = UIAlertAction(title: "OK", style: .Default) { (action) -> Void in
+            self.toggleLoading(false)
+        }
         a.addAction(okButton)
         self.showDetailViewController(a, sender: nil)
     }

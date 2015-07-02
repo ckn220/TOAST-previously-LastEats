@@ -217,6 +217,9 @@
                                                     <action selector="submitPressed:" destination="JTz-9k-aNp" eventType="touchUpInside" id="F3R-6G-FOO"/>
                                                 </connections>
                                             </button>
+                                            <activityIndicatorView opaque="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="1mI-FG-7r8">
+                                                <rect key="frame" x="269" y="21" width="20" height="20"/>
+                                            </activityIndicatorView>
                                         </subviews>
                                         <color key="backgroundColor" red="0.018377825617790222" green="0.018384959548711777" blue="0.018377372995018959" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -229,15 +232,37 @@
                                             <constraint firstItem="biT-4h-Aki" firstAttribute="leading" secondItem="oO1-Hv-YlO" secondAttribute="leading" id="Odu-he-nte"/>
                                             <constraint firstItem="0Xb-F6-9kD" firstAttribute="leading" secondItem="oO1-Hv-YlO" secondAttribute="leading" constant="8" id="PUf-Qs-ahr"/>
                                             <constraint firstItem="YH9-UM-7ih" firstAttribute="trailing" secondItem="c3e-Yd-P0F" secondAttribute="trailing" id="Qzf-k1-Dbz"/>
+                                            <constraint firstItem="1mI-FG-7r8" firstAttribute="centerX" secondItem="c3e-Yd-P0F" secondAttribute="centerX" id="XAr-qa-1Ed"/>
                                             <constraint firstItem="biT-4h-Aki" firstAttribute="top" secondItem="YH9-UM-7ih" secondAttribute="bottom" id="YMo-m6-n4Z"/>
                                             <constraint firstItem="biT-4h-Aki" firstAttribute="top" secondItem="0Xb-F6-9kD" secondAttribute="bottom" id="bJ7-q9-lZ4"/>
                                             <constraint firstAttribute="height" constant="54" id="dow-vf-txZ"/>
                                             <constraint firstItem="YH9-UM-7ih" firstAttribute="bottom" secondItem="c3e-Yd-P0F" secondAttribute="bottom" id="gtz-gH-hcB"/>
+                                            <constraint firstItem="1mI-FG-7r8" firstAttribute="centerY" secondItem="c3e-Yd-P0F" secondAttribute="centerY" id="gzz-uD-js4"/>
                                             <constraint firstItem="YH9-UM-7ih" firstAttribute="leading" secondItem="c3e-Yd-P0F" secondAttribute="leading" id="oqo-YC-bSS"/>
                                             <constraint firstItem="YH9-UM-7ih" firstAttribute="top" secondItem="c3e-Yd-P0F" secondAttribute="top" id="qYx-Rc-iGB"/>
                                             <constraint firstItem="0i2-eX-RZI" firstAttribute="top" secondItem="0Xb-F6-9kD" secondAttribute="top" id="sOg-dl-5wO"/>
                                         </constraints>
                                     </view>
+                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J66-AM-Xtw">
+                                        <rect key="frame" x="16" y="488" width="288" height="44"/>
+                                        <color key="backgroundColor" red="0.41176470588235292" green="0.80392156862745101" blue="0.73333333333333328" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="m0i-SF-jR9"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
+                                        <state key="normal" title="Make a toast!">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="3"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="goToReviewPressed:" destination="JTz-9k-aNp" eventType="touchUpInside" id="1gm-cm-3ni"/>
+                                        </connections>
+                                    </button>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I01-Hk-Ea7" userLabel="reviewView" customClass="ToastReviewView" customModule="toast_project" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="54" width="320" height="494"/>
                                         <subviews>
@@ -293,26 +318,6 @@
                                             <outlet property="reviewTextView" destination="SoU-o9-Vab" id="6AB-u1-cBN"/>
                                         </connections>
                                     </view>
-                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J66-AM-Xtw">
-                                        <rect key="frame" x="16" y="488" width="288" height="44"/>
-                                        <color key="backgroundColor" red="0.41176470588235292" green="0.80392156862745101" blue="0.73333333333333328" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="44" id="m0i-SF-jR9"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="19"/>
-                                        <state key="normal" title="Make a toast!">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="3"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="goToReviewPressed:" destination="JTz-9k-aNp" eventType="touchUpInside" id="1gm-cm-3ni"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -357,6 +362,7 @@
                         <outlet property="changeNameButton" destination="YH9-UM-7ih" id="sCO-oa-9Sd"/>
                         <outlet property="closeButton" destination="0Xb-F6-9kD" id="5IS-cJ-uc1"/>
                         <outlet property="goToReviewButton" destination="J66-AM-Xtw" id="gzM-j3-eXu"/>
+                        <outlet property="loadingView" destination="1mI-FG-7r8" id="tdR-MD-6to"/>
                         <outlet property="myCarousel" destination="YCU-sg-2yj" id="HZW-kd-lRm"/>
                         <outlet property="myNavBar" destination="oO1-Hv-YlO" id="wv3-OV-2lO"/>
                         <outlet property="reviewTopConstraint" destination="sUd-Ch-2f8" id="jaj-EK-hZ4"/>
@@ -2215,7 +2221,7 @@ from Facebook</string>
                         <subviews>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lhe-77-zMx" userLabel="blurBG">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="MWH-SC-KFe">
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="MWH-SC-KFe" userLabel="containerView">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -2257,67 +2263,92 @@ from Facebook</string>
                                                 <constraint firstItem="rlm-O6-VST" firstAttribute="top" secondItem="BHv-vd-FmN" secondAttribute="top" constant="20" id="yvM-Tx-OxJ"/>
                                             </constraints>
                                         </view>
-                                        <view opaque="NO" clipsSubviews="YES" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="250" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="34" translatesAutoresizingMaskIntoConstraints="NO" id="bYd-kO-T7u" customClass="CCHLinkTextView">
-                                            <rect key="frame" x="9" y="166" width="302" height="34"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="750" constant="24" id="7Bz-cX-AaI"/>
-                                            </constraints>
-                                        </view>
-                                        <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ljX-WH-3EJ">
-                                            <rect key="frame" x="9" y="64" width="302" height="102"/>
+                                        <scrollView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8JK-dy-m0K">
+                                            <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                             <subviews>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="hjc-Ii-xsO">
-                                                    <rect key="frame" x="141" y="41" width="20" height="20"/>
-                                                </activityIndicatorView>
+                                                <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p4Y-Db-l0a" userLabel="containerView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="500"/>
+                                                    <subviews>
+                                                        <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ljX-WH-3EJ">
+                                                            <rect key="frame" x="9" y="9" width="302" height="102"/>
+                                                            <subviews>
+                                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="hjc-Ii-xsO">
+                                                                    <rect key="frame" x="141" y="41" width="20" height="20"/>
+                                                                </activityIndicatorView>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="centerX" secondItem="hjc-Ii-xsO" secondAttribute="centerX" id="536-Rc-Ndn"/>
+                                                                <constraint firstAttribute="centerY" secondItem="hjc-Ii-xsO" secondAttribute="centerY" id="HQA-ta-4uv"/>
+                                                                <constraint firstAttribute="height" constant="102" id="LRj-LE-bfV"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <view opaque="NO" clipsSubviews="YES" tag="1001" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" placeholderIntrinsicWidth="infinite" placeholderIntrinsicHeight="34" translatesAutoresizingMaskIntoConstraints="NO" id="bYd-kO-T7u" customClass="CCHLinkTextView">
+                                                            <rect key="frame" x="9" y="119" width="302" height="34"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="24" id="7Bz-cX-AaI"/>
+                                                            </constraints>
+                                                        </view>
+                                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tdn-dd-CJI" customClass="HeartButton" customModule="toast_project" customModuleProvider="target">
+                                                            <rect key="frame" x="9" y="167" width="59" height="25"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="25" id="GCi-rr-bVd"/>
+                                                                <constraint firstAttribute="width" constant="59" id="jDo-WJ-L80"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
+                                                            <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                            <state key="normal">
+                                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="heartButtonPressed:" destination="kiw-sA-t8D" eventType="touchUpInside" id="YG3-3t-XYY"/>
+                                                            </connections>
+                                                        </button>
+                                                        <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xd1-3n-IqN" customClass="LikeCountView" customModule="toast_project" customModuleProvider="target">
+                                                            <rect key="frame" x="10" y="200" width="300" height="19"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="19" id="sup-UJ-Aao"/>
+                                                            </constraints>
+                                                        </view>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="ljX-WH-3EJ" firstAttribute="leading" secondItem="bYd-kO-T7u" secondAttribute="leading" id="9Fd-HJ-HrI"/>
+                                                        <constraint firstAttribute="trailing" secondItem="ljX-WH-3EJ" secondAttribute="trailing" constant="9" id="DkJ-5I-FWx"/>
+                                                        <constraint firstItem="Xd1-3n-IqN" firstAttribute="leading" secondItem="Tdn-dd-CJI" secondAttribute="leading" constant="8" id="FUm-fo-X0Z"/>
+                                                        <constraint firstItem="bYd-kO-T7u" firstAttribute="top" secondItem="ljX-WH-3EJ" secondAttribute="bottom" id="HLA-PP-ggd"/>
+                                                        <constraint firstItem="Tdn-dd-CJI" firstAttribute="leading" secondItem="bYd-kO-T7u" secondAttribute="leading" id="T2C-s4-vt2"/>
+                                                        <constraint firstItem="Tdn-dd-CJI" firstAttribute="top" secondItem="bYd-kO-T7u" secondAttribute="bottom" constant="4" id="dFF-GT-zvE"/>
+                                                        <constraint firstItem="Xd1-3n-IqN" firstAttribute="top" secondItem="Tdn-dd-CJI" secondAttribute="bottom" constant="8" id="jgV-XQ-Q9K"/>
+                                                        <constraint firstItem="ljX-WH-3EJ" firstAttribute="leading" secondItem="p4Y-Db-l0a" secondAttribute="leading" constant="9" id="nne-dr-RNd"/>
+                                                        <constraint firstItem="ljX-WH-3EJ" firstAttribute="top" secondItem="p4Y-Db-l0a" secondAttribute="top" id="ntp-bQ-de5"/>
+                                                        <constraint firstItem="ljX-WH-3EJ" firstAttribute="trailing" secondItem="bYd-kO-T7u" secondAttribute="trailing" id="pba-D3-C37"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Xd1-3n-IqN" secondAttribute="trailing" constant="9" id="yGV-jk-nxR"/>
+                                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Xd1-3n-IqN" secondAttribute="bottom" constant="20" id="yn4-Jr-5DZ"/>
+                                                    </constraints>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="centerX" secondItem="hjc-Ii-xsO" secondAttribute="centerX" id="536-Rc-Ndn"/>
-                                                <constraint firstAttribute="centerY" secondItem="hjc-Ii-xsO" secondAttribute="centerY" id="HQA-ta-4uv"/>
-                                                <constraint firstAttribute="height" constant="102" id="LRj-LE-bfV"/>
+                                                <constraint firstItem="p4Y-Db-l0a" firstAttribute="leading" secondItem="8JK-dy-m0K" secondAttribute="leading" id="FRk-RQ-asl"/>
+                                                <constraint firstAttribute="trailing" secondItem="p4Y-Db-l0a" secondAttribute="trailing" id="U7c-tO-szy"/>
+                                                <constraint firstAttribute="bottom" secondItem="p4Y-Db-l0a" secondAttribute="bottom" id="ZdR-cJ-d5j"/>
+                                                <constraint firstItem="p4Y-Db-l0a" firstAttribute="top" secondItem="8JK-dy-m0K" secondAttribute="top" id="t6O-vv-Zxy"/>
                                             </constraints>
-                                        </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tdn-dd-CJI" customClass="HeartButton" customModule="toast_project" customModuleProvider="target">
-                                            <rect key="frame" x="9" y="220" width="59" height="25"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="25" id="GCi-rr-bVd"/>
-                                                <constraint firstAttribute="width" constant="59" id="jDo-WJ-L80"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="17"/>
-                                            <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                            <state key="normal">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="heartButtonPressed:" destination="kiw-sA-t8D" eventType="touchUpInside" id="YG3-3t-XYY"/>
-                                            </connections>
-                                        </button>
-                                        <view opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xd1-3n-IqN" customClass="LikeCountView" customModule="toast_project" customModuleProvider="target">
-                                            <rect key="frame" x="11" y="255" width="300" height="19"/>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="19" id="sup-UJ-Aao"/>
-                                            </constraints>
-                                        </view>
+                                        </scrollView>
                                     </subviews>
                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="BHv-vd-FmN" secondAttribute="trailing" id="3ih-4X-ja9"/>
-                                        <constraint firstAttribute="trailing" secondItem="ljX-WH-3EJ" secondAttribute="trailing" constant="9" id="6id-Ih-a5H"/>
-                                        <constraint firstItem="Tdn-dd-CJI" firstAttribute="top" secondItem="bYd-kO-T7u" secondAttribute="bottom" constant="20" id="Bp0-MT-646"/>
-                                        <constraint firstItem="Xd1-3n-IqN" firstAttribute="leading" secondItem="Tdn-dd-CJI" secondAttribute="leading" constant="2" id="IRf-Sf-vdx"/>
-                                        <constraint firstItem="ljX-WH-3EJ" firstAttribute="leading" secondItem="MWH-SC-KFe" secondAttribute="leading" constant="9" id="MR4-em-PfX"/>
+                                        <constraint firstAttribute="bottom" secondItem="8JK-dy-m0K" secondAttribute="bottom" id="J6P-6p-L5J"/>
                                         <constraint firstItem="BHv-vd-FmN" firstAttribute="leading" secondItem="MWH-SC-KFe" secondAttribute="leading" id="OF8-rO-Z7O"/>
-                                        <constraint firstItem="ljX-WH-3EJ" firstAttribute="top" secondItem="BHv-vd-FmN" secondAttribute="bottom" id="OPI-sS-jvS"/>
                                         <constraint firstItem="BHv-vd-FmN" firstAttribute="top" secondItem="MWH-SC-KFe" secondAttribute="top" id="SAD-3x-hj7"/>
-                                        <constraint firstItem="bYd-kO-T7u" firstAttribute="leading" secondItem="MWH-SC-KFe" secondAttribute="leading" constant="9" id="dm2-pU-hkt"/>
-                                        <constraint firstItem="Xd1-3n-IqN" firstAttribute="top" secondItem="Tdn-dd-CJI" secondAttribute="bottom" constant="10" id="fNK-JB-QP6"/>
-                                        <constraint firstAttribute="trailing" secondItem="bYd-kO-T7u" secondAttribute="trailing" constant="9" id="lmy-5y-kJt"/>
-                                        <constraint firstItem="Tdn-dd-CJI" firstAttribute="leading" secondItem="MWH-SC-KFe" secondAttribute="leading" constant="9" id="n8O-mn-U4J"/>
-                                        <constraint firstItem="bYd-kO-T7u" firstAttribute="top" secondItem="ljX-WH-3EJ" secondAttribute="bottom" id="smF-xy-lW4"/>
-                                        <constraint firstAttribute="trailing" secondItem="Xd1-3n-IqN" secondAttribute="trailing" constant="9" id="vyy-9W-d2b"/>
+                                        <constraint firstItem="8JK-dy-m0K" firstAttribute="leading" secondItem="BHv-vd-FmN" secondAttribute="leading" id="YIB-cT-koK"/>
+                                        <constraint firstItem="8JK-dy-m0K" firstAttribute="trailing" secondItem="BHv-vd-FmN" secondAttribute="trailing" id="gbf-aq-zy3"/>
+                                        <constraint firstItem="8JK-dy-m0K" firstAttribute="top" secondItem="BHv-vd-FmN" secondAttribute="bottom" id="use-Vs-YDf"/>
                                     </constraints>
                                 </view>
                                 <blurEffect style="light"/>
@@ -2338,6 +2369,7 @@ from Facebook</string>
                         <outlet property="heartCountView" destination="Xd1-3n-IqN" id="IjM-GP-N3N"/>
                         <outlet property="loadingView" destination="hjc-Ii-xsO" id="tFK-6o-U0u"/>
                         <outlet property="reviewLinkView" destination="bYd-kO-T7u" id="BwE-82-Usc"/>
+                        <outlet property="textViewHeightConstraint" destination="7Bz-cX-AaI" id="2MV-aa-W33"/>
                         <outlet property="titleLabel" destination="rlm-O6-VST" id="sbi-38-kgC"/>
                     </connections>
                 </viewController>

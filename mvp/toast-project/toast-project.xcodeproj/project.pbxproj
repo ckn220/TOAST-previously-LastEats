@@ -815,8 +815,8 @@
 		08363FAF1A577BC3007A6827 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				080377501A7341ED00E75297 /* LoginSuccesViewController.swift */,
 				08E184B71A90BFFC00C9A956 /* MainViewController.swift */,
+				080377501A7341ED00E75297 /* LoginSuccesViewController.swift */,
 				08E184BB1A90D63B00C9A956 /* MainMenuTableViewController.swift */,
 				08D5E1881B2D36BE00DD8CED /* MainMenuTableView.swift */,
 			);

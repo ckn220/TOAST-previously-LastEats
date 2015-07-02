@@ -12,6 +12,7 @@ import Haneke
 
 class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,ReviewHeaderDelegate {
 
+    @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var reviewLinkView: CCHLinkTextView!
     @IBOutlet weak var heartButton: HeartButton!
@@ -118,8 +119,13 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
             finalReview.appendAttributedString(attributedWord(" "))
         }
         reviewLinkView.attributedText = finalReview
+        textViewHeightConstraint.constant = heightForText(reviewLinkView)
         reviewLinkView.scrollEnabled = false
-        reviewLinkView.layoutIfNeeded()
+    }
+    
+    private func heightForText(textview:CCHLinkTextView) -> CGFloat{
+        let newSize = textview.sizeThatFits(CGSizeMake(CGRectGetWidth(view.bounds), 100000))
+        return newSize.height.advancedBy(22)
     }
     
     private func initLinkView(view:CCHLinkTextView){
