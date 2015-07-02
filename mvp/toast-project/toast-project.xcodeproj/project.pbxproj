@@ -47,15 +47,6 @@
 		08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08363FB01A577C63007A6827 /* LoginViewController.swift */; };
 		084C145F1AA100B3005FB0E9 /* SearchPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */; };
 		0858BF141AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0858BF131AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift */; };
-		086CFB321A734CD500E321F7 /* InstagramEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB201A734CD500E321F7 /* InstagramEngine.m */; };
-		086CFB331A734CD500E321F7 /* InstagramKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 086CFB221A734CD500E321F7 /* InstagramKit.plist */; };
-		086CFB341A734CD500E321F7 /* IKUserInPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB251A734CD500E321F7 /* IKUserInPhoto.m */; };
-		086CFB351A734CD500E321F7 /* InstagramComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB271A734CD500E321F7 /* InstagramComment.m */; };
-		086CFB361A734CD500E321F7 /* InstagramMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB291A734CD500E321F7 /* InstagramMedia.m */; };
-		086CFB371A734CD500E321F7 /* InstagramModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB2B1A734CD500E321F7 /* InstagramModel.m */; };
-		086CFB381A734CD500E321F7 /* InstagramPaginationInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB2D1A734CD500E321F7 /* InstagramPaginationInfo.m */; };
-		086CFB391A734CD500E321F7 /* InstagramTag.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB2F1A734CD500E321F7 /* InstagramTag.m */; };
-		086CFB3A1A734CD500E321F7 /* InstagramUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB311A734CD500E321F7 /* InstagramUser.m */; };
 		086CFB3E1A73CD4600E321F7 /* LoginInstagramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086CFB3D1A73CD4600E321F7 /* LoginInstagramViewController.swift */; };
 		086E17BA1AFB2CB100964405 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E17B91AFB2CB100964405 /* FriendsListViewController.swift */; };
 		086E17BC1AFB2CC600964405 /* FriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E17BB1AFB2CC600964405 /* FriendCell.swift */; };
@@ -212,7 +203,6 @@
 		08F838961A87C87500CFCAEF /* ToastsCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F838951A87C87500CFCAEF /* ToastsCollectionViewLayout.swift */; };
 		08F838991A88136100CFCAEF /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F838981A88136100CFCAEF /* PlaceCell.swift */; };
 		08F8389B1A88137400CFCAEF /* HashtagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F8389A1A88137400CFCAEF /* HashtagCell.swift */; };
-		08F85ADE1A8CFEF600C01CC9 /* InstagramLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 08F85ADD1A8CFEF600C01CC9 /* InstagramLocation.m */; };
 		08F85AE31A8D5DD500C01CC9 /* BackgroundImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F85AE21A8D5DD500C01CC9 /* BackgroundImageView.swift */; };
 		08F85AE71A8D5F0300C01CC9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08F85AE61A8D5F0300C01CC9 /* AVFoundation.framework */; };
 		08F85AEA1A8E395900C01CC9 /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F85AE91A8E395900C01CC9 /* PlaceDetailViewController.swift */; };
@@ -328,8 +318,8 @@
 		0812C9261A645C03004A115B /* toast-project-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "toast-project-Bridging-Header.h"; sourceTree = "<group>"; };
 		0812C9651A64651F004A115B /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		081420741AAB895B003BEA9E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		082256261B0258F600511527 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
-		082256411B02592300511527 /* Haneke.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Haneke.xcodeproj; path = HanekeSwift/Haneke.xcodeproj; sourceTree = "<group>"; };
+		082256261B0258F600511527 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = ../Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
+		082256411B02592300511527 /* Haneke.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Haneke.xcodeproj; path = ../HanekeSwift/Haneke.xcodeproj; sourceTree = "<group>"; };
 		0822564D1B02594E00511527 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		08247F641B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
 		08247F651B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
@@ -361,24 +351,6 @@
 		08363FB01A577C63007A6827 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPlaceViewController.swift; sourceTree = "<group>"; };
 		0858BF131AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewDataSource.swift; sourceTree = "<group>"; };
-		086CFB1F1A734CD500E321F7 /* InstagramEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramEngine.h; sourceTree = "<group>"; };
-		086CFB201A734CD500E321F7 /* InstagramEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramEngine.m; sourceTree = "<group>"; };
-		086CFB211A734CD500E321F7 /* InstagramKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramKit.h; sourceTree = "<group>"; };
-		086CFB221A734CD500E321F7 /* InstagramKit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = InstagramKit.plist; sourceTree = "<group>"; };
-		086CFB241A734CD500E321F7 /* IKUserInPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKUserInPhoto.h; sourceTree = "<group>"; };
-		086CFB251A734CD500E321F7 /* IKUserInPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IKUserInPhoto.m; sourceTree = "<group>"; };
-		086CFB261A734CD500E321F7 /* InstagramComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramComment.h; sourceTree = "<group>"; };
-		086CFB271A734CD500E321F7 /* InstagramComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramComment.m; sourceTree = "<group>"; };
-		086CFB281A734CD500E321F7 /* InstagramMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramMedia.h; sourceTree = "<group>"; };
-		086CFB291A734CD500E321F7 /* InstagramMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramMedia.m; sourceTree = "<group>"; };
-		086CFB2A1A734CD500E321F7 /* InstagramModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramModel.h; sourceTree = "<group>"; };
-		086CFB2B1A734CD500E321F7 /* InstagramModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramModel.m; sourceTree = "<group>"; };
-		086CFB2C1A734CD500E321F7 /* InstagramPaginationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramPaginationInfo.h; sourceTree = "<group>"; };
-		086CFB2D1A734CD500E321F7 /* InstagramPaginationInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramPaginationInfo.m; sourceTree = "<group>"; };
-		086CFB2E1A734CD500E321F7 /* InstagramTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramTag.h; sourceTree = "<group>"; };
-		086CFB2F1A734CD500E321F7 /* InstagramTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramTag.m; sourceTree = "<group>"; };
-		086CFB301A734CD500E321F7 /* InstagramUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramUser.h; sourceTree = "<group>"; };
-		086CFB311A734CD500E321F7 /* InstagramUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramUser.m; sourceTree = "<group>"; };
 		086CFB3D1A73CD4600E321F7 /* LoginInstagramViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginInstagramViewController.swift; sourceTree = "<group>"; };
 		086E17B91AFB2CB100964405 /* FriendsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
 		086E17BB1AFB2CC600964405 /* FriendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendCell.swift; sourceTree = "<group>"; };
@@ -560,8 +532,6 @@
 		08F838951A87C87500CFCAEF /* ToastsCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastsCollectionViewLayout.swift; sourceTree = "<group>"; };
 		08F838981A88136100CFCAEF /* PlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
 		08F8389A1A88137400CFCAEF /* HashtagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagCell.swift; sourceTree = "<group>"; };
-		08F85ADC1A8CFEF600C01CC9 /* InstagramLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramLocation.h; sourceTree = "<group>"; };
-		08F85ADD1A8CFEF600C01CC9 /* InstagramLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramLocation.m; sourceTree = "<group>"; };
 		08F85AE21A8D5DD500C01CC9 /* BackgroundImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundImageView.swift; sourceTree = "<group>"; };
 		08F85AE61A8D5F0300C01CC9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		08F85AE91A8E395900C01CC9 /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
@@ -611,7 +581,7 @@
 			children = (
 				080193851A8FE45F00CAA770 /* BookingService.swift */,
 			);
-			name = "Booking API";
+			path = "Booking API";
 			sourceTree = "<group>";
 		};
 		08059CEE1ABE4092004A5A78 /* Data Sources */ = {
@@ -619,7 +589,7 @@
 			children = (
 				08059CEF1ABE40B0004A5A78 /* DiscoverDataSource.swift */,
 			);
-			name = "Data Sources";
+			path = "Data Sources";
 			sourceTree = "<group>";
 		};
 		08059CF91ABE4205004A5A78 /* Cell */ = {
@@ -628,7 +598,7 @@
 				08059CF51ABE4112004A5A78 /* DiscoverCell.swift */,
 				08059CF71ABE41FE004A5A78 /* DiscoverCell.xib */,
 			);
-			name = Cell;
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		0812C9221A6432A8004A115B /* img */ = {
@@ -636,7 +606,7 @@
 			children = (
 				087EA0641B13C43400BF66A1 /* neighBGs */,
 			);
-			name = img;
+			path = img;
 			sourceTree = "<group>";
 		};
 		0812C9251A645BDD004A115B /* General */ = {
@@ -648,7 +618,6 @@
 				08B623FA1ADE9CEF00DBC674 /* UIKit+AFNetworking */,
 				08EDB10B1AA0010200D94CF7 /* iCarousel */,
 				080193821A8FE43F00CAA770 /* Booking API */,
-				086CFB1D1A734CD500E321F7 /* InstagramKit */,
 				082256261B0258F600511527 /* Alamofire.xcodeproj */,
 				0812C9261A645C03004A115B /* toast-project-Bridging-Header.h */,
 				08D6D1021ABE565B0013C045 /* MyLocationManager.swift */,
@@ -660,7 +629,7 @@
 				08EB0BB91B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m */,
 				08EB0C601B0665E2002143DE /* ToastLogo.swift */,
 			);
-			name = General;
+			path = General;
 			sourceTree = "<group>";
 		};
 		0812C9631A646510004A115B /* CoreData */ = {
@@ -668,7 +637,7 @@
 			children = (
 				0812C9641A64651F004A115B /* Model.xcdatamodeld */,
 			);
-			name = CoreData;
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		082256271B0258F600511527 /* Products */ = {
@@ -701,7 +670,7 @@
 				08247F641B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.h */,
 				08247F651B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m */,
 			);
-			name = ReviewAccesoryView;
+			path = ReviewAccesoryView;
 			sourceTree = "<group>";
 		};
 		082ED7711B1EA920003F250E /* HeaderCells */ = {
@@ -709,7 +678,7 @@
 			children = (
 				082ED7771B1EA944003F250E /* ReviewDetailHeaders.xib */,
 			);
-			name = HeaderCells;
+			path = HeaderCells;
 			sourceTree = "<group>";
 		};
 		08363F651A5778E4007A6827 = {
@@ -757,7 +726,7 @@
 			children = (
 				08363F721A5778E4007A6827 /* Info.plist */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		08363F861A5778E4007A6827 /* toast-projectTests */ = {
@@ -774,7 +743,7 @@
 			children = (
 				08363F881A5778E4007A6827 /* Info.plist */,
 			);
-			name = "Supporting Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		08363FAD1A5779A9007A6827 /* Frameworks */ = {
@@ -809,7 +778,7 @@
 				08363FB01A577C63007A6827 /* LoginViewController.swift */,
 				086CFB3D1A73CD4600E321F7 /* LoginInstagramViewController.swift */,
 			);
-			name = Login;
+			path = Login;
 			sourceTree = "<group>";
 		};
 		08363FAF1A577BC3007A6827 /* Main */ = {
@@ -820,16 +789,16 @@
 				08E184BB1A90D63B00C9A956 /* MainMenuTableViewController.swift */,
 				08D5E1881B2D36BE00DD8CED /* MainMenuTableView.swift */,
 			);
-			name = Main;
+			path = Main;
 			sourceTree = "<group>";
 		};
-		084C145B1AA1003C005FB0E9 /* Name/Review Aux VC */ = {
+		084C145B1AA1003C005FB0E9 /* Review Aux VC */ = {
 			isa = PBXGroup;
 			children = (
 				084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */,
 				08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */,
 			);
-			name = "Name/Review Aux VC";
+			path = "Review Aux VC";
 			sourceTree = "<group>";
 		};
 		0858BF101AB9B16900DCEBA6 /* Reviews */ = {
@@ -841,50 +810,7 @@
 				08EB0C661B06F166002143DE /* LikeCountView.swift */,
 				08E38FDF1AF18FC6002736A2 /* FriendHeaders */,
 			);
-			name = Reviews;
-			sourceTree = "<group>";
-		};
-		086CFB1D1A734CD500E321F7 /* InstagramKit */ = {
-			isa = PBXGroup;
-			children = (
-				086CFB1E1A734CD500E321F7 /* Engine */,
-				086CFB211A734CD500E321F7 /* InstagramKit.h */,
-				086CFB221A734CD500E321F7 /* InstagramKit.plist */,
-				086CFB231A734CD500E321F7 /* Models */,
-			);
-			path = InstagramKit;
-			sourceTree = "<group>";
-		};
-		086CFB1E1A734CD500E321F7 /* Engine */ = {
-			isa = PBXGroup;
-			children = (
-				086CFB1F1A734CD500E321F7 /* InstagramEngine.h */,
-				086CFB201A734CD500E321F7 /* InstagramEngine.m */,
-			);
-			path = Engine;
-			sourceTree = "<group>";
-		};
-		086CFB231A734CD500E321F7 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				086CFB241A734CD500E321F7 /* IKUserInPhoto.h */,
-				086CFB251A734CD500E321F7 /* IKUserInPhoto.m */,
-				086CFB261A734CD500E321F7 /* InstagramComment.h */,
-				086CFB271A734CD500E321F7 /* InstagramComment.m */,
-				086CFB281A734CD500E321F7 /* InstagramMedia.h */,
-				086CFB291A734CD500E321F7 /* InstagramMedia.m */,
-				086CFB2A1A734CD500E321F7 /* InstagramModel.h */,
-				086CFB2B1A734CD500E321F7 /* InstagramModel.m */,
-				086CFB2C1A734CD500E321F7 /* InstagramPaginationInfo.h */,
-				086CFB2D1A734CD500E321F7 /* InstagramPaginationInfo.m */,
-				086CFB2E1A734CD500E321F7 /* InstagramTag.h */,
-				086CFB2F1A734CD500E321F7 /* InstagramTag.m */,
-				086CFB301A734CD500E321F7 /* InstagramUser.h */,
-				086CFB311A734CD500E321F7 /* InstagramUser.m */,
-				08F85ADC1A8CFEF600C01CC9 /* InstagramLocation.h */,
-				08F85ADD1A8CFEF600C01CC9 /* InstagramLocation.m */,
-			);
-			path = Models;
+			path = Reviews;
 			sourceTree = "<group>";
 		};
 		086E17B81AFAE0F400964405 /* FriendsList */ = {
@@ -894,7 +820,7 @@
 				086E17BB1AFB2CC600964405 /* FriendCell.swift */,
 				086E17BD1AFB2CE400964405 /* FriendsListDataSource.swift */,
 			);
-			name = FriendsList;
+			path = FriendsList;
 			sourceTree = "<group>";
 		};
 		086E18221B001CEC00964405 /* CCHLinkTextView */ = {
@@ -1014,7 +940,7 @@
 				08EB0C6C1B0A13C5002143DE /* StarButton.swift */,
 				086E17B81AFAE0F400964405 /* FriendsList */,
 			);
-			name = "Profile Detail";
+			path = "Profile Detail";
 			sourceTree = "<group>";
 		};
 		089C52901AD143D500054037 /* Post-Related */ = {
@@ -1025,7 +951,7 @@
 				089C52971AD17E0000054037 /* Related Places Header */,
 				08EB0C641B06949F002143DE /* PostActionsViewController.swift */,
 			);
-			name = "Post-Related";
+			path = "Post-Related";
 			sourceTree = "<group>";
 		};
 		089C52971AD17E0000054037 /* Related Places Header */ = {
@@ -1033,7 +959,7 @@
 			children = (
 				089C52981AD17E2700054037 /* RelatedPlacesHeaderView.xib */,
 			);
-			name = "Related Places Header";
+			path = "Related Places Header";
 			sourceTree = "<group>";
 		};
 		08B425CD1A7C48B200A72C95 /* Contribution */ = {
@@ -1041,10 +967,10 @@
 			children = (
 				08E68AD01ACE2E11008609D4 /* Post-Contribution */,
 				08EDB1111AA00A4C00D94CF7 /* CarouselViews */,
-				084C145B1AA1003C005FB0E9 /* Name/Review Aux VC */,
+				084C145B1AA1003C005FB0E9 /* Review Aux VC */,
 				08EDB1221AA017EB00D94CF7 /* ContributeViewController.swift */,
 			);
-			name = Contribution;
+			path = Contribution;
 			sourceTree = "<group>";
 		};
 		08B425D21A7C492E00A72C95 /* Discover */ = {
@@ -1055,7 +981,7 @@
 				08059CEE1ABE4092004A5A78 /* Data Sources */,
 				08DB824B1A87BA9A00AEE163 /* FriendsLike */,
 			);
-			name = Discover;
+			path = Discover;
 			sourceTree = "<group>";
 		};
 		08B623E61ADE9CEF00DBC674 /* AFNetworking */ = {
@@ -1115,7 +1041,7 @@
 				08C1FDE51AE32470009F1FB8 /* HeartButton.swift */,
 				08C1FDE71AE32483009F1FB8 /* FollowButton.swift */,
 			);
-			name = Buttons;
+			path = Buttons;
 			sourceTree = "<group>";
 		};
 		08C2E8CB1A885E58009A44F6 /* Hashtags */ = {
@@ -1124,7 +1050,7 @@
 				08C2E8D31A88F7FB009A44F6 /* HashtagCollectionViewDataSource.swift */,
 				08F8389A1A88137400CFCAEF /* HashtagCell.swift */,
 			);
-			name = Hashtags;
+			path = Hashtags;
 			sourceTree = "<group>";
 		};
 		08C9937F1ABC4A7500692721 /* Review Detail */ = {
@@ -1134,7 +1060,7 @@
 				082ED7711B1EA920003F250E /* HeaderCells */,
 				08C1FDE21AE32448009F1FB8 /* Buttons */,
 			);
-			name = "Review Detail";
+			path = "Review Detail";
 			sourceTree = "<group>";
 		};
 		08DB824B1A87BA9A00AEE163 /* FriendsLike */ = {
@@ -1143,7 +1069,7 @@
 				08DB82471A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift */,
 				08DB82491A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift */,
 			);
-			name = FriendsLike;
+			path = FriendsLike;
 			sourceTree = "<group>";
 		};
 		08E38FDF1AF18FC6002736A2 /* FriendHeaders */ = {
@@ -1153,7 +1079,7 @@
 				08E38FDD1AF18F95002736A2 /* FriendOfFriendHeaderCell.swift */,
 				08E38FE01AF274D6002736A2 /* ReviewHeaderCell.swift */,
 			);
-			name = FriendHeaders;
+			path = FriendHeaders;
 			sourceTree = "<group>";
 		};
 		08E68AD01ACE2E11008609D4 /* Post-Contribution */ = {
@@ -1164,7 +1090,7 @@
 				089C52901AD143D500054037 /* Post-Related */,
 				08EB0C621B06892F002143DE /* PostButton.swift */,
 			);
-			name = "Post-Contribution";
+			path = "Post-Contribution";
 			sourceTree = "<group>";
 		};
 		08EB0C0E1B04F1A2002143DE /* UIImageEffects */ = {
@@ -1173,7 +1099,7 @@
 				08EB0C0F1B04F1BC002143DE /* UIImage+ImageEffects.h */,
 				08EB0C101B04F1BC002143DE /* UIImage+ImageEffects.m */,
 			);
-			name = UIImageEffects;
+			path = UIImageEffects;
 			sourceTree = "<group>";
 		};
 		08EDB0FA1A9D070800D94CF7 /* Views */ = {
@@ -1181,7 +1107,7 @@
 			children = (
 				08EDB0FD1A9D072300D94CF7 /* MyLoginButtonView.swift */,
 			);
-			name = Views;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		08EDB10B1AA0010200D94CF7 /* iCarousel */ = {
@@ -1204,7 +1130,7 @@
 				08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */,
 				08247F6C1B16243900E5CC24 /* ReviewAccesoryView */,
 			);
-			name = CarouselViews;
+			path = CarouselViews;
 			sourceTree = "<group>";
 		};
 		08F838901A87C81400CFCAEF /* Toasts */ = {
@@ -1217,7 +1143,7 @@
 				08C9937F1ABC4A7500692721 /* Review Detail */,
 				08F85AE81A8E393900C01CC9 /* Place Detail */,
 			);
-			name = Toasts;
+			path = Toasts;
 			sourceTree = "<group>";
 		};
 		08F838971A88108700CFCAEF /* Cells */ = {
@@ -1228,7 +1154,7 @@
 				0858BF101AB9B16900DCEBA6 /* Reviews */,
 				08C2E8CB1A885E58009A44F6 /* Hashtags */,
 			);
-			name = Cells;
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		08F85AE81A8E393900C01CC9 /* Place Detail */ = {
@@ -1239,7 +1165,7 @@
 				08EB0C731B0AA401002143DE /* PlacePicturesDataSource.swift */,
 				080193871A8FFF9300CAA770 /* GenericWebViewController.swift */,
 			);
-			name = "Place Detail";
+			path = "Place Detail";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1462,7 +1388,6 @@
 				087EA0FC1B13C43500BF66A1 /* West Village.jpg in Resources */,
 				087EA0E71B13C43500BF66A1 /* loginBG.jpg in Resources */,
 				08B905E71AA14A29009F3B21 /* ToastMoodCell.xib in Resources */,
-				086CFB331A734CD500E321F7 /* InstagramKit.plist in Resources */,
 				087EA0BF1B13C43500BF66A1 /* East Village-blur@3x.jpg in Resources */,
 				08EDB11F1AA00B3000D94CF7 /* CarouselViews.xib in Resources */,
 				087EA0ED1B13C43500BF66A1 /* NoHo.jpg in Resources */,
@@ -1507,7 +1432,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				08EDB11B1AA00AED00D94CF7 /* ToastReviewView.swift in Sources */,
-				086CFB321A734CD500E321F7 /* InstagramEngine.m in Sources */,
 				08E38FD91AF18F81002736A2 /* FriendHeaderCell.swift in Sources */,
 				08D6D1031ABE565B0013C045 /* MyLocationManager.swift in Sources */,
 				08C1FDE81AE32483009F1FB8 /* FollowButton.swift in Sources */,
@@ -1516,7 +1440,6 @@
 				08EDB10E1AA0010200D94CF7 /* iCarousel.m in Sources */,
 				08E184B81A90BFFC00C9A956 /* MainViewController.swift in Sources */,
 				08B624161ADE9CEF00DBC674 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
-				086CFB341A734CD500E321F7 /* IKUserInPhoto.m in Sources */,
 				08DB824A1A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift in Sources */,
 				08EB0C651B06949F002143DE /* PostActionsViewController.swift in Sources */,
 				08B6240E1ADE9CEF00DBC674 /* AFHTTPSessionManager.m in Sources */,
@@ -1535,7 +1458,6 @@
 				08EB0C631B06892F002143DE /* PostButton.swift in Sources */,
 				08B624171ADE9CEF00DBC674 /* UIAlertView+AFNetworking.m in Sources */,
 				088188511AC9649F00559DC8 /* ProfileToastCell.swift in Sources */,
-				086CFB371A734CD500E321F7 /* InstagramModel.m in Sources */,
 				08059CF01ABE40B0004A5A78 /* DiscoverDataSource.swift in Sources */,
 				086E18281B001CEC00964405 /* CCHLinkGestureRecognizer.m in Sources */,
 				080193861A8FE45F00CAA770 /* BookingService.swift in Sources */,
@@ -1572,19 +1494,14 @@
 				086E17BC1AFB2CC600964405 /* FriendCell.swift in Sources */,
 				08363F741A5778E4007A6827 /* AppDelegate.swift in Sources */,
 				08C993871ABCAAC700692721 /* ReviewerButton.swift in Sources */,
-				08F85ADE1A8CFEF600C01CC9 /* InstagramLocation.m in Sources */,
 				08E184BC1A90D63B00C9A956 /* MainMenuTableViewController.swift in Sources */,
 				080377511A7341ED00E75297 /* LoginSuccesViewController.swift in Sources */,
-				086CFB391A734CD500E321F7 /* InstagramTag.m in Sources */,
-				086CFB381A734CD500E321F7 /* InstagramPaginationInfo.m in Sources */,
 				08B624121ADE9CEF00DBC674 /* AFURLRequestSerialization.m in Sources */,
 				0881884F1AC9647400559DC8 /* ProfileToastsDataSource.swift in Sources */,
-				086CFB361A734CD500E321F7 /* InstagramMedia.m in Sources */,
 				086E17BE1AFB2CE400964405 /* FriendsListDataSource.swift in Sources */,
 				0812C9661A64651F004A115B /* Model.xcdatamodeld in Sources */,
 				08059CEB1ABE407D004A5A78 /* DiscoverViewController.swift in Sources */,
 				08F85AE31A8D5DD500C01CC9 /* BackgroundImageView.swift in Sources */,
-				086CFB351A734CD500E321F7 /* InstagramComment.m in Sources */,
 				08EB0C781B0B5DEF002143DE /* ReviewCell.swift in Sources */,
 				08E38FE11AF274D6002736A2 /* ReviewHeaderCell.swift in Sources */,
 				08C993831ABC4AC900692721 /* ReviewDetailViewController.swift in Sources */,
@@ -1598,7 +1515,6 @@
 				08D5E1891B2D36BE00DD8CED /* MainMenuTableView.swift in Sources */,
 				089C52941AD1440400054037 /* PostRelatedPlaceCell.swift in Sources */,
 				08EB0BBA1B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m in Sources */,
-				086CFB3A1A734CD500E321F7 /* InstagramUser.m in Sources */,
 				08E38FDE1AF18F95002736A2 /* FriendOfFriendHeaderCell.swift in Sources */,
 				08F85AEC1A8E397000C01CC9 /* PlaceDetailTableViewController.swift in Sources */,
 			);
@@ -1639,6 +1555,7 @@
 				08363F781A5778E4007A6827 /* Base */,
 			);
 			name = Main.storyboard;
+			path = .;
 			sourceTree = "<group>";
 		};
 		08363F7C1A5778E4007A6827 /* LaunchScreen.xib */ = {
@@ -1647,6 +1564,7 @@
 				08363F7D1A5778E4007A6827 /* Base */,
 			);
 			name = LaunchScreen.xib;
+			path = .;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1742,7 +1660,7 @@
 					"$(PROJECT_DIR)",
 					/Users/diegocruz/Documents/FacebookSDK,
 				);
-				INFOPLIST_FILE = "toast-project/Info.plist";
+				INFOPLIST_FILE = "toast-project/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1765,7 +1683,7 @@
 					"$(PROJECT_DIR)",
 					/Users/diegocruz/Documents/FacebookSDK,
 				);
-				INFOPLIST_FILE = "toast-project/Info.plist";
+				INFOPLIST_FILE = "toast-project/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1786,7 +1704,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "toast-projectTests/Info.plist";
+				INFOPLIST_FILE = "toast-projectTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/toast-project.app/toast-project";
@@ -1801,7 +1719,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "toast-projectTests/Info.plist";
+				INFOPLIST_FILE = "toast-projectTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/toast-project.app/toast-project";
