@@ -57,11 +57,11 @@ class PostRelatedPlaceCell: UITableViewCell {
     
     private func configureHashtags(place:PFObject){
         
-        PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":place.objectId,"limit":10]) { (result, error) -> Void in
+        PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":place.objectId!,"limit":10]) { (result, error) -> Void in
             if error == nil{
                 self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: result as! [PFObject], myDelegate: nil)
             }else{
-                NSLog("%@", error.description)
+                NSLog("%@", error!.description)
             }
         }
     }

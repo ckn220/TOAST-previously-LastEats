@@ -93,7 +93,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
                     dispatch_group_leave(group)
                     NSLog("Found moods")
                 }else{
-                    NSLog("configureMoods error: %@",error.description)
+                    NSLog("configureMoods error: %@",error!.description)
                 }
             }
     }
@@ -109,7 +109,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
                     self.neighborhoodDataSource = DiscoverDataSource(items: neighs, myDelegate: self, isMood: false)
                     //dispatch_group_leave(group)
                 }else{
-                    NSLog("configureNeighborhoods error: %@", error.description)
+                    NSLog("configureNeighborhoods error: %@", error!.description)
                 }
             }
     }

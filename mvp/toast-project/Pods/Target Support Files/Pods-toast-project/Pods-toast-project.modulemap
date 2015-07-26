@@ -1,0 +1,6 @@
+framework module Pods_toast_project {
+  umbrella header "Pods-toast-project-umbrella.h"
+
+  export *
+  module * { export * }
+}

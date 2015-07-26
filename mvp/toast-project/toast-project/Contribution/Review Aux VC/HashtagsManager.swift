@@ -25,7 +25,7 @@ class HashtagsManager: NSObject{
         
         PFCloud.callFunctionInBackground("createHashtagsIfNew", withParameters: ["items":tempHashTags,"toastId":toastID]) { (result, error) -> Void in
             if error != nil{
-                NSLog("%@",error.description)
+                NSLog("%@",error!.description)
             }
         }
     }

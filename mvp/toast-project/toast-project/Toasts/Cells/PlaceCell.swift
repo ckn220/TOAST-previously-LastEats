@@ -90,11 +90,11 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     
     func configureHashtags(){
         hashtagQueue.addOperationWithBlock { () -> Void in
-            if let localHashtags = self.myDelegate?.placeCellAskedForHashtags(self.myPlace!.objectId){
+            if let localHashtags = self.myDelegate?.placeCellAskedForHashtags(self.myPlace!.objectId!){
                 self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: localHashtags, myDelegate: nil)
                 self.toggleAlpha(alpha: 1, views: self.placeNameLabel,self.hashtagsCollectionView)
             }else{
-                PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":self.myPlace!.objectId,"limit":4]) { (result, error) -> Void in
+                PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":self.myPlace!.objectId!,"limit":4]) { (result, error) -> Void in
                     if error == nil{
                         let hashtags = result as! [PFObject]
                         let mainQueue = NSOperationQueue.mainQueue()
@@ -102,9 +102,9 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
                             self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: hashtags, myDelegate: nil)
                         })
                         self.toggleAlpha(alpha: 1, views: self.placeNameLabel,self.hashtagsCollectionView)
-                        self.myDelegate?.placeCellDidGetHashtags(self.myPlace!.objectId, hashtags: hashtags)
+                        self.myDelegate?.placeCellDidGetHashtags(self.myPlace!.objectId!, hashtags: hashtags)
                     }else{
-                        NSLog("%@", error.description)
+                        NSLog("%@", error!.description)
                     }
                 }
             }
@@ -122,15 +122,15 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         self.reviewsTableView.rowHeight = UITableViewAutomaticDimension
         
         reviewQueue.addOperationWithBlock { () -> Void in
-            if let localReviews = self.myDelegate?.placeCellAskedForReviews(self.myPlace!.objectId){
+            if let localReviews = self.myDelegate?.placeCellAskedForReviews(self.myPlace!.objectId!){
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     self.reviewsDataSource = ReviewsTableViewDataSource(toasts: localReviews,delegate: self)
                 })
                 
                 self.configureToastCount(localReviews)
-                self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: localReviews)
+                self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId!, reviews: localReviews)
             }else{
-                PFCloud.callFunctionInBackground("reviewsFromToast", withParameters: ["placeId":self.myPlace!.objectId], block: { (result, error) -> Void in
+                PFCloud.callFunctionInBackground("reviewsFromToast", withParameters: ["placeId":self.myPlace!.objectId!], block: { (result, error) -> Void in
                     if error == nil{
                         let reviews = result as! [PFObject]
                         
@@ -139,9 +139,9 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
                             self.configureToastCount(reviews)
                         })
                         
-                        self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: reviews)
+                        self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId!, reviews: reviews)
                     }else{
-                        NSLog("configureReviews error: %@", error.description)
+                        NSLog("configureReviews error: %@", error!.description)
                     }
                 })
             }
@@ -164,7 +164,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         var count = 0
         for t in toasts{
             let tUser = t["user"] as! PFUser
-            if tUser.objectId != currentUser.objectId {
+            if tUser.objectId != currentUser!.objectId! {
                 count++
             }
         }
@@ -175,9 +175,9 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     //MARK - Information bar methods
     func configureCategory(){
         if let category = myPlace!["category"] as? PFObject{
-            category.fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
+            category.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
                 if error == nil {
-                    let placeName = (result["name"] as? String)
+                    let placeName = (result!["name"] as? String)
                     self.categoryNameLabel.text = placeName?.uppercaseString
                 }
             }
@@ -199,7 +199,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     func configureDistance(){
-        let userLastLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint
+        let userLastLocation = PFUser.currentUser()!["lastLocation"] as? PFGeoPoint
         if let placeLocation = myPlace!["location"] as? PFGeoPoint {
             let distance = placeLocation.distanceInMilesTo(userLastLocation)
             

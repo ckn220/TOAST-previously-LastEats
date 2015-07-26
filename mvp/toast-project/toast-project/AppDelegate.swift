@@ -9,32 +9,38 @@
 
 import UIKit
 import Parse
+import ParseFacebookUtilsV4
 import Haneke
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let productionAppId = "HnLgxzOU0ZOTYIRxrRB3ulXDlsS1FGzBl96ytBSk"
+    let productionClientId = "Towu7llPAMzgeeOUmZjPpXNXM5JoTH1K57BBGwxY"
+    
+    let devAppId = "DnyVBFymiYSn4Qj4l62IpRph4nYvldaXafQEjqoZ"
+    let devClientId = "XWkkop1qpFxLSBXESXjBO1fl5pUBb9p5P6ZHiv0p"
     
     //MARK: -
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        configure(application: application)
+        configure(application: application,launchOptions:launchOptions)
         handleLaunch(launchOptions)
         
         return true
     }
     
     //MARK: Configure methods
-    private func configure(#application: UIApplication){
-        configureParse()
+    private func configure(#application: UIApplication,launchOptions: [NSObject: AnyObject]?){
+        configureParse(launchOptions)
         configurePushNotifications(application: application)
         //configureNeighborhoods()
     }
     
-    private func configureParse(){
+    private func configureParse(launchOptions: [NSObject: AnyObject]?){
         //Parse.enableLocalDatastore()
-        Parse.setApplicationId("HnLgxzOU0ZOTYIRxrRB3ulXDlsS1FGzBl96ytBSk", clientKey: "Towu7llPAMzgeeOUmZjPpXNXM5JoTH1K57BBGwxY")
-        PFFacebookUtils.initializeFacebook();
+        Parse.setApplicationId(devAppId, clientKey: devClientId)
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
     }
     
     private func configurePushNotifications(#application:UIApplication){
@@ -118,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let nav = self.mainNav()
                 nav.pushViewController(destination, animated: true)
             }else{
-                NSLog("showReview error: %@", error.description)
+                NSLog("showReview error: %@", error!.description)
                 self.handleLaunchFromNormal()
             }
         }
@@ -128,7 +134,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let destination = storyboard.instantiateViewControllerWithIdentifier("reviewDetailScene") as! ReviewDetailViewController
         destination.myToast = toast
-        destination.titleString = place["name"] as! String
+        destination.titleString = place["name"] as? String
         
         return destination
     }
@@ -171,15 +177,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //MARK: -
     func application(application: UIApplication,openURL url: NSURL,sourceApplication: String?,annotation: AnyObject?) -> Bool {
-            return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,withSession:PFFacebookUtils.session())
+        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
-    }
-    
-    func applicationWillTerminate(application: UIApplication) {
-        PFFacebookUtils.session().close()
+        FBSDKAppEvents.activateApp()
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {

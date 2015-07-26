@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E799A8B9-14C5-4110-B4C9-0C9DB5C9EADC</string>
+	<key>IDESourceControlProjectName</key>
+	<string>toast-project</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>F90710996CC30E635B8F5EC7DC7B7F972A849D41</key>
+		<string>https://github.com/ckn220/TOAST-previously-LastEats.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>mvp/toast-project/toast-project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>F90710996CC30E635B8F5EC7DC7B7F972A849D41</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ckn220/TOAST-previously-LastEats.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>F90710996CC30E635B8F5EC7DC7B7F972A849D41</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>F90710996CC30E635B8F5EC7DC7B7F972A849D41</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TOAST-previously-LastEats</string>
+		</dict>
+	</array>
+</dict>
+</plist>

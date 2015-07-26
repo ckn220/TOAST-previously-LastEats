@@ -37,7 +37,7 @@ class PostContributeViewController: UIViewController,UIViewControllerTransitioni
     }
     
     private func configureUserLabel(){
-        let user = PFUser.currentUser()
+        let user = PFUser.currentUser()!
         let names:[String] = (user["name"] as! String).componentsSeparatedByString(" ")
         userNameLabel.text = names[0]+"!"
         messageHeader.text = "Nice toast, "+names[0]+"!"

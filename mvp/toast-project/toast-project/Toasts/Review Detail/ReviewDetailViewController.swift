@@ -42,7 +42,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
     
     private func configureTitle(){
         if titleString != nil{
-            titleLabel.text = "Toasts for "+titleString!
+            titleLabel.text = "Toast for "+titleString!
         }
     }
     
@@ -69,7 +69,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
     private func requestHeaders(){
         headerQueue.addOperationWithBlock { () -> Void in
             let user = self.myToast!["user"] as! PFUser
-            PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":user.objectId]) { (result, error) -> Void in
+            PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":user.objectId!]) { (result, error) -> Void in
                 if error == nil{
                     if let friend = result as? PFUser{
                         self.configureFriendOfFriendHeader(friend:friend,friendOfFriend: user)
@@ -77,7 +77,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
                         self.configureFriendHeader(friend:user)
                     }
                 }else{
-                    NSLog("friendOfFriend error: %@",error.description)
+                    NSLog("friendOfFriend error: %@",error!.description)
                 }
                 
             }
@@ -169,13 +169,13 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
     }
     
     private func requestHasHeart(#toast:PFObject,completion:(hasHeart:Bool) -> Void){
-        let heartsQuery = PFUser.currentUser().relationForKey("hearts").query()
-        heartsQuery.whereKey("objectId", equalTo: myToast!.objectId)
+        let heartsQuery = PFUser.currentUser()!.relationForKey("hearts").query()!
+        heartsQuery.whereKey("objectId", equalTo: myToast!.objectId!)
         heartsQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
             if error == nil{
                 completion(hasHeart: count == 1)
             }else{
-                NSLog("requestHasHeart error: %@",error.description)
+                NSLog("requestHasHeart error: %@",error!.description)
             }
         }
     }
@@ -187,7 +187,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
             if error == nil{
                 self.heartCountView.count = Int(count)
             }else{
-                NSLog("setHeartCount error:%@",error.description)
+                NSLog("setHeartCount error:%@",error!.description)
             }
         }
     }
@@ -255,9 +255,9 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
             heartCountView.count--
         }
         
-        PFCloud.callFunctionInBackground(heartFunction, withParameters: ["toastId":myToast!.objectId]) { (result, error) -> Void in
+        PFCloud.callFunctionInBackground(heartFunction, withParameters: ["toastId":myToast!.objectId!]) { (result, error) -> Void in
             if error != nil{
-                NSLog("%@",error.description)
+                NSLog("%@",error!.description)
             }
         }
     }
@@ -281,5 +281,11 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
             self.loadingView.alpha = 0
         }
+    }
+    
+    //MARK: - Segue method
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let destination = segue.destinationViewController as! PlaceDetailViewController
+        destination.myPlace = myToast!["place"] as? PFObject
     }
 }

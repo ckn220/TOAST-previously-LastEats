@@ -154,7 +154,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
             if error == nil {
                 view.insertMoods(result as! [PFObject])
             }else{
-                NSLog("%@", error.description)
+                NSLog("%@", error!.description)
             }
         }
     }

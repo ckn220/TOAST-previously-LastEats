@@ -47,7 +47,7 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
                 self.relatedPlacesTableView.reloadData()
                 self.configureTableViewInset()
             }else{
-                NSLog("relatedPlaces: %@",error.description)
+                NSLog("relatedPlaces: %@",error!.description)
             }
         }
     }
@@ -56,7 +56,7 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
         if let moods = myTempToast["moods"] as? [PFObject]{
             var array=[String]()
             for mood in moods{
-                array.append(mood.objectId)
+                array.append(mood.objectId!)
             }
             
             return array
@@ -201,7 +201,7 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
             if error == nil{
                 self.changeToDone()
             }else{
-                NSLog("%@",error.description)
+                NSLog("%@",error!.description)
             }
         }
     }

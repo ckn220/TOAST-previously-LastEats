@@ -29,9 +29,10 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        configurePlaceName()
-        configureBottomBar()
+
+        self.configurePlaceName()
+        self.configureBottomBar()
+
     }
 
     private func configurePlaceName(){
@@ -112,10 +113,10 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     
     //MARK: - PlaceDetail Delegate
     func placeDetailCategoryPressed() {
-        (myPlace?["category"] as! PFObject).fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
+        (myPlace!["category"] as! PFObject).fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
             if error == nil {
                 let destination = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
-                destination.myCategory = result
+                destination.myCategory = result!
                 
                 self.navigationController?.showViewController(destination, sender: nil)
             }

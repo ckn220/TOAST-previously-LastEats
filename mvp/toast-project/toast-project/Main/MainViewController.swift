@@ -9,8 +9,9 @@
 import UIKit
 import Parse
 import MessageUI
+import FBSDKShareKit
 
-class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegate, UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate {
+class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegate, UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate {
 
     @IBOutlet var myPanGestureRecognizer: UIPanGestureRecognizer!
     @IBOutlet weak var menuContainerView: UIView!
@@ -22,6 +23,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     
     var mainNav:UINavigationController?
     var mailScene:MFMailComposeViewController!
+    var inviteMessageScene:MFMessageComposeViewController!
     
     var isOpen = false
     var totalOffset:CGFloat = 0
@@ -210,6 +212,10 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         changeMainTo(discoverScene)
     }
     
+    func mainManuTableActivityPressed() {
+        
+    }
+    
     func mainMenuTableMyToastsPressed() {
         let toastsScene = self.storyboard?.instantiateViewControllerWithIdentifier("profileDetailScene") as! ProfileDetailViewController
         toastsScene.myUser = PFUser.currentUser()
@@ -222,6 +228,42 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     func mainMenuTableContributePressed() {
         let contributeScene = self.storyboard?.instantiateViewControllerWithIdentifier("contributeScene") as! UIViewController
         self.showDetailViewController(contributeScene, sender: nil)
+    }
+    
+    func mainMenuTableInvitePressed() {
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            let invitationText = "Invitation text for Toast."
+            let invitationURL = "http://lasteats.com"
+            
+            let chooseAction = UIAlertController(title: nil, message: "Choose a way to invite your friends", preferredStyle: UIAlertControllerStyle.ActionSheet)
+            if MFMessageComposeViewController.canSendText(){
+                chooseAction.addAction(self.messageAction("\(invitationText) \(invitationURL)"))
+            }
+            chooseAction.addAction(self.facebookAction(invitationText,urlString:invitationURL))
+            self.presentViewController(chooseAction, animated: true, completion: nil)
+        }
+        
+    }
+    
+    private func messageAction(text:String) -> UIAlertAction{
+        return UIAlertAction(title: "Text message", style: .Default) { (alert) -> Void in
+            self.closeMenu()
+            self.inviteMessageScene = MFMessageComposeViewController()
+            self.inviteMessageScene.body = text
+            self.inviteMessageScene.messageComposeDelegate = self
+            self.presentViewController(self.inviteMessageScene, animated: true, completion: nil)
+        }
+    }
+    
+    private func facebookAction(text:String, urlString:String) -> UIAlertAction{
+        return UIAlertAction(title: "Facebook Messenger", style: .Default) { (alert) -> Void in
+            self.closeMenu()
+            let content = FBSDKShareLinkContent()
+            content.contentURL = NSURL(string: urlString)
+            content.contentTitle = "Try Toast app"
+            content.contentDescription = text
+            FBSDKMessageDialog.showWithContent(content, delegate: nil)
+        }
     }
     
     func mainMenuTableContactUsPressed() {
@@ -247,6 +289,11 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     
     //MARK: - MailComposer delegate methods
     func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    //MARK: - MessageComposer delegate methods
+    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
 }

@@ -34,7 +34,7 @@ class LoginSuccesViewController: UIViewController {
         
         if PFUser.currentUser() != nil {
             
-            if let name = PFUser.currentUser()["name"] as? String{
+            if let name = PFUser.currentUser()!["name"] as? String{
                 
                 profileNameLabel.text = "Welcome, " + name
                 
@@ -42,12 +42,12 @@ class LoginSuccesViewController: UIViewController {
             
             
             
-            if PFUser.currentUser()["profilePicture"] != nil {
-                let userImageFile = PFUser.currentUser()["profilePicture"] as! PFFile
+            if PFUser.currentUser()!["profilePicture"] != nil {
+                let userImageFile = PFUser.currentUser()!["profilePicture"] as! PFFile
                 userImageFile.getDataInBackgroundWithBlock {
-                    (imageData: NSData!, error: NSError!) -> Void in
+                    (imageData, error) -> Void in
                     if error == nil {
-                        let image = UIImage(data:imageData)
+                        let image = UIImage(data:imageData!)
                         self.profilePicView.image = image
                     }
                 }

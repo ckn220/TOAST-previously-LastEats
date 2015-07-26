@@ -1,0 +1,6 @@
+framework module FBSDKLoginKit {
+  umbrella header "Pods-toast-project-FBSDKLoginKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

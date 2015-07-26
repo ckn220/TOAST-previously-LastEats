@@ -46,7 +46,7 @@ class ReviewAccesoryView: UIView,UICollectionViewDataSource,UICollectionViewDele
                 NSLog("Hashtags count: %d", self.myHashtags.count)
                 self.hashtagCollectionView.reloadData()
             }else{
-                NSLog("configureHashtags error: %@",error.description)
+                NSLog("configureHashtags error: %@",error!.description)
             }
         }
     }
@@ -54,7 +54,7 @@ class ReviewAccesoryView: UIView,UICollectionViewDataSource,UICollectionViewDele
     private func objectsIdArray(#moods:[PFObject])->[String]{
         var array=[String]()
         for m in moods{
-            array.append(m.objectId)
+            array.append(m.objectId!)
         }
         
         return array

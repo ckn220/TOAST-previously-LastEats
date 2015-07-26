@@ -36,7 +36,7 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
     }
     
     private func configureCurrentUser(){
-        isCurrentUser = user.objectId == PFUser.currentUser().objectId
+        isCurrentUser = user.objectId == PFUser.currentUser()!.objectId
     }    
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -83,11 +83,11 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
     }
     
     private func deleteFromCloud(toast:PFObject){
-        PFCloud.callFunctionInBackground("deleteToast", withParameters: ["toastId":toast.objectId]) { (result, error) -> Void in
+        PFCloud.callFunctionInBackground("deleteToast", withParameters: ["toastId":toast.objectId!]) { (result, error) -> Void in
             if error == nil{
                 self.myDelegate?.profileToastsItemDeleted(self.toasts)
             }else{
-                NSLog("%@",error.description)
+                NSLog("%@",error!.description)
             }
         }
     }

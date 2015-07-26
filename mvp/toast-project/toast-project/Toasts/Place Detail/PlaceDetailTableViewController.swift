@@ -85,16 +85,17 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        self.configurePlacePictures()
+        self.configureMap()
+        self.configureCategory()
+        self.configurePrice()
+        self.configureDistance()
+        self.configureAddress()
+        self.configureHours()
+        self.configureCall()
+        self.configureHashtags()
         
-        configurePlacePictures()
-        configureMap()
-        configureCategory()
-        configurePrice()
-        configureDistance()
-        configureAddress()
-        configureHours()
-        configureCall()
-        configureHashtags()
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -126,10 +127,11 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     func configureCategory(){
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
         if let category = self.myPlace?["category"] as? PFObject{
-            category.fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
+            category.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
                 if error == nil {
-                    let placeName = (result["name"] as? String)
-                    self.cateogoryLabel.text = placeName?.uppercaseString
+                    if let placeName = (result!["name"] as? String){
+                        self.cateogoryLabel.text = placeName.uppercaseString
+                    }
                 }
             }
         }else{
@@ -150,7 +152,7 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     }
     
     func configureDistance(){
-        let userLastLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint
+        let userLastLocation = PFUser.currentUser()!["lastLocation"] as? PFGeoPoint
         let placeLocation = myPlace!["location"] as? PFGeoPoint
         
         let distance = placeLocation?.distanceInMilesTo(userLastLocation)
@@ -202,11 +204,23 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     }
     
     func configureHashtags(){
-        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-        let roundedNumber = round(Double(self.placeHashtags!.count)/2)
-        let newHeight = roundedNumber*22
-        self.hashtagCollectionViewHeightConstraint.constant = CGFloat(min(newHeight, 66.0))
-       self.hashtagsDataSource = HashtagCollectionViewDataSource(hashtags: self.placeHashtags!, myDelegate: self)
+        if placeHashtags != nil{
+            NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+                let roundedNumber = round(Double(self.placeHashtags!.count)/2)
+                let newHeight = roundedNumber*22
+                self.hashtagCollectionViewHeightConstraint.constant = CGFloat(min(newHeight, 66.0))
+                self.hashtagsDataSource = HashtagCollectionViewDataSource(hashtags: self.placeHashtags!, myDelegate: self)
+            }
+        }else{
+            PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":self.myPlace!.objectId!,"limit":4]) { (result, error) -> Void in
+                if error == nil{
+                    self.placeHashtags = result as? [PFObject]
+                    self.configureHashtags()
+                }else{
+                    NSLog("configureHashtags error: %@",error!.description)
+                }
+                
+            }
         }
     }
     

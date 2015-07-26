@@ -16,15 +16,12 @@
 		08059CF61ABE4112004A5A78 /* DiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08059CF51ABE4112004A5A78 /* DiscoverCell.swift */; };
 		08059CF81ABE41FE004A5A78 /* DiscoverCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08059CF71ABE41FE004A5A78 /* DiscoverCell.xib */; };
 		081420751AAB895B003BEA9E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081420741AAB895B003BEA9E /* AddressBook.framework */; };
-		082256571B02598700511527 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0822564D1B02594E00511527 /* FacebookSDK.framework */; };
 		08247F661B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 08247F651B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m */; };
-		08255F141A75626B00ABA356 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F111A75626B00ABA356 /* Parse.framework */; };
-		08255F151A75626B00ABA356 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */; };
 		082ED7781B1EA944003F250E /* ReviewDetailHeaders.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082ED7771B1EA944003F250E /* ReviewDetailHeaders.xib */; };
+		08307A9A1B58AECB00EAC51F /* ToastDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08307A991B58AECB00EAC51F /* ToastDetailMapView.swift */; };
 		083467EA1AC83E78003B5803 /* ReviewAccesoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083467E91AC83E78003B5803 /* ReviewAccesoryView.xib */; };
 		083467EE1AC841EF003B5803 /* ReviewAccesoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083467ED1AC841EF003B5803 /* ReviewAccesoryView.swift */; };
 		08363F741A5778E4007A6827 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08363F731A5778E4007A6827 /* AppDelegate.swift */; };
-		08363F761A5778E4007A6827 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08363F751A5778E4007A6827 /* ViewController.swift */; };
 		08363F791A5778E4007A6827 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 08363F771A5778E4007A6827 /* Main.storyboard */; };
 		08363F7E1A5778E4007A6827 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08363F7C1A5778E4007A6827 /* LaunchScreen.xib */; };
 		08363F8A1A5778E4007A6827 /* toast_projectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08363F891A5778E4007A6827 /* toast_projectTests.swift */; };
@@ -47,6 +44,7 @@
 		086E17C01AFBB86200964405 /* BlackGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E17BF1AFBB86200964405 /* BlackGradientView.swift */; };
 		086E18211AFF7D0400964405 /* DictionaryHaneke.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E18201AFF7D0400964405 /* DictionaryHaneke.swift */; };
 		086E18791B002E4000964405 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 086E18781B002E4000964405 /* Images.xcassets */; };
+		087C6F6A1B5C02BE002131D0 /* ToastPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087C6F691B5C02BE002131D0 /* ToastPointAnnotation.swift */; };
 		087EA0B41B13C43500BF66A1 /* Alphabet City.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0651B13C43400BF66A1 /* Alphabet City.jpg */; };
 		087EA0B51B13C43500BF66A1 /* Alphabet City@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0661B13C43400BF66A1 /* Alphabet City@2x.jpg */; };
 		087EA0B61B13C43500BF66A1 /* Alphabet City@3x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 087EA0671B13C43400BF66A1 /* Alphabet City@3x.jpg */; };
@@ -139,6 +137,7 @@
 		08B905E71AA14A29009F3B21 /* ToastMoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */; };
 		08B905EB1AA14AB1009F3B21 /* ToastHashtagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */; };
 		08B905ED1AA1E8D6009F3B21 /* HashtagsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */; };
+		08BFFA441B46BC4900989AC1 /* ToastsMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BFFA431B46BC4900989AC1 /* ToastsMapViewController.swift */; };
 		08C1FDE11AE32440009F1FB8 /* ReviewDetailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C1FDE01AE32440009F1FB8 /* ReviewDetailButton.swift */; };
 		08C1FDE61AE32470009F1FB8 /* HeartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C1FDE51AE32470009F1FB8 /* HeartButton.swift */; };
 		08C1FDE81AE32483009F1FB8 /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C1FDE71AE32483009F1FB8 /* FollowButton.swift */; };
@@ -175,6 +174,9 @@
 		08EDB11F1AA00B3000D94CF7 /* CarouselViews.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08EDB11E1AA00B3000D94CF7 /* CarouselViews.xib */; };
 		08EDB1211AA00E4E00D94CF7 /* ToastCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1201AA00E4E00D94CF7 /* ToastCarouselView.swift */; };
 		08EDB1231AA017EB00D94CF7 /* ContributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1221AA017EB00D94CF7 /* ContributeViewController.swift */; };
+		08F392351B5C7E6E002F31FA /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F392341B5C7E6E002F31FA /* ActivityViewController.swift */; };
+		08F392371B5C7E7E002F31FA /* ActivityDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F392361B5C7E7E002F31FA /* ActivityDataSource.swift */; };
+		08F392391B5C7E9F002F31FA /* ActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F392381B5C7E9F002F31FA /* ActivityCell.swift */; };
 		08F838941A87C83900CFCAEF /* ToastsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F838931A87C83900CFCAEF /* ToastsViewController.swift */; };
 		08F838961A87C87500CFCAEF /* ToastsCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F838951A87C87500CFCAEF /* ToastsCollectionViewLayout.swift */; };
 		08F838991A88136100CFCAEF /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F838981A88136100CFCAEF /* PlaceCell.swift */; };
@@ -228,18 +230,15 @@
 		08059CF51ABE4112004A5A78 /* DiscoverCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverCell.swift; sourceTree = "<group>"; };
 		08059CF71ABE41FE004A5A78 /* DiscoverCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiscoverCell.xib; sourceTree = "<group>"; };
 		081420741AAB895B003BEA9E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		0822564D1B02594E00511527 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		08247F641B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
 		08247F651B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
-		08255F111A75626B00ABA356 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		082ED7771B1EA944003F250E /* ReviewDetailHeaders.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewDetailHeaders.xib; sourceTree = "<group>"; };
+		08307A991B58AECB00EAC51F /* ToastDetailMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastDetailMapView.swift; sourceTree = "<group>"; };
 		083467E91AC83E78003B5803 /* ReviewAccesoryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewAccesoryView.xib; sourceTree = "<group>"; };
 		083467ED1AC841EF003B5803 /* ReviewAccesoryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewAccesoryView.swift; sourceTree = "<group>"; };
 		08363F6E1A5778E4007A6827 /* toast-project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "toast-project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		08363F721A5778E4007A6827 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		08363F731A5778E4007A6827 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		08363F751A5778E4007A6827 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		08363F781A5778E4007A6827 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		08363F7D1A5778E4007A6827 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		08363F831A5778E4007A6827 /* toast-projectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "toast-projectTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -264,6 +263,7 @@
 		086E17BF1AFBB86200964405 /* BlackGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlackGradientView.swift; sourceTree = "<group>"; };
 		086E18201AFF7D0400964405 /* DictionaryHaneke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryHaneke.swift; sourceTree = "<group>"; };
 		086E18781B002E4000964405 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		087C6F691B5C02BE002131D0 /* ToastPointAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastPointAnnotation.swift; sourceTree = "<group>"; };
 		087EA0651B13C43400BF66A1 /* Alphabet City.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City.jpg"; sourceTree = "<group>"; };
 		087EA0661B13C43400BF66A1 /* Alphabet City@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@2x.jpg"; sourceTree = "<group>"; };
 		087EA0671B13C43400BF66A1 /* Alphabet City@3x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Alphabet City@3x.jpg"; sourceTree = "<group>"; };
@@ -357,6 +357,7 @@
 		08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastMoodCell.xib; sourceTree = "<group>"; };
 		08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastHashtagCell.xib; sourceTree = "<group>"; };
 		08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagsManager.swift; sourceTree = "<group>"; };
+		08BFFA431B46BC4900989AC1 /* ToastsMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastsMapViewController.swift; sourceTree = "<group>"; };
 		08C1FDE01AE32440009F1FB8 /* ReviewDetailButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewDetailButton.swift; sourceTree = "<group>"; };
 		08C1FDE51AE32470009F1FB8 /* HeartButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeartButton.swift; sourceTree = "<group>"; };
 		08C1FDE71AE32483009F1FB8 /* FollowButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
@@ -396,6 +397,9 @@
 		08EDB11E1AA00B3000D94CF7 /* CarouselViews.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CarouselViews.xib; sourceTree = "<group>"; };
 		08EDB1201AA00E4E00D94CF7 /* ToastCarouselView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastCarouselView.swift; sourceTree = "<group>"; };
 		08EDB1221AA017EB00D94CF7 /* ContributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContributeViewController.swift; sourceTree = "<group>"; };
+		08F392341B5C7E6E002F31FA /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
+		08F392361B5C7E7E002F31FA /* ActivityDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityDataSource.swift; sourceTree = "<group>"; };
+		08F392381B5C7E9F002F31FA /* ActivityCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityCell.swift; sourceTree = "<group>"; };
 		08F838931A87C83900CFCAEF /* ToastsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastsViewController.swift; sourceTree = "<group>"; };
 		08F838951A87C87500CFCAEF /* ToastsCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastsCollectionViewLayout.swift; sourceTree = "<group>"; };
 		08F838981A88136100CFCAEF /* PlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
@@ -424,13 +428,10 @@
 				08363FAA1A57798A007A6827 /* libz.dylib in Frameworks */,
 				08363FA81A57797E007A6827 /* SystemConfiguration.framework in Frameworks */,
 				08363FA41A57796C007A6827 /* Security.framework in Frameworks */,
-				082256571B02598700511527 /* FacebookSDK.framework in Frameworks */,
 				08363FA21A577962007A6827 /* QuartzCore.framework in Frameworks */,
 				08363FA01A57795A007A6827 /* MobileCoreServices.framework in Frameworks */,
-				08255F151A75626B00ABA356 /* ParseFacebookUtils.framework in Frameworks */,
 				08363F9E1A577952007A6827 /* CoreLocation.framework in Frameworks */,
 				08363F9C1A577949007A6827 /* CoreGraphics.framework in Frameworks */,
-				08255F141A75626B00ABA356 /* Parse.framework in Frameworks */,
 				08363F9A1A57793F007A6827 /* CFNetwork.framework in Frameworks */,
 				08363F981A577938007A6827 /* AudioToolbox.framework in Frameworks */,
 				834D241378344AD3EBB11161 /* Pods_toast_project.framework in Frameworks */,
@@ -543,16 +544,15 @@
 				089123EE1B44D12500010241 /* toast-project-Bridging-Header.h */,
 				0812C9251A645BDD004A115B /* General */,
 				08B425D21A7C492E00A72C95 /* Discover */,
+				08F392331B5C7E53002F31FA /* Activity */,
 				08F838901A87C81400CFCAEF /* Toasts */,
 				08B425CD1A7C48B200A72C95 /* Contribution */,
 				08363FAF1A577BC3007A6827 /* Main */,
 				08363FAE1A577BB3007A6827 /* Login */,
 				08363F731A5778E4007A6827 /* AppDelegate.swift */,
-				08363F751A5778E4007A6827 /* ViewController.swift */,
 				08363F771A5778E4007A6827 /* Main.storyboard */,
 				086E18781B002E4000964405 /* Images.xcassets */,
 				08363F7C1A5778E4007A6827 /* LaunchScreen.xib */,
-				0812C9221A6432A8004A115B /* img */,
 				08363F711A5778E4007A6827 /* Supporting Files */,
 			);
 			path = "toast-project";
@@ -561,6 +561,7 @@
 		08363F711A5778E4007A6827 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				0812C9221A6432A8004A115B /* img */,
 				08363F721A5778E4007A6827 /* Info.plist */,
 			);
 			path = "Supporting Files";
@@ -592,9 +593,6 @@
 				081420741AAB895B003BEA9E /* AddressBook.framework */,
 				0801937D1A8E3EBC00CAA770 /* MapKit.framework */,
 				08F85AE61A8D5F0300C01CC9 /* AVFoundation.framework */,
-				0822564D1B02594E00511527 /* FacebookSDK.framework */,
-				08255F111A75626B00ABA356 /* Parse.framework */,
-				08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */,
 				08363FAB1A57799C007A6827 /* libsqlite3.dylib */,
 				08363FA91A57798A007A6827 /* libz.dylib */,
 				08363FA71A57797E007A6827 /* SystemConfiguration.framework */,
@@ -764,6 +762,7 @@
 				0881884E1AC9647400559DC8 /* ProfileToastsDataSource.swift */,
 				088188501AC9649F00559DC8 /* ProfileToastCell.swift */,
 				08EB0C6C1B0A13C5002143DE /* StarButton.swift */,
+				08BFFA421B46BC1800989AC1 /* MapView */,
 				086E17B81AFAE0F400964405 /* FriendsList */,
 			);
 			path = "Profile Detail";
@@ -808,6 +807,16 @@
 				08DB824B1A87BA9A00AEE163 /* FriendsLike */,
 			);
 			path = Discover;
+			sourceTree = "<group>";
+		};
+		08BFFA421B46BC1800989AC1 /* MapView */ = {
+			isa = PBXGroup;
+			children = (
+				08BFFA431B46BC4900989AC1 /* ToastsMapViewController.swift */,
+				08307A991B58AECB00EAC51F /* ToastDetailMapView.swift */,
+				087C6F691B5C02BE002131D0 /* ToastPointAnnotation.swift */,
+			);
+			path = MapView;
 			sourceTree = "<group>";
 		};
 		08C1FDE21AE32448009F1FB8 /* Buttons */ = {
@@ -907,6 +916,16 @@
 				08247F6C1B16243900E5CC24 /* ReviewAccesoryView */,
 			);
 			path = CarouselViews;
+			sourceTree = "<group>";
+		};
+		08F392331B5C7E53002F31FA /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				08F392341B5C7E6E002F31FA /* ActivityViewController.swift */,
+				08F392361B5C7E7E002F31FA /* ActivityDataSource.swift */,
+				08F392381B5C7E9F002F31FA /* ActivityCell.swift */,
+			);
+			name = Activity;
 			sourceTree = "<group>";
 		};
 		08F838901A87C81400CFCAEF /* Toasts */ = {
@@ -1218,9 +1237,9 @@
 				08EB0C741B0AA401002143DE /* PlacePicturesDataSource.swift in Sources */,
 				08F8389B1A88137400CFCAEF /* HashtagCell.swift in Sources */,
 				08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */,
+				087C6F6A1B5C02BE002131D0 /* ToastPointAnnotation.swift in Sources */,
 				08F85AEA1A8E395900C01CC9 /* PlaceDetailViewController.swift in Sources */,
 				08C1FDE11AE32440009F1FB8 /* ReviewDetailButton.swift in Sources */,
-				08363F761A5778E4007A6827 /* ViewController.swift in Sources */,
 				08EB0C631B06892F002143DE /* PostButton.swift in Sources */,
 				088188511AC9649F00559DC8 /* ProfileToastCell.swift in Sources */,
 				08059CF01ABE40B0004A5A78 /* DiscoverDataSource.swift in Sources */,
@@ -1236,8 +1255,11 @@
 				08B905ED1AA1E8D6009F3B21 /* HashtagsManager.swift in Sources */,
 				08059CF61ABE4112004A5A78 /* DiscoverCell.swift in Sources */,
 				08F838961A87C87500CFCAEF /* ToastsCollectionViewLayout.swift in Sources */,
+				08F392391B5C7E9F002F31FA /* ActivityCell.swift in Sources */,
 				08EDB1231AA017EB00D94CF7 /* ContributeViewController.swift in Sources */,
+				08307A9A1B58AECB00EAC51F /* ToastDetailMapView.swift in Sources */,
 				08EDB1131AA00A7400D94CF7 /* ToastNameView.swift in Sources */,
+				08F392371B5C7E7E002F31FA /* ActivityDataSource.swift in Sources */,
 				08E38FF41AF5025B002736A2 /* ArrayHaneke.swift in Sources */,
 				08E68AD41ACE2E70008609D4 /* PostContributeTransitioning.swift in Sources */,
 				08EDB1151AA00AA100D94CF7 /* ToastMoodsView.swift in Sources */,
@@ -1245,6 +1267,7 @@
 				08EB0C671B06F166002143DE /* LikeCountView.swift in Sources */,
 				08F838991A88136100CFCAEF /* PlaceCell.swift in Sources */,
 				08EDB1211AA00E4E00D94CF7 /* ToastCarouselView.swift in Sources */,
+				08BFFA441B46BC4900989AC1 /* ToastsMapViewController.swift in Sources */,
 				08E68AD61AD085BE008609D4 /* PostContributeViewController.swift in Sources */,
 				0858BF141AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift in Sources */,
 				086E17BC1AFB2CC600964405 /* FriendCell.swift in Sources */,
@@ -1257,6 +1280,7 @@
 				08059CEB1ABE407D004A5A78 /* DiscoverViewController.swift in Sources */,
 				08F85AE31A8D5DD500C01CC9 /* BackgroundImageView.swift in Sources */,
 				08EB0C781B0B5DEF002143DE /* ReviewCell.swift in Sources */,
+				08F392351B5C7E6E002F31FA /* ActivityViewController.swift in Sources */,
 				08E38FE11AF274D6002736A2 /* ReviewHeaderCell.swift in Sources */,
 				08C993831ABC4AC900692721 /* ReviewDetailViewController.swift in Sources */,
 				084C145F1AA100B3005FB0E9 /* SearchPlaceViewController.swift in Sources */,
@@ -1407,7 +1431,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "41848cbe-930b-4e13-84ae-8acd59a9c498";
+				PROVISIONING_PROFILE = "0b8c8b42-35f5-4b66-82df-989b68662847";
 				SWIFT_OBJC_BRIDGING_HEADER = "toast-project/toast-project-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1431,7 +1455,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "41848cbe-930b-4e13-84ae-8acd59a9c498";
+				PROVISIONING_PROFILE = "0b8c8b42-35f5-4b66-82df-989b68662847";
 				SWIFT_OBJC_BRIDGING_HEADER = "toast-project/toast-project-Bridging-Header.h";
 			};
 			name = Release;

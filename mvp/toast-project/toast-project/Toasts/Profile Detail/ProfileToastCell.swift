@@ -42,9 +42,7 @@ class ProfileToastCell: UITableViewCell {
         self.myDelegate = myDelegate
         self.myIndex = index
         toggleAlpha(0, duration: 0)
-        placeFromToast(toast, completion: { (place) -> Void in
-            self.setPlace(place)
-        })
+        self.setPlace(toast["place"] as? PFObject)
         configureReview(toast)
         configureTopToastSignal(toast, topToast: topToast)
     }
@@ -65,7 +63,7 @@ class ProfileToastCell: UITableViewCell {
         query.whereKey("toasts", equalTo: toast)
         query.getFirstObjectInBackgroundWithBlock { (result, error) -> Void in
             if error != nil{
-                NSLog("placeFromToast error: %@",error.description)
+                NSLog("placeFromToast error: %@",error!.description)
             }
             completion(place:result)
         }

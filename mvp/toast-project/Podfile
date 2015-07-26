@@ -7,6 +7,8 @@ target 'toast-project' do
 pod 'Alamofire', '~> 1.2'
 pod 'HanekeSwift'
 pod 'CCHLinkTextView'
+pod 'FBSDKShareKit'
+pod 'ParseFacebookUtilsV4'
 
 end
 

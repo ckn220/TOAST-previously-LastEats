@@ -63,7 +63,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         }else if myHashtagName != nil{
             titleText = "#\(myHashtagName!)"
         }else if myFriend != nil{
-            if myFriend?.objectId == PFUser.currentUser().objectId{
+            if myFriend?.objectId == PFUser.currentUser()!.objectId{
                 titleText = "My Toasts"
             }else{
                 let friendName = myFriend!["name"] as! String
@@ -89,7 +89,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
                         self.updatesForCurrentPlace()
                     }
                 }else{
-                    NSLog("getPlaces error: %@",error.description)
+                    NSLog("getPlaces error: %@",error!.description)
                 }
             }
     }
