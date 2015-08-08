@@ -212,8 +212,11 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         changeMainTo(discoverScene)
     }
     
-    func mainManuTableActivityPressed() {
+    func mainMenuTableActivityPressed() {
+        let activityScene = storyboard?.instantiateViewControllerWithIdentifier("activityScene") as! ActivityViewController
+        activityScene.myDelegate = self
         
+        changeMainTo(activityScene)
     }
     
     func mainMenuTableMyToastsPressed() {

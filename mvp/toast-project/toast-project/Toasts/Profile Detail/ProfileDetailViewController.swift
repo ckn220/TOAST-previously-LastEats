@@ -191,8 +191,9 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     
     private func getPicture(fromUser user:PFUser,toBgView bgView:BackgroundImageView){
         initPictureView(bgView)
-        let imageURL = user["pictureURL"] as! String
-        bgView.setImage(URL: imageURL)
+        if let imageURL = user["pictureURL"] as? String{
+            bgView.setImage(URL: imageURL)
+        }
     }
     
     private func initPictureView(pictureView:BackgroundImageView){

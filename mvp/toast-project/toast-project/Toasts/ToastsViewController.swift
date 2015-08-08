@@ -12,10 +12,11 @@ import Haneke
 
 class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,PlaceCellDelegate {
     
+    var externalTitle:String?
     var myMood:PFObject?
     var myHashtagName:String?
     var myCategory: PFObject?
-    var myPlaces:[PFObject]?
+    var myPlaces = [PFObject]()
     var myFriend:PFObject?
     var myCurrentPlace: PFObject?
     var myNeighborhood:PFObject?
@@ -51,7 +52,6 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func configure(){
-        myPlaces = []
         toastsCollectionView.decelerationRate = UIScrollViewDecelerationRateFast
         configureTitle()
     }
@@ -81,17 +81,24 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func getPlaces(){
+        if myPlaces.count == 0{
             PFCloud.callFunctionInBackground("discoverPlaces", withParameters: placesParameters()) { (result, error) -> Void in
                 if error == nil{
-                    self.myPlaces = result as? [PFObject]
+                    self.myPlaces = result as! [PFObject]
                     self.toastsCollectionView.reloadData()
-                    if self.myPlaces?.count > 0{
+                    if self.myPlaces.count > 0{
                         self.updatesForCurrentPlace()
                     }
                 }else{
                     NSLog("getPlaces error: %@",error!.description)
                 }
             }
+        }else{
+            moodTitleLabel.text = externalTitle
+            self.toastsCollectionView.reloadData()
+            self.updatesForCurrentPlace()
+        }
+        
     }
     
     private func placesParameters()->[String:AnyObject]{
@@ -126,14 +133,14 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return myPlaces!.count
+            return myPlaces.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("placeCell", forIndexPath: indexPath) as! PlaceCell
         cell.myDelegate = self
-        cell.myPlace = myPlaces![indexPath.row]
+        cell.myPlace = myPlaces[indexPath.row]
         
         return cell
     }
@@ -152,7 +159,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         let visiblePlaceIndexPath = toastsCollectionView.indexPathForItemAtPoint(centerPoint)
         if visiblePlaceIndexPath != nil{
             currentIndexPath = visiblePlaceIndexPath
-            return myPlaces![currentIndexPath!.row]
+            return myPlaces[currentIndexPath!.row]
         }else{
             return nil
         }
@@ -163,16 +170,16 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         var currentRow:Int?
         if myCurrentPlace != nil{
             firstPlace = myCurrentPlace!
-            let row = myFind(myPlaces!,item:myCurrentPlace!)
+            let row = myFind(myPlaces,item:myCurrentPlace!)
             if row != nil{
                 currentRow = row
             }else{
                 currentRow = 0
-                firstPlace = myPlaces![currentRow!]
+                firstPlace = myPlaces[currentRow!]
             }
         }else{
             currentRow = 0
-            firstPlace = myPlaces![currentRow!]
+            firstPlace = myPlaces[currentRow!]
         }
         self.currentIndexPath = NSIndexPath(forRow: currentRow!, inSection: 0)
         
@@ -268,7 +275,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
             let destination = segue.destinationViewController as! PlaceDetailViewController
             
             let selectedIndexPath = toastsCollectionView.indexPathsForSelectedItems()[0] as! NSIndexPath
-            let selectedPlace = myPlaces?[selectedIndexPath.row]
+            let selectedPlace = myPlaces[selectedIndexPath.row]
             let selectedCell = toastsCollectionView.cellForItemAtIndexPath(selectedIndexPath) as! PlaceCell
             destination.myPlace = selectedPlace
             destination.placeHashtags = selectedCell.hashtagDataSource?.hashtags
@@ -284,7 +291,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     @IBAction func pickupPressed(sender: UIButton) {
-        let currentPlace = myPlaces![currentIndexPath!.row]
+        let currentPlace = myPlaces[currentIndexPath!.row]
         let url = NSURL(string: "tel://" + (currentPlace["phone"] as! String))!
         var a:UIAlertController
         
@@ -321,7 +328,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     @IBAction func reservePressed(sender: UIButton) {
-        let currentPlace = myPlaces![currentIndexPath!.row]
+        let currentPlace = myPlaces[currentIndexPath!.row]
         viewLink(currentPlace["reservationURL"] as! String, title: "Reservation")
     }
     
@@ -349,7 +356,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     func placeCellDidPressed(#place:PFObject) {
-        let selectedIndex = find(myPlaces!,place)!
+        let selectedIndex = find(myPlaces,place)!
         toastsCollectionView.selectItemAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0), animated: false, scrollPosition: .None)
         self.performSegueWithIdentifier("placeDetailSegue", sender: self)
     }

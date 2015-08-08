@@ -134,6 +134,8 @@
 		089C52941AD1440400054037 /* PostRelatedPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C52931AD1440400054037 /* PostRelatedPlaceCell.swift */; };
 		089C52961AD15A3100054037 /* PostRelatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C52951AD15A3100054037 /* PostRelatedViewController.swift */; };
 		089C52991AD17E2700054037 /* RelatedPlacesHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 089C52981AD17E2700054037 /* RelatedPlacesHeaderView.xib */; };
+		08AFC3D21B654E3F001336D6 /* ActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AFC3D11B654E3F001336D6 /* ActivityTableViewController.swift */; };
+		08AFC3D41B65D685001336D6 /* TopToastLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08AFC3D31B65D685001336D6 /* TopToastLabel.swift */; };
 		08B905E71AA14A29009F3B21 /* ToastMoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */; };
 		08B905EB1AA14AB1009F3B21 /* ToastHashtagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */; };
 		08B905ED1AA1E8D6009F3B21 /* HashtagsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */; };
@@ -175,7 +177,6 @@
 		08EDB1211AA00E4E00D94CF7 /* ToastCarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1201AA00E4E00D94CF7 /* ToastCarouselView.swift */; };
 		08EDB1231AA017EB00D94CF7 /* ContributeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EDB1221AA017EB00D94CF7 /* ContributeViewController.swift */; };
 		08F392351B5C7E6E002F31FA /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F392341B5C7E6E002F31FA /* ActivityViewController.swift */; };
-		08F392371B5C7E7E002F31FA /* ActivityDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F392361B5C7E7E002F31FA /* ActivityDataSource.swift */; };
 		08F392391B5C7E9F002F31FA /* ActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F392381B5C7E9F002F31FA /* ActivityCell.swift */; };
 		08F838941A87C83900CFCAEF /* ToastsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F838931A87C83900CFCAEF /* ToastsViewController.swift */; };
 		08F838961A87C87500CFCAEF /* ToastsCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F838951A87C87500CFCAEF /* ToastsCollectionViewLayout.swift */; };
@@ -354,6 +355,8 @@
 		089C52931AD1440400054037 /* PostRelatedPlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRelatedPlaceCell.swift; sourceTree = "<group>"; };
 		089C52951AD15A3100054037 /* PostRelatedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRelatedViewController.swift; sourceTree = "<group>"; };
 		089C52981AD17E2700054037 /* RelatedPlacesHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelatedPlacesHeaderView.xib; sourceTree = "<group>"; };
+		08AFC3D11B654E3F001336D6 /* ActivityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTableViewController.swift; sourceTree = "<group>"; };
+		08AFC3D31B65D685001336D6 /* TopToastLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopToastLabel.swift; sourceTree = "<group>"; };
 		08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastMoodCell.xib; sourceTree = "<group>"; };
 		08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastHashtagCell.xib; sourceTree = "<group>"; };
 		08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagsManager.swift; sourceTree = "<group>"; };
@@ -398,7 +401,6 @@
 		08EDB1201AA00E4E00D94CF7 /* ToastCarouselView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastCarouselView.swift; sourceTree = "<group>"; };
 		08EDB1221AA017EB00D94CF7 /* ContributeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContributeViewController.swift; sourceTree = "<group>"; };
 		08F392341B5C7E6E002F31FA /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
-		08F392361B5C7E7E002F31FA /* ActivityDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityDataSource.swift; sourceTree = "<group>"; };
 		08F392381B5C7E9F002F31FA /* ActivityCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityCell.swift; sourceTree = "<group>"; };
 		08F838931A87C83900CFCAEF /* ToastsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastsViewController.swift; sourceTree = "<group>"; };
 		08F838951A87C87500CFCAEF /* ToastsCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastsCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -922,8 +924,9 @@
 			isa = PBXGroup;
 			children = (
 				08F392341B5C7E6E002F31FA /* ActivityViewController.swift */,
-				08F392361B5C7E7E002F31FA /* ActivityDataSource.swift */,
+				08AFC3D11B654E3F001336D6 /* ActivityTableViewController.swift */,
 				08F392381B5C7E9F002F31FA /* ActivityCell.swift */,
+				08AFC3D31B65D685001336D6 /* TopToastLabel.swift */,
 			);
 			name = Activity;
 			sourceTree = "<group>";
@@ -1234,6 +1237,7 @@
 				08DB824A1A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift in Sources */,
 				08EB0C651B06949F002143DE /* PostActionsViewController.swift in Sources */,
 				086E17C01AFBB86200964405 /* BlackGradientView.swift in Sources */,
+				08AFC3D21B654E3F001336D6 /* ActivityTableViewController.swift in Sources */,
 				08EB0C741B0AA401002143DE /* PlacePicturesDataSource.swift in Sources */,
 				08F8389B1A88137400CFCAEF /* HashtagCell.swift in Sources */,
 				08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */,
@@ -1259,8 +1263,8 @@
 				08EDB1231AA017EB00D94CF7 /* ContributeViewController.swift in Sources */,
 				08307A9A1B58AECB00EAC51F /* ToastDetailMapView.swift in Sources */,
 				08EDB1131AA00A7400D94CF7 /* ToastNameView.swift in Sources */,
-				08F392371B5C7E7E002F31FA /* ActivityDataSource.swift in Sources */,
 				08E38FF41AF5025B002736A2 /* ArrayHaneke.swift in Sources */,
+				08AFC3D41B65D685001336D6 /* TopToastLabel.swift in Sources */,
 				08E68AD41ACE2E70008609D4 /* PostContributeTransitioning.swift in Sources */,
 				08EDB1151AA00AA100D94CF7 /* ToastMoodsView.swift in Sources */,
 				080193881A8FFF9300CAA770 /* GenericWebViewController.swift in Sources */,

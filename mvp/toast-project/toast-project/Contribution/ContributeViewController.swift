@@ -26,6 +26,10 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     
     @IBOutlet weak var loadingView: UIActivityIndicatorView!
     
+    var fromActivity:Bool = false
+    var fromActivityPlaceFoursquareId:String?
+    var fromActivityPlaceName:String?
+    
     var isStatusBarHidden = true
     var tempToast = [String:AnyObject]()
     var tempReview:String?
@@ -50,11 +54,19 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         reviewTopConstraint.constant = (CGRectGetHeight(self.view.bounds)+20)
+        if fromActivity{
+            searchNameContainerView.alpha = 0
+        }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if fromActivity{
+            if let fromId = fromActivityPlaceName, let fromName = fromActivityPlaceName{
+                searchPlaceIdSelected((fromId,fromName))
+                fromActivity = false
+            }
+        }
     }
     
     private func toggleNavBar(#isVisible:Bool){
@@ -480,7 +492,6 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         if let userInfo = sender.userInfo {
             if let keyboardHeight = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue().size.height {
                 if myCarousel.itemViewAtIndex(2) != nil {
-                    //let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
                     reviewView.keyboargHeight = keyboardHeight
                 }
                 

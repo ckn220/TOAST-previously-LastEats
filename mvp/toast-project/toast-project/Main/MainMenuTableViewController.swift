@@ -10,7 +10,7 @@ import UIKit
 
 protocol MainMenuTableDelegate{
     func mainMenuTableDiscoverPressed()
-    func mainManuTableActivityPressed()
+    func mainMenuTableActivityPressed()
     func mainMenuTableMyToastsPressed()
     func mainMenuTableFriendsPressed()
     func mainMenuTableContributePressed()
@@ -43,6 +43,8 @@ class MainMenuTableViewController: UITableViewController {
         case 0:
             if indexPath.row == 0{
                 discoverPressed()
+            }else{
+                activityPressed()
             }
         case 1:
             if indexPath.row == 0{
@@ -70,7 +72,7 @@ class MainMenuTableViewController: UITableViewController {
     }
     
     private func activityPressed(){
-        
+        myDelegate?.mainMenuTableActivityPressed()
     }
     
     private func contributePressed(){

@@ -17,7 +17,8 @@ class FriendsListViewController: UIViewController,FriendsDataSourceDelegate {
     var fromMain = false
     var myDelegate:DiscoverDelegate?
     
-    var myUser:PFObject!
+    var myActivity:PFObject?
+    var myUser:PFObject?
     var friendsDataSource:FriendsListDataSource?{
         didSet{
             friendsTableView.dataSource = friendsDataSource
@@ -33,21 +34,51 @@ class FriendsListViewController: UIViewController,FriendsDataSourceDelegate {
     
     private func configure(){
         configureTitle()
-        configureFriends()
+        configureItems()
     }
     
+    //MARK: - Configure Title methods
     private func configureTitle(){
-        if myUser.objectId == PFUser.currentUser()!.objectId{
+        if let user = myUser{
+            configureFriendsTitle(user)
+        }else{
+            configureLikesTitle()
+        }
+    }
+    
+    private func configureFriendsTitle(user:PFObject){
+        if user.objectId == PFUser.currentUser()!.objectId{
             myTitleLabel.text = "My Friends"
         }else{
-            let fullName = myUser["name"] as! String
+            let fullName = user["name"] as! String
             var names = fullName.componentsSeparatedByString(" ")
             myTitleLabel.text = "\(names[0])'s Friends"
         }
     }
     
-    private func configureFriends(){
-        let friendsQuery = myUser.relationForKey("friends").query()!
+    private func configureLikesTitle(){
+        if let activity = myActivity, let toast = activity["toastDest"] as? PFObject, let likesCount = toast["heartsCount"] as? Int{
+            var suffixString = "Likes"
+            if likesCount == 1{
+                suffixString = "Like"
+            }
+            myTitleLabel.text = "\(likesCount) \(suffixString)"
+        }
+        
+    }
+    
+    //MARK: - Configure Items methods
+    private func configureItems(){
+        if let user = myUser{
+            configureFriends(user)
+        }else{
+            configureLikeUsers()
+        }
+    }
+    
+    private func configureFriends(user:PFObject){
+        
+        let friendsQuery = user.relationForKey("friends").query()!
         friendsQuery.orderByAscending("name")
         friendsQuery.includeKey("topToast")
         friendsQuery.findObjectsInBackgroundWithBlock { (friends, error) -> Void in
@@ -59,9 +90,18 @@ class FriendsListViewController: UIViewController,FriendsDataSourceDelegate {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    private func configureLikeUsers(){
+        if let activity = myActivity, let toast = activity["toastDest"] as? PFObject{
+            let usersQuery = PFUser.query()!
+            usersQuery.whereKey("hearts", equalTo: toast)
+            usersQuery.findObjectsInBackgroundWithBlock({ (users, error) -> Void in
+                if error == nil{
+                    self.friendsDataSource = FriendsListDataSource(friends:users as! [PFUser],myDelegate:self)
+                }else{
+                    NSLog("configureLikeUsers error: %@",error!.description)
+                }
+            })
+        }
     }
     
     //MARK: - Actions methods

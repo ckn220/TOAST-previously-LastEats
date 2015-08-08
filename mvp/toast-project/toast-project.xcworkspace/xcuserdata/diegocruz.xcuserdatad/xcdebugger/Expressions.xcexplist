@@ -3,13 +3,10 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "toast_project.ToastDetailMapView.(isTopToast in _B92D6B07DA3399C98603BFABEB2617D7) (toast_project.ToastDetailMapView)(ObjectiveC.PFObject) -&gt; Swift.Bool:ToastDetailMapView.swift">
+         contextName = "toast_project.ActivityCell.((getPlace in _A83C40AEB790479BE5B5766AB0101753) (toast_project.ActivityCell) -&gt; (ObjectiveC.NSObject, param : inout Swift.Dictionary&lt;Swift.String, ObjectiveC.PFObject&gt;) -&gt; ()).(closure #1).(closure #1):ActivityCell.swift">
          <PersistentStrings>
             <PersistentString
-               value = "topToast.objectId!">
-            </PersistentString>
-            <PersistentString
-               value = "toast.objectId!">
+               value = "place![&quot;name&quot;] as! String">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
