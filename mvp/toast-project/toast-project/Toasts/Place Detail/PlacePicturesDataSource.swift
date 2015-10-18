@@ -34,7 +34,7 @@ class PlacePicturesDataSource: NSObject, UICollectionViewDataSource,UICollection
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("pictureCell", forIndexPath: indexPath) as! UICollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("pictureCell", forIndexPath: indexPath) 
         let pictureView = cell.viewWithTag(101) as! UIImageView
         let loadingView = cell.viewWithTag(501) as! UIActivityIndicatorView
         resetCell(pictureView: pictureView, loadingView: loadingView)
@@ -46,7 +46,7 @@ class PlacePicturesDataSource: NSObject, UICollectionViewDataSource,UICollection
         return cell
     }
     
-    private func resetCell(#pictureView:UIImageView,loadingView:UIActivityIndicatorView){
+    private func resetCell(pictureView pictureView:UIImageView,loadingView:UIActivityIndicatorView){
         pictureView.image = nil
         loadingView.alpha = 1
     }

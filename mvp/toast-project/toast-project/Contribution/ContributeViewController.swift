@@ -30,6 +30,8 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     var tempToast = [String:AnyObject]()
     var tempReview:String?
     
+    var placeFromActivity:PFObject?
+    
     var itemsCount = 2
     let myViews = NSBundle.mainBundle().loadNibNamed("CarouselViews", owner: nil, options: nil)
     var newToast:PFObject?
@@ -45,19 +47,28 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         myCarousel.scrollEnabled = false
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         reviewView.myDelegate = self
+        
+        if placeFromActivity != nil{
+            searchNameContainerView.alpha = 0
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         reviewTopConstraint.constant = (CGRectGetHeight(self.view.bounds)+20)
+        if let place = placeFromActivity{
+            let placeId = place["foursquarePlaceId"] as! String
+            let name = place["name"] as! String
+            searchPlaceIdSelected((placeId: placeId, name: name))
+        }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
     }
     
-    private func toggleNavBar(#isVisible:Bool){
+    private func toggleNavBar(isVisible isVisible:Bool){
         UIView.animateWithDuration(0.15, animations: { () -> Void in
             if isVisible{
                 self.titleLabel.alpha = 1
@@ -70,7 +81,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         })
     }
     
-    private func toggleSubmitButton(#isVisible:Bool){
+    private func toggleSubmitButton(isVisible isVisible:Bool){
         
         if isVisible && self.submitButton.alpha == 0{
             UIView.animateKeyframesWithDuration(0.3, delay: 0, options: .CalculationModeLinear, animations: { () -> Void in
@@ -152,9 +163,9 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     func configureMoodsView(view:ToastMoodsView){
         PFQuery(className: "Mood").findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil {
-                view.insertMoods(result as! [PFObject])
+                view.insertMoods(result!)
             }else{
-                NSLog("%@", error.description)
+                NSLog("%@", error!.description)
             }
         }
     }
@@ -249,7 +260,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         toggleCloseButton(isClose: index != 2)
     }
     
-    private func toggleCloseButton(#isClose:Bool){
+    private func toggleCloseButton(isClose isClose:Bool){
         var closeIcon = "backIcon"
         if isClose{
             closeIcon = "closeIcon"
@@ -281,7 +292,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     }
     
     func toastCarouselViewReviewEditing(text: String) {
-        if count(text.utf16) > 0{
+        if text.utf16.count > 0{
             toggleSubmitButton(isVisible: true)
         }else{
             toggleSubmitButton(isVisible: false)
@@ -321,7 +332,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    private func hideSearchNameView(#delay:NSTimeInterval){
+    private func hideSearchNameView(delay delay:NSTimeInterval){
         UIView.animateWithDuration(0.15, delay: delay, options: .CurveLinear, animations: { () -> Void in
             self.searchNameContainerView.alpha = 0
             self.setNeedsStatusBarAppearanceUpdate()
@@ -329,10 +340,10 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     }
     
     //MARK: ReviewPlace delegate methods
-    func reviewPlaceDoneEditing(#review: String?,hashtags:[PFObject]) {
+    func reviewPlaceDoneEditing(review review: String?,hashtags:[PFObject]) {
         //let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
         if let reviewValue = review {
-            tempToast["review"] = review
+            tempToast["review"] = reviewValue
             reviewView.reviewTextView.text = review
             reviewView.reviewTextView.alpha = 1
         }else{
@@ -358,7 +369,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
     
     func callSelectorAsync(selector: Selector, object: AnyObject?, delay: NSTimeInterval) -> NSTimer {
         
-        var timer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: selector, userInfo: object, repeats: false)
+        let timer = NSTimer.scheduledTimerWithTimeInterval(delay, target: self, selector: selector, userInfo: object, repeats: false)
         return timer
     }
     
@@ -422,7 +433,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         dic["review"]=(tempReview["review"] as! String)
         dic["placeFoursquareId"]=(tempReview["placeId"] as! String)
         var moodsString=""
-        var moods = tempReview["moods"] as! [PFObject]
+        let moods = tempReview["moods"] as! [PFObject]
         for mood in moods{
             let moodName = mood["name"] as! String
             moodsString = moodsString+moodName+", "
@@ -469,6 +480,14 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
         currentItemChanged(0)
     }
     
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if identifier == "searchNameSegue"{
+            return placeFromActivity == nil
+        }else{
+            return true
+        }
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "searchNameSegue"{
             searchNameController = segue.destinationViewController as! SearchPlaceViewController
@@ -478,7 +497,7 @@ class ContributeViewController: UIViewController, iCarouselDataSource, iCarousel
 
     func keyboardWillShow(sender: NSNotification) {
         if let userInfo = sender.userInfo {
-            if let keyboardHeight = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue().size.height {
+            if let keyboardHeight = userInfo[UIKeyboardFrameEndUserInfoKey]?.CGRectValue.size.height {
                 if myCarousel.itemViewAtIndex(2) != nil {
                     //let reviewView = myCarousel.itemViewAtIndex(2) as! ToastReviewView
                     reviewView.keyboargHeight = keyboardHeight

@@ -79,7 +79,7 @@ class ToastReviewView: ToastCarouselView,UITextViewDelegate,ReviewAccesoryViewDe
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         
-        let newLength = count(textView.text.utf16) + count(text.utf16) - range.length
+        let newLength = textView.text.utf16.count + text.utf16.count - range.length
         togglePlaceHolder(newLength)
     
         return true

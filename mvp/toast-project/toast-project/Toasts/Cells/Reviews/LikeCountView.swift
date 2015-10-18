@@ -26,7 +26,7 @@ class LikeCountView: UIView {
         drawCanvasLikeCount(countString:"\(count)"+lastWord)
     }
     
-    func drawCanvasLikeCount(#countString: String) {
+    func drawCanvasLikeCount(countString countString: String) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
         
@@ -39,7 +39,7 @@ class LikeCountView: UIView {
         CGContextBeginTransparencyLayer(context, nil)
         
         //// Clip heartClip
-        var heartClipPath = UIBezierPath()
+        let heartClipPath = UIBezierPath()
         heartClipPath.moveToPoint(CGPointMake(11.02, 4.81))
         heartClipPath.addCurveToPoint(CGPointMake(6.79, 4.81), controlPoint1: CGPointMake(9.85, 3.73), controlPoint2: CGPointMake(7.96, 3.73))
         heartClipPath.addLineToPoint(CGPointMake(6, 5.54))

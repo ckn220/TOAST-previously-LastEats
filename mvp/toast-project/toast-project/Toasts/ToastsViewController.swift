@@ -63,7 +63,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         }else if myHashtagName != nil{
             titleText = "#\(myHashtagName!)"
         }else if myFriend != nil{
-            if myFriend?.objectId == PFUser.currentUser().objectId{
+            if myFriend?.objectId == PFUser.currentUser()!.objectId{
                 titleText = "My Toasts"
             }else{
                 let friendName = myFriend!["name"] as! String
@@ -89,7 +89,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
                         self.updatesForCurrentPlace()
                     }
                 }else{
-                    NSLog("getPlaces error: %@",error.description)
+                    NSLog("getPlaces error: %@",error!.description)
                 }
             }
     }
@@ -145,7 +145,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         
     }
     
-    private func currentPlace(#scrollView: UIScrollView)-> PFObject?{
+    private func currentPlace(scrollView scrollView: UIScrollView)-> PFObject?{
         var centerPoint = scrollView.layer.position
         centerPoint.x += scrollView.contentOffset.x
         
@@ -192,7 +192,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         return index
     }
     
-    private func configureBG(#place:PFObject){
+    private func configureBG(place place:PFObject){
         bgQueue.addOperationWithBlock { () -> Void in
             if let neighborhood = place["neighborhood"] as? PFObject{
                 let BGname = neighborhood["name"] as! String
@@ -225,20 +225,20 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     private func changeBGTo(newBG:String){
         lastBG = newBG
-        myBG.setImage(lastBG, opacity: 0.6)
+        myBG.setImage(fileName:lastBG, opacity: 0.6)
     }
     
     //MARK: Toggle BottomBar buttons
-    private func configureBottomBar(#place:PFObject){
+    private func configureBottomBar(place place:PFObject){
         configurePickupButton(place: place)
         configureReserveButton(place: place)
     }
     
-    private func configurePickupButton(#place:PFObject){
+    private func configurePickupButton(place place:PFObject){
         toggleBottomBarButton(pickupButton, enabled: place["phone"] != nil)
     }
     
-    private func configureReserveButton(#place:PFObject){
+    private func configureReserveButton(place place:PFObject){
         let reservationURL = place["reservationURL"] as! String
         toggleBottomBarButton(reservationButton, enabled: reservationURL != "")
     }
@@ -267,7 +267,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         if segue.identifier == "placeDetailSegue" {
             let destination = segue.destinationViewController as! PlaceDetailViewController
             
-            let selectedIndexPath = toastsCollectionView.indexPathsForSelectedItems()[0] as! NSIndexPath
+            let selectedIndexPath = toastsCollectionView.indexPathsForSelectedItems()![0]
             let selectedPlace = myPlaces?[selectedIndexPath.row]
             let selectedCell = toastsCollectionView.cellForItemAtIndexPath(selectedIndexPath) as! PlaceCell
             destination.myPlace = selectedPlace
@@ -326,7 +326,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     }
     
     //MARK: - PlaceCell delegate methods
-    func placeCellDidScroll(#tableView: UITableView,place: PFObject) {
+    func placeCellDidScroll(tableView tableView: UITableView,place: PFObject) {
         currentReviewsTableView = tableView
         let alphaChange = tableView.contentOffset.y/50
         let placeAlphaChange = tableView.contentOffset.y/150
@@ -348,13 +348,13 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         }
     }
     
-    func placeCellDidPressed(#place:PFObject) {
-        let selectedIndex = find(myPlaces!,place)!
+    func placeCellDidPressed(place place:PFObject) {
+        let selectedIndex = (myPlaces!).indexOf(place)!
         toastsCollectionView.selectItemAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0), animated: false, scrollPosition: .None)
         self.performSegueWithIdentifier("placeDetailSegue", sender: self)
     }
     
-    func placeCellReviewDidPressed(#toast: PFObject,place: PFObject, parentHeader: UIView) {
+    func placeCellReviewDidPressed(toast toast: PFObject,place: PFObject, parentHeader: UIView) {
         let destination = self.storyboard?.instantiateViewControllerWithIdentifier("reviewDetailScene") as! ReviewDetailViewController
         destination.myToast = toast
         destination.titleString = place["name"] as! String!
@@ -362,7 +362,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
         self.showViewController(destination, sender: self)
     }
     
-    func placeCellReviewerDidPress(#user: PFUser,friend:PFUser?) {
+    func placeCellReviewerDidPress(user user: PFUser,friend:PFUser?) {
         let destination = self.storyboard?.instantiateViewControllerWithIdentifier("profileDetailScene") as! ProfileDetailViewController
         destination.myUser = user
         destination.myFriend = friend
@@ -393,7 +393,7 @@ class ToastsViewController: UIViewController,UICollectionViewDataSource,UICollec
     
     //MARK: - Misc methods
     func getCapitalString(original:String) -> String{
-        return prefix(original, 1).capitalizedString + suffix(original, count(original) - 1)
+        return String(original.characters.prefix(1)).capitalizedString + String(original.characters.suffix(original.characters.count - 1))
     }
     
     func viewLink(link:String,title:String){

@@ -4,9 +4,11 @@ use_frameworks!
 
 target 'toast-project' do
 
-pod 'Alamofire', '~> 1.2'
+pod 'Alamofire'
 pod 'HanekeSwift'
 pod 'CCHLinkTextView'
+pod 'FBSDKShareKit'
+pod 'ParseFacebookUtilsV4','1.8.5'
 
 end
 

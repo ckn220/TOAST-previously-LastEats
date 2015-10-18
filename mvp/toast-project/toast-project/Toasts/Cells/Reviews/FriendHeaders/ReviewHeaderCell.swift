@@ -18,13 +18,13 @@ class ReviewHeaderCell: UITableViewCell {
 
     var myDelegate:ReviewHeaderDelegate?
     
-    func configure(#friend:PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool){
+    func configure(friend friend:PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool){
         self.frame = superView.bounds
         //superView.addSubview(self)
         self.myDelegate = myDelegate
     }
     
-    func configure(#friend:PFUser,friendFriend:PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool){
+    func configure(friend friend:PFUser,friendFriend:PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool){
         self.frame = superView.bounds
         self.myDelegate = myDelegate
     }
@@ -48,7 +48,7 @@ class ReviewHeaderCell: UITableViewCell {
     }
     
     func correctedName(name:String)->String{
-        let originalCount = count(name)
+        let originalCount = name.characters.count
         let limit = 14
         if originalCount > limit{
             var words = name.componentsSeparatedByString(" ")

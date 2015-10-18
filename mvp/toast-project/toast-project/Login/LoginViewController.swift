@@ -10,6 +10,7 @@ import UIKit
 import Parse
 import CoreLocation
 import Alamofire
+import ParseFacebookUtilsV4
 
 class LoginViewController: UIViewController,CLLocationManagerDelegate {
     
@@ -31,7 +32,7 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate {
     
     private func configureBG(){
         let myBG = self.view as! BackgroundImageView
-        myBG.setImage("loginBG", opacity: 0.35)
+        myBG.setImage(fileName: "loginBG", opacity: 0.35)
     }
     /*
     func validateFacebookSession(){
@@ -65,69 +66,60 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate {
     }
     
     func facebookLogin(){
-        PFFacebookUtils.logInWithPermissions(["public_profile","user_friends"], block: {
-            (user: PFUser!, error: NSError!) -> Void in
+            PFFacebookUtils.logInInBackgroundWithReadPermissions(["public_profile","user_friends"]) { (user, error) -> Void in
             
-            if error != nil {
-                NSLog("Facebook Login failed: %@", error.description)
-            }else{
-                if user == nil {
-                    NSLog("Facebook Login canceled.")
-                    
-                } else if user.isNew {
-                    NSLog("Facebook signup succeded")
+            if let error = error{
+                NSLog("facebookLogin error: %@", error.description)
+            }else if let user = user{
+                if user.isNew{
                     self.facebookDidSignup()
-                    
-                } else {
-                    NSLog("Facebook login succeded")
+                }else{
                     self.goToSuccess()
                 }
+            }else{
+                NSLog("facebookLogin canceled")
             }
-            
-        })
+        }
     }
     
     func facebookDidSignup(){
-        PFUser.currentUser()["savedFirstTime"] = 1
-        var group = dispatch_group_create()
+        PFUser.currentUser()!["savedFirstTime"] = 1
+        let group = dispatch_group_create()
         dispatch_group_enter(group)
         getFacebookDetails(group: group)
-        dispatch_group_enter(group)
-        getFacebookPicture(group: group)
         dispatch_group_enter(group)
         getFacebookFriends(group: group)
         
         facebookDidSignupCompletion(group: group)
     }
     
-    func facebookDidSignupCompletion(#group: dispatch_group_t){
+    func facebookDidSignupCompletion(group group: dispatch_group_t){
         myGroupCompletion(group: group) { () -> Void in
-            PFUser.currentUser().saveInBackgroundWithBlock({ (success, error) -> Void in
+            PFUser.currentUser()!.saveInBackgroundWithBlock({ (success, error) -> Void in
                 if error == nil{
                     self.goToSuccess()
                 }else{
-                    NSLog("facebookDidSignupCompletion error: %@",error.description)
+                    NSLog("facebookDidSignupCompletion error: %@",error!.description)
                 }
             })
         }
     }
     
-    private func myGroupCompletion(#group: dispatch_group_t,block: ()->Void){
+    private func myGroupCompletion(group group: dispatch_group_t,block: ()->Void){
         dispatch_group_notify(group, dispatch_get_main_queue(), block)
     }
     
-    func getFacebookDetails(#group: dispatch_group_t){
+    func getFacebookDetails(group group: dispatch_group_t){
         
-        FBRequestConnection.startWithGraphPath("/me?fields=name,email", completionHandler: { (connection, result, error) -> Void in
-            
+        FBSDKGraphRequest(graphPath: "/me", parameters: ["fields":"name,email"]).startWithCompletionHandler { (_, result, error) -> Void in
             if (error == nil){
-                let imUser = PFUser.currentUser()
+                let imUser = PFUser.currentUser()!
                 let myResult = result as! Dictionary<String,AnyObject>
                 
                 imUser["name"] = myResult["name"]
                 imUser["facebookId"] = myResult["id"]
                 if let email = myResult["email"] as? String{
-                    imUser["email"] = myResult["email"]
+                    imUser["email"] = email
                 }
                 
             }
@@ -136,31 +128,12 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate {
             }
             
             dispatch_group_leave(group)
-        })
+        }
         
     }
     
-    func getFacebookPicture(#group: dispatch_group_t){
-        FBRequestConnection.startWithGraphPath("/me/picture?type=large&redirect=false", completionHandler: { (connection, result, error) -> Void in
-            
-            if (error == nil){
-                let imUser = PFUser.currentUser()
-                let pictureURL = (result["data"] as! NSDictionary)["url"] as! String
-                imUser["pictureURL"] = pictureURL
-            }
-            else {
-                NSLog("getFacebookPicture error: %@", error.description)
-            }
-            
-            dispatch_group_leave(group)
-        })
-    }
-    
-    func getFacebookFriends(#group: dispatch_group_t){
-        // Get List Of Friends
-        let friendsRequest : FBRequest = FBRequest.requestForMyFriends()
-        friendsRequest.startWithCompletionHandler{(connection:FBRequestConnection!, result:AnyObject!, error:NSError!) -> Void in
-            
+    func getFacebookFriends(group group: dispatch_group_t){
+        FBSDKGraphRequest(graphPath: "/me/friends", parameters: nil).startWithCompletionHandler { (_, result, error) -> Void in
             if error == nil {
                 let resultdict = result as! NSDictionary
                 let friends = resultdict["data"] as! NSArray
@@ -177,22 +150,22 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate {
     }
     
     private func searchFacebookFriendsOnToast(friends:[String],group: dispatch_group_t){
-        let userQuery = PFUser.query()
+        let userQuery = PFUser.query()!
         userQuery.whereKey("facebookId", containedIn: friends)
         userQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
             if error == nil{
-                for friend in result as! [PFObject]{
-                    PFUser.currentUser().relationForKey("friends").addObject(friend)
+                for friend in result!{
+                    PFUser.currentUser()!.relationForKey("friends").addObject(friend)
                 }
             }else{
-                NSLog("searchFacebookFriendsOnToast error: %@",error.description)
+                NSLog("searchFacebookFriendsOnToast error: %@",error!.description)
             }
             dispatch_group_leave(group)
         }
     }
     
     //MARK: - General login
-    func animatePressed(#buttonView:UIView){
+    func animatePressed(buttonView buttonView:UIView){
         UIView.animateKeyframesWithDuration(0.2, delay: 0, options: .CalculationModePaced, animations: { () -> Void in
             
             UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.1, animations: { () -> Void in
@@ -215,10 +188,10 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate {
     }
       
     func goToSuccess(){
-        let user = PFUser.currentUser()
+        let user = PFUser.currentUser()!
         updatePushWithUser(user)
         
-        let newSceneNav = self.storyboard?.instantiateViewControllerWithIdentifier("mainScene") as! UIViewController
+        let newSceneNav = self.storyboard!.instantiateViewControllerWithIdentifier("mainScene")
         self.presentViewController(newSceneNav, animated: true, completion: nil)
         
     }

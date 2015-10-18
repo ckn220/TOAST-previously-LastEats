@@ -10,9 +10,9 @@ import UIKit
 import Parse
 
 protocol DiscoverDataSourceDelegate{
-    func moodsDataSourceItemSelected(#index:Int)
-    func neighborhoodsDataSourceItemSelected(#index:Int)
-    func neighborhoodsDataSourceCurrentItemChanged(#item:PFObject)
+    func moodsDataSourceItemSelected(index index:Int)
+    func neighborhoodsDataSourceItemSelected(index index:Int)
+    func neighborhoodsDataSourceCurrentItemChanged(item item:PFObject)
 }
 
 class DiscoverDataSource: NSObject,iCarouselDataSource,iCarouselDelegate,DiscoverCellDelegate{
@@ -97,7 +97,7 @@ class DiscoverDataSource: NSObject,iCarouselDataSource,iCarouselDelegate,Discove
     }
     
     //MARK: - DiscoverCell delegate methods
-    func discoverCellSelected(#index: Int) {
+    func discoverCellSelected(index index: Int) {
         if isMood{
             myDelegate?.moodsDataSourceItemSelected(index: index)
         }else{

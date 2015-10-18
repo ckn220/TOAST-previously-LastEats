@@ -15,29 +15,22 @@ protocol ProfileToastsDelegate{
 }
 
 class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegate,ProfileToastCellDelegate {
-    var toasts: [PFObject]!
+    var toasts = [PFObject]()
     var user:PFUser!
-    var topToast: PFObject?
-    var isCurrentUser=false
+    var isCurrentUser:Bool{
+        get{
+            return user.objectId == PFUser.currentUser()!.objectId
+        }
+    }
     var myDelegate:ProfileToastsDelegate?
     var placesTemp = [Int:PFObject]()
     
-    init(toasts:[PFObject],user:PFUser,topToast: PFObject?,myDelegate:ProfileToastsDelegate){
+    init(toasts:[PFObject],user:PFUser,myDelegate:ProfileToastsDelegate){
         super.init()
         self.toasts = toasts
         self.user = user
-        self.topToast = topToast
         self.myDelegate = myDelegate
-        configure()
     }
-    
-    private func configure(){
-        configureCurrentUser()
-    }
-    
-    private func configureCurrentUser(){
-        isCurrentUser = user.objectId == PFUser.currentUser().objectId
-    }    
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -49,7 +42,7 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("toastCell") as! ProfileToastCell
-        cell.configureCell(indexPath.row,toast:toasts[indexPath.row],topToast: topToast,myDelegate:self)
+        cell.configureCell(indexPath.row,toast:toasts[indexPath.row],myDelegate:self)
         
         return cell
     }
@@ -83,11 +76,11 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
     }
     
     private func deleteFromCloud(toast:PFObject){
-        PFCloud.callFunctionInBackground("deleteToast", withParameters: ["toastId":toast.objectId]) { (result, error) -> Void in
+        PFCloud.callFunctionInBackground("deleteToast", withParameters: ["toastId":toast.objectId!]) { (result, error) -> Void in
             if error == nil{
                 self.myDelegate?.profileToastsItemDeleted(self.toasts)
             }else{
-                NSLog("%@",error.description)
+                NSLog("%@",error!.description)
             }
         }
     }
@@ -96,7 +89,7 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
         placesTemp[index] = nil
         if index < placesTemp.count-1{
             for k in (index+1...(placesTemp.count)){
-                var value = placesTemp[k]
+               let value = placesTemp[k]
                 placesTemp[k]=nil
                 placesTemp[k-1]=value
             }

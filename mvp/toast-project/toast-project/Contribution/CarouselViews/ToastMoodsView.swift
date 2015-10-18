@@ -38,30 +38,30 @@ class ToastMoodsView: ToastCarouselView,UICollectionViewDataSource,UICollectionV
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("moodCell", forIndexPath: indexPath) as! UICollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("moodCell", forIndexPath: indexPath) 
         configureMoodText(cell: cell, item: moods[indexPath.row])
         
         return cell
     }
     
-    func configureMoodText(#cell:UICollectionViewCell,item:PFObject){
+    func configureMoodText(cell cell:UICollectionViewCell,item:PFObject){
         let moodLabel = cell.viewWithTag(101) as! UILabel
         moodLabel.text = getCapitalString(item["name"] as! String!)
         
         var newAligment:NSTextAlignment
-        switch(find(moods,item)!){
-        case 0...3 :
+        switch((moods).indexOf(item)!){
+        case 0...4 :
             newAligment = .Left
-        case 4...7 :
+        case 5...9 :
             newAligment = .Center
-        case 8...11 :
+        case 10...14 :
             newAligment = .Right
         default :
             newAligment = .Left
         }
         moodLabel.textAlignment = newAligment
         
-        let isSelected = find(selectedMoods,item) != nil
+        let isSelected = (selectedMoods).indexOf(item) != nil
         applySelectedStyle(moodLabel, selected: isSelected)
     }
     
@@ -69,7 +69,7 @@ class ToastMoodsView: ToastCarouselView,UICollectionViewDataSource,UICollectionV
         
         let selectedLabel = collectionView.cellForItemAtIndexPath(indexPath)?.viewWithTag(101) as! UILabel
         
-        if let selectedIndex = find(selectedMoods,moods[indexPath.row]) {
+        if let selectedIndex = selectedMoods.indexOf(moods[indexPath.row]) {
             selectedMoods.removeAtIndex(selectedIndex)
             applySelectedStyle(selectedLabel, selected: false)
         }else{
@@ -91,10 +91,25 @@ class ToastMoodsView: ToastCarouselView,UICollectionViewDataSource,UICollectionV
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(CGRectGetWidth(moodsCollectionView.bounds)/3, 44)
+        return CGSizeMake(cellWidth(row: indexPath.row), 44)
+    }
+    
+    private func cellWidth(row row:Int)-> CGFloat{
+        var width:CGFloat
+        switch(row){
+        case 0...4 :
+            width = 94
+        case 5...9 :
+            width = moodsCollectionView.bounds.width - 94 - 54
+        case 10...14 :
+            width = 54
+        default :
+            width = 0
+        }
+        return width
     }
     
     func getCapitalString(original:String) -> String{
-        return prefix(original, 1).capitalizedString + suffix(original, count(original) - 1)
+        return String(original.characters.prefix(1)).capitalizedString + String(original.characters.suffix(original.characters.count - 1))
     }
 }

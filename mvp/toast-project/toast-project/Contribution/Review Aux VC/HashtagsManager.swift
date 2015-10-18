@@ -13,11 +13,11 @@ class HashtagsManager: NSObject{
     
     class func hashtagsFromReview(review:String,toastID:String){
         var tempHashTags = [String]()
-        var segments:[String] = review.componentsSeparatedByString(" ")
+        let segments:[String] = review.componentsSeparatedByString(" ")
         for segment in segments{
             if isHashtag(segment){
                 let hashtagName = cleanHashtag(segment)
-                if !contains(tempHashTags, hashtagName){
+                if !tempHashTags.contains(hashtagName){
                     tempHashTags.append(hashtagName)
                 }
             }
@@ -25,7 +25,7 @@ class HashtagsManager: NSObject{
         
         PFCloud.callFunctionInBackground("createHashtagsIfNew", withParameters: ["items":tempHashTags,"toastId":toastID]) { (result, error) -> Void in
             if error != nil{
-                NSLog("%@",error.description)
+                NSLog("%@",error!.description)
             }
         }
     }
@@ -37,7 +37,7 @@ class HashtagsManager: NSObject{
     private class func distinct<T: Equatable>(source: [T]) -> [T] {
         var unique = [T]()
         for item in source {
-            if !contains(unique, item) {
+            if !unique.contains(item) {
                 unique.append(item)
             }
         }
@@ -54,9 +54,9 @@ class HashtagsManager: NSObject{
     
     private class func findIndex(from source:String,of target: String) -> Int
     {
-        var range = source.rangeOfString(target)
+        let range = source.rangeOfString(target)
         if let range = range {
-            return distance(source.startIndex, range.startIndex)
+            return source.startIndex.distanceTo(range.startIndex)
         } else {
             return -1
         }
@@ -81,7 +81,7 @@ class HashtagsManager: NSObject{
     }
     
     private class func createHashtag(name:String)->PFObject{
-        var newHashtag = PFObject(className: "Hashtag")
+        let newHashtag = PFObject(className: "Hashtag")
         newHashtag["name"] = name
         newHashtag["toastsCount"] = 0
         newHashtag.saveInBackgroundWithBlock(nil)

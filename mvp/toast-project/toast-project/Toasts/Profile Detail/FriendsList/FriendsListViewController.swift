@@ -37,7 +37,7 @@ class FriendsListViewController: UIViewController,FriendsDataSourceDelegate {
     }
     
     private func configureTitle(){
-        if myUser.objectId == PFUser.currentUser().objectId{
+        if myUser.objectId == PFUser.currentUser()!.objectId{
             myTitleLabel.text = "My Friends"
         }else{
             let fullName = myUser["name"] as! String
@@ -47,14 +47,14 @@ class FriendsListViewController: UIViewController,FriendsDataSourceDelegate {
     }
     
     private func configureFriends(){
-        let friendsQuery = myUser.relationForKey("friends").query()
+        let friendsQuery = myUser.relationForKey("friends").query()!
         friendsQuery.orderByAscending("name")
         friendsQuery.includeKey("topToast")
         friendsQuery.findObjectsInBackgroundWithBlock { (friends, error) -> Void in
             if error == nil{
                 self.friendsDataSource = FriendsListDataSource(friends:friends as! [PFUser],myDelegate:self)
             }else{
-                NSLog("configureFriends error: %@",error.description)
+                NSLog("configureFriends error: %@",error!.description)
             }
         }
     }

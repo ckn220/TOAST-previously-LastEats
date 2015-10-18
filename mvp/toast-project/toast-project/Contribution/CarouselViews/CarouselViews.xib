@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14E11f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,6 +13,7 @@
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.40000000000000002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Restaurant:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OoZ-H1-q8y">
                     <rect key="frame" x="30" y="114" width="260" height="24"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="FaK-lQ-mR3"/>
                     </constraints>
@@ -21,6 +23,7 @@
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="24p-L4-dd0">
                     <rect key="frame" x="30" y="138" width="260" height="44"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="cPI-Tq-Si8"/>
                     </constraints>
@@ -29,6 +32,7 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="OoZ-H1-q8y" firstAttribute="leading" secondItem="24p-L4-dd0" secondAttribute="leading" id="BhL-Sf-qu0"/>
@@ -49,9 +53,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="QQc-wI-Yhl">
-                    <rect key="frame" x="20" y="72" width="280" height="176"/>
+                    <rect key="frame" x="20" y="50" width="280" height="220"/>
+                    <animations/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="176" id="MMc-HV-BAo"/>
+                        <constraint firstAttribute="height" constant="220" id="MMc-HV-BAo"/>
                         <constraint firstAttribute="width" constant="280" id="zOv-BE-gOU"/>
                     </constraints>
                     <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Fwt-4W-JfE">
@@ -66,7 +71,8 @@
                     </connections>
                 </collectionView>
                 <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select one or more moods" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rim-CD-cPR">
-                    <rect key="frame" x="20" y="36" width="280" height="24"/>
+                    <rect key="frame" x="20" y="14" width="280" height="24"/>
+                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="VhJ-Sh-Osu"/>
                     </constraints>
@@ -75,6 +81,7 @@
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="QQc-wI-Yhl" secondAttribute="centerX" id="1g1-sY-1Rj"/>
@@ -90,8 +97,9 @@
             <point key="canvasLocation" x="573" y="124"/>
         </view>
         <view clipsSubviews="YES" contentMode="scaleToFill" id="hRz-q4-ojj" customClass="ToastCarouselView" customModule="toast_project" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="-4" width="320" height="324"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="324"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <animations/>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

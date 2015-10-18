@@ -18,7 +18,7 @@ class ReviewDetailButton: UIButton {
         }
     }
     
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         toggleButton()
         super.touchesEnded(touches, withEvent: event)
     }

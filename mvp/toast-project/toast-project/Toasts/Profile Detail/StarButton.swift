@@ -15,7 +15,7 @@ class StarButton: ReviewDetailButton {
         drawStarButtonCanvas(frame: rect)
     }
     
-    func drawStarButtonCanvas(#frame: CGRect) {
+    func drawStarButtonCanvas(frame frame: CGRect) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
         
@@ -24,7 +24,7 @@ class StarButton: ReviewDetailButton {
         
         //// starGroup
         //// starBezier Drawing
-        var starBezierPath = UIBezierPath()
+        let starBezierPath = UIBezierPath()
         starBezierPath.moveToPoint(CGPointMake(starGroup.minX + 15.65, starGroup.minY + 5.98))
         starBezierPath.addLineToPoint(CGPointMake(starGroup.minX + 9.94, starGroup.minY + 5.98))
         starBezierPath.addLineToPoint(CGPointMake(starGroup.minX + 7.82, starGroup.minY))
@@ -39,7 +39,7 @@ class StarButton: ReviewDetailButton {
         starBezierPath.closePath()
         starBezierPath.usesEvenOddFillRule = true;
         CGContextSaveGState(context)
-        colorStar(starBezierPath,context: context)
+        colorStar(starBezierPath,context: context!)
     }
     
     private func colorStar(bezier:UIBezierPath,context:CGContext){
@@ -64,7 +64,7 @@ class StarButton: ReviewDetailButton {
         CGContextDrawLinearGradient(context, starGradient,
             CGPointMake(starBezierBounds.midX + 0 * starBezierBounds.width / 15.65, starBezierBounds.midY + -7.82 * starBezierBounds.height / 15.64),
             CGPointMake(starBezierBounds.midX + 0 * starBezierBounds.width / 15.65, starBezierBounds.midY + 7.82 * starBezierBounds.height / 15.64),
-            UInt32(kCGGradientDrawsBeforeStartLocation) | UInt32(kCGGradientDrawsAfterEndLocation))
+            CGGradientDrawingOptions())
         CGContextRestoreGState(context)
     }
     

@@ -17,7 +17,7 @@ class FriendHeaderCell: ReviewHeaderCell {
     @IBOutlet weak var friendNameLabel: UILabel!
     @IBOutlet weak var topToastHeightConstraint: NSLayoutConstraint!
     
-    override func configure(#friend: PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool) {
+    override func configure(friend friend: PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool) {
         super.configure(friend: friend, myDelegate: myDelegate,superView:superView,isTopToast:isTopToast)
         configureTopToast(isTopToast)
         configurePicture(friend)
@@ -35,10 +35,8 @@ class FriendHeaderCell: ReviewHeaderCell {
     
     private func configurePicture(user:PFUser){
         configureReviewerPicture(friendPictureView.layer)
-        if let pictureURL = user["pictureURL"] as? String{
-            friendPictureView.setImage(URL: pictureURL, completion: { () -> Void in
-                self.myDelegate?.reviewHeaderDoneLoading()
-            })
+        friendPictureView.setImage(user: user) { () -> () in
+            self.myDelegate?.reviewHeaderDoneLoading()
         }
     }
     

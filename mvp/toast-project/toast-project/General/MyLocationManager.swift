@@ -23,7 +23,7 @@ class MyLocationManager: NSObject,CLLocationManagerDelegate {
         configureLocation(myDelegate:myDelegate)
     }
     
-    func configureLocation(#myDelegate:MyLocationManagerDelegate){
+    func configureLocation(myDelegate myDelegate:MyLocationManagerDelegate){
         manager.delegate = self
         self.myDelegate = myDelegate
         triggerLocationServices()
@@ -45,7 +45,7 @@ class MyLocationManager: NSObject,CLLocationManagerDelegate {
     }
     
     // MARK: - CLLocationManagerDelegate
-    func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
         
         switch status{
         case .AuthorizedWhenInUse:
@@ -57,8 +57,8 @@ class MyLocationManager: NSObject,CLLocationManagerDelegate {
         }
     }
     
-    func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-        let lastLocation = locations.last as! CLLocation
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let lastLocation = locations.last!
         if lastLocation.timestamp.timeIntervalSinceNow > -30 {
             manager.stopUpdatingLocation()
             myDelegate?.myLocationManagerDidGetUserLocation(lastLocation)

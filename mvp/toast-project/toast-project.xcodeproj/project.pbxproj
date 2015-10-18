@@ -10,16 +10,12 @@
 		0801937E1A8E3EBC00CAA770 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0801937D1A8E3EBC00CAA770 /* MapKit.framework */; };
 		080193861A8FE45F00CAA770 /* BookingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080193851A8FE45F00CAA770 /* BookingService.swift */; };
 		080193881A8FFF9300CAA770 /* GenericWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080193871A8FFF9300CAA770 /* GenericWebViewController.swift */; };
-		080377511A7341ED00E75297 /* LoginSuccesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080377501A7341ED00E75297 /* LoginSuccesViewController.swift */; };
 		08059CEB1ABE407D004A5A78 /* DiscoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08059CEA1ABE407D004A5A78 /* DiscoverViewController.swift */; };
 		08059CF01ABE40B0004A5A78 /* DiscoverDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08059CEF1ABE40B0004A5A78 /* DiscoverDataSource.swift */; };
 		08059CF61ABE4112004A5A78 /* DiscoverCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08059CF51ABE4112004A5A78 /* DiscoverCell.swift */; };
 		08059CF81ABE41FE004A5A78 /* DiscoverCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08059CF71ABE41FE004A5A78 /* DiscoverCell.xib */; };
 		081420751AAB895B003BEA9E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 081420741AAB895B003BEA9E /* AddressBook.framework */; };
-		082256571B02598700511527 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0822564D1B02594E00511527 /* FacebookSDK.framework */; };
 		08247F661B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 08247F651B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m */; };
-		08255F141A75626B00ABA356 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F111A75626B00ABA356 /* Parse.framework */; };
-		08255F151A75626B00ABA356 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08255F121A75626B00ABA356 /* ParseFacebookUtils.framework */; };
 		082ED7781B1EA944003F250E /* ReviewDetailHeaders.xib in Resources */ = {isa = PBXBuildFile; fileRef = 082ED7771B1EA944003F250E /* ReviewDetailHeaders.xib */; };
 		083467EA1AC83E78003B5803 /* ReviewAccesoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 083467E91AC83E78003B5803 /* ReviewAccesoryView.xib */; };
 		083467EE1AC841EF003B5803 /* ReviewAccesoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 083467ED1AC841EF003B5803 /* ReviewAccesoryView.swift */; };
@@ -39,6 +35,10 @@
 		08363FAA1A57798A007A6827 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08363FA91A57798A007A6827 /* libz.dylib */; };
 		08363FAC1A57799C007A6827 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 08363FAB1A57799C007A6827 /* libsqlite3.dylib */; };
 		08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08363FB01A577C63007A6827 /* LoginViewController.swift */; };
+		084449621BD3AC4A00582650 /* MapSettingsFriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084449611BD3AC4A00582650 /* MapSettingsFriendsTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		084449641BD3AC5900582650 /* MapSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084449631BD3AC5900582650 /* MapSettingsTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		084449661BD3AC7500582650 /* MapSettingsCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084449651BD3AC7500582650 /* MapSettingsCache.swift */; settings = {ASSET_TAGS = (); }; };
+		084449681BD3EA4200582650 /* MapSettingsFriendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084449671BD3EA4200582650 /* MapSettingsFriendCell.swift */; settings = {ASSET_TAGS = (); }; };
 		084C145F1AA100B3005FB0E9 /* SearchPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */; };
 		0858BF141AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0858BF131AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift */; };
 		086E17BA1AFB2CB100964405 /* FriendsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 086E17B91AFB2CB100964405 /* FriendsListViewController.swift */; };
@@ -133,9 +133,20 @@
 		088188511AC9649F00559DC8 /* ProfileToastCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088188501AC9649F00559DC8 /* ProfileToastCell.swift */; };
 		089123F01B44D8F400010241 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089123EF1B44D8F400010241 /* Social.framework */; };
 		089123F21B44D8FB00010241 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089123F11B44D8FB00010241 /* Accounts.framework */; };
+		08944F711BD2E00B00315C0C /* MapBlackGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08944F701BD2E00B00315C0C /* MapBlackGradientView.swift */; settings = {ASSET_TAGS = (); }; };
 		089C52941AD1440400054037 /* PostRelatedPlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C52931AD1440400054037 /* PostRelatedPlaceCell.swift */; };
 		089C52961AD15A3100054037 /* PostRelatedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089C52951AD15A3100054037 /* PostRelatedViewController.swift */; };
 		089C52991AD17E2700054037 /* RelatedPlacesHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 089C52981AD17E2700054037 /* RelatedPlacesHeaderView.xib */; };
+		08A3B4AA1BCEFEB400554B03 /* UserProfileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A3B4A91BCEFEB400554B03 /* UserProfileImageView.swift */; settings = {ASSET_TAGS = (); }; };
+		08A3B4AC1BCFC11800554B03 /* UserProfileStatLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A3B4AB1BCFC11800554B03 /* UserProfileStatLabel.swift */; settings = {ASSET_TAGS = (); }; };
+		08A3B4B11BD059C900554B03 /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A3B4B01BD059C900554B03 /* ActivityViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		08A3B4B31BD05A3200554B03 /* ActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A3B4B21BD05A3200554B03 /* ActivityTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		08A3B4B51BD05A4700554B03 /* ActivityCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A3B4B41BD05A4700554B03 /* ActivityCell.swift */; settings = {ASSET_TAGS = (); }; };
+		08A3B4B71BD05A5D00554B03 /* MyControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A3B4B61BD05A5D00554B03 /* MyControl.swift */; settings = {ASSET_TAGS = (); }; };
+		08A3B4B91BD0FF9900554B03 /* TopToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A3B4B81BD0FF9900554B03 /* TopToastView.swift */; settings = {ASSET_TAGS = (); }; };
+		08A3B4BC1BD2640500554B03 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A3B4BB1BD2640500554B03 /* MapViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		08A3B4BE1BD2642400554B03 /* MapDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A3B4BD1BD2642400554B03 /* MapDataSource.swift */; settings = {ASSET_TAGS = (); }; };
+		08A3B4C01BD2644600554B03 /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08A3B4BF1BD2644600554B03 /* MapDetailView.swift */; settings = {ASSET_TAGS = (); }; };
 		08B905E71AA14A29009F3B21 /* ToastMoodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */; };
 		08B905EB1AA14AB1009F3B21 /* ToastHashtagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */; };
 		08B905ED1AA1E8D6009F3B21 /* HashtagsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */; };
@@ -183,7 +194,7 @@
 		08F85AE71A8D5F0300C01CC9 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08F85AE61A8D5F0300C01CC9 /* AVFoundation.framework */; };
 		08F85AEA1A8E395900C01CC9 /* PlaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F85AE91A8E395900C01CC9 /* PlaceDetailViewController.swift */; };
 		08F85AEC1A8E397000C01CC9 /* PlaceDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F85AEB1A8E397000C01CC9 /* PlaceDetailTableViewController.swift */; };
-		834D241378344AD3EBB11161 /* Pods_toast_project.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB4DD8D16F36DEEDB6CE0D2B /* Pods_toast_project.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		0DE5B8D72EAAEF4CF81FDFAD /* Pods_toast_project.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE98B6EEB573A8BE48E739D /* Pods_toast_project.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,7 +233,6 @@
 		0801937D1A8E3EBC00CAA770 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		080193851A8FE45F00CAA770 /* BookingService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookingService.swift; sourceTree = "<group>"; };
 		080193871A8FFF9300CAA770 /* GenericWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericWebViewController.swift; sourceTree = "<group>"; };
-		080377501A7341ED00E75297 /* LoginSuccesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginSuccesViewController.swift; sourceTree = "<group>"; };
 		08059CEA1ABE407D004A5A78 /* DiscoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverViewController.swift; sourceTree = "<group>"; };
 		08059CEF1ABE40B0004A5A78 /* DiscoverDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverDataSource.swift; sourceTree = "<group>"; };
 		08059CF51ABE4112004A5A78 /* DiscoverCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiscoverCell.swift; sourceTree = "<group>"; };
@@ -256,6 +266,10 @@
 		08363FA91A57798A007A6827 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		08363FAB1A57799C007A6827 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		08363FB01A577C63007A6827 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		084449611BD3AC4A00582650 /* MapSettingsFriendsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSettingsFriendsTableViewController.swift; sourceTree = "<group>"; };
+		084449631BD3AC5900582650 /* MapSettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSettingsTableViewController.swift; sourceTree = "<group>"; };
+		084449651BD3AC7500582650 /* MapSettingsCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSettingsCache.swift; sourceTree = "<group>"; };
+		084449671BD3EA4200582650 /* MapSettingsFriendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSettingsFriendCell.swift; sourceTree = "<group>"; };
 		084C145E1AA100B3005FB0E9 /* SearchPlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPlaceViewController.swift; sourceTree = "<group>"; };
 		0858BF131AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewsTableViewDataSource.swift; sourceTree = "<group>"; };
 		086E17B91AFB2CB100964405 /* FriendsListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendsListViewController.swift; sourceTree = "<group>"; };
@@ -351,9 +365,20 @@
 		089123EE1B44D12500010241 /* toast-project-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "toast-project-Bridging-Header.h"; sourceTree = "<group>"; };
 		089123EF1B44D8F400010241 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		089123F11B44D8FB00010241 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		08944F701BD2E00B00315C0C /* MapBlackGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapBlackGradientView.swift; sourceTree = "<group>"; };
 		089C52931AD1440400054037 /* PostRelatedPlaceCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRelatedPlaceCell.swift; sourceTree = "<group>"; };
 		089C52951AD15A3100054037 /* PostRelatedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostRelatedViewController.swift; sourceTree = "<group>"; };
 		089C52981AD17E2700054037 /* RelatedPlacesHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RelatedPlacesHeaderView.xib; sourceTree = "<group>"; };
+		08A3B4A91BCEFEB400554B03 /* UserProfileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileImageView.swift; sourceTree = "<group>"; };
+		08A3B4AB1BCFC11800554B03 /* UserProfileStatLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileStatLabel.swift; sourceTree = "<group>"; };
+		08A3B4B01BD059C900554B03 /* ActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
+		08A3B4B21BD05A3200554B03 /* ActivityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityTableViewController.swift; sourceTree = "<group>"; };
+		08A3B4B41BD05A4700554B03 /* ActivityCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityCell.swift; sourceTree = "<group>"; };
+		08A3B4B61BD05A5D00554B03 /* MyControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyControl.swift; sourceTree = "<group>"; };
+		08A3B4B81BD0FF9900554B03 /* TopToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopToastView.swift; sourceTree = "<group>"; };
+		08A3B4BB1BD2640500554B03 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		08A3B4BD1BD2642400554B03 /* MapDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapDataSource.swift; sourceTree = "<group>"; };
+		08A3B4BF1BD2644600554B03 /* MapDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		08B905E61AA14A29009F3B21 /* ToastMoodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastMoodCell.xib; sourceTree = "<group>"; };
 		08B905EA1AA14AB1009F3B21 /* ToastHashtagCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastHashtagCell.xib; sourceTree = "<group>"; };
 		08B905EC1AA1E8D6009F3B21 /* HashtagsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashtagsManager.swift; sourceTree = "<group>"; };
@@ -404,9 +429,9 @@
 		08F85AE61A8D5F0300C01CC9 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		08F85AE91A8E395900C01CC9 /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceDetailViewController.swift; sourceTree = "<group>"; };
 		08F85AEB1A8E397000C01CC9 /* PlaceDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceDetailTableViewController.swift; sourceTree = "<group>"; };
-		DB4DD8D16F36DEEDB6CE0D2B /* Pods_toast_project.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toast_project.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E97FBB2853D08937AD878E21 /* Pods-toast-project.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toast-project.release.xcconfig"; path = "Pods/Target Support Files/Pods-toast-project/Pods-toast-project.release.xcconfig"; sourceTree = "<group>"; };
-		F052614694CAF4FF5737192E /* Pods-toast-project.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toast-project.debug.xcconfig"; path = "Pods/Target Support Files/Pods-toast-project/Pods-toast-project.debug.xcconfig"; sourceTree = "<group>"; };
+		2CBA9EA820A4DD0176B3BA34 /* Pods-toast-project.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toast-project.debug.xcconfig"; path = "Pods/Target Support Files/Pods-toast-project/Pods-toast-project.debug.xcconfig"; sourceTree = "<group>"; };
+		6CE98B6EEB573A8BE48E739D /* Pods_toast_project.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_toast_project.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A59D6025ADC6FC9D756EA1E8 /* Pods-toast-project.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-toast-project.release.xcconfig"; path = "Pods/Target Support Files/Pods-toast-project/Pods-toast-project.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -424,16 +449,13 @@
 				08363FAA1A57798A007A6827 /* libz.dylib in Frameworks */,
 				08363FA81A57797E007A6827 /* SystemConfiguration.framework in Frameworks */,
 				08363FA41A57796C007A6827 /* Security.framework in Frameworks */,
-				082256571B02598700511527 /* FacebookSDK.framework in Frameworks */,
 				08363FA21A577962007A6827 /* QuartzCore.framework in Frameworks */,
 				08363FA01A57795A007A6827 /* MobileCoreServices.framework in Frameworks */,
-				08255F151A75626B00ABA356 /* ParseFacebookUtils.framework in Frameworks */,
 				08363F9E1A577952007A6827 /* CoreLocation.framework in Frameworks */,
 				08363F9C1A577949007A6827 /* CoreGraphics.framework in Frameworks */,
-				08255F141A75626B00ABA356 /* Parse.framework in Frameworks */,
 				08363F9A1A57793F007A6827 /* CFNetwork.framework in Frameworks */,
 				08363F981A577938007A6827 /* AudioToolbox.framework in Frameworks */,
-				834D241378344AD3EBB11161 /* Pods_toast_project.framework in Frameworks */,
+				0DE5B8D72EAAEF4CF81FDFAD /* Pods_toast_project.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,7 +546,7 @@
 				08363F701A5778E4007A6827 /* toast-project */,
 				08363F861A5778E4007A6827 /* toast-projectTests */,
 				08363F6F1A5778E4007A6827 /* Products */,
-				EBAF27ABADF95CA51F6460B8 /* Pods */,
+				1FAD0665654ED47249EDBD1F /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -541,6 +563,8 @@
 			isa = PBXGroup;
 			children = (
 				089123EE1B44D12500010241 /* toast-project-Bridging-Header.h */,
+				08A3B4BA1BD263EE00554B03 /* Map */,
+				08A3B4AD1BD0594F00554B03 /* Activity */,
 				0812C9251A645BDD004A115B /* General */,
 				08B425D21A7C492E00A72C95 /* Discover */,
 				08F838901A87C81400CFCAEF /* Toasts */,
@@ -605,7 +629,7 @@
 				08363F9B1A577949007A6827 /* CoreGraphics.framework */,
 				08363F991A57793F007A6827 /* CFNetwork.framework */,
 				08363F971A577938007A6827 /* AudioToolbox.framework */,
-				DB4DD8D16F36DEEDB6CE0D2B /* Pods_toast_project.framework */,
+				6CE98B6EEB573A8BE48E739D /* Pods_toast_project.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -623,7 +647,6 @@
 			isa = PBXGroup;
 			children = (
 				08E184B71A90BFFC00C9A956 /* MainViewController.swift */,
-				080377501A7341ED00E75297 /* LoginSuccesViewController.swift */,
 				08E184BB1A90D63B00C9A956 /* MainMenuTableViewController.swift */,
 				08D5E1881B2D36BE00DD8CED /* MainMenuTableView.swift */,
 			);
@@ -763,10 +786,19 @@
 				0881884C1AC9645C00559DC8 /* ProfileDetailViewController.swift */,
 				0881884E1AC9647400559DC8 /* ProfileToastsDataSource.swift */,
 				088188501AC9649F00559DC8 /* ProfileToastCell.swift */,
-				08EB0C6C1B0A13C5002143DE /* StarButton.swift */,
+				08A3B4A81BCEFE5B00554B03 /* Views */,
 				086E17B81AFAE0F400964405 /* FriendsList */,
 			);
 			path = "Profile Detail";
+			sourceTree = "<group>";
+		};
+		08944F6F1BD2DFF100315C0C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				08A3B4BF1BD2644600554B03 /* MapDetailView.swift */,
+				08944F701BD2E00B00315C0C /* MapBlackGradientView.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		089C52901AD143D500054037 /* Post-Related */ = {
@@ -786,6 +818,66 @@
 				089C52981AD17E2700054037 /* RelatedPlacesHeaderView.xib */,
 			);
 			path = "Related Places Header";
+			sourceTree = "<group>";
+		};
+		08A3B4A81BCEFE5B00554B03 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				08EB0C6C1B0A13C5002143DE /* StarButton.swift */,
+				08A3B4A91BCEFEB400554B03 /* UserProfileImageView.swift */,
+				08A3B4AB1BCFC11800554B03 /* UserProfileStatLabel.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		08A3B4AD1BD0594F00554B03 /* Activity */ = {
+			isa = PBXGroup;
+			children = (
+				08A3B4B01BD059C900554B03 /* ActivityViewController.swift */,
+				08A3B4AF1BD0597200554B03 /* Views */,
+				08A3B4AE1BD0595800554B03 /* TableView */,
+			);
+			name = Activity;
+			sourceTree = "<group>";
+		};
+		08A3B4AE1BD0595800554B03 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				08A3B4B21BD05A3200554B03 /* ActivityTableViewController.swift */,
+				08A3B4B41BD05A4700554B03 /* ActivityCell.swift */,
+			);
+			name = TableView;
+			sourceTree = "<group>";
+		};
+		08A3B4AF1BD0597200554B03 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				08A3B4B61BD05A5D00554B03 /* MyControl.swift */,
+				08A3B4B81BD0FF9900554B03 /* TopToastView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		08A3B4BA1BD263EE00554B03 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				08A3B4BB1BD2640500554B03 /* MapViewController.swift */,
+				08A3B4BD1BD2642400554B03 /* MapDataSource.swift */,
+				08944F6F1BD2DFF100315C0C /* Views */,
+				08A3B4C11BD2645000554B03 /* Settings */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		08A3B4C11BD2645000554B03 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				084449631BD3AC5900582650 /* MapSettingsTableViewController.swift */,
+				084449611BD3AC4A00582650 /* MapSettingsFriendsTableViewController.swift */,
+				084449651BD3AC7500582650 /* MapSettingsCache.swift */,
+				084449671BD3EA4200582650 /* MapSettingsFriendCell.swift */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 		08B425CD1A7C48B200A72C95 /* Contribution */ = {
@@ -944,11 +1036,11 @@
 			path = "Place Detail";
 			sourceTree = "<group>";
 		};
-		EBAF27ABADF95CA51F6460B8 /* Pods */ = {
+		1FAD0665654ED47249EDBD1F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F052614694CAF4FF5737192E /* Pods-toast-project.debug.xcconfig */,
-				E97FBB2853D08937AD878E21 /* Pods-toast-project.release.xcconfig */,
+				2CBA9EA820A4DD0176B3BA34 /* Pods-toast-project.debug.xcconfig */,
+				A59D6025ADC6FC9D756EA1E8 /* Pods-toast-project.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -960,14 +1052,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 08363F8D1A5778E4007A6827 /* Build configuration list for PBXNativeTarget "toast-project" */;
 			buildPhases = (
-				E251A11E1983CBD0D09E641C /* Check Pods Manifest.lock */,
+				00B757EA31098C64BA6D1B23 /* Check Pods Manifest.lock */,
 				08363F6A1A5778E4007A6827 /* Sources */,
 				08363F6B1A5778E4007A6827 /* Frameworks */,
 				08363F6C1A5778E4007A6827 /* Resources */,
 				0812C9D71A6478EB004A115B /* Copy Frameworks */,
 				08E38FF11AF4F557002736A2 /* CopyFiles */,
-				0619D16F01815709A431A67E /* Embed Pods Frameworks */,
-				37637FAFB8417A385BF28530 /* Copy Pods Resources */,
+				4D6C1130F258506600ED3DAB /* Embed Pods Frameworks */,
+				9103DAC24959FC6491DB9E8E /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1002,6 +1094,7 @@
 		08363F661A5778E4007A6827 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Diego Cruz";
@@ -1152,37 +1245,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0619D16F01815709A431A67E /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-toast-project/Pods-toast-project-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		37637FAFB8417A385BF28530 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-toast-project/Pods-toast-project-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E251A11E1983CBD0D09E641C /* Check Pods Manifest.lock */ = {
+		00B757EA31098C64BA6D1B23 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1197,6 +1260,36 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		4D6C1130F258506600ED3DAB /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-toast-project/Pods-toast-project-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9103DAC24959FC6491DB9E8E /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-toast-project/Pods-toast-project-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1206,6 +1299,7 @@
 			files = (
 				08EDB11B1AA00AED00D94CF7 /* ToastReviewView.swift in Sources */,
 				08E38FD91AF18F81002736A2 /* FriendHeaderCell.swift in Sources */,
+				084449621BD3AC4A00582650 /* MapSettingsFriendsTableViewController.swift in Sources */,
 				08D6D1031ABE565B0013C045 /* MyLocationManager.swift in Sources */,
 				08C1FDE81AE32483009F1FB8 /* FollowButton.swift in Sources */,
 				083467EE1AC841EF003B5803 /* ReviewAccesoryView.swift in Sources */,
@@ -1213,9 +1307,12 @@
 				08EDB10E1AA0010200D94CF7 /* iCarousel.m in Sources */,
 				08E184B81A90BFFC00C9A956 /* MainViewController.swift in Sources */,
 				08DB824A1A87BA9700AEE163 /* FriendsLikeCollectionViewCell.swift in Sources */,
+				08A3B4AA1BCEFEB400554B03 /* UserProfileImageView.swift in Sources */,
 				08EB0C651B06949F002143DE /* PostActionsViewController.swift in Sources */,
+				08A3B4AC1BCFC11800554B03 /* UserProfileStatLabel.swift in Sources */,
 				086E17C01AFBB86200964405 /* BlackGradientView.swift in Sources */,
 				08EB0C741B0AA401002143DE /* PlacePicturesDataSource.swift in Sources */,
+				08944F711BD2E00B00315C0C /* MapBlackGradientView.swift in Sources */,
 				08F8389B1A88137400CFCAEF /* HashtagCell.swift in Sources */,
 				08363FB11A577C63007A6827 /* LoginViewController.swift in Sources */,
 				08F85AEA1A8E395900C01CC9 /* PlaceDetailViewController.swift in Sources */,
@@ -1224,6 +1321,7 @@
 				08EB0C631B06892F002143DE /* PostButton.swift in Sources */,
 				088188511AC9649F00559DC8 /* ProfileToastCell.swift in Sources */,
 				08059CF01ABE40B0004A5A78 /* DiscoverDataSource.swift in Sources */,
+				08A3B4C01BD2644600554B03 /* MapDetailView.swift in Sources */,
 				080193861A8FE45F00CAA770 /* BookingService.swift in Sources */,
 				08EDB0FE1A9D072300D94CF7 /* MyLoginButtonView.swift in Sources */,
 				08DB82481A87BA6800AEE163 /* MoodsHeaderTableViewCell.swift in Sources */,
@@ -1233,25 +1331,29 @@
 				08C1FDE61AE32470009F1FB8 /* HeartButton.swift in Sources */,
 				0881884D1AC9645C00559DC8 /* ProfileDetailViewController.swift in Sources */,
 				086E17BA1AFB2CB100964405 /* FriendsListViewController.swift in Sources */,
+				08A3B4BC1BD2640500554B03 /* MapViewController.swift in Sources */,
+				08A3B4B11BD059C900554B03 /* ActivityViewController.swift in Sources */,
 				08B905ED1AA1E8D6009F3B21 /* HashtagsManager.swift in Sources */,
 				08059CF61ABE4112004A5A78 /* DiscoverCell.swift in Sources */,
+				084449661BD3AC7500582650 /* MapSettingsCache.swift in Sources */,
 				08F838961A87C87500CFCAEF /* ToastsCollectionViewLayout.swift in Sources */,
 				08EDB1231AA017EB00D94CF7 /* ContributeViewController.swift in Sources */,
 				08EDB1131AA00A7400D94CF7 /* ToastNameView.swift in Sources */,
 				08E38FF41AF5025B002736A2 /* ArrayHaneke.swift in Sources */,
 				08E68AD41ACE2E70008609D4 /* PostContributeTransitioning.swift in Sources */,
 				08EDB1151AA00AA100D94CF7 /* ToastMoodsView.swift in Sources */,
+				08A3B4B51BD05A4700554B03 /* ActivityCell.swift in Sources */,
 				080193881A8FFF9300CAA770 /* GenericWebViewController.swift in Sources */,
 				08EB0C671B06F166002143DE /* LikeCountView.swift in Sources */,
 				08F838991A88136100CFCAEF /* PlaceCell.swift in Sources */,
 				08EDB1211AA00E4E00D94CF7 /* ToastCarouselView.swift in Sources */,
+				08A3B4B71BD05A5D00554B03 /* MyControl.swift in Sources */,
 				08E68AD61AD085BE008609D4 /* PostContributeViewController.swift in Sources */,
 				0858BF141AB9B19F00DCEBA6 /* ReviewsTableViewDataSource.swift in Sources */,
 				086E17BC1AFB2CC600964405 /* FriendCell.swift in Sources */,
 				08363F741A5778E4007A6827 /* AppDelegate.swift in Sources */,
 				08C993871ABCAAC700692721 /* ReviewerButton.swift in Sources */,
 				08E184BC1A90D63B00C9A956 /* MainMenuTableViewController.swift in Sources */,
-				080377511A7341ED00E75297 /* LoginSuccesViewController.swift in Sources */,
 				0881884F1AC9647400559DC8 /* ProfileToastsDataSource.swift in Sources */,
 				086E17BE1AFB2CE400964405 /* FriendsListDataSource.swift in Sources */,
 				08059CEB1ABE407D004A5A78 /* DiscoverViewController.swift in Sources */,
@@ -1260,13 +1362,18 @@
 				08E38FE11AF274D6002736A2 /* ReviewHeaderCell.swift in Sources */,
 				08C993831ABC4AC900692721 /* ReviewDetailViewController.swift in Sources */,
 				084C145F1AA100B3005FB0E9 /* SearchPlaceViewController.swift in Sources */,
+				084449681BD3EA4200582650 /* MapSettingsFriendCell.swift in Sources */,
 				089C52961AD15A3100054037 /* PostRelatedViewController.swift in Sources */,
 				08EB0C111B04F1BC002143DE /* UIImage+ImageEffects.m in Sources */,
+				08A3B4BE1BD2642400554B03 /* MapDataSource.swift in Sources */,
+				08A3B4B31BD05A3200554B03 /* ActivityTableViewController.swift in Sources */,
 				08247F661B16243300E5CC24 /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				086E18211AFF7D0400964405 /* DictionaryHaneke.swift in Sources */,
 				08D5E1891B2D36BE00DD8CED /* MainMenuTableView.swift in Sources */,
 				089C52941AD1440400054037 /* PostRelatedPlaceCell.swift in Sources */,
 				08EB0BBA1B04CAFD002143DE /* UIColor+RHInterpolationAdditions.m in Sources */,
+				084449641BD3AC5900582650 /* MapSettingsTableViewController.swift in Sources */,
+				08A3B4B91BD0FF9900554B03 /* TopToastView.swift in Sources */,
 				08E38FDE1AF18F95002736A2 /* FriendOfFriendHeaderCell.swift in Sources */,
 				08F85AEC1A8E397000C01CC9 /* PlaceDetailTableViewController.swift in Sources */,
 			);
@@ -1391,9 +1498,10 @@
 		};
 		08363F8E1A5778E4007A6827 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F052614694CAF4FF5737192E /* Pods-toast-project.debug.xcconfig */;
+			baseConfigurationReference = 2CBA9EA820A4DD0176B3BA34 /* Pods-toast-project.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Diego Cruz (9N87B94U46)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Diego Cruz (9N87B94U46)";
@@ -1401,7 +1509,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/toast-project",
 					"$(PROJECT_DIR)",
-					/Users/diegocruz/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = "toast-project/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1415,9 +1522,10 @@
 		};
 		08363F8F1A5778E4007A6827 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E97FBB2853D08937AD878E21 /* Pods-toast-project.release.xcconfig */;
+			baseConfigurationReference = A59D6025ADC6FC9D756EA1E8 /* Pods-toast-project.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Diego Cruz (Y2X429E8XQ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Diego Cruz (Y2X429E8XQ)";
@@ -1425,7 +1533,6 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/toast-project",
 					"$(PROJECT_DIR)",
-					/Users/diegocruz/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = "toast-project/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

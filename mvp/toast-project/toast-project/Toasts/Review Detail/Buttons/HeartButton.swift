@@ -21,7 +21,7 @@ class HeartButton: ReviewDetailButton {
         let selectedBG = UIColor(white: 1, alpha: 0.2)
         
         //// heartBezier Drawing
-        var heartBezierPath = UIBezierPath()
+        let heartBezierPath = UIBezierPath()
         heartBezierPath.moveToPoint(CGPointMake(35.76, 7.54))
         heartBezierPath.addCurveToPoint(CGPointMake(30.43, 7.54), controlPoint1: CGPointMake(34.29, 6.17), controlPoint2: CGPointMake(31.9, 6.17))
         heartBezierPath.addLineToPoint(CGPointMake(29.43, 8.47))

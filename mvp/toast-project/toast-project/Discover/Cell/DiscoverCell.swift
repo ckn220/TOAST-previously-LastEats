@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 protocol DiscoverCellDelegate{
-    func discoverCellSelected(#index:Int)
+    func discoverCellSelected(index index:Int)
 }
 
 class DiscoverCell: UIView {
@@ -33,11 +33,11 @@ class DiscoverCell: UIView {
         configureBackground(isMood:isMood)
     }
     
-    private func configureLabel(#item:PFObject){
+    private func configureLabel(item item:PFObject){
         myLabel.text = getCapitalString(item["name"] as! String!)
     }
     
-    private func configureBackground(#isMood:Bool){
+    private func configureBackground(isMood isMood:Bool){
         if isMood{
             idleColor = UIColor(white:1,alpha:0.3)
         }else{
@@ -88,11 +88,11 @@ class DiscoverCell: UIView {
 
     //MARK: - Misc methods
     func getCapitalString(original:String) -> String{
-        return prefix(original, 1).capitalizedString + suffix(original, count(original) - 1)
+        return String(original.characters.prefix(1)).capitalizedString + String(original.characters.suffix(original.characters.count - 1))
     }
     
     //MARK: - Touch events methods
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesBegan(touches, withEvent: event)
         var hue,saturation,brightness,colorAlpha:CGFloat
         hue=0
@@ -104,7 +104,7 @@ class DiscoverCell: UIView {
         myBGView.backgroundColor = UIColor(hue: hue, saturation: saturation, brightness: brightness-0.2, alpha: colorAlpha)
     }
     
-    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesEnded(touches, withEvent: event)
         UIView.animateWithDuration(0.01, delay: 0.1, options: .CurveLinear, animations: { () -> Void in
             self.myBGView.backgroundColor = self.idleColor

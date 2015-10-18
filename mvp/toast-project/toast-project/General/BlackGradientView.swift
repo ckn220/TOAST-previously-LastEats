@@ -17,7 +17,7 @@ class BlackGradientView: UIView {
         drawGradientCanvas(myFrame: self.bounds)
     }
     
-    func drawGradientCanvas(#myFrame: CGRect) {
+    func drawGradientCanvas(myFrame myFrame: CGRect) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
         
@@ -36,7 +36,7 @@ class BlackGradientView: UIView {
         CGContextDrawLinearGradient(context, gradient2,
             CGPointMake(gradientRectangleRect.midX + -0 * gradientRectangleRect.width / 269, gradientRectangleRect.midY + -34.5 * gradientRectangleRect.height / 69),
             CGPointMake(gradientRectangleRect.midX + -0 * gradientRectangleRect.width / 269, gradientRectangleRect.midY + -5.11 * gradientRectangleRect.height / 69),
-            UInt32(kCGGradientDrawsBeforeStartLocation) | UInt32(kCGGradientDrawsAfterEndLocation))
+            CGGradientDrawingOptions())
         CGContextRestoreGState(context)
     }
 

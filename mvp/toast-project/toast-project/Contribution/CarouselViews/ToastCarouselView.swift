@@ -22,7 +22,7 @@ class ToastCarouselView: UIView {
     var index:Int?
     var myDelegate:ToastCarouselViewDelegate?
     
-    func setViewValues(#index: Int){
+    func setViewValues(index index: Int){
         self.index = index
     }
     

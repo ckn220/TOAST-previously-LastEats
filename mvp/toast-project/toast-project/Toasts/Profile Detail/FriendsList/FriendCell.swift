@@ -51,8 +51,7 @@ class FriendCell: UITableViewCell {
     
     private func configurePicture(friend:PFObject){
         initPicture()
-        let pictureURL = friend["pictureURL"] as! String
-        friendPicture.setImage(URL: pictureURL)
+        friendPicture.setImage(user:friend as! PFUser)
     }
     
     private func initPicture(){

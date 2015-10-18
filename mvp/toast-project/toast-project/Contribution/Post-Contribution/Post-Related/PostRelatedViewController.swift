@@ -47,7 +47,7 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
                 self.relatedPlacesTableView.reloadData()
                 self.configureTableViewInset()
             }else{
-                NSLog("relatedPlaces: %@",error.description)
+                NSLog("relatedPlaces: %@",error!.description)
             }
         }
     }
@@ -56,7 +56,7 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
         if let moods = myTempToast["moods"] as? [PFObject]{
             var array=[String]()
             for mood in moods{
-                array.append(mood.objectId)
+                array.append(mood.objectId!)
             }
             
             return array
@@ -119,7 +119,7 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
         
         switch indexPath.section{
         case 0:
-            return tableView.dequeueReusableCellWithIdentifier("firstCell") as! UITableViewCell
+            return tableView.dequeueReusableCellWithIdentifier("firstCell")!
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("placeCell", forIndexPath: indexPath) as! PostRelatedPlaceCell
             let imPlace = relatedPlaces[indexPath.row]
@@ -132,7 +132,7 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return tableView.dequeueReusableHeaderFooterViewWithIdentifier("headerView") as! UITableViewHeaderFooterView!
+        return tableView.dequeueReusableHeaderFooterViewWithIdentifier("headerView") as UITableViewHeaderFooterView!
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -148,7 +148,7 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
     
     //MARK: - TableView delegate methods
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        var offset = scrollView.contentOffset.y
+        let offset = scrollView.contentOffset.y
         if topToastHidden{
             offset.advancedBy(405)
         }
@@ -158,12 +158,12 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
         updateRelatedPlacesHeader(offset: offset)
     }
     
-    private func updateTopToastViewAlpha(#offset:CGFloat){
+    private func updateTopToastViewAlpha(offset offset:CGFloat){
         let newAlpha = 1 - (offset/150.0)
         topToastView.alpha = newAlpha
     }
     
-    private func updateRelatedPlacesHeader(#offset:CGFloat){
+    private func updateRelatedPlacesHeader(offset offset:CGFloat){
         if let header = relatedPlacesTableView.headerViewForSection(1){
             let headerLabel = header.viewWithTag(101) as! UILabel
             if offset >= 404{
@@ -201,7 +201,7 @@ class PostRelatedViewController: UIViewController, UITableViewDataSource,UITable
             if error == nil{
                 self.changeToDone()
             }else{
-                NSLog("%@",error.description)
+                NSLog("%@",error!.description)
             }
         }
     }

@@ -21,7 +21,7 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
     @IBOutlet weak var topToastBottomSpacingConstraint: NSLayoutConstraint!
     var friend:PFUser?
 
-    override func configure(#friend: PFUser, friendFriend: PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool) {
+    override func configure(friend friend: PFUser, friendFriend: PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool) {
         super.configure(friend: friend, friendFriend: friendFriend, myDelegate: myDelegate,superView:superView,isTopToast: isTopToast)
         configureTopToast(isTopToast)
         configureFriend(friend)
@@ -55,9 +55,7 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
     //MARK: - Friend methods
     private func configureFriendPicture(friend:PFUser){
         configureReviewerPicture(friendPictureView.layer)
-        if let pictureURL = friend["pictureURL"] as? String{
-            friendPictureView.setImage(URL: pictureURL)
-        }
+        friendPictureView.setImage(user: friend)
     }
     
     private func configureFriendName(friend:PFUser){
@@ -68,10 +66,8 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
     //MARK: - Friend of friend methods
     private func configureFriendOfFriendPicture(friendFriend:PFUser){
         configureReviewerPicture(friendFriendPictureView.layer)
-        if let pictureURL = friendFriend["pictureURL"] as? String{
-            self.friendFriendPictureView.setImage(URL: pictureURL, completion: { () -> Void in
-                self.myDelegate?.reviewHeaderDoneLoading()
-            })
+        friendFriendPictureView.setImage(user: friendFriend) { () -> () in
+            self.myDelegate?.reviewHeaderDoneLoading()
         }
     }
 

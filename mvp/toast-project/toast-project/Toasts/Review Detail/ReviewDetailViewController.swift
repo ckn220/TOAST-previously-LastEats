@@ -13,19 +13,52 @@ import CCHLinkTextView
 
 class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,ReviewHeaderDelegate {
 
-    @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
+    //MARK: - Properties
+    //MARK: IBOutlets
+    //Top Bar
     @IBOutlet weak var titleLabel: UILabel!
+    //Header
+    @IBOutlet weak var headerParentView: UIView!
+    @IBOutlet weak var loadingView: UIActivityIndicatorView!
+    //Body
+    @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var reviewLinkView: CCHLinkTextView!
+    //Actions
+    //Bottom Info
     @IBOutlet weak var heartButton: HeartButton!
     @IBOutlet weak var heartCountView: LikeCountView!
-    @IBOutlet weak var headerParentView: UIView!
     
-    @IBOutlet weak var loadingView: UIActivityIndicatorView!
-    var myOldParentHeader:UIView?
-    var myToast:PFObject?
+    //MARK: Variables
+    //Top Bar
     var titleString: String?
+    //Header
+    var myOldParentHeader:UIView?
+    //General
+    var myToast:PFObject?{
+        didSet{
+            if let myToast = myToast,
+                let place = myToast["place"] as? PFObject{
+                    place.fetchIfNeededInBackgroundWithBlock({ (place, error) -> Void in
+                        if let error = error{
+                            NSLog("setPlace error: %@",error.description)
+                        }else{
+                            self.myPlace = place
+                        }
+                    })
+            }
+        }
+    }
+    var myPlace:PFObject?
     let headerQueue = NSOperationQueue()
-    var isTopToast = false
+    var isTopToast:Bool{
+        get{
+            if let myToast = myToast,let isTopToast = myToast["isTopToast"] as? Bool where isTopToast{
+                return true
+            }else{
+                return false
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,19 +67,26 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
     
     //MARK: - Configure methods
     private func configure(){
-        configureTitle()
+        configureTopBar()
         configureHeader()
-        configureReview()
-        configureActionButtons()
+        configureBody()
+        configureActions()
+    }
+    
+    //MARK: TopBar
+    private func configureTopBar(){
+        configureTitle()
     }
     
     private func configureTitle(){
-        if titleString != nil{
-            titleLabel.text = "Toasts for "+titleString!
+        if let toast = myToast,
+            let place = toast["place"] as? PFObject,
+            let name = place["name"] as? String{
+            titleLabel.text = "Toasts for \(name)"
         }
     }
     
-    //MARK: Configure user methods
+    //MARK: Header
     private func configureHeader(){
         if myOldParentHeader != nil{
             let myHeaderView = myOldParentHeader!.subviews[0] as! ReviewHeaderCell
@@ -61,7 +101,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
         if let ffHeader = header as? FriendOfFriendHeaderCell{
             ffHeader.subtitleHeightConstraint.constant = 34
         }else{
-            let fHeader = header as! FriendHeaderCell
+            _ = header as! FriendHeaderCell
         }
         header.layoutIfNeeded()
     }
@@ -69,7 +109,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
     private func requestHeaders(){
         headerQueue.addOperationWithBlock { () -> Void in
             let user = self.myToast!["user"] as! PFUser
-            PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":user.objectId]) { (result, error) -> Void in
+            PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":user.objectId!]) { (result, error) -> Void in
                 if error == nil{
                     if let friend = result as? PFUser{
                         self.configureFriendOfFriendHeader(friend:friend,friendOfFriend: user)
@@ -77,7 +117,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
                         self.configureFriendHeader(friend:user)
                     }
                 }else{
-                    NSLog("friendOfFriend error: %@",error.description)
+                    NSLog("friendOfFriend error: %@",error!.description)
                 }
                 
             }
@@ -85,19 +125,33 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
         
     }
     
-    private func configureFriendHeader(#friend:PFUser){
+    private func configureFriendHeader(friend friend:PFUser){
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-            let header = self.getFriendHeaderView()
-            header.configure(friend: friend,myDelegate:self,superView:self.headerParentView,isTopToast: self.isTopToast)
-            self.headerParentView.addSubview(header)
+            
+            friend.fetchIfNeededInBackgroundWithBlock({ (friend, error) -> Void in
+                if let error = error{
+                    NSLog("configureFriendHeader error: %@",error.description)
+                }else{
+                    let header = self.getFriendHeaderView()
+                    header.configure(friend: friend as! PFUser,myDelegate:self,superView:self.headerParentView,isTopToast: self.isTopToast)
+                    self.headerParentView.addSubview(header)
+                }
+            })
         }
     }
     
-    private func configureFriendOfFriendHeader(#friend:PFUser,friendOfFriend:PFUser){
+    private func configureFriendOfFriendHeader(friend friend:PFUser,friendOfFriend:PFUser){
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-            let header = self.getFriendOfFriendHeaderView()
-            header.configure(friend: friend, friendFriend: friendOfFriend,myDelegate:self,superView:self.headerParentView, isTopToast: self.isTopToast)
-            self.headerParentView.addSubview(header)
+            friend.fetchIfNeededInBackgroundWithBlock({ (friend, error) -> Void in
+                if let error = error{
+                    NSLog("configureFriendOfFriendHeader error: %@",error.description)
+                }else{
+                    let header = self.getFriendOfFriendHeaderView()
+                    header.configure(friend: friend as! PFUser, friendFriend: friendOfFriend,myDelegate:self,superView:self.headerParentView, isTopToast: self.isTopToast)
+                    self.headerParentView.addSubview(header)
+                }
+            })
+            
         }
     }
     
@@ -109,12 +163,16 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
         return NSBundle.mainBundle().loadNibNamed("ReviewDetailHeaders", owner: nil, options: nil)[1] as! ReviewHeaderCell
     }
     
-    //MARK: Configure review methods
+    //MARK: Body
+    private func configureBody(){
+        configureReview()
+    }
+    
     private func configureReview(){
         initLinkView(reviewLinkView)
         let review = myToast!["review"] as! String
-        var words = review.componentsSeparatedByString(" ")
-        var finalReview = NSMutableAttributedString(string: "")
+        let words = review.componentsSeparatedByString(" ")
+        let finalReview = NSMutableAttributedString(string: "")
         for word in words{
             finalReview.appendAttributedString(attributedWord(word))
             finalReview.appendAttributedString(attributedWord(" "))
@@ -136,7 +194,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
     }
     
     private func attributedWord(word:String)->NSAttributedString{
-        if let hashIndex = find(word,"#"){
+        if let _ = word.characters.indexOf("#"){
             return attributedHashtag(word)
         }else{
             return attributedNormal(word)
@@ -153,29 +211,29 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
         return NSAttributedString(string: hashtag, attributes: attr)
     }
     
-    private func myAttributes() -> [NSObject:AnyObject]{
-        var attributes = [NSObject:AnyObject]()
+    private func myAttributes() -> [String:AnyObject]{
+        var attributes = [String:AnyObject]()
         attributes[NSFontAttributeName] = UIFont(name: "Avenir-Medium", size: 16)
         attributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
         return attributes
     }
     
-    //MARK: Configure actions methods
-    private func configureActionButtons(){
+    //MARK: Actions
+    private func configureActions(){
         requestHasHeart(toast: myToast!, completion: { (hasHeart) -> Void in
                 self.heartButton.isOn = hasHeart
         })
         setHeartCount(forItem: myToast!)
     }
     
-    private func requestHasHeart(#toast:PFObject,completion:(hasHeart:Bool) -> Void){
-        let heartsQuery = PFUser.currentUser().relationForKey("hearts").query()
-        heartsQuery.whereKey("objectId", equalTo: myToast!.objectId)
+    private func requestHasHeart(toast toast:PFObject,completion:(hasHeart:Bool) -> Void){
+        let heartsQuery = PFUser.currentUser()!.relationForKey("hearts").query()!
+        heartsQuery.whereKey("objectId", equalTo: myToast!.objectId!)
         heartsQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
             if error == nil{
                 completion(hasHeart: count == 1)
             }else{
-                NSLog("requestHasHeart error: %@",error.description)
+                NSLog("requestHasHeart error: %@",error!.description)
             }
         }
     }
@@ -187,64 +245,76 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
             if error == nil{
                 self.heartCountView.count = Int(count)
             }else{
-                NSLog("setHeartCount error:%@",error.description)
+                NSLog("setHeartCount error:%@",error!.description)
             }
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
+    //MARK: - ViewWillAppear methods
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         setBG()
         setHeader()
     }
     
     private func setBG(){
         let myBG = self.view as! BackgroundImageView
-        myBG.setImage("default", opacity: 0.6)
+        myBG.setImage(fileName:"default", opacity: 0.6)
     }
     
     private func setHeader(){
         if myOldParentHeader != nil{
-            let myHeaderView = myOldParentHeader!.subviews[0] as? UIView
-            myHeaderView?.frame = headerParentView.bounds
-            headerParentView.addSubview(myHeaderView!)
+            let myHeaderView = myOldParentHeader!.subviews[0]
+            myHeaderView.frame = headerParentView.bounds
+            headerParentView.addSubview(myHeaderView)
         }
         
     }
     
+    //MARK: - ViewWillDisappear methods
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
         unsetHeader()
     }
     
     private func unsetHeader(){
         if myOldParentHeader != nil{
-            let myHeaderView = headerParentView.subviews[1] as? UIView
+            let myHeaderView = headerParentView.subviews[1]
             if let ffHeader = myHeaderView as? FriendOfFriendHeaderCell{
                 ffHeader.subtitleHeightConstraint.constant = 17
             }else{
-                let fHeader = myHeaderView as! FriendHeaderCell
+                _ = myHeaderView as! FriendHeaderCell
             }
-            myHeaderView!.layoutIfNeeded()
-            myHeaderView!.removeFromSuperview()
-            myHeaderView!.frame = myOldParentHeader!.bounds
-            myOldParentHeader!.addSubview(myHeaderView!)
+            myHeaderView.layoutIfNeeded()
+            myHeaderView.removeFromSuperview()
+            myHeaderView.frame = myOldParentHeader!.bounds
+            myOldParentHeader!.addSubview(myHeaderView)
         }
         
     }
 
     //MARK: - Action methods
+    //MARK: Segue
+    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+        if identifier == "placeDetailSegue"{
+            return myPlace != nil
+        }else{
+            return true
+        }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let destination = segue.destinationViewController as! PlaceDetailViewController
+        destination.myPlace = myPlace
+    }
+    
+    //MARK: Back
     @IBAction func backPressed(sender: UIButton) {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
+    //MARK: Heart
     @IBAction func heartButtonPressed(sender: HeartButton) {
         var heartFunction:String
         if sender.isOn{
@@ -255,9 +325,9 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
             heartCountView.count--
         }
         
-        PFCloud.callFunctionInBackground(heartFunction, withParameters: ["toastId":myToast!.objectId]) { (result, error) -> Void in
+        PFCloud.callFunctionInBackground(heartFunction, withParameters: ["toastId":myToast!.objectId!]) { (result, error) -> Void in
             if error != nil{
-                NSLog("%@",error.description)
+                NSLog("%@",error!.description)
             }
         }
     }

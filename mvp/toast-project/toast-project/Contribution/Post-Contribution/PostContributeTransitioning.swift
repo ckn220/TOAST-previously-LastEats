@@ -12,7 +12,7 @@ class PostContributeTransitioning: NSObject, UIViewControllerAnimatedTransitioni
     
     let myDuration = 0.35
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval{
+    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval{
         return myDuration
     }
     
@@ -42,7 +42,7 @@ class PostContributeTransitioning: NSObject, UIViewControllerAnimatedTransitioni
         }) { (completed) -> Void in
             //Appearing toV
             toV.frame = finalFrame
-            contextView.addSubview(toV)
+            contextView!.addSubview(toV)
             transitionContext.completeTransition(true)
         }
     }

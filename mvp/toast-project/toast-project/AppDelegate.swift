@@ -10,6 +10,7 @@
 import UIKit
 import Parse
 import Haneke
+import ParseFacebookUtilsV4
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,22 +26,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     //MARK: Configure methods
-    private func configure(#application: UIApplication){
+    private func configure(application application: UIApplication){
         configureParse()
         configurePushNotifications(application: application)
-        //configureNeighborhoods()
     }
     
     private func configureParse(){
         //Parse.enableLocalDatastore()
         Parse.setApplicationId("HnLgxzOU0ZOTYIRxrRB3ulXDlsS1FGzBl96ytBSk", clientKey: "Towu7llPAMzgeeOUmZjPpXNXM5JoTH1K57BBGwxY")
-        PFFacebookUtils.initializeFacebook();
     }
     
-    private func configurePushNotifications(#application:UIApplication){
-        let userNotificationTypes = (UIUserNotificationType.Alert |
-            UIUserNotificationType.Badge |
-            UIUserNotificationType.Sound);
+    private func configurePushNotifications(application application:UIApplication){
+        let userNotificationTypes: UIUserNotificationType = ([UIUserNotificationType.Alert, UIUserNotificationType.Badge, UIUserNotificationType.Sound]);
         
         let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
         application.registerUserNotificationSettings(settings)
@@ -93,6 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     //MARK: Handle Launch methods
     private func handleLaunch(launchOptions: [NSObject: AnyObject]?){
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
         if let remoteNotification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject : AnyObject] {
             handleLaunchFromPush(remoteNotification)
             
@@ -106,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         showReview(toastId: toastId)
     }
     
-    private func showReview(#toastId:String){
+    private func showReview(toastId toastId:String){
         
         PFCloud.callFunctionInBackground("reviewDetailWithToastId", withParameters: ["toastId":toastId]) { (result, error) -> Void in
             if error == nil{
@@ -118,17 +116,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let nav = self.mainNav()
                 nav.pushViewController(destination, animated: true)
             }else{
-                NSLog("showReview error: %@", error.description)
+                NSLog("showReview error: %@", error!.description)
                 self.handleLaunchFromNormal()
             }
         }
     }
     
-    private func reviewDetailScene(#toast: PFObject,place:PFObject) -> UIViewController {
+    private func reviewDetailScene(toast toast: PFObject,place:PFObject) -> UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let destination = storyboard.instantiateViewControllerWithIdentifier("reviewDetailScene") as! ReviewDetailViewController
         destination.myToast = toast
-        destination.titleString = place["name"] as! String
+        destination.titleString = place["name"] as? String
         
         return destination
     }
@@ -155,7 +153,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PFUser.logOut()
         removeUserFromPush()
         let myStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        self.window?.rootViewController = myStoryboard.instantiateViewControllerWithIdentifier("loginScene") as? UIViewController
+        self.window?.rootViewController = myStoryboard.instantiateViewControllerWithIdentifier("loginScene")
     }
     
     private func removeUserFromPush(){
@@ -166,20 +164,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func goToDiscover(){
         let myStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        self.window?.rootViewController = myStoryboard.instantiateViewControllerWithIdentifier("mainScene") as? UIViewController
+        self.window?.rootViewController = myStoryboard.instantiateViewControllerWithIdentifier("mainScene")
     }
     
     //MARK: -
-    func application(application: UIApplication,openURL url: NSURL,sourceApplication: String?,annotation: AnyObject?) -> Bool {
-            return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,withSession:PFFacebookUtils.session())
+    func application(application: UIApplication,openURL url: NSURL,sourceApplication: String?,annotation: AnyObject) -> Bool {
+            return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
-    }
-    
-    func applicationWillTerminate(application: UIApplication) {
-        PFFacebookUtils.session().close()
+        FBSDKAppEvents.activateApp()
     }
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {

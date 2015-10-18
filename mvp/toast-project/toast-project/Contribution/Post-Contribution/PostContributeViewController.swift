@@ -37,7 +37,7 @@ class PostContributeViewController: UIViewController,UIViewControllerTransitioni
     }
     
     private func configureUserLabel(){
-        let user = PFUser.currentUser()
+        let user = PFUser.currentUser()!
         let names:[String] = (user["name"] as! String).componentsSeparatedByString(" ")
         userNameLabel.text = names[0]+"!"
         messageHeader.text = "Nice toast, "+names[0]+"!"
@@ -112,7 +112,7 @@ class PostContributeViewController: UIViewController,UIViewControllerTransitioni
     func postActionsAddAnotherPressed() {
         if let presentingParent = self.presentingViewController?.presentingViewController{
             presentingParent.dismissViewControllerAnimated(true, completion: { () -> Void in
-                let contributeScene = self.storyboard?.instantiateViewControllerWithIdentifier("contributeScene") as! UIViewController
+                let contributeScene = self.storyboard!.instantiateViewControllerWithIdentifier("contributeScene")
                 presentingParent.showDetailViewController(contributeScene, sender: presentingParent)
             })
         }

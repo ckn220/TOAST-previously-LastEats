@@ -19,7 +19,7 @@ class MainMenuTableView: UITableView {
     }
     
     
-    func drawBGView(#frame: CGRect) {
+    func drawBGView(frame frame: CGRect) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
         
@@ -28,7 +28,7 @@ class MainMenuTableView: UITableView {
         
         //// Text Drawing
         let textRect = CGRectMake(frame.minX + 19, frame.minY + frame.height - 36, 118, 21)
-        var textTextContent = NSString(string: "Top Toast Labs Inc.")
+        let textTextContent = NSString(string: "Top Toast Labs Inc.")
         let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
         textStyle.alignment = NSTextAlignment.Left
         

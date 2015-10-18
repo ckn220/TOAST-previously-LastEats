@@ -126,9 +126,9 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     func configureCategory(){
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
         if let category = self.myPlace?["category"] as? PFObject{
-            category.fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
+            category.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
                 if error == nil {
-                    let placeName = (result["name"] as? String)
+                    let placeName = (result!["name"] as? String)
                     self.cateogoryLabel.text = placeName?.uppercaseString
                 }
             }
@@ -150,7 +150,7 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     }
     
     func configureDistance(){
-        let userLastLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint
+        let userLastLocation = PFUser.currentUser()!["lastLocation"] as? PFGeoPoint
         let placeLocation = myPlace!["location"] as? PFGeoPoint
         
         let distance = placeLocation?.distanceInMilesTo(userLastLocation)
@@ -176,9 +176,9 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     func configureHours(){
         let myPlaceID = myPlace!["foursquarePlaceId"] as! String
         
-        Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/"+myPlaceID+"?&client_id="+self.foursquareClientId+"&client_secret="+self.foursquareClientSecret+"&v=20150207&locale=en").responseJSON(options:nil, completionHandler: { (request, response, JSON, error) -> Void in
-            
-            if error == nil{
+        Alamofire.request(.GET, "https://api.foursquare.com/v2/venues/"+myPlaceID+"?&client_id="+self.foursquareClientId+"&client_secret="+self.foursquareClientSecret+"&v=20150207&locale=en").responseJSON( completionHandler: { (response) -> Void in
+            let JSON = response.result.value
+            if response.result.error == nil{
                 if let imResponse = ((JSON as! NSDictionary)["response"] as? NSDictionary){
                     let result = imResponse["venue"] as! NSDictionary
                     if let hours = result["hours"] as? NSDictionary{
@@ -189,7 +189,7 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
                     
                 }
             }else{
-                NSLog("configureHours error: %@",error!.description)
+                NSLog("configureHours error: %@",response.result.error!.description)
             }
             
         })
@@ -202,16 +202,33 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
     }
     
     func configureHashtags(){
-        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
-        let roundedNumber = round(Double(self.placeHashtags!.count)/2)
-        let newHeight = roundedNumber*22
-        self.hashtagCollectionViewHeightConstraint.constant = CGFloat(min(newHeight, 66.0))
-       self.hashtagsDataSource = HashtagCollectionViewDataSource(hashtags: self.placeHashtags!, myDelegate: self)
+        func completeConfigureHashtags(){
+            NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+                let roundedNumber = round(Double(self.placeHashtags!.count)/2)
+                let newHeight = roundedNumber*22
+                self.hashtagCollectionViewHeightConstraint.constant = CGFloat(min(newHeight, 66.0))
+                self.hashtagsDataSource = HashtagCollectionViewDataSource(hashtags: self.placeHashtags!, myDelegate: self)
+            }
         }
+        
+        if placeHashtags != nil{
+            completeConfigureHashtags()
+        }else{
+            PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":self.myPlace!.objectId!,"limit":4]) { (result, error) -> Void in
+                if let error = error{
+                    NSLog("configureHashtags error: %@",error.description)
+                }else{
+                    self.placeHashtags = result as? [PFObject]
+                    completeConfigureHashtags()
+                }
+            }
+        }
+        
+        
     }
     
     //MARK MapView delegate methods
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         var an = mapView.dequeueReusableAnnotationViewWithIdentifier("pointAn")
         if an == nil {
             an = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pointAn")
@@ -219,7 +236,7 @@ class PlaceDetailTableViewController: UITableViewController,MKMapViewDelegate,Ha
             (an as! MKPinAnnotationView).animatesDrop = true
         }
         
-        an.annotation = annotation
+        an?.annotation = annotation
         
         return an
     }

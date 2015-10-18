@@ -38,37 +38,13 @@ class ProfileToastCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(index:Int,toast:PFObject,topToast:PFObject?,myDelegate:ProfileToastCellDelegate){
+    func configureCell(index:Int,toast:PFObject,myDelegate:ProfileToastCellDelegate){
         self.myDelegate = myDelegate
         self.myIndex = index
         toggleAlpha(0, duration: 0)
-        placeFromToast(toast, completion: { (place) -> Void in
-            self.setPlace(place)
-        })
+        setPlace(toast["place"] as? PFObject)
         configureReview(toast)
-        configureTopToastSignal(toast, topToast: topToast)
-    }
-    
-    private func placeFromToast(toast:PFObject,completion:(place:PFObject?)->Void){
-        if let localPlace = myDelegate!.getPlace(myIndex){
-            completion(place:localPlace)
-        }else{
-            requestPlace(toast, completion: { (place) -> Void in
-                completion(place:place)
-            })
-        }
-    }
-    
-    private func requestPlace(toast:PFObject,completion:(place:PFObject?)->Void){
-        let query = PFQuery(className: "Place")
-        query.includeKey("neighborhood")
-        query.whereKey("toasts", equalTo: toast)
-        query.getFirstObjectInBackgroundWithBlock { (result, error) -> Void in
-            if error != nil{
-                NSLog("placeFromToast error: %@",error.description)
-            }
-            completion(place:result)
-        }
+        configureTopToastSignal(toast)
     }
     
     private func setPlace(place:PFObject?){
@@ -115,14 +91,10 @@ class ProfileToastCell: UITableViewCell {
         placeReviewLabel.text = toast["review"] as! String!
     }
     
-    private func configureTopToastSignal(toast:PFObject,topToast:PFObject?){
+    private func configureTopToastSignal(toast:PFObject){
         
-        if let top = topToast {
-            if toast.objectId == top.objectId{
-                topToastView.alpha = 1
-            }else{
-                topToastView.alpha = 0
-            }
+        if let isTopToast = toast["isTopToast"] as? Bool where isTopToast{
+            topToastView.alpha = 1
         }else{
             topToastView.alpha = 0
         }

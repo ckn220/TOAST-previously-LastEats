@@ -13,10 +13,10 @@ import Haneke
 import Alamofire
 
 protocol PlaceCellDelegate{
-    func placeCellDidScroll(#tableView:UITableView,place:PFObject)
-    func placeCellDidPressed(#place:PFObject)
-    func placeCellReviewDidPressed(#toast:PFObject,place: PFObject,parentHeader:UIView)
-    func placeCellReviewerDidPress(#user:PFUser,friend:PFUser?)
+    func placeCellDidScroll(tableView tableView:UITableView,place:PFObject)
+    func placeCellDidPressed(place place:PFObject)
+    func placeCellReviewDidPressed(toast toast:PFObject,place: PFObject,parentHeader:UIView)
+    func placeCellReviewerDidPress(user user:PFUser,friend:PFUser?)
     func placeCellHashtagPressed(name:String)
     
     func placeCellAskedForHashtags(placeId:String)->[PFObject]?
@@ -71,6 +71,19 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     var myDelegate:PlaceCellDelegate?
     
     //MARK: - Configure methods
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        configureBackgroundView()
+    }
+    
+    private func configureBackgroundView(){
+        let bgLayer = myBackgroundView.layer
+        bgLayer.shadowColor = UIColor.blackColor().CGColor
+        bgLayer.shadowOffset = CGSizeMake(0, 1)
+        bgLayer.shadowRadius = 8.0
+        bgLayer.shadowOpacity = 1
+    }
+    
     func configureName(){
         toggleAlpha(alpha: 0,duration:0, views: placeNameLabel,hashtagsCollectionView)
         placeNameLabel.text = (myPlace!["name"] as? String)
@@ -90,11 +103,11 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     
     func configureHashtags(){
         hashtagQueue.addOperationWithBlock { () -> Void in
-            if let localHashtags = self.myDelegate?.placeCellAskedForHashtags(self.myPlace!.objectId){
+            if let localHashtags = self.myDelegate?.placeCellAskedForHashtags(self.myPlace!.objectId!){
                 self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: localHashtags, myDelegate: nil)
                 self.toggleAlpha(alpha: 1, views: self.placeNameLabel,self.hashtagsCollectionView)
             }else{
-                PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":self.myPlace!.objectId,"limit":4]) { (result, error) -> Void in
+                PFCloud.callFunctionInBackground("placeTopHashtags", withParameters: ["placeId":self.myPlace!.objectId!,"limit":4]) { (result, error) -> Void in
                     if error == nil{
                         let hashtags = result as! [PFObject]
                         let mainQueue = NSOperationQueue.mainQueue()
@@ -102,9 +115,9 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
                             self.hashtagDataSource = HashtagCollectionViewDataSource(hashtags: hashtags, myDelegate: nil)
                         })
                         self.toggleAlpha(alpha: 1, views: self.placeNameLabel,self.hashtagsCollectionView)
-                        self.myDelegate?.placeCellDidGetHashtags(self.myPlace!.objectId, hashtags: hashtags)
+                        self.myDelegate?.placeCellDidGetHashtags(self.myPlace!.objectId!, hashtags: hashtags)
                     }else{
-                        NSLog("%@", error.description)
+                        NSLog("%@", error!.description)
                     }
                 }
             }
@@ -122,15 +135,15 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         self.reviewsTableView.rowHeight = UITableViewAutomaticDimension
         
         reviewQueue.addOperationWithBlock { () -> Void in
-            if let localReviews = self.myDelegate?.placeCellAskedForReviews(self.myPlace!.objectId){
+            if let localReviews = self.myDelegate?.placeCellAskedForReviews(self.myPlace!.objectId!){
                 NSOperationQueue.mainQueue().addOperationWithBlock({ () -> Void in
                     self.reviewsDataSource = ReviewsTableViewDataSource(toasts: localReviews,delegate: self)
                 })
                 
                 self.configureToastCount(localReviews)
-                self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: localReviews)
+                self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId!, reviews: localReviews)
             }else{
-                PFCloud.callFunctionInBackground("reviewsFromToast", withParameters: ["placeId":self.myPlace!.objectId], block: { (result, error) -> Void in
+                PFCloud.callFunctionInBackground("reviewsFromToast", withParameters: ["placeId":self.myPlace!.objectId!], block: { (result, error) -> Void in
                     if error == nil{
                         let reviews = result as! [PFObject]
                         
@@ -139,9 +152,9 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
                             self.configureToastCount(reviews)
                         })
                         
-                        self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId, reviews: reviews)
+                        self.myDelegate?.placeCellDidGetReviews(self.myPlace!.objectId!, reviews: reviews)
                     }else{
-                        NSLog("configureReviews error: %@", error.description)
+                        NSLog("configureReviews error: %@", error!.description)
                     }
                 })
             }
@@ -160,7 +173,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     private func countFriendsToast(toasts:[PFObject]) -> Int{
-        let currentUser = PFUser.currentUser()
+        let currentUser = PFUser.currentUser()!
         var count = 0
         for t in toasts{
             let tUser = t["user"] as! PFUser
@@ -175,9 +188,9 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     //MARK - Information bar methods
     func configureCategory(){
         if let category = myPlace!["category"] as? PFObject{
-            category.fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
+            category.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
                 if error == nil {
-                    let placeName = (result["name"] as? String)
+                    let placeName = (result!["name"] as? String)
                     self.categoryNameLabel.text = placeName?.uppercaseString
                 }
             }
@@ -199,7 +212,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     func configureDistance(){
-        let userLastLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint
+        let userLastLocation = PFUser.currentUser()!["lastLocation"] as? PFGeoPoint
         if let placeLocation = myPlace!["location"] as? PFGeoPoint {
             let distance = placeLocation.distanceInMilesTo(userLastLocation)
             
@@ -219,7 +232,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     //MARK: - Misc methods
-    func toggleAlpha(#alpha:CGFloat,duration:CGFloat=0.3,completion:(()->Void)?=nil,views:UIView...){
+    func toggleAlpha(alpha alpha:CGFloat,duration:CGFloat=0.3,completion:(()->Void)?=nil,views:UIView...){
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
             UIView.animateWithDuration(0.2, animations: { () -> Void in
                 for view in views{
@@ -232,7 +245,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     func getCapitalString(original:String) -> String{
-        return prefix(original, 1).capitalizedString + suffix(original, count(original) - 1)
+        return String(original.characters.prefix(1)).capitalizedString + String(original.characters.suffix(original.characters.count - 1))
     }
     
     func insertShadow(view:UIView){
@@ -256,7 +269,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     //MARK: - ReviewsDataSource delegate methods
-    func reviewDataSourceDidScroll(#contentOffset: CGPoint) {
+    func reviewDataSourceDidScroll(contentOffset contentOffset: CGPoint) {
         self.layer.zPosition = 10
         let bgLayer = myBackgroundView.layer
         let change = contentOffset.y/150
@@ -268,7 +281,7 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         myDelegate?.placeCellDidScroll(tableView: reviewsTableView,place: myPlace!)
     }
     
-    func reviewDataSourceDidEndScrolling(#contentOffset: CGPoint) {
+    func reviewDataSourceDidEndScrolling(contentOffset contentOffset: CGPoint) {
         let initialReverseOffset = reviewsDataSource?.reviewOffest(tableView: reviewsTableView)
         
         if contentOffset.y <= initialReverseOffset! {
@@ -284,11 +297,11 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
         myDelegate?.placeCellDidPressed(place: myPlace!)
     }
     
-    func reviewDataSourceReviewDidPressed(#toast: PFObject,parentHeader: UIView) {
+    func reviewDataSourceReviewDidPressed(toast toast: PFObject,parentHeader: UIView) {
         myDelegate?.placeCellReviewDidPressed(toast: toast,place: myPlace!,parentHeader:parentHeader)
     }
     
-    func reviewDataSourceReviewerDidPress(#user: PFUser,friend: PFUser?) {
+    func reviewDataSourceReviewerDidPress(user user: PFUser,friend: PFUser?) {
         myDelegate?.placeCellReviewerDidPress(user: user,friend:friend)
     }
     

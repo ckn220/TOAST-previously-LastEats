@@ -79,7 +79,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     
     func addSnap(snap:UISnapBehavior){
         animator?.addBehavior(snap)
-        animator?.addBehavior(discoverBehavior)
+        animator?.addBehavior(discoverBehavior!)
         
         isOpen = snap.isEqual(snapToSide)
         
@@ -87,7 +87,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         evaluateMyPanDisabling()
     }
     
-    func offsetIsValid(#offset:CGFloat)->Bool{
+    func offsetIsValid(offset offset:CGFloat)->Bool{
         if isOpen {
             return totalOffset < 0
         }else{
@@ -95,10 +95,9 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         }
     }
     
-    func endedOpen(#view: UIView){
+    func endedOpen(view view: UIView){
         var originalX:CGFloat
         let newX = view.layer.position.x
-        let parentWidth = CGRectGetWidth(self.view.bounds)
         
         if !isOpen {
             originalX = self.view.center.x
@@ -119,7 +118,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         }
     }
     
-    func updateMyStatusBar(#hidden: Bool){
+    func updateMyStatusBar(hidden hidden: Bool){
         /*hideStatusBar = hidden
         setNeedsStatusBarAppearanceUpdate()*/
     }
@@ -144,7 +143,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     
     private func evaluateMyPanDisabling(){
         if !isOpen {
-            let rootVC = mainNav?.viewControllers[0] as! UIViewController
+            let rootVC = mainNav?.viewControllers[0]
             if rootVC is DiscoverViewController{
                 myPanGestureRecognizer.enabled = false
             }
@@ -194,7 +193,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     //MARK: - MainMenuTable delegate methods
     func mainMenuTableFriendsPressed() {
         let friendsScene = self.storyboard?.instantiateViewControllerWithIdentifier("friendsListScene") as! FriendsListViewController
-        friendsScene.myUser = PFUser.currentUser()
+        friendsScene.myUser = PFUser.currentUser()!
         friendsScene.fromMain = true
         friendsScene.myDelegate = self
         myPanGestureRecognizer.enabled = true
@@ -210,9 +209,23 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         changeMainTo(discoverScene)
     }
     
+    func mainMenuTableMapPressed() {
+        let mapScene = storyboard?.instantiateViewControllerWithIdentifier("mapScene") as! MapViewController
+        mapScene.myDelegate = self
+        
+        changeMainTo(mapScene)
+    }
+    
+    func mainMenuTableAcvititvyPressed() {
+        let activityScene = storyboard?.instantiateViewControllerWithIdentifier("activityScene") as! ActivityViewController
+        activityScene.myDelegate = self
+        myPanGestureRecognizer.enabled = true
+        changeMainTo(activityScene)
+    }
+    
     func mainMenuTableMyToastsPressed() {
         let toastsScene = self.storyboard?.instantiateViewControllerWithIdentifier("profileDetailScene") as! ProfileDetailViewController
-        toastsScene.myUser = PFUser.currentUser()
+        toastsScene.myUser = PFUser.currentUser()!
         toastsScene.myDelegate = self
         myPanGestureRecognizer.enabled = false
         
@@ -220,7 +233,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     }
     
     func mainMenuTableContributePressed() {
-        let contributeScene = self.storyboard?.instantiateViewControllerWithIdentifier("contributeScene") as! UIViewController
+        let contributeScene = self.storyboard!.instantiateViewControllerWithIdentifier("contributeScene")
         self.showDetailViewController(contributeScene, sender: nil)
     }
     
@@ -246,7 +259,7 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     }
     
     //MARK: - MailComposer delegate methods
-    func mailComposeController(controller: MFMailComposeViewController!, didFinishWithResult result: MFMailComposeResult, error: NSError!) {
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
     }
 }

@@ -12,19 +12,29 @@ import Haneke
 
 class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
 
-    @IBOutlet weak var myTableView: UITableView!
-    
-    @IBOutlet weak var friendPictureWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var friendPictureView: BackgroundImageView!
+    //MARK: - IBOutlets properties
+    //MARK: TopBar
+    @IBOutlet weak var titleLabel: UILabel!
+    //MARK: Header
+    //User
+    @IBOutlet weak var userView: UIView!
     @IBOutlet weak var userPictureView: BackgroundImageView!
+    @IBOutlet weak var friendPictureView: BackgroundImageView!
     @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var userSubtitleLabel: UILabel!
+    @IBOutlet weak var toastMasterView: UIView!
+    //Actions
+    @IBOutlet weak var actionsView: UIView!
+    @IBOutlet weak var starButton: StarButton!
+    @IBOutlet weak var mapButton: ReviewDetailButton!
+    //Stats
     @IBOutlet weak var toastCountLabel: UILabel!
     @IBOutlet weak var friendsCountLabel: UILabel!
     @IBOutlet weak var followersCountLabel: UILabel!
-    @IBOutlet weak var starButton: StarButton!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var userSubtitleLabel: UILabel!
+    //MARK: Body
+    @IBOutlet weak var myTableView: UITableView!
     
+    //MARK: - Variables
     var fromContribute = true
     var myDelegate:DiscoverDelegate?
     var toasts: [PFObject]!
@@ -39,6 +49,7 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
         }
     }
     
+    //MARK: - Configure methods
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if fromContribute{
@@ -48,19 +59,18 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     }
     
     private func configure(){
-        configureTitles()
-        configureUserHeader()
-        configureUserToasts()
-        setStarButton()
+        configureTopBar()
+        configureHeader()
+        configureBody()
     }
     
-    private func configureTitles(){
-        configureMyTitle()
-        configureUserSubtitle()
+    //MARK: TopBar
+    private func configureTopBar(){
+        configureSceneTitle()
     }
     
-    private func configureMyTitle(){
-        if myUser.objectId == PFUser.currentUser().objectId{
+    private func configureSceneTitle(){
+        if myUser.objectId == PFUser.currentUser()!.objectId{
             titleLabel.text = "My Profile"
         }else{
             var nameComponents = (myUser["name"] as! String).componentsSeparatedByString(" ")
@@ -68,9 +78,66 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
         }
     }
     
+    //MARK: Header
+    private func configureHeader(){
+        configureUser()
+        configureActions()
+        configureStats()
+    }
+    
+    //User
+    private func configureUser(){
+        configureUserPictures()
+        configureUserName()
+        configureUserSubtitle()
+        configureToastMaster()
+    }
+    
+    private func configureUserPictures(){
+        func configureMainPicture(){
+            userPictureView.setImage(user:myUser)
+        }
+        
+        func configureSecondaryPicture(){
+            if let friend = myFriend{
+                friendPictureView.setImage(user:friend)
+            }else{
+                friendPictureView.removeFromSuperview()
+            }
+        }
+        
+        configureMainPicture()
+        configureSecondaryPicture()
+    }
+    
+    private func configureUserName(){
+        userNameLabel.text = myUser["name"] as? String
+    }
+    
     private func configureUserSubtitle(){
+        func date(forUser user:PFUser) -> String{
+            let calendar = NSCalendar.currentCalendar()
+            let date = user.createdAt
+            let components = calendar.components([.Month,.Year], fromDate: date!)
+            let months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+            
+            return "\(months[components.month]) \(components.year)"
+        }
+        
+        func correctedName(name:String) -> String{
+            let originalCount = name.characters.count
+            let limit = 14
+            if originalCount > limit{
+                var words = name.componentsSeparatedByString(" ")
+                let newLastName = (words[1] as NSString).substringToIndex(1)
+                return "\(words[0]) \(newLastName)."
+            }else{
+                return name
+            }
+        }
+        
         var subtitleString:String
-        if myUser.objectId == PFUser.currentUser().objectId{ // Current User
+        if myUser.objectId == PFUser.currentUser()!.objectId{ // Current User
             subtitleString = "Toasting since \(date(forUser: myUser))"
         }else if myUser.objectId == "Ljr4MlYQP0"{ // Colin
             subtitleString = "Founder of Top Toast Labs"
@@ -88,191 +155,142 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
         userSubtitleLabel.text = subtitleString
     }
     
-    private func date(forUser user:PFUser) -> String{
-        let calendar = NSCalendar.currentCalendar()
-        let date = user.createdAt
-        let components = calendar.components(.CalendarUnitMonth | .CalendarUnitYear, fromDate: date)
-        let months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+    private func configureToastMaster(){
+        func insertToastMasterLabel(){
+            toastMasterView.translatesAutoresizingMaskIntoConstraints = false
+            userView.addSubview(toastMasterView)
+            let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[subtitle]-4.0-[toastMaster]|", options: [], metrics: nil, views: ["subtitle":userSubtitleLabel,"toastMaster":toastMasterView])
+            let centerXConstraint = NSLayoutConstraint(item: userSubtitleLabel, attribute: .CenterX, relatedBy: .Equal, toItem: toastMasterView, attribute: .CenterX, multiplier: 1, constant: 0)
+            userView.addConstraints(vConstraints)
+            userView.addConstraint(centerXConstraint)
+        }
         
-        return "\(months[components.month]) \(components.year)"
-    }
-    
-    private func correctedName(name:String) -> String{
-        let originalCount = count(name)
-        let limit = 14
-        if originalCount > limit{
-            var words = name.componentsSeparatedByString(" ")
-            let newLastName = (words[1] as NSString).substringToIndex(1)
-            return "\(words[0]) \(newLastName)."
-        }else{
-            return name
-        }
-    }
-    
-    private func configureUserToasts(){
-        let group = dispatch_group_create()
-        loadToasts(group: group)
-        loadTopToast(group: group)
-        configureUserToastsCompletion(group: group)
-    }
-    
-    private func loadTopToast(#group: dispatch_group_t){
-        dispatch_group_enter(group)
-        PFCloud.callFunctionInBackground("topToastFromUser", withParameters: ["userId":myUser.objectId]) { (topToast, error) -> Void in
-            if error == nil{
-                self.topToast = topToast as? PFObject
+        PFCloud.callFunctionInBackground("isToastMaster", withParameters: ["userId":myUser.objectId!]) { (result, error) -> Void in
+            if let error = error{
+                NSLog("configureToastMaster error: %@", error)
             }else{
-                NSLog("loadTopToast error: %@",error.description)
-            }
-            dispatch_group_leave(group)
-        }
-    }
-    
-    private func loadToasts(#group: dispatch_group_t){
-        dispatch_group_enter(group)
-        let query = PFQuery(className: "Toast")
-        query.whereKey("active", equalTo: true)
-        query.whereKey("user", equalTo: myUser)
-        query.orderByDescending("createdAt")
-        query.includeKey("user")
-        query.findObjectsInBackgroundWithBlock { (result, error) -> Void in
-            if error == nil{
-                self.toasts = result as! [PFObject]
-            }else{
-                NSLog("loadToasts error: %@",error.description)
-                self.toasts = []
-            }
-            
-            dispatch_group_leave(group)
-        }
-    }
-    
-    private func sortToast(){
-        if topToast != nil{
-            for (var k=0;k<toasts.count;k++){
-                let toast = toasts![k]
-                if toast.objectId == topToast?.objectId{
-                toasts.removeAtIndex(k)
-                toasts.insert(toast, atIndex: 0)
-                break
+                if let resultString = result as? String,
+                let resultInt = Int(resultString) where resultInt > 0{
+                    insertToastMasterLabel()
                 }
             }
         }
     }
     
-    private func configureUserToastsCompletion(#group: dispatch_group_t){
-        dispatch_group_notify(group, dispatch_get_main_queue()) { () -> Void in
-            self.sortToast()
-            self.updateToastCount()
-            self.profileDataSource = ProfileToastsDataSource(toasts: self.toasts!,user:self.myUser,topToast:self.topToast,myDelegate:self)
+    //Actions
+    private func configureActions(){
+        configureStarButton()
+        configureMapButton()
+    }
+    
+    private func configureStarButton(){
+        func insertStarButton(){
+            starButton.translatesAutoresizingMaskIntoConstraints = false
+            actionsView.addSubview(starButton)
+            let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[star]-12.0-[map]", options: [], metrics: nil, views: ["star":starButton,"map":mapButton])
+            let centerYConstraint = NSLayoutConstraint(item: starButton, attribute: .CenterY, relatedBy: .Equal, toItem: mapButton, attribute: .CenterY, multiplier: 1, constant: 0)
+            actionsView.addConstraints(hConstraints)
+            actionsView.addConstraint(centerYConstraint)
         }
-    }
-    
-    private func configureUserHeader(){
-        configureProfileImage()
-        configureFriendImage()
-        configureProfileName(myUser)
-        configureCountLabels(myUser)
-    }
-    
-    private func configureProfileImage(){
-        getPicture(fromUser: myUser, toBgView: userPictureView)
-    }
-    
-    private func configureFriendImage(){
-        if myFriend != nil{
-            getPicture(fromUser: myFriend!, toBgView: friendPictureView)
-        }else{
-            friendPictureWidthConstraint.constant = 0
-        }
-    }
-    
-    private func getPicture(fromUser user:PFUser,toBgView bgView:BackgroundImageView){
-        initPictureView(bgView)
-        let imageURL = user["pictureURL"] as! String
-        bgView.setImage(URL: imageURL)
-    }
-    
-    private func initPictureView(pictureView:BackgroundImageView){
-        let pictureLayer = pictureView.layer
-        pictureLayer.cornerRadius = CGRectGetWidth(pictureLayer.bounds)/2
-        pictureLayer.borderWidth = 1
-        pictureLayer.borderColor = UIColor.whiteColor().CGColor
-    }
-    
-    private func configureProfileName(user:PFUser){
-        userNameLabel.text = user["name"] as! String!
-    }
-    
-    private func configureCountLabels(user:PFUser){
-        configureToastCount(user)
-        configureFriendCount(user)
-        configureFollowerCount(user)
-    }
-    
-    private func initCountLabel(label:UILabel){
-        let layer = label.layer
-        layer.cornerRadius = CGRectGetWidth(label.bounds)/2
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.whiteColor().CGColor
-    }
-    
-    private func configureToastCount(user:PFUser){
-        initCountLabel(toastCountLabel)
-    }
-    
-    private func updateToastCount(){
-        toastCountLabel.text = String(format:"%02d",toasts.count)
-    }
-    
-    private func configureFriendCount(user:PFUser){
-        initCountLabel(friendsCountLabel)
-        let friendsQuery = user.relationForKey("friends").query()
-        friendsQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
-            if error == nil{
-                self.friendsCountLabel.text = String(format: "%02d", count)
-            }else{
-                NSLog("configureFriendCount error: %@",error.description)
-            }
-        }
-    }
-    
-    private func configureFollowerCount(user:PFUser){
-        initCountLabel(followersCountLabel)
-        PFCloud.callFunctionInBackground("likesCountForUser", withParameters: ["userId":user.objectId]) { (results, error) -> Void in
-            if error == nil{
-                if let count = results as? Int{
-                    self.followersCountLabel.text = String(format: "%02d", count)
+        
+        func getFollow(completion: (isFollow:Bool) -> Void){
+            let followQuery = PFUser.currentUser()!.relationForKey("follows").query()!
+            followQuery.whereKey("objectId", equalTo: myUser.objectId!)
+            followQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
+                if error == nil {
+                    completion(isFollow: Int(count) == 1)
+                }else{
+                    NSLog("getFollow error: %@",error!.description)
                 }
-            }else{
-                NSLog("configureFollowerCount error: ", error.description)
             }
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    private func setStarButton(){
-        if myUser.objectId == PFUser.currentUser().objectId{ //currentUser
-            starButton.alpha = 0
-        }else{ //friend
+        
+        let currentUser = PFUser.currentUser()!
+        if !currentUser.isEqual(myUser){
+            insertStarButton()
             getFollow({ (isFollow) -> Void in
                 self.starButton.isOn = isFollow
             })
         }
     }
     
-    private func getFollow(completion: (isFollow:Bool) -> Void){
-        let followQuery = PFUser.currentUser().relationForKey("follows").query()
-        followQuery.whereKey("objectId", equalTo: myUser.objectId)
-        followQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
-            if error == nil {
-                completion(isFollow: Int(count) == 1)
+    private func configureMapButton(){
+        
+    }
+    
+    //Stats
+    private func configureStats(){
+        configureToastsStats()
+        configureFriendsStats()
+        configureLikesStats()
+    }
+    
+    private func configureToastsStats(){
+        myUser.relationForKey("toasts").query()?.countObjectsInBackgroundWithBlock({ (toastCount, error) -> Void in
+            if let error = error{
+                NSLog("configureToastsStats error: %@",error.description)
             }else{
-                NSLog("getFollow error: %@",error.description)
+                self.toastCountLabel.text = String(format: "%02d",toastCount)
+            }
+        })
+    }
+    
+    private func configureFriendsStats(){
+        myUser.relationForKey("friends").query()?.countObjectsInBackgroundWithBlock({ (friendCount, error) -> Void in
+            if let error = error{
+                NSLog("configureFriendsStats error: %@",error.description)
+            }else{
+                self.friendsCountLabel.text = String(format:"%02d",friendCount)
+            }
+        })
+    }
+    
+    private func configureLikesStats(){
+        PFCloud.callFunctionInBackground("likesCountForUser", withParameters: ["userId":myUser.objectId!]) { (likesCount, error) -> Void in
+            if let error = error{
+                NSLog("configureLikesStats error: %@",error.description)
+            }else{
+                if let likesCount = likesCount as? Int{
+                    self.followersCountLabel.text = String(format:"%02d",likesCount)
+                }
+            }
+        }
+    }
+    
+    //MARK: Body
+    private func configureBody(){
+        configureToasts()
+    }
+    
+    private func configureToasts(){
+        func complete(result:[PFObject]){
+            self.toasts = result
+            sortToast()
+            profileDataSource = ProfileToastsDataSource(toasts: self.toasts!,user:self.myUser,myDelegate:self)
+        }
+        
+        let query = PFQuery(className: "Toast")
+        query.whereKey("active", equalTo: true)
+        query.whereKey("user", equalTo: myUser)
+        query.orderByDescending("createdAt")
+        query.includeKey("user")
+        query.includeKey("place")
+        query.findObjectsInBackgroundWithBlock { (result, error) -> Void in
+            if error == nil{
+                complete(result!)
+            }else{
+                NSLog("loadToasts error: %@",error!.description)
+            }
+        }
+    }
+    
+    private func sortToast(){
+        for var k=0;k<toasts.count;k++ {
+            let toast = toasts[k]
+            if let isTopToast = toast["isTopToast"] as? Bool where isTopToast{
+                toasts.removeAtIndex(k)
+                toasts.insert(toast, atIndex: 0)
+                break
             }
         }
     }
@@ -294,12 +312,19 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
             followFunction = "unfollowUser"
         }
         
-        PFCloud.callFunctionInBackground(followFunction, withParameters: ["userId":myUser.objectId]) { (result, error) -> Void in
-            if error != nil{
+        PFCloud.callFunctionInBackground(followFunction, withParameters: ["userId":myUser.objectId!]) { (result, error) -> Void in
+            if let error = error{
                 NSLog("starButtonPressed error: %@",error.description)
+            }else{
                 //sender.toggleButton()
             }
         }
+    }
+    
+    @IBAction func friendsStatsPRessed(sender: MyControl) {
+        let friendsScene = storyboard?.instantiateViewControllerWithIdentifier("friendsListScene") as! FriendsListViewController
+        friendsScene.myUser = myUser
+        showViewController(friendsScene, sender: self)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -309,14 +334,11 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
             destination.fromMain = false
         }else if segue.identifier == "contributeSegue"{
             fromContribute = true
+        }else if segue.identifier == "mapSegue"{
+            let destination = segue.destinationViewController as! MapViewController
+            destination.myDelegate = nil
+            destination.userFromProfileDetail  = myUser
         }
-    }
-    
-    private func configurePicture(pictureLayer:CALayer){
-        pictureLayer.cornerRadius = CGRectGetWidth(pictureLayer.bounds)/2.0
-        pictureLayer.borderWidth = 1
-        pictureLayer.borderColor = UIColor(white: 1, alpha: 0.7).CGColor
-        pictureLayer.shouldRasterize = true
     }
     
     //MARK: - ProfileToastsDelegate methods
@@ -325,16 +347,15 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
         let selectedToast = toasts![indexPressed]
         destination.myToast = selectedToast
         if place != nil{
-            destination.titleString = place!["name"] as! String
+            destination.titleString = place!["name"] as? String
         }
-        destination.isTopToast = topToast?.objectId == selectedToast.objectId
         
         self.showViewController(destination, sender: self)
     }
     
     func profileToastsItemDeleted(updatedToasts:[PFObject]) {
         self.toasts = updatedToasts
-        updateToastCount()
+        toastCountLabel.text = String(format:"%02d",toasts.count)
     }
     
 }

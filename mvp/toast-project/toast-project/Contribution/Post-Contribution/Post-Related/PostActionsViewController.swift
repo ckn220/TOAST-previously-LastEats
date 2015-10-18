@@ -34,7 +34,7 @@ class PostActionsViewController: UIViewController {
         let firstText = "Want to make "
         let lastText = " your Top Toast?"
         
-        var finalText = NSMutableAttributedString(string: firstText)
+        let finalText = NSMutableAttributedString(string: firstText)
         finalText.appendAttributedString(nameString(name))
         finalText.appendAttributedString(normalString(lastText))
         postQuestionLabel.attributedText = finalText

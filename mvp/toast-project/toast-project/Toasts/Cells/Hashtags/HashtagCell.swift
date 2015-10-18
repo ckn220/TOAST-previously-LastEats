@@ -13,12 +13,12 @@ class HashtagCell: UICollectionViewCell {
     
     @IBOutlet weak var hashtagLabel: UILabel!
     
-    func configure(#item:PFObject,index:Int) {
+    func configure(item item:PFObject,index:Int) {
         configureLabel(item: item,index:index)
         //insertSmallShadow(self.hashtagLabel)
     }
     
-    func configureLabel(#item:PFObject,index:Int){
+    func configureLabel(item item:PFObject,index:Int){
         hashtagLabel.text = "#"+(item["name"] as? String)!
         if index%2==0{
             hashtagLabel.textAlignment = .Left

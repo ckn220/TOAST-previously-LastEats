@@ -17,7 +17,7 @@ class ToastLogo: UIView {
         drawCanvasLogo(frame: rect)
     }
     
-    func drawCanvasLogo(#frame: CGRect) {
+    func drawCanvasLogo(frame frame: CGRect) {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()
         
@@ -31,7 +31,7 @@ class ToastLogo: UIView {
         
         //// logoGroup
         //// drop1 Drawing
-        var drop1Path = UIBezierPath()
+        let drop1Path = UIBezierPath()
         drop1Path.moveToPoint(CGPointMake(logoGroup.minX + 35.76, logoGroup.minY + 4.85))
         drop1Path.addCurveToPoint(CGPointMake(logoGroup.minX + 35.46, logoGroup.minY + 4.82), controlPoint1: CGPointMake(logoGroup.minX + 35.66, logoGroup.minY + 4.83), controlPoint2: CGPointMake(logoGroup.minX + 35.56, logoGroup.minY + 4.82))
         drop1Path.addCurveToPoint(CGPointMake(logoGroup.minX + 29.63, logoGroup.minY + 8.9), controlPoint1: CGPointMake(logoGroup.minX + 33.8, logoGroup.minY + 4.75), controlPoint2: CGPointMake(logoGroup.minX + 31.5, logoGroup.minY + 6.01))
@@ -47,7 +47,7 @@ class ToastLogo: UIView {
         
         
         //// drop2 Drawing
-        var drop2Path = UIBezierPath()
+        let drop2Path = UIBezierPath()
         drop2Path.moveToPoint(CGPointMake(logoGroup.minX + 30.22, logoGroup.minY + 1.35))
         drop2Path.addCurveToPoint(CGPointMake(logoGroup.minX + 25.31, logoGroup.minY + 0.74), controlPoint1: CGPointMake(logoGroup.minX + 29.04, logoGroup.minY - 0.17), controlPoint2: CGPointMake(logoGroup.minX + 26.84, logoGroup.minY - 0.45))
         drop2Path.addCurveToPoint(CGPointMake(logoGroup.minX + 24.95, logoGroup.minY + 1.06), controlPoint1: CGPointMake(logoGroup.minX + 25.18, logoGroup.minY + 0.84), controlPoint2: CGPointMake(logoGroup.minX + 25.06, logoGroup.minY + 0.94))
@@ -67,7 +67,7 @@ class ToastLogo: UIView {
         CGContextBeginTransparencyLayer(context, nil)
         
         //// Clip glass1Clip
-        var glass1ClipPath = UIBezierPath()
+        let glass1ClipPath = UIBezierPath()
         glass1ClipPath.moveToPoint(CGPointMake(logoGroup.minX + 23.07, logoGroup.minY + 28.91))
         glass1ClipPath.addCurveToPoint(CGPointMake(logoGroup.minX + 5.95, logoGroup.minY + 23.76), controlPoint1: CGPointMake(logoGroup.minX + 15.45, logoGroup.minY + 27.59), controlPoint2: CGPointMake(logoGroup.minX + 13.6, logoGroup.minY + 20.72))
         glass1ClipPath.addCurveToPoint(CGPointMake(logoGroup.minX + 10.21, logoGroup.minY + 43.99), controlPoint1: CGPointMake(logoGroup.minX + 1.18, logoGroup.minY + 31.55), controlPoint2: CGPointMake(logoGroup.minX + 4.56, logoGroup.minY + 39.09))
@@ -106,7 +106,7 @@ class ToastLogo: UIView {
         
         
         //// glass2 Drawing
-        var glass2Path = UIBezierPath()
+        let glass2Path = UIBezierPath()
         glass2Path.moveToPoint(CGPointMake(logoGroup.minX + 57.77, logoGroup.minY + 47.61))
         glass2Path.addCurveToPoint(CGPointMake(logoGroup.minX + 64.1, logoGroup.minY + 19.85), controlPoint1: CGPointMake(logoGroup.minX + 66.8, logoGroup.minY + 41.7), controlPoint2: CGPointMake(logoGroup.minX + 70.44, logoGroup.minY + 28.65))
         glass2Path.addCurveToPoint(CGPointMake(logoGroup.minX + 53.54, logoGroup.minY + 9.16), controlPoint1: CGPointMake(logoGroup.minX + 62.02, logoGroup.minY + 16.96), controlPoint2: CGPointMake(logoGroup.minX + 57.68, logoGroup.minY + 12.57))
@@ -139,7 +139,7 @@ class ToastLogo: UIView {
         
         
         //// toastText Drawing
-        var toastTextPath = UIBezierPath()
+        let toastTextPath = UIBezierPath()
         toastTextPath.moveToPoint(CGPointMake(logoGroup.minX + 84.66, logoGroup.minY + 54.35))
         toastTextPath.addCurveToPoint(CGPointMake(logoGroup.minX + 81.29, logoGroup.minY + 53.79), controlPoint1: CGPointMake(logoGroup.minX + 83.39, logoGroup.minY + 54.35), controlPoint2: CGPointMake(logoGroup.minX + 82.26, logoGroup.minY + 54.16))
         toastTextPath.addCurveToPoint(CGPointMake(logoGroup.minX + 78.83, logoGroup.minY + 52.22), controlPoint1: CGPointMake(logoGroup.minX + 80.32, logoGroup.minY + 53.42), controlPoint2: CGPointMake(logoGroup.minX + 79.5, logoGroup.minY + 52.9))

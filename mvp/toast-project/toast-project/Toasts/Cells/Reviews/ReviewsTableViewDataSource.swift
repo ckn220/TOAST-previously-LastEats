@@ -9,11 +9,11 @@
 import Parse
 
 protocol ReviewDataSourceDelegate {
-    func reviewDataSourceDidScroll(#contentOffset: CGPoint)
-    func reviewDataSourceDidEndScrolling(#contentOffset: CGPoint)
+    func reviewDataSourceDidScroll(contentOffset contentOffset: CGPoint)
+    func reviewDataSourceDidEndScrolling(contentOffset contentOffset: CGPoint)
     func reviewDataSourcePlaceDidPressed()
-    func reviewDataSourceReviewDidPressed(#toast:PFObject,parentHeader: UIView)
-    func reviewDataSourceReviewerDidPress(#user:PFUser, friend:PFUser?)
+    func reviewDataSourceReviewDidPressed(toast toast:PFObject,parentHeader: UIView)
+    func reviewDataSourceReviewerDidPress(user user:PFUser, friend:PFUser?)
     func reviewDataSourceHashtagPressed(name:String)
 }
 
@@ -45,7 +45,7 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.row == 0{
-            let cell = tableView.dequeueReusableCellWithIdentifier("headerCell") as! UITableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("headerCell")!
             return cell
         }else{
             
@@ -66,7 +66,7 @@ class ReviewsTableViewDataSource: NSObject,UITableViewDataSource,UITableViewDele
         }
     }
     
-    func reviewOffest(#tableView:UITableView) -> CGFloat{
+    func reviewOffest(tableView tableView:UITableView) -> CGFloat{
         let aspect:Double = 538.0/364.0
         let cellWidth = CGRectGetWidth(tableView.frame)
         return cellWidth/CGFloat(aspect)

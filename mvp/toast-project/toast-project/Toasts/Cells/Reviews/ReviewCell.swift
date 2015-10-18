@@ -61,7 +61,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     }
     
     //MARK: - Configure User methods
-    private func configureUser(#item:PFObject){
+    private func configureUser(item item:PFObject){
         if let user = item["user"] as? PFUser{
             friendOfFriend(user,toast:item)
         }
@@ -69,7 +69,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     
     private func friendOfFriend(friendFriend:PFUser,toast:PFObject){
         headerQueue.addOperationWithBlock { () -> Void in
-            PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":friendFriend.objectId]) { (result, error) -> Void in
+            PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":friendFriend.objectId!]) { (result, error) -> Void in
                 if error == nil{
                     if let friend = result as? PFUser{
                         self.configureFriendOfFriendHeader(friend,friendFriend: friendFriend,toast:toast)
@@ -77,7 +77,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
                         self.configureFriendHeader(friendFriend,toast:toast)
                     }
                 }else{
-                    NSLog("friendOfFriend error: %@",error.description)
+                    NSLog("friendOfFriend error: %@",error!.description)
                 }
                 
             }
@@ -129,7 +129,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     }
     
     //MARK: - Configure Review methods
-    private func configureReview(#item:PFObject,isSingle:Bool){
+    private func configureReview(item item:PFObject,isSingle:Bool){
         myToast = item
         if let review = item["review"] as? String{
             if isSingle {
@@ -154,7 +154,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
             if error == nil{
                 self.heartCount.count = Int(count)
             }else{
-                NSLog("setHeartCount error:%@",error.description)
+                NSLog("setHeartCount error:%@",error!.description)
             }
         }
     }
@@ -162,7 +162,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     private func setLinkableReview(review:String){
         configureLinkView()
         var words = review.componentsSeparatedByString(" ")
-        var finalReview = NSMutableAttributedString(string: "")
+        let finalReview = NSMutableAttributedString(string: "")
         finalReview.appendAttributedString(attributedWord("\""))
         for (var k=0;k<words.count;k++){
             let word = words[k]
@@ -185,7 +185,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     }
     
     private func attributedWord(word:String)->NSAttributedString{
-        if let hashIndex = find(word,"#"){
+        if let _ = word.characters.indexOf("#"){
             return attributedHashtag(word)
         }else{
             return attributedNormal(word)
@@ -202,15 +202,15 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
         return NSAttributedString(string: hashtag, attributes: attr)
     }
     
-    private func myAttributes() -> [NSObject:AnyObject]{
-        var attributes = [NSObject:AnyObject]()
+    private func myAttributes() -> [String:AnyObject]{
+        var attributes = [String:AnyObject]()
         attributes[NSFontAttributeName] = UIFont(name: "Avenir-Medium", size: 16)
         attributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
         return attributes
     }
     
     //MARK: - Configure Separator line methods
-    private func configureSeparatorLine(#isLastItem:Bool){
+    private func configureSeparatorLine(isLastItem isLastItem:Bool){
         if !isLastItem {
             toggleAlpha(alpha: 0.4, views: separatorView)
         }
@@ -225,31 +225,31 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
         }
     }
     
-    private func getHasHeart(#toast:PFObject,completion:(hasHeart:Bool) -> Void){
+    private func getHasHeart(toast toast:PFObject,completion:(hasHeart:Bool) -> Void){
         let cache = Cache<String>(name:"hasHearts")
-        cache.fetch(key: toast.objectId, failure: { (error) -> () in
+        cache.fetch(key: toast.objectId!, failure: { (error) -> () in
             self.requestHasHeart(toast: toast, completion: completion)
             }, success: { (result) -> () in
-            completion(hasHeart: (result as String).toInt()! == 1)
+            completion(hasHeart: Int((result as String)) == 1)
         })
     }
     
-    private func requestHasHeart(#toast:PFObject,completion:(hasHeart:Bool) -> Void){
-        let heartsQuery = PFUser.currentUser().relationForKey("hearts").query()
-        heartsQuery.whereKey("objectId", equalTo: myToast.objectId)
+    private func requestHasHeart(toast toast:PFObject,completion:(hasHeart:Bool) -> Void){
+        let heartsQuery = PFUser.currentUser()!.relationForKey("hearts").query()!
+        heartsQuery.whereKey("objectId", equalTo: myToast.objectId!)
         heartsQuery.countObjectsInBackgroundWithBlock { (count, error) -> Void in
             if error == nil{
                 self.saveHasHeart("\(count)", toast: toast)
                 completion(hasHeart: count == 1)
             }else{
-                NSLog("requestHasHeart error: %@",error.description)
+                NSLog("requestHasHeart error: %@",error!.description)
             }
         }
     }
     
     private func saveHasHeart(hasHeart:String,toast:PFObject){
         let cache = Cache<String>(name:"hasHearts")
-        cache.set(value: hasHeart, key: toast.objectId, success: nil)
+        cache.set(value: hasHeart, key: toast.objectId!, success: nil)
     }
     
     //MARK: - Review  Header delegate methods
@@ -281,9 +281,9 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
             heartCount.count--
         }
         
-        PFCloud.callFunctionInBackground(heartFunction, withParameters: ["toastId":myToast!.objectId]) { (result, error) -> Void in
+        PFCloud.callFunctionInBackground(heartFunction, withParameters: ["toastId":myToast!.objectId!]) { (result, error) -> Void in
             if error != nil{
-                NSLog("heartButtonPressed error: %@",error.description)
+                NSLog("heartButtonPressed error: %@",error!.description)
             }
         }
     }
@@ -294,10 +294,10 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
             followFunction = "unfollowUser"
         }
         
-        let user = (myToast!["user"] as! PFUser).objectId
+        let user = (myToast!["user"] as! PFUser).objectId!
         PFCloud.callFunctionInBackground(followFunction, withParameters: ["userId":user]) { (result, error) -> Void in
             if error != nil{
-                NSLog("followButtonPressed error: %@",error.description)
+                NSLog("followButtonPressed error: %@",error!.description)
             }
         }
     }
@@ -311,7 +311,7 @@ class ReviewCell: UITableViewCell,ReviewHeaderDelegate,CCHLinkTextViewDelegate {
     
     
     //MARK: - Misc methods
-    func toggleAlpha(#alpha:CGFloat,duration:CGFloat=0.3,completion:(()->Void)?=nil,views:UIView...){
+    func toggleAlpha(alpha alpha:CGFloat,duration:CGFloat=0.3,completion:(()->Void)?=nil,views:UIView...){
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
             UIView.animateWithDuration(0.2, animations: { () -> Void in
                 for view in views{

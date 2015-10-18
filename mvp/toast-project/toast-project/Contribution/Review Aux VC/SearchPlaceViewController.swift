@@ -71,14 +71,18 @@ class SearchPlaceViewController: UIViewController,UISearchBarDelegate,UITableVie
     }
     
     func hideSearchBar(){
-        nameSearchBar.resignFirstResponder()
-        UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .CurveEaseOut, animations: { () -> Void in
-            self.nameSearchBar.layer.transform = CATransform3DMakeTranslation(0, -44, 0)
-            
-            }) { (completion) -> Void in
-                self.nameSearchBar.alpha = 0
-                self.nameSearchBar.text = ""
+        CATransaction.begin()
+        CATransaction.setCompletionBlock { () -> Void in
+            UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 1, options: .CurveEaseOut, animations: { () -> Void in
+                self.nameSearchBar.layer.transform = CATransform3DMakeTranslation(0, -44, 0)
+                
+                }) { (completion) -> Void in
+                    self.nameSearchBar.alpha = 0
+                    self.nameSearchBar.text = ""
+            }
         }
+        nameSearchBar.resignFirstResponder()
+        CATransaction.commit()
     }
     
     //MARK: - SearchBar delegate methods
@@ -107,12 +111,12 @@ class SearchPlaceViewController: UIViewController,UISearchBarDelegate,UITableVie
         placeID = ""
         
         if (tempText.isEmpty == false) {
-            if count(tempText.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: " ")).utf16) >= 3 {
+            if tempText.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: " ")).utf16.count >= 3 {
                 
                 var llKey = "ll="
                 var llValue = ""
                 
-                /*if let userLocation = PFUser.currentUser()["lastLocation"] as? PFGeoPoint {
+                /*if let userLocation = PFUser.currentUser()!["lastLocation"] as? PFGeoPoint {
                     llValue = "\(userLocation.latitude),\(userLocation.longitude)"
                 }else{*/
                     llKey = "near="
@@ -124,10 +128,10 @@ class SearchPlaceViewController: UIViewController,UISearchBarDelegate,UITableVie
                 if let inputText = tempText.stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet()){
                     
                     Alamofire.request(.GET, foursquareRequestString + inputText)
-                        .responseJSON { (imRequest, imResponse, JSON, error) in
+                        .responseJSON { (response) in
                             
-                            if error == nil {
-                                if let result = JSON as? NSDictionary {
+                            if response.result.error == nil {
+                                if let result = response.result.value as? NSDictionary {
                                     if ((result["meta"] as! NSDictionary)["code"] as! Int) == 200 {
                                         let myResults = (result["response"] as! NSDictionary)["minivenues"] as? [AnyObject]
                                         
@@ -148,7 +152,7 @@ class SearchPlaceViewController: UIViewController,UISearchBarDelegate,UITableVie
                                     self.removeSuggestions()
                                 }
                             }else{
-                                NSLog("%@",error!.description)
+                                NSLog("%@",response.result.error!.description)
                                 self.removeSuggestions()
                             }
                     }
@@ -170,7 +174,7 @@ class SearchPlaceViewController: UIViewController,UISearchBarDelegate,UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("resultCell") as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("resultCell")!
         let myItem = results[indexPath.row] as! NSDictionary
         cell.textLabel?.text = myItem["name"] as? String
         if let location = myItem["location"] as? NSDictionary{

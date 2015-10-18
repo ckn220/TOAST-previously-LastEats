@@ -18,11 +18,16 @@ class BookingService: NSObject {
     
     private class func getOpenTableReservationURL(fromName restaurantName:String,address:String,zipcode:String,completion: (String)->()){
         let masterURL = "http://opentable.herokuapp.com/api/restaurants?"
-        var myParams = BookingService.escapeBookingParameters(restaurantName,address: address)
+        let myParams = BookingService.escapeBookingParameters(restaurantName,address: address)
         
-        Alamofire.request(.GET, masterURL+"name="+myParams.eName+"&postal_code="+zipcode).responseJSON { (imRequest, imResponse, JSON, error) in
-            if error == nil{
-                if let tempRestaurants = (JSON as! NSDictionary)["restaurants"] as? NSArray {
+        Alamofire.request(.GET, masterURL+"name="+myParams.eName+"&postal_code="+zipcode).responseJSON { (response) -> Void in
+            response.result.isSuccess
+        }
+        
+        Alamofire.request(.GET, masterURL+"name="+myParams.eName+"&postal_code="+zipcode).responseJSON { (response) -> Void in
+            if response.result.isSuccess{
+                let json = response.result.value as! NSDictionary
+                if let tempRestaurants = json["restaurants"] as? NSArray {
                     if tempRestaurants.count > 0 {
                         
                         var restaurant:NSDictionary?
@@ -47,15 +52,15 @@ class BookingService: NSObject {
                 }else{
                     completion("")
                 }
-                
             }else{
-                NSLog("%@",error!.description)
+                NSLog("\(response.result.error!)")
                 completion("")
             }
         }
     }
     
     class func escapeBookingParameters(name:String,address:String) -> (eName:String,eAddress:String){
+        
         let escapedName = name.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
         let escapedAddress = address.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
         

@@ -78,7 +78,7 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     //MARK: - Configure methods
     func configure(){
         if bgName != nil{
-            myBlurBG.setImage(bgName!, opacity: 0.35)
+            myBlurBG.setImage(fileName: bgName!, opacity: 0.35)
         }
     }
     
@@ -112,7 +112,7 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
     
     //MARK: - PlaceDetail Delegate
     func placeDetailCategoryPressed() {
-        (myPlace?["category"] as! PFObject).fetchIfNeededInBackgroundWithBlock { (result:PFObject!, error) -> Void in
+        (myPlace?["category"] as! PFObject).fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
             if error == nil {
                 let destination = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
                 destination.myCategory = result
@@ -172,12 +172,12 @@ class PlaceDetailViewController: UIViewController,PlaceDetailDelegate,UIActionSh
         let coords = CLLocationCoordinate2DMake(placeGeo.latitude,placeGeo.longitude)
         let place = MKPlacemark(coordinate: coords, addressDictionary: nil)
         let mapItem = MKMapItem(placemark: place)
-        mapItem.name = self.myPlace!["name"] as! String
+        mapItem.name = self.myPlace!["name"] as? String
         
         let options = [MKLaunchOptionsDirectionsModeKey:
             MKLaunchOptionsDirectionsModeWalking,
             MKLaunchOptionsShowsTrafficKey: false]
-        mapItem.openInMapsWithLaunchOptions(options as [NSObject : AnyObject])
+        mapItem.openInMapsWithLaunchOptions(options as? [String : AnyObject])
     }
     
     func googleMapsAction()->UIAlertAction{

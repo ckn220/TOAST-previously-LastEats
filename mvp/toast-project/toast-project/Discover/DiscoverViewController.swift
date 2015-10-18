@@ -63,7 +63,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     }
     /*
     private func configureUserPicture(){
-        if let pictureURL = PFUser.currentUser()["pictureURL"] as? String{
+        if let pictureURL = PFUser.currentUser()!["pictureURL"] as? String{
             let genericCache = Shared.imageCache
             genericCache.fetch(URL: NSURL(string: pictureURL)!, failure: { (error) -> () in
                 NSLog("configureUserPicture error: %@",error!.description)
@@ -78,7 +78,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     }
     
     func configureCarouselData(){
-        var group = dispatch_group_create()
+        let group = dispatch_group_create()
         configureMoods(group)
         configureNeighborhoods(group)
         configureCarouselDataCompletion(group)
@@ -89,11 +89,11 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
             let moodsQuery = PFQuery(className: "Mood")
             moodsQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
                 if error == nil{
-                    self.moodDataSource = DiscoverDataSource(items: result as! [PFObject], myDelegate: self, isMood: true)
+                    self.moodDataSource = DiscoverDataSource(items: result!, myDelegate: self, isMood: true)
                     dispatch_group_leave(group)
                     NSLog("Found moods")
                 }else{
-                    NSLog("configureMoods error: %@",error.description)
+                    NSLog("configureMoods error: %@",error!.description)
                 }
             }
     }
@@ -105,11 +105,11 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
             neighborhoodsQuery.orderByAscending("order")
             neighborhoodsQuery.findObjectsInBackgroundWithBlock { (result, error) -> Void in
                 if error == nil{
-                    let neighs = result as! [PFObject]
+                    let neighs = result!
                     self.neighborhoodDataSource = DiscoverDataSource(items: neighs, myDelegate: self, isMood: false)
                     //dispatch_group_leave(group)
                 }else{
-                    NSLog("configureNeighborhoods error: %@", error.description)
+                    NSLog("configureNeighborhoods error: %@", error!.description)
                 }
             }
     }
@@ -135,7 +135,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
            neighName = "default"
         }
 
-        self.myBG.setImage(neighName, opacity: 0.6)
+        self.myBG.setImage(fileName: neighName, opacity: 0.6)
     }
     
     override func didReceiveMemoryWarning() {
@@ -181,7 +181,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     }
     
     //MARK: - DiscoverDataSource delegate methods
-    func moodsDataSourceItemSelected(#index: Int) {
+    func moodsDataSourceItemSelected(index index: Int) {
         selectedMood = moodDataSource!.myItems[index]
         changeToDataSource(neighborhoodDataSource!)
     }
@@ -193,7 +193,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
          UIView.animateWithDuration(0.1, delay: 0.1, options: .CurveLinear, animations: { () -> Void in
             self.sentenceLabel.alpha = 1
             
-            if self.discoverCarousel.dataSource.isEqual(self.moodDataSource!){
+            if self.discoverCarousel.dataSource!.isEqual(self.moodDataSource!){
                 self.changeSentenceForMood()
             }else{
                 self.resetSentence()
@@ -204,7 +204,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
     }
     
     private func changeSentenceForMood(){
-        var newString = NSMutableAttributedString(string: "I want something\r\n")
+        let newString = NSMutableAttributedString(string: "I want something\r\n")
         let moodString = NSAttributedString(string: selectedMood!["name"] as! String, attributes: [NSUnderlineStyleAttributeName:1])
         let finalString = NSAttributedString(string: " in:")
         
@@ -233,7 +233,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
                 if !datasource.isMood{
                     self.discoverCarousel.scrollToItemAtIndex(4, animated: false)
                 }else{
-                    let moodIndex = find(self.moodDataSource!.myItems,self.selectedMood!)
+                    let moodIndex = (self.moodDataSource!.myItems).indexOf(self.selectedMood!)
                     self.discoverCarousel.scrollToItemAtIndex(moodIndex!, animated: false)
                 }
             }, completion: nil)
@@ -245,7 +245,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
         senteceSwipeGestureRecognizer.enabled = enabled
     }
     
-    func neighborhoodsDataSourceItemSelected(#index: Int) {
+    func neighborhoodsDataSourceItemSelected(index index: Int) {
         let destination = self.storyboard?.instantiateViewControllerWithIdentifier("toastsScene") as! ToastsViewController
         destination.myDelegate = nil
         destination.myMood = selectedMood
@@ -256,7 +256,7 @@ class DiscoverViewController: UIViewController,DiscoverDataSourceDelegate,MyLoca
         self.showViewController(destination, sender: self)
     }
     
-    func neighborhoodsDataSourceCurrentItemChanged(#item: PFObject) {
+    func neighborhoodsDataSourceCurrentItemChanged(item item: PFObject) {
         changeBGTo(item)
     }
     
