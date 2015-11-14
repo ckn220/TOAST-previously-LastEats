@@ -98,11 +98,11 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
     }
     
     private func setHeaderToDetail(header:ReviewHeaderCell){
-        if let ffHeader = header as? FriendOfFriendHeaderCell{
+        /*if let ffHeader = header as? FriendOfFriendHeaderCell{
             ffHeader.subtitleHeightConstraint.constant = 34
         }else{
             _ = header as! FriendHeaderCell
-        }
+        }*/
         header.layoutIfNeeded()
     }
     
@@ -119,7 +119,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
                 }else{
                     NSLog("friendOfFriend error: %@",error!.description)
                 }
-                
+                self.loadingView.alpha = 0
             }
         }
         
@@ -134,6 +134,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
                 }else{
                     let header = self.getFriendHeaderView()
                     header.configure(friend: friend as! PFUser,myDelegate:self,superView:self.headerParentView,isTopToast: self.isTopToast)
+                    header.frame = self.headerParentView.bounds
                     self.headerParentView.addSubview(header)
                 }
             })
@@ -148,6 +149,7 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
                 }else{
                     let header = self.getFriendOfFriendHeaderView()
                     header.configure(friend: friend as! PFUser, friendFriend: friendOfFriend,myDelegate:self,superView:self.headerParentView, isTopToast: self.isTopToast)
+                    header.frame = self.headerParentView.bounds
                     self.headerParentView.addSubview(header)
                 }
             })
@@ -281,11 +283,11 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
     private func unsetHeader(){
         if myOldParentHeader != nil{
             let myHeaderView = headerParentView.subviews[1]
-            if let ffHeader = myHeaderView as? FriendOfFriendHeaderCell{
+            /*if let ffHeader = myHeaderView as? FriendOfFriendHeaderCell{
                 ffHeader.subtitleHeightConstraint.constant = 17
             }else{
                 _ = myHeaderView as! FriendHeaderCell
-            }
+            }*/
             myHeaderView.layoutIfNeeded()
             myHeaderView.removeFromSuperview()
             myHeaderView.frame = myOldParentHeader!.bounds
@@ -331,6 +333,13 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
             }
         }
     }
+    //MARK: User
+    @IBAction func headerPressed(sender: MyControl) {
+        let destination = self.storyboard?.instantiateViewControllerWithIdentifier("profileDetailScene") as! ProfileDetailViewController
+        destination.myUser = myToast!["user"] as! PFUser
+        destination.fromMap = true
+        self.showViewController(destination, sender: self)
+    }
     
     //MARK: - LinkTextView delegate methods
     func linkTextView(linkTextView: CCHLinkTextView!, didTapLinkWithValue value: AnyObject!) {
@@ -350,6 +359,41 @@ class ReviewDetailViewController: UIViewController,CCHLinkTextViewDelegate,Revie
     func reviewHeaderDoneLoading() {
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
             self.loadingView.alpha = 0
+        }
+    }
+    
+    //MARK: - DEV only methods
+    @IBAction func devFunPressed(sender: AnyObject) {
+        devSetMood(functionName: "setFunMood")
+    }
+    
+    @IBAction func devCasualPressed(sender: AnyObject) {
+        devSetMood(functionName: "setCasualMood")
+    }
+    
+    @IBAction func devBoozyPressed(sender: AnyObject) {
+        devSetMood(functionName: "setBoozyMood")
+    }
+    
+    private func devSetMood(functionName name:String){
+        func parameters()->[String:String]{
+            return ["toastId":myToast!.objectId!]
+        }
+        
+        func showError(){
+            let a = UIAlertController(title: "Server error", message: "Sorry for the inconvenience, please try again in a moment.", preferredStyle: .Alert)
+            let okButton = UIAlertAction(title: "OK", style: .Default, handler: nil)
+            a.addAction(okButton)
+            presentViewController(a, animated: true, completion: nil)
+        }
+        //
+        PFCloud.callFunctionInBackground(name, withParameters: parameters()) { (result, error) -> Void in
+            if let error = error{
+                NSLog("devSetMood with name [\(name)] error: %@]",error.description)
+                showError()
+            }else{
+                NSLog("devSetMood ok")
+            }
         }
     }
 }

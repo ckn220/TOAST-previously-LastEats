@@ -8,8 +8,8 @@
 
 import UIKit
 
-@IBDesignable class MapBlackGradientView: UIView {
-
+@IBDesignable class MapBlackGradientView: MyControl {
+    
     override func drawRect(rect: CGRect) {
         // Drawing code
         drawBgCanvas(myFrame: rect)

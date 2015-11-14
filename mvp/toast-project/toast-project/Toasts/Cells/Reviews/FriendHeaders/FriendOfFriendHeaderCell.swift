@@ -11,16 +11,25 @@ import Parse
 import Haneke
 
 class FriendOfFriendHeaderCell: ReviewHeaderCell {
-
+    //MARK: - Properties
+    //MARK: IBOutlets
     @IBOutlet weak var friendFriendPictureView: BackgroundImageView!
     @IBOutlet weak var friendfriendNameLabel: UILabel!
     @IBOutlet weak var friendfriendSubtitleLabel: UILabel!
     @IBOutlet weak var friendPictureView: BackgroundImageView!
-    @IBOutlet weak var topToastHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var subtitleHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var topToastBottomSpacingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var topToastView: UIView!
     var friend:PFUser?
+    //MARK: Variables
+    var isTopToast:Bool? = false
 
+    //MARK: - AwakeFromNib methods
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        configureReviewerPicture(friendPictureView.layer)
+        configureReviewerPicture(friendFriendPictureView.layer)
+    }
+    
+    //MARK: - Configure methods
     override func configure(friend friend: PFUser, friendFriend: PFUser,myDelegate:ReviewHeaderDelegate,superView:UIView,isTopToast: Bool) {
         super.configure(friend: friend, friendFriend: friendFriend, myDelegate: myDelegate,superView:superView,isTopToast: isTopToast)
         configureTopToast(isTopToast)
@@ -29,16 +38,30 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
     }
     
     private func configureTopToast(isTopToast:Bool){
-        if isTopToast{
-            topToastHeightConstraint.constant = 22
-            subtitleHeightConstraint.constant = 17
-            topToastBottomSpacingConstraint.constant = 4
-        }else{
-            topToastHeightConstraint.constant = 0
-            topToastBottomSpacingConstraint.constant = 0
-            subtitleHeightConstraint.constant = 34
+        func insertTopToast(){
+            if topToastView.superview == nil{
+                let parent = friendfriendNameLabel.superview!
+                parent.addSubview(topToastView)
+                let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("|[topToast]", options: [], metrics: nil, views: ["topToast":topToastView])
+                let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("[name]-4.0-[topToast]-4.0-[description]", options: [], metrics: nil, views: ["name":friendfriendNameLabel,"topToast":topToastView,"description":friendfriendSubtitleLabel])
+                parent.addConstraints(hConstraints)
+                parent.addConstraints(vConstraints)
+                parent.layoutIfNeeded()
+            }
         }
-        self.layoutIfNeeded()
+        
+        func removeTopToast(){
+            topToastView.removeFromSuperview()
+        }
+        //
+        self.isTopToast = isTopToast
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            if isTopToast{
+                insertTopToast()
+            }else{
+                removeTopToast()
+            }
+        }
     }
 
     private func configureFriend(friend:PFUser){
@@ -60,7 +83,10 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
     
     private func configureFriendName(friend:PFUser){
         let name = friend["name"] as! String
-        friendfriendSubtitleLabel.text = "Friends with \(correctedName(name))\r\non Facebook"
+        friendfriendSubtitleLabel.text = "Friends with \(correctedName(name))"
+        if let isTopToast = isTopToast where !isTopToast{
+            friendfriendSubtitleLabel.text?.appendContentsOf("\non Facebook")
+        }
     }
     
     //MARK: - Friend of friend methods
@@ -75,7 +101,7 @@ class FriendOfFriendHeaderCell: ReviewHeaderCell {
         let name = friendFriend["name"] as! String
         friendfriendNameLabel.text = correctedName(name)
         
-        if topToastHeightConstraint.constant > 0{
+        if let isTopToast = isTopToast where !isTopToast{
             friendfriendNameLabel.text = friendfriendNameLabel.text!+"'s"
         }
     }

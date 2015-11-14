@@ -24,6 +24,7 @@ class ProfileToastCell: UITableViewCell {
     
     var myIndex:Int!
     var myPlace:PFObject?
+    var myToast:PFObject?
     let imageQueue = NSOperationQueue()
     var myDelegate:ProfileToastCellDelegate?
     
@@ -41,6 +42,7 @@ class ProfileToastCell: UITableViewCell {
     func configureCell(index:Int,toast:PFObject,myDelegate:ProfileToastCellDelegate){
         self.myDelegate = myDelegate
         self.myIndex = index
+        self.myToast = toast
         toggleAlpha(0, duration: 0)
         setPlace(toast["place"] as? PFObject)
         configureReview(toast)

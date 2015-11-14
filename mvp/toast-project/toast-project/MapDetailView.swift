@@ -9,11 +9,25 @@
 import UIKit
 import Parse
 
-class MapDetailView: MyControl {
+protocol MapDetailDelegate{
+    func mapDetailUserPressed(user:PFUser)
+    func mapDetailToastPressed(toast:PFObject)
+}
+
+class MapDetailView: UIView {
     
     //MARK: - Properties
     //MARK: IBOutlets
-    @IBOutlet weak var userProfileImageView:UserProfileImageView!
+    @IBOutlet weak var bgView:MapBlackGradientView!{
+        didSet{
+            bgView.addTarget(self, action: "bgPressed:", forControlEvents: .TouchUpInside)
+        }
+    }
+    @IBOutlet weak var userProfileImageView:UserProfileImageView!{
+        didSet{
+            userProfileImageView.addTarget(self, action: "picturePressed:", forControlEvents: .TouchUpInside)
+        }
+    }
     @IBOutlet weak var userNameLabel:UILabel!
     @IBOutlet weak var topToastView:UIView!
     @IBOutlet weak var reviewLabel:UILabel!
@@ -25,6 +39,7 @@ class MapDetailView: MyControl {
             configure()
         }
     }
+    var myDelegate:MapDetailDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -106,8 +121,16 @@ class MapDetailView: MyControl {
         }
     }
     
-    //MARK: - Highlight methods
-    override func applyHighlight() {
-        alpha = 0.8
+    //MARK: - Action methods
+    @IBAction func bgPressed(sender:UIControl){
+        if let toast = toast{
+            myDelegate?.mapDetailToastPressed(toast)
+        }
+    }
+    
+    @IBAction func picturePressed(sender:UIControl){
+        if let toast = toast, let user = toast["user"] as? PFUser{
+            myDelegate?.mapDetailUserPressed(user)
+        }
     }
 }

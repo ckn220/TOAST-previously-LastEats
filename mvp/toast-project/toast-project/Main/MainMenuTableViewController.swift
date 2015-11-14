@@ -14,6 +14,7 @@ protocol MainMenuTableDelegate{
     func mainMenuTableAcvititvyPressed()
     func mainMenuTableMyToastsPressed()
     func mainMenuTableFriendsPressed()
+    func mainMenuTableInviteAFriendPressed()
     func mainMenuTableContributePressed()
     func mainMenuTableContactUsPressed()
 }
@@ -53,8 +54,10 @@ class MainMenuTableViewController: UITableViewController {
                 contributePressed()
             }else if indexPath.row == 1{
                 myToastsPressed()
-            }else{
+            }else if indexPath.row == 2{
                 friendsPressed()
+            }else{
+                inviteAFriendPressed()
             }
         case 2:
             if indexPath.row == 0{
@@ -89,6 +92,10 @@ class MainMenuTableViewController: UITableViewController {
     
     private func friendsPressed(){
         myDelegate?.mainMenuTableFriendsPressed()
+    }
+    
+    private func inviteAFriendPressed(){
+        myDelegate?.mainMenuTableInviteAFriendPressed()
     }
     
     private func contactUsPressed(){

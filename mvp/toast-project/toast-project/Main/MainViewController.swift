@@ -9,8 +9,9 @@
 import UIKit
 import Parse
 import MessageUI
+import FBSDKShareKit
 
-class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegate, UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate {
+class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegate, UIGestureRecognizerDelegate,MFMailComposeViewControllerDelegate, FBSDKSharingDelegate,MFMessageComposeViewControllerDelegate {
 
     @IBOutlet var myPanGestureRecognizer: UIPanGestureRecognizer!
     @IBOutlet weak var menuContainerView: UIView!
@@ -237,6 +238,43 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
         self.showDetailViewController(contributeScene, sender: nil)
     }
     
+    func mainMenuTableInviteAFriendPressed() {
+        func inviteFromFacebook(withText message:String){
+            let content = FBSDKShareLinkContent()
+            content.contentTitle = "Try Toast app!"
+            content.contentDescription = ""
+            content.contentURL = NSURL(string: "http://www.toastapp.co/")!
+            
+            FBSDKMessageDialog.showWithContent(content, delegate: self)
+        }
+        
+        func inviteFromMessage(withText message:String){
+            let messageController = MFMessageComposeViewController()
+            messageController.body = "Try Toast app! http://www.toastapp.co/"
+            messageController.messageComposeDelegate = self
+            presentViewController(messageController, animated: true, completion: nil)
+        }
+        
+        func chooseInvitationSource(){
+            let message = "http://toastapp.co/"
+            let chooseInvitationController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+            let messageButton = UIAlertAction(title: "Message", style: .Default) { (action) -> Void in
+                inviteFromMessage(withText: message)
+            }
+            let facebookButton = UIAlertAction(title: "Facebook Messenger", style: .Default) { (action) -> Void in
+                inviteFromFacebook(withText: message)
+            }
+            let cancelButton = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+            
+            chooseInvitationController.addAction(messageButton)
+            chooseInvitationController.addAction(facebookButton)
+            chooseInvitationController.addAction(cancelButton)
+            presentViewController(chooseInvitationController, animated: true, completion: nil)
+        }
+        //
+        chooseInvitationSource()
+    }
+    
     func mainMenuTableContactUsPressed() {
         closeMenu()
         NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
@@ -261,5 +299,23 @@ class MainViewController: UIViewController,DiscoverDelegate,MainMenuTableDelegat
     //MARK: - MailComposer delegate methods
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
         controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    //MARK: - MessageComposer delegate methods
+    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
+        controller.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    //MARK: - FBSDKSharing delegate methods
+    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+        
+    }
+    
+    func sharerDidCancel(sharer: FBSDKSharing!) {
+        
+    }
+    
+    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+        
     }
 }

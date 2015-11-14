@@ -48,6 +48,7 @@ class MapSettingsCache: NSObject {
     func allFriends(completion:(friends:[PFUser])->()){
         func friendsFromParse(completion:(friends:[PFUser])->()){
             if let friendsQuery = PFUser.currentUser()?.relationForKey("friends").query(){
+                friendsQuery.orderByAscending("name")
                 friendsQuery.findObjectsInBackgroundWithBlock({ (result, error) -> Void in
                     if let error = error{
                         NSLog("friendsFromParse error: %@",error.description)

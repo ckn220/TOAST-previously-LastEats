@@ -163,13 +163,17 @@ class PlaceCell: UICollectionViewCell,ReviewDataSourceDelegate {
     }
     
     private func configureToastCount(toasts:[PFObject]){
-        let toastCount = toasts.count
-        if toastCount > 1{
-            toastCountLabel.text = "\(toastCount) toasts"
-            toggleAlpha(alpha: 1, views: reviewsTableView,toastCountView)
-        }else{
-            toggleAlpha(alpha: 1, views: reviewsTableView)
+        NSOperationQueue.mainQueue().addOperationWithBlock { () -> Void in
+            let toastCount = toasts.count
+            if toastCount > 1{
+                self.toastCountLabel.text = "\(toastCount) toasts"
+                self.toggleAlpha(alpha: 1, views: self.reviewsTableView,self.toastCountView)
+            }else{
+                self.toggleAlpha(alpha: 1, views: self.reviewsTableView)
+            }
+            self.toastCountView.layoutIfNeeded()
         }
+        
     }
     
     private func countFriendsToast(toasts:[PFObject]) -> Int{

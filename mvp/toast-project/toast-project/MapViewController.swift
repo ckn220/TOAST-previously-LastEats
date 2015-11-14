@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class MapViewController: UIViewController,MapDataSourceDelegate,UIPopoverPresentationControllerDelegate,MapSettingsDelegate {
+class MapViewController: UIViewController,MapDataSourceDelegate,UIPopoverPresentationControllerDelegate,MapSettingsDelegate,MapDetailDelegate {
     //MARK: - Properties
     //MARK: IBOutlets
     @IBOutlet var dataSource: MapDataSource!{
@@ -17,7 +17,11 @@ class MapViewController: UIViewController,MapDataSourceDelegate,UIPopoverPresent
             dataSource.myDelegate = self
         }
     }
-    @IBOutlet weak var mapDetailView: MapDetailView!
+    @IBOutlet weak var mapDetailView: MapDetailView!{
+        didSet{
+            mapDetailView.myDelegate = self
+        }
+    }
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var settingsButton: UIButton!
     //MARK: Variables
@@ -115,6 +119,18 @@ class MapViewController: UIViewController,MapDataSourceDelegate,UIPopoverPresent
         goToPlaceDetail(place)
     }
     
+    //MARK: - MapDetail delegate methods
+    func mapDetailToastPressed(toast: PFObject) {
+        goToToastDetail(toast)
+    }
+    
+    func mapDetailUserPressed(user: PFUser) {
+        let profileDetailScene = storyboard?.instantiateViewControllerWithIdentifier("profileDetailScene") as! ProfileDetailViewController
+        profileDetailScene.myUser = user
+        profileDetailScene.fromMap = true
+        showViewController(profileDetailScene, sender: self)
+    }
+    
     //MARK: - Actions methods
     private func goToPlaceDetail(place:PFObject){
         let placeDetailScene = storyboard?.instantiateViewControllerWithIdentifier("placeDetailScene") as! PlaceDetailViewController
@@ -130,12 +146,6 @@ class MapViewController: UIViewController,MapDataSourceDelegate,UIPopoverPresent
     }
     
     //MARK: IBActions
-    @IBAction func mapDetailViewPressed(sender: MapDetailView){
-        if let toast = sender.toast{
-            goToToastDetail(toast)
-        }
-    }
-    
     @IBAction func backButtonPressed(sender: UIButton) {
         if let myDelegate = myDelegate{
             myDelegate.discoverMenuPressed()

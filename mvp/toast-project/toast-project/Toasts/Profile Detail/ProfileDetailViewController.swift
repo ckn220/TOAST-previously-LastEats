@@ -32,10 +32,13 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     @IBOutlet weak var friendsCountLabel: UILabel!
     @IBOutlet weak var followersCountLabel: UILabel!
     //MARK: Body
+    @IBOutlet weak var userLoadingView: UIView!
     @IBOutlet weak var myTableView: UITableView!
     
     //MARK: - Variables
     var fromContribute = true
+    var fromMap = false
+    var isOther = false
     var myDelegate:DiscoverDelegate?
     var toasts: [PFObject]!
     var topToast: PFObject?
@@ -49,13 +52,70 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
         }
     }
     
-    //MARK: - Configure methods
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if fromContribute{
-            configure()
-            fromContribute = false
+            if fromMap{
+                configureFromMap()
+                fromMap = false
+            }else{
+                configureNormal()
+            }
         }
+    }
+    
+    //MARK: - fromMap methods
+    private func configureFromMap(){
+        userLoadingView.alpha = 1
+        getIsFriend { (isFriend) -> () in
+            if isFriend{
+                self.configureNormal()
+            }else{
+                self.getFriendFriend({ (friend) -> () in
+                    if let friend = friend{
+                        self.myFriend = friend
+                        self.configureNormal()
+                    }else{
+                        self.isOther = true
+                        self.configureNormal()
+                    }
+                })
+            }
+        }
+    }
+    
+    private func getIsFriend(completion:(isFriend:Bool)->()){
+        if let friendsQuery = PFUser.currentUser()?.relationForKey("friends").query(){
+            friendsQuery.whereKey("objectId", equalTo: myUser.objectId!)
+            friendsQuery.getFirstObjectInBackgroundWithBlock({ (object, error) -> Void in
+                if let error = error{
+                    NSLog("getIsFriend error: %@", error.description)
+                    completion(isFriend: false)
+                }else{
+                    completion(isFriend: object != nil)
+                }
+            })
+        }else{
+            completion(isFriend: false)
+        }
+    }
+    
+    private func getFriendFriend(completion:(friend:PFUser?)->()){
+        PFCloud.callFunctionInBackground("friendOfFriend", withParameters: ["reviewerId":myUser.objectId!]) { (result, error) -> Void in
+            if error == nil{
+                completion(friend: result as? PFUser)
+            }else{
+                NSLog("friendOfFriend error: %@",error!.description)
+                completion(friend: nil)
+            }
+        }
+    }
+    
+    //MARK: - Configure methods
+    private func configureNormal(){
+        userLoadingView.alpha = 0
+        self.configure()
+        self.fromContribute = false
     }
     
     private func configure(){
@@ -226,13 +286,16 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     }
     
     private func configureToastsStats(){
-        myUser.relationForKey("toasts").query()?.countObjectsInBackgroundWithBlock({ (toastCount, error) -> Void in
+        let toastsQuery = PFQuery(className: "Toast")
+        toastsQuery.whereKey("user", equalTo: myUser)
+        toastsQuery.whereKey("active", equalTo: true)
+        toastsQuery.countObjectsInBackgroundWithBlock { (toastCount, error) -> Void in
             if let error = error{
                 NSLog("configureToastsStats error: %@",error.description)
             }else{
                 self.toastCountLabel.text = String(format: "%02d",toastCount)
             }
-        })
+        }
     }
     
     private func configureFriendsStats(){
@@ -342,15 +405,13 @@ class ProfileDetailViewController: UIViewController,ProfileToastsDelegate {
     }
     
     //MARK: - ProfileToastsDelegate methods
-    func profileToastsCellPressed(indexPressed: Int,place:PFObject?) {
-        let destination = storyboard?.instantiateViewControllerWithIdentifier("reviewDetailScene") as! ReviewDetailViewController
-        let selectedToast = toasts![indexPressed]
-        destination.myToast = selectedToast
-        if place != nil{
-            destination.titleString = place!["name"] as? String
+    func profileToastsCellPressed(indexPressed: Int,toast:PFObject?) {
+        if let toast = toast{
+            let toastDetailScene = storyboard?.instantiateViewControllerWithIdentifier("reviewDetailScene") as! ReviewDetailViewController
+            toastDetailScene.myToast = toast
+            toastDetailScene.myPlace = toast["place"] as? PFObject
+            showViewController(toastDetailScene, sender: self)
         }
-        
-        self.showViewController(destination, sender: self)
     }
     
     func profileToastsItemDeleted(updatedToasts:[PFObject]) {

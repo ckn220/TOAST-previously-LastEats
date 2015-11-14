@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 protocol ProfileToastsDelegate{
-    func profileToastsCellPressed(indexPressed:Int,place:PFObject?)
+    func profileToastsCellPressed(indexPressed:Int,toast:PFObject?)
     func profileToastsItemDeleted(updatedToasts:[PFObject])
 }
 
@@ -99,7 +99,7 @@ class ProfileToastsDataSource: NSObject,UITableViewDataSource,UITableViewDelegat
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! ProfileToastCell
-        myDelegate?.profileToastsCellPressed(indexPath.row,place:cell.myPlace)
+        myDelegate?.profileToastsCellPressed(indexPath.row,toast:cell.myToast)
     }
     
     //MARK: - Cell delegate

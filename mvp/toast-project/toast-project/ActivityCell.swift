@@ -178,12 +178,16 @@ class ActivityCell: UITableViewCell {
             var value=""
             var unit=""
             
-            if time/yearNumber >= 1{
+            /*if time/yearNumber >= 1{
                 value = "\(Int(time/yearNumber))"
                 unit = "yrs"
             }else if time/monthNumber >= 1{
                 value = "\(Int(time/monthNumber))"
                 unit = "months"
+            }*/
+            if time/monthNumber >= 1{
+                value = "over 30"
+                unit = "days"
             }else if time/dayNumber >= 1{
                 value = "\(Int(time/dayNumber))"
                 unit = "days"
@@ -199,7 +203,7 @@ class ActivityCell: UITableViewCell {
             
             if value == "1"{
                 value = "about a"
-                unit = (unit as NSString).substringToIndex(unit.characters.count - 2)
+                unit = (unit as NSString).substringToIndex(unit.characters.count - 1)
             }
             
             return (value.uppercaseString,unit.uppercaseString)
@@ -217,16 +221,20 @@ class ActivityCell: UITableViewCell {
                 self.place = place
                 completion()
             }else{
-                let toast = activity["toastDest"] as! PFObject
-                toast["place"].fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
-                    if let error = error{
-                        NSLog("configureBody error: %@",error.description)
-                    }else{
-                        if let place = result{
-                            self.place = place
-                            self.myDelegate?.savePlaceInCache(place, activity: self.activity)
+                if let toast = activity["toastDest"] as? PFObject, let place = toast["place"] as? PFObject{
+                    place.fetchIfNeededInBackgroundWithBlock { (result, error) -> Void in
+                        if let error = error{
+                            NSLog("configureBody error: %@",error.description)
+                        }else{
+                            if let place = result{
+                                self.place = place
+                                self.myDelegate?.savePlaceInCache(place, activity: self.activity)
+                            }
                         }
+                        completion()
                     }
+                }else{
+                    NSLog("configureBody error")
                     completion()
                 }
             }
@@ -237,7 +245,7 @@ class ActivityCell: UITableViewCell {
         getPlace { () -> () in
             self.configureBottom()
             switch self.actionName{
-            case "toasts":
+            case "adds":
                 self.configureToastsContent()
             case "hearts":
                 self.configureLikesContent()
